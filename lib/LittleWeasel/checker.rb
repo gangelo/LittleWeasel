@@ -1,6 +1,9 @@
+require 'singleton'
+
 module LittleWeasel
 
   class Checker
+    include Singleton
 
     attr_reader :dictionary
 

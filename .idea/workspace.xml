@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="34d4ec05-51d8-442a-84a5-75b5005cedf0" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/LittleWeasel2.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/LittleWeasel/checker.rb" afterPath="$PROJECT_DIR$/lib/LittleWeasel/checker.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/checker/checker_spec.rb" afterPath="$PROJECT_DIR$/spec/checker/checker_spec.rb" />
     </list>
     <ignored path="LittleWeasel.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -13,7 +11,8 @@
     <file path="/LittleWeasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371773176056" ignored="false" />
     <file path="/spec_helper.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371776194745" ignored="false" />
     <file path="/little_weasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371776121913" ignored="false" />
-    <file path="/checker_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371776382176" ignored="false" />
+    <file path="/checker_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371777486721" ignored="false" />
+    <file path="/checker.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371777475104" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +35,7 @@
       <file leaf-file-name="checker.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/LittleWeasel/checker.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="31" selection-start="117" selection-end="117" vertical-scroll-proportion="0.0">
+            <state line="2" column="14" selection-start="35" selection-end="35" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -63,7 +62,7 @@
       <file leaf-file-name="checker_spec.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spec/checker/checker_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="57" selection-start="259" selection-end="259" vertical-scroll-proportion="0.28301886">
+            <state line="8" column="16" selection-start="177" selection-end="177" vertical-scroll-proportion="0.25157234">
               <folding />
             </state>
           </provider>
@@ -95,6 +94,7 @@
         <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/lib/LittleWeasel/little_weasel.rb" />
         <option value="$PROJECT_DIR$/spec/spec_helper.rb" />
+        <option value="$PROJECT_DIR$/lib/LittleWeasel/checker.rb" />
         <option value="$PROJECT_DIR$/spec/checker/checker_spec.rb" />
       </list>
     </option>
@@ -371,7 +371,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="874" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -381,7 +381,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33023873" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33023873" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -534,14 +534,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/LittleWeasel/checker.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="31" selection-start="117" selection-end="117" vertical-scroll-proportion="0.0">
+        <state line="2" column="14" selection-start="35" selection-end="35" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/checker/checker_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="57" selection-start="259" selection-end="259" vertical-scroll-proportion="0.28301886">
+        <state line="8" column="16" selection-start="177" selection-end="177" vertical-scroll-proportion="0.25157234">
           <folding />
         </state>
       </provider>

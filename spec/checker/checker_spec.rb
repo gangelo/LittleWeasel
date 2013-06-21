@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe LittleWeasel do
 
   before do
-    @spell = LittleWeasel::Checker.new
+    @spell = LittleWeasel::Checker.instance
   end
   
   it 'should create a LittleWeasel object' do
