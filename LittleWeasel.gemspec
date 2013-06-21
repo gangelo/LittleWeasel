@@ -6,10 +6,10 @@ require 'LittleWeasel/version'
 Gem::Specification.new do |spec|
   spec.name          = "LittleWeasel"
   spec.version       = LittleWeasel::VERSION
-  spec.authors       = ["gangelo"]
-  spec.email         = ["web.gma@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.authors       = ["Gene M. Angelo, Jr."]
+  spec.email         = ["public.gma@gmail.com"]
+  spec.description   = %q{Simply checks a word for validity against an english dictionary file.}
+  spec.summary       = %q{Simply checks a word for validity against an english dictionary file.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
