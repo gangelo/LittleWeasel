@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'LittleWeasel2/version'
+require 'LittleWeasel/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "LittleWeasel2"
-  spec.version       = LittleWeasel2::VERSION
+  spec.name          = "LittleWeasel"
+  spec.version       = LittleWeasel::VERSION
   spec.authors       = ["gangelo"]
   spec.email         = ["web.gma@gmail.com"]
   spec.description   = %q{TODO: Write a gem description}

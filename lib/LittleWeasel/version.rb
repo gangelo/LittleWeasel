@@ -1,3 +1,3 @@
-module LittleWeasel2
+module LittleWeasel
   VERSION = "0.0.1"
 end
