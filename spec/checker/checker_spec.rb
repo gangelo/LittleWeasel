@@ -3,11 +3,11 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe LittleWeasel do
 
   before do
-    @spell = LittleWeasel.new
+    @spell = LittleWeasel::Checker.new
   end
   
   it 'should create a LittleWeasel object' do
-    @spell.should be_an_instance_of LittleWeasel
+    @spell.should be_an_instance_of LittleWeasel::Checker
   end
   
   it 'should return true for valid word' do
