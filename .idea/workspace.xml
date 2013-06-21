@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="34d4ec05-51d8-442a-84a5-75b5005cedf0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/LittleWeasel/version.rb" afterPath="$PROJECT_DIR$/lib/LittleWeasel/version.rb" />
     </list>
     <ignored path="LittleWeasel.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -15,7 +16,7 @@
     <file path="/LittleWeasel.gemspec" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371779509067" ignored="false" />
     <file path="/.gitignore" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371780237152" ignored="false" />
     <file path="$PROJECT_DIR$/../Junk/Gemfile" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371782248484" ignored="false" />
-    <file path="/README.md" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371782825316" ignored="false" />
+    <file path="/README.md" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371783246113" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +48,7 @@
       <file leaf-file-name="version.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/LittleWeasel/version.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="33" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0">
+            <state line="1" column="18" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -56,7 +57,7 @@
       <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="40" selection-start="492" selection-end="492" vertical-scroll-proportion="0.38793105">
+            <state line="27" column="44" selection-start="496" selection-end="496" vertical-scroll-proportion="0.51724136">
               <folding />
             </state>
           </provider>
@@ -589,13 +590,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/LittleWeasel/version.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="33" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/checker/checker_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="47" selection-start="121" selection-end="151" vertical-scroll-proportion="0.0">
@@ -603,9 +597,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/LittleWeasel/version.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="18" selection-start="38" selection-end="38" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="40" selection-start="492" selection-end="492" vertical-scroll-proportion="0.38793105">
+        <state line="27" column="44" selection-start="496" selection-end="496" vertical-scroll-proportion="0.51724136">
           <folding />
         </state>
       </provider>

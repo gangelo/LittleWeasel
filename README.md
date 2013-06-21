@@ -25,7 +25,7 @@ LittleWeasel::Checker.instance.exists?('word') # true if exists in the dictionar
 
 ## Contributing
 
-1Not open to contributions at this time.
+Not open to contributions just yet, sorry :)
 
 ## License
 
