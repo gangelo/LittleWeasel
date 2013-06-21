@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="34d4ec05-51d8-442a-84a5-75b5005cedf0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/LittleWeasel.rb" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/LittleWeasel/checker.rb" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/lib/LittleWeasel/dictionary" afterPath="$PROJECT_DIR$/lib/dictionary" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/spec_helper.rb" afterPath="$PROJECT_DIR$/test/spec_helper.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/LittleWeasel/version.rb" afterPath="$PROJECT_DIR$/lib/LittleWeasel/version.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <ignored path="LittleWeasel.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -20,6 +15,7 @@
     <file path="/LittleWeasel.gemspec" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371779509067" ignored="false" />
     <file path="/.gitignore" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371780237152" ignored="false" />
     <file path="$PROJECT_DIR$/../Junk/Gemfile" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371782248484" ignored="false" />
+    <file path="/README.md" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371782825316" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,10 +44,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="version.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="version.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/LittleWeasel/version.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="33" selection-start="44" selection-end="44" vertical-scroll-proportion="0.094339624">
+            <state line="3" column="33" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="40" selection-start="492" selection-end="492" vertical-scroll-proportion="0.38793105">
               <folding />
             </state>
           </provider>
@@ -60,7 +65,7 @@
       <file leaf-file-name="checker_spec.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/checker/checker_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="1" selection-start="726" selection-end="726" vertical-scroll-proportion="0.0">
+            <state line="5" column="47" selection-start="121" selection-end="151" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -120,7 +125,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Rakefile" />
         <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/spec/spec_helper.rb" />
@@ -133,6 +137,7 @@
         <option value="$PROJECT_DIR$/lib/LittleWeasel.rb" />
         <option value="$PROJECT_DIR$/test/spec_helper.rb" />
         <option value="$PROJECT_DIR$/lib/LittleWeasel/version.rb" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -524,11 +529,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="226" selection-end="226" vertical-scroll-proportion="0.387538" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/spec.opts">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
@@ -552,13 +552,6 @@
     <entry file="file://$PROJECT_DIR$/.rbenv-version">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/checker/checker_spec.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="1" selection-start="726" selection-end="726" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Gemfile">
@@ -598,7 +591,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/LittleWeasel/version.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="33" selection-start="44" selection-end="44" vertical-scroll-proportion="0.094339624">
+        <state line="3" column="33" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/checker/checker_spec.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="47" selection-start="121" selection-end="151" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="40" selection-start="492" selection-end="492" vertical-scroll-proportion="0.38793105">
           <folding />
         </state>
       </provider>
