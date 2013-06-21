@@ -18,4 +18,10 @@ describe LittleWeasel do
     @spell.exists?('appel').should == false
   end
 
+  it 'hi' do
+    words = %w{ all bad cap dad eat fad glad had inch jump kind lend monster on put quiet run sad tape under vector was xenophobe yes zebra }
+
+    words.each{|word| puts(word); @spell.exists?(word).should == true }
+  end
+
 end
