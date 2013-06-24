@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="34d4ec05-51d8-442a-84a5-75b5005cedf0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.rspec" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/spec.opts" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test/checker/checker_spec.rb" afterPath="$PROJECT_DIR$/spec/checker/checker_spec.rb" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test/spec_helper.rb" afterPath="$PROJECT_DIR$/spec/spec_helper.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LittleWeasel.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371939746589" ignored="false" />
+    <file path="/Dummy.txt" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982578376" ignored="false" />
     <file path="/LittleWeasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371773176056" ignored="false" />
     <file path="/spec_helper.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371776194745" ignored="false" />
     <file path="/little_weasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371781900009" ignored="false" />
@@ -19,7 +16,7 @@
     <file path="/LittleWeasel.gemspec" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371779509067" ignored="false" />
     <file path="/.gitignore" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371780237152" ignored="false" />
     <file path="$PROJECT_DIR$/../Junk/Gemfile" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371782248484" ignored="false" />
-    <file path="/README.md" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371783246113" ignored="false" />
+    <file path="/README.md" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372033430783" ignored="false" />
     <file path="/spec.opts" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371941082027" ignored="false" />
     <file path="/temp.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371942034978" ignored="false" />
     <file path="$PROJECT_DIR$/vendor/bundle/gems/rake-10.1.0/test/test_rake_test_task.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371942034978" ignored="false" />
@@ -27,6 +24,65 @@
     <file path="$PROJECT_DIR$/vendor/bundle/gems/rake-10.1.0/lib/rake/testtask.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371942034978" ignored="false" />
     <file path="$PROJECT_DIR$/vendor/bundle/gems/diff-lcs-1.2.4/Rakefile" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371942034978" ignored="false" />
     <file path="/.rspec" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371944858632" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyEngine.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371980216289" ignored="false" />
+    <file path="/MonkeyEngine.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371980214590" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyService/monkey_service.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371981402357" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/action_rules_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982098198" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/engine_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982108879" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/monkey_action_pause_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982199556" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/monkey_action_sleep_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982229867" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/monkey_action_type_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982254658" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/monkey_action_wake_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982308229" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyActions.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371979768765" ignored="false" />
+    <file path="/MonkeyActions.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371979768118" ignored="false" />
+    <file path="/engine_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371979826507" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyFactory.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371980349322" ignored="false" />
+    <file path="/MonkeyFactory.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371980347682" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyKeyboardEnUs.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371980640803" ignored="false" />
+    <file path="/MonkeyKeyboardEnUs.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371980636819" ignored="false" />
+    <file path="/action_rules.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371981116941" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyEngine/action_rules.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372029402990" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyManager.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371981264462" ignored="false" />
+    <file path="/MonkeyManager.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371981261360" ignored="false" />
+    <file path="/Monkey.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371981388394" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/Monkey.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371981391279" ignored="false" />
+    <file path="/MonkeyService.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371981745532" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyService.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371981747347" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/Monkey/monkey.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371981801543" ignored="false" />
+    <file path="/monkey.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371981795000" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/monkey_service_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982340201" ignored="false" />
+    <file path="/action_rules_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982088543" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/keyboard_char_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982124599" ignored="false" />
+    <file path="/keyboard_char_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982118124" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/keyboard_key_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982153824" ignored="false" />
+    <file path="/keyboard_key_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982153186" ignored="false" />
+    <file path="/monkey_action_pause_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982183893" ignored="false" />
+    <file path="/monkey_action_sleep_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982222017" ignored="false" />
+    <file path="/monkey_action_type_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982247049" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/monkey_factory_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982294642" ignored="false" />
+    <file path="/monkey_action_wake_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982308229" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/monkey_keyboard_en_us_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982329369" ignored="false" />
+    <file path="/monkey_keyboard_en_us_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982324306" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/monkey_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982350348" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/LICENSE.txt" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982504914" ignored="false" />
+    <file path="/LICENSE.txt" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982504914" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyFactory/monkey_factory.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372026504574" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyAction/monkey_timed_action.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372026671447" ignored="false" />
+    <file path="/monkey_timed_action.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372026659810" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyAction/monkey_action_wake.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372026712349" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyAction/monkey_action_type.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372026718336" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyAction/monkey_action_sleep.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372026765151" ignored="false" />
+    <file path="/monkey_action_sleep.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372026763039" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyAction/monkey_action_pause.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372026794117" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyAction/monkey_action_eat.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372026801728" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/MonkeyAction/monkey_action_dead.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372026814108" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/test/rspec/monkey_action_eat_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372027845209" ignored="false" />
+    <file path="/monkey_action_eat_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372027770209" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/Gemfile" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372029000393" ignored="false" />
+    <file path="/action.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372029144020" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/lib/Action/action.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372029144020" ignored="false" />
+    <file path="$PROJECT_DIR$/../monkeyengine/bin/monkey_run.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372033010115" ignored="false" />
+    <file path="/monkey_run.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372033000238" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +105,16 @@
       <file leaf-file-name="LittleWeasel.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="42" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0">
+            <state line="24" column="0" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="6" selection-start="72" selection-end="72" vertical-scroll-proportion="0.06311361">
               <folding />
             </state>
           </provider>
@@ -73,10 +138,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="11" selection-start="47" selection-end="47" vertical-scroll-proportion="0.1572327">
+            <state line="17" column="3" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -108,7 +173,6 @@
         <option value="$PROJECT_DIR$/lib/checker.rb" />
         <option value="$PROJECT_DIR$/lib/LittleWeasel.rb" />
         <option value="$PROJECT_DIR$/test/spec_helper.rb" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/test/.rspec" />
         <option value="$PROJECT_DIR$/test/checker/checker_spec.rb" />
         <option value="$PROJECT_DIR$/test/spec.opts" />
@@ -116,6 +180,7 @@
         <option value="$PROJECT_DIR$/.rspec" />
         <option value="$PROJECT_DIR$/spec/checker/checker_spec.rb" />
         <option value="$PROJECT_DIR$/lib/LittleWeasel/version.rb" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -150,6 +215,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -169,38 +235,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="LittleWeasel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LittleWeasel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LittleWeasel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spec" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LittleWeasel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LittleWeasel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spec" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checker" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -238,7 +272,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -410,18 +443,18 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32625994" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27259684" sideWeight="0.6697613" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28120518" sideWeight="0.6697613" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39920425" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33023873" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33023873" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32625994" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -492,9 +525,7 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/LittleWeasel.gemspec">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="95" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="11" column="95" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
@@ -538,40 +569,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LittleWeasel.gemspec">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="95" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="44" selection-start="496" selection-end="496" vertical-scroll-proportion="0.51724136" />
+        <state line="11" column="95" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/bundle/gems/rake-10.1.0/lib/rake/file_utils.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="0" selection-start="1689" selection-end="1689" vertical-scroll-proportion="0.020604396">
-          <folding />
-        </state>
+        <state line="54" column="0" selection-start="1689" selection-end="1689" vertical-scroll-proportion="0.020604396" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.rspec">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="31" selection-start="17" selection-end="17" vertical-scroll-proportion="0.031446543">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="42" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="1" column="31" selection-start="17" selection-end="17" vertical-scroll-proportion="0.031446543" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/checker/checker_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="50" selection-start="729" selection-end="729" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="3" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -583,9 +603,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="11" selection-start="47" selection-end="47" vertical-scroll-proportion="0.1572327">
+        <state line="24" column="0" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="6" selection-start="72" selection-end="72" vertical-scroll-proportion="0.06311361">
           <folding />
         </state>
       </provider>

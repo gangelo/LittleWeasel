@@ -1,7 +1,7 @@
 # LittleWeasel
 
 Simple spell checker using an english dictionary.
-Taken from https://github.com/jmuthya/spell_checker.
+Forked from https://github.com/stewartmckee/spell_checker
 
 ## Installation
 
