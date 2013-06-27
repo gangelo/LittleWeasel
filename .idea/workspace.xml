@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="34d4ec05-51d8-442a-84a5-75b5005cedf0" name="Default" comment="" />
+    <list default="true" id="34d4ec05-51d8-442a-84a5-75b5005cedf0" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/LittleWeasel.rb" afterPath="$PROJECT_DIR$/lib/LittleWeasel.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/checker/checker_spec.rb" afterPath="$PROJECT_DIR$/spec/checker/checker_spec.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/LittleWeasel/version.rb" afterPath="$PROJECT_DIR$/lib/LittleWeasel/version.rb" />
+    </list>
     <ignored path="LittleWeasel.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371982578376" ignored="false" />
-    <file path="/LittleWeasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371773176056" ignored="false" />
+    <file path="/Dummy.txt" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372295761358" ignored="false" />
+    <file path="/LittleWeasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372298548295" ignored="false" />
     <file path="/spec_helper.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371776194745" ignored="false" />
     <file path="/little_weasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371781900009" ignored="false" />
-    <file path="/checker_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371945936592" ignored="false" />
+    <file path="/checker_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372298875670" ignored="false" />
     <file path="/checker.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371778535451" ignored="false" />
     <file path="/LittleWeasel.gemspec" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371779509067" ignored="false" />
     <file path="/.gitignore" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371780237152" ignored="false" />
@@ -80,6 +84,7 @@
     <file path="$PROJECT_DIR$/../monkeyengine/lib/Action/action.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372029144020" ignored="false" />
     <file path="$PROJECT_DIR$/../monkeyengine/bin/monkey_run.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372033010115" ignored="false" />
     <file path="/monkey_run.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372033000238" ignored="false" />
+    <file path="/fragment.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372297872713" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,16 +107,7 @@
       <file leaf-file-name="LittleWeasel.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="0" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="6" selection-start="72" selection-end="72" vertical-scroll-proportion="0.06311361">
+            <state line="21" column="64" selection-start="411" selection-end="411" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -120,7 +116,7 @@
       <file leaf-file-name="checker_spec.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spec/checker/checker_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="50" selection-start="729" selection-end="729" vertical-scroll-proportion="0.0">
+            <state line="50" column="17" selection-start="1432" selection-end="1432" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -135,10 +131,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="LittleWeasel.gemspec" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/LittleWeasel.gemspec">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="3" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0">
+            <state line="11" column="95" selection-start="550" selection-end="550" vertical-scroll-proportion="0.34591195">
               <folding />
             </state>
           </provider>
@@ -168,16 +164,16 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/lib/LittleWeasel/little_weasel.rb" />
         <option value="$PROJECT_DIR$/lib/checker.rb" />
-        <option value="$PROJECT_DIR$/lib/LittleWeasel.rb" />
         <option value="$PROJECT_DIR$/test/spec_helper.rb" />
         <option value="$PROJECT_DIR$/test/.rspec" />
         <option value="$PROJECT_DIR$/test/checker/checker_spec.rb" />
         <option value="$PROJECT_DIR$/test/spec.opts" />
         <option value="$PROJECT_DIR$/spec/.rspec" />
         <option value="$PROJECT_DIR$/.rspec" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/lib/LittleWeasel.rb" />
         <option value="$PROJECT_DIR$/spec/checker/checker_spec.rb" />
         <option value="$PROJECT_DIR$/lib/LittleWeasel/version.rb" />
-        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -274,13 +270,13 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="coverage" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/test" />
+    <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/test" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -442,11 +438,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28120518" sideWeight="0.6697613" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28550932" sideWeight="0.6697613" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39920425" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33023873" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33023873" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -516,15 +512,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/LittleWeasel.gemspec">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="95" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="11" selection-start="47" selection-end="47" vertical-scroll-proportion="0.0">
@@ -564,11 +555,6 @@
         <state line="0" column="73" selection-start="73" selection-end="73" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LittleWeasel.gemspec">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="95" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/bundle/gems/rake-10.1.0/lib/rake/file_utils.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="54" column="0" selection-start="1689" selection-end="1689" vertical-scroll-proportion="0.020604396" />
@@ -579,16 +565,37 @@
         <state line="1" column="31" selection-start="17" selection-end="17" vertical-scroll-proportion="0.031446543" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spec/checker/checker_spec.rb">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="50" selection-start="729" selection-end="729" vertical-scroll-proportion="0.0">
+        <state line="17" column="3" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/lib/dictionary">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="3" selection-start="165" selection-end="165" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-352.64462">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="6" selection-start="72" selection-end="72" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="64" selection-start="411" selection-end="411" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spec/checker/checker_spec.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="17" selection-start="1432" selection-end="1432" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -600,16 +607,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
+    <entry file="file://$PROJECT_DIR$/LittleWeasel.gemspec">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="6" selection-start="72" selection-end="72" vertical-scroll-proportion="0.06311361">
+        <state line="11" column="95" selection-start="550" selection-end="550" vertical-scroll-proportion="0.34591195">
           <folding />
         </state>
       </provider>
