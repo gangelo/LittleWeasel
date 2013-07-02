@@ -8,6 +8,8 @@ module LittleWeasel
     include Singleton
 
     # Returns the dictionary.
+    #
+    # @return [Hash] the dictionary.
     attr_reader :dictionary
 
     private
@@ -42,11 +44,17 @@ module LittleWeasel
 
     # {exclude_alphabet: true} will return exist? == false for a-z, A-Z
     # {exclude_alphabet: false} will return exist? == true for a-z, A-Z
+
+
+    # Sets the global options for this gem.
+    #
+    # @return [Hash] The options
     def options=(options)
       @options = options
     end
 
     # Gets the global options currently set for this gem.
+    #
     # @return [Hash] The options
     def options
       @options
