@@ -3,9 +3,11 @@ require "LittleWeasel/version"
 
 module LittleWeasel
 
+  # Provides methods to interrogate the dictionary.
   class Checker
     include Singleton
 
+    # Returns the dictionary.
     attr_reader :dictionary
 
     private
@@ -14,6 +16,7 @@ module LittleWeasel
 
     public
 
+    # The constructor
     def initialize
       @options = {exclude_alphabet: false}
       @alphabet_exclusion_list = %w{ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z }
@@ -21,6 +24,15 @@ module LittleWeasel
       load
     end
 
+    # Interrogates the dictionary to determine whether or not [word] exists.
+    #
+    # @param [String] word the word to interrogate
+    # @param [Hash] options options to apply to this query
+    #
+    # @return [Boolean] true if *word* exists, false otherwise.
+    #
+    # @note Valid *options* tag/value at this time are *\{exclude_alphabet: true|false\}*
+    #
     def exists?(word, options=nil)
       options = options || @options
 
