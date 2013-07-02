@@ -7,7 +7,7 @@
     <ignored path="LittleWeasel.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372727689776" ignored="false" />
-    <file path="/LittleWeasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372732158952" ignored="false" />
+    <file path="/LittleWeasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372733112822" ignored="false" />
     <file path="/spec_helper.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371776194745" ignored="false" />
     <file path="/little_weasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371781900009" ignored="false" />
     <file path="/checker_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372298875670" ignored="false" />
@@ -106,7 +106,7 @@
       <file leaf-file-name="LittleWeasel.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="36" selection-start="236" selection-end="236" vertical-scroll-proportion="0.34591195">
+            <state line="46" column="32" selection-start="1281" selection-end="1281" vertical-scroll-proportion="0.5031447">
               <folding />
             </state>
           </provider>
@@ -622,7 +622,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="36" selection-start="236" selection-end="236" vertical-scroll-proportion="0.34591195">
+        <state line="46" column="32" selection-start="1281" selection-end="1281" vertical-scroll-proportion="0.5031447">
           <folding />
         </state>
       </provider>

@@ -42,10 +42,6 @@ module LittleWeasel
       dictionary.has_key? word
     end
 
-    # {exclude_alphabet: true} will return exist? == false for a-z, A-Z
-    # {exclude_alphabet: false} will return exist? == true for a-z, A-Z
-
-
     # Sets the global options for this gem.
     #
     # @return [Hash] The options
