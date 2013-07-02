@@ -2,17 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="34d4ec05-51d8-442a-84a5-75b5005cedf0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.rakeTasks" afterPath="$PROJECT_DIR$/.idea/.rakeTasks" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile" afterPath="$PROJECT_DIR$/Gemfile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/LittleWeasel.rb" afterPath="$PROJECT_DIR$/lib/LittleWeasel.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/LittleWeasel/version.rb" afterPath="$PROJECT_DIR$/lib/LittleWeasel/version.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LittleWeasel.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372727689776" ignored="false" />
-    <file path="/LittleWeasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372729675898" ignored="false" />
+    <file path="/LittleWeasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372731756161" ignored="false" />
     <file path="/spec_helper.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371776194745" ignored="false" />
     <file path="/little_weasel.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1371781900009" ignored="false" />
     <file path="/checker_spec.rb" changelist="34d4ec05-51d8-442a-84a5-75b5005cedf0" time="1372298875670" ignored="false" />
@@ -111,7 +106,7 @@
       <file leaf-file-name="LittleWeasel.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="88" selection-start="874" selection-end="874" vertical-scroll-proportion="0.7232704">
+            <state line="48" column="57" selection-start="1417" selection-end="1417" vertical-scroll-proportion="0.6918239">
               <folding />
             </state>
           </provider>
@@ -672,7 +667,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="88" selection-start="874" selection-end="874" vertical-scroll-proportion="0.7232704">
+        <state line="48" column="57" selection-start="1417" selection-end="1417" vertical-scroll-proportion="0.6918239">
           <folding />
         </state>
       </provider>

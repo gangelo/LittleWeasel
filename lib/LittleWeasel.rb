@@ -27,12 +27,10 @@ module LittleWeasel
     # Interrogates the dictionary to determine whether or not [word] exists.
     #
     # @param [String] word the word to interrogate
-    # @param [Hash] options options to apply to this query
+    # @param [Hash] options options to apply to this query (see #options=).  Options passed to this
+    #   method are applied for this query only.
     #
     # @return [Boolean] true if *word* exists, false otherwise.
-    #
-    # @note Valid *options* tag/value at this time are *\{exclude_alphabet: true|false\}*
-    #
     def exists?(word, options=nil)
       options = options || @options
 
@@ -48,6 +46,8 @@ module LittleWeasel
       @options = options
     end
 
+    # Gets the global options currently set for this gem.
+    # @return [Hash] The options
     def options
       @options
     end
