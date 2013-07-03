@@ -23,8 +23,6 @@ require 'LittleWeasel'
 
 LittleWeasel::Checker.instance.exists?('word', options|nil) # true if exists in the dictionary, false otherwise.
 
-Hash{Symbol => Boolean}
-
 ## Contributing
 
 Not taking contributions just yet.
