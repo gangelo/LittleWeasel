@@ -44,7 +44,20 @@ module LittleWeasel
 
     # Sets the global options for this gem.
     #
+    # @param [Hash] options options that should apply to all subsequent calls to method *exists?* (see #exists?).
+    #  Options set via this property apply to all subsequent queries.
+    # @option options [Boolean] :exclude_alphabet (false) If false, letters of the alphabet are considered words.
+    #  For example, LittleWeasel::Checker.instance.exists?('A'), will return true.
+    #
     # @return [Hash] The options
+    #
+    # @example
+    #  LittleWeasel::Checker.instance.options({exclude_alphabet:true})
+    #  LittleWeasel::Checker.instance.exists?('A') # false
+    #
+    #  LittleWeasel::Checker.instance.options({exclude_alphabet:false})
+    #  LittleWeasel::Checker.instance.exists?('A') # true
+    #
     def options=(options)
       @options = options
     end
