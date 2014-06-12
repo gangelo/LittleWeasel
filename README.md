@@ -22,6 +22,7 @@ Or install it yourself as:
 require 'LittleWeasel'
 
 LittleWeasel::Checker.instance.exists?('word', options|nil) # true if exists in the dictionary, false otherwise.
+
 LittleWeasel::Checker.instance.exists?('Multiple words', options|nil) # true if exists in the dictionary, false otherwise.
 
 ## Contributing

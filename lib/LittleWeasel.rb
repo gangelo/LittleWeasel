@@ -126,7 +126,7 @@ module LittleWeasel
     def block?(string)
       tmp = string
       return false unless tmp.is_a?(String)
-      tmp.gsub!(@numeric_regex, "")#.squeeze(" ").strip
+      tmp.gsub!(@numeric_regex, "")
       return false unless tmp.length > 1
       tmp.strip.scan(/[\w'-]+/).length > 1
     end
@@ -145,7 +145,7 @@ module LittleWeasel
       tmp = word.downcase
       exists = dictionary.has_key?(tmp)
       exists = dictionary.has_key?(tmp.singularize) unless exists
-      puts "=> exists?(#{word}=>#{tmp}) # => #{exists}"
+      #puts "=> exists?(#{word}=>#{tmp}) # => #{exists}"
       exists
     end
 
