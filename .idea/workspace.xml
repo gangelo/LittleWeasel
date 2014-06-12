@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="34d4ec05-51d8-442a-84a5-75b5005cedf0" name="Default" comment="Add ability to accept multiple words to">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Start_Yard_Server.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/runConfigurations/checker_spec.xml" />
+    <list default="true" id="34d4ec05-51d8-442a-84a5-75b5005cedf0" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.rakeTasks" afterPath="$PROJECT_DIR$/.idea/.rakeTasks" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile" afterPath="$PROJECT_DIR$/Gemfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/LittleWeasel.iml" afterPath="$PROJECT_DIR$/.idea/LittleWeasel.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/LittleWeasel.rb" afterPath="$PROJECT_DIR$/lib/LittleWeasel.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/checker/checker_spec.rb" afterPath="$PROJECT_DIR$/spec/checker/checker_spec.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LittleWeasel.gemspec" afterPath="$PROJECT_DIR$/LittleWeasel.gemspec" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/LittleWeasel/version.rb" afterPath="$PROJECT_DIR$/lib/LittleWeasel/version.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -23,7 +19,7 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/LittleWeasel@All_tests_in_checker__LittleWeasel.coverage" NAME="All tests in checker: LittleWeasel Coverage Results" MODIFIED="1395999455984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spec/checker" MODULE_NAME="LittleWeasel" />
-    <SUITE FILE_PATH="coverage/LittleWeasel@checker_spec.coverage" NAME="checker_spec Coverage Results" MODIFIED="1402538046672" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spec/checker" MODULE_NAME="LittleWeasel" />
+    <SUITE FILE_PATH="coverage/LittleWeasel@checker_spec.coverage" NAME="checker_spec Coverage Results" MODIFIED="1402541511717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spec/checker" MODULE_NAME="LittleWeasel" />
     <SUITE FILE_PATH="coverage/LittleWeasel@All_tests_in_spec__LittleWeasel.coverage" NAME="All tests in spec: LittleWeasel Coverage Results" MODIFIED="1395999404199" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spec" MODULE_NAME="LittleWeasel" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -38,24 +34,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="checker_spec.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spec/checker/checker_spec.rb">
+      <file leaf-file-name="Gemfile" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Gemfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.4405011" vertical-offset="0" max-vertical-offset="945">
-              <caret line="225" column="105" selection-start-line="225" selection-start-column="19" selection-end-line="225" selection-end-column="105" />
-              <folding>
-                <element signature="e#115#3630#0" expanded="false" />
-                <element signature="e#3677#5780#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="135">
+              <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LittleWeasel.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/LittleWeasel.rb">
+      <file leaf-file-name="LittleWeasel.gemspec" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/LittleWeasel.gemspec">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.5" vertical-offset="555" max-vertical-offset="2640">
-              <caret line="50" column="45" selection-start-line="50" selection-start-column="7" selection-end-line="50" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.65553236" vertical-offset="46" max-vertical-offset="525">
+              <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -66,26 +59,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
               <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.4" vertical-offset="15" max-vertical-offset="705">
-              <caret line="20" column="35" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dictionary" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/dictionary">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.9615383" vertical-offset="2772786" max-vertical-offset="3538380">
-              <caret line="184861" column="4" selection-start-line="184861" selection-start-column="0" selection-end-line="184861" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -110,7 +83,6 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/lib/LittleWeasel/checker.rb" />
-        <option value="$PROJECT_DIR$/LittleWeasel.gemspec" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/lib/LittleWeasel/little_weasel.rb" />
         <option value="$PROJECT_DIR$/lib/checker.rb" />
@@ -120,11 +92,12 @@
         <option value="$PROJECT_DIR$/test/spec.opts" />
         <option value="$PROJECT_DIR$/spec/.rspec" />
         <option value="$PROJECT_DIR$/.rspec" />
-        <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/spec/checker/checker_spec.rb" />
         <option value="$PROJECT_DIR$/lib/LittleWeasel.rb" />
-        <option value="$PROJECT_DIR$/lib/LittleWeasel/version.rb" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/LittleWeasel.gemspec" />
+        <option value="$PROJECT_DIR$/Gemfile" />
+        <option value="$PROJECT_DIR$/lib/LittleWeasel/version.rb" />
       </list>
     </option>
   </component>
@@ -197,6 +170,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="bundle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LittleWeasel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LittleWeasel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vendor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bundle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gems" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -481,6 +476,11 @@
       <created>1371693748530</created>
       <updated>1371693748530</updated>
     </task>
+    <task id="LOCAL-00001" summary="Add ability to pass multiple words to LittleWeasel::Checker.instance.exists? member | Add the new ignore_numeric option to ignore numeric values in strings (e.g. This is ignored when :ignore_numeric:true =&gt; 90210).">
+      <created>1402538807916</created>
+      <updated>1402538807916</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -523,6 +523,8 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <MESSAGE value="Add ability to pass multiple words to LittleWeasel::Checker.instance.exists? member | Add the new ignore_numeric option to ignore numeric values in strings (e.g. This is ignored when :ignore_numeric:true =&gt; 90210)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add ability to pass multiple words to LittleWeasel::Checker.instance.exists? member | Add the new ignore_numeric option to ignore numeric values in strings (e.g. This is ignored when :ignore_numeric:true =&gt; 90210)." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -724,14 +726,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/bundle/gems/rspec-expectations-2.13.0/lib/rspec/expectations/syntax.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="638" max-vertical-offset="2550">
-          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Rakefile">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2542373" vertical-offset="0" max-vertical-offset="413">
@@ -748,30 +742,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LittleWeasel.gemspec">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="435">
-          <caret line="11" column="95" selection-start-line="11" selection-start-column="95" selection-end-line="11" selection-end-column="95" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Gemfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
-          <caret line="10" column="51" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/bundle/gems/activesupport-4.1.1/lib/active_support.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2348669" vertical-offset="0" max-vertical-offset="1215">
-          <caret line="34" column="54" selection-start-line="34" selection-start-column="30" selection-end-line="34" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spec/spec_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
@@ -784,14 +754,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.9615383" vertical-offset="2772786" max-vertical-offset="3538380">
           <caret line="184861" column="4" selection-start-line="184861" selection-start-column="0" selection-end-line="184861" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/LittleWeasel/version.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
-          <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -814,12 +776,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/checker/checker_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4405011" vertical-offset="0" max-vertical-offset="945">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
           <caret line="225" column="105" selection-start-line="225" selection-start-column="19" selection-end-line="225" selection-end-column="105" />
           <folding>
             <element signature="e#115#3630#0" expanded="false" />
             <element signature="e#3677#5780#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/LittleWeasel/version.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
+          <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Gemfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="135">
+          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LittleWeasel.gemspec">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.65553236" vertical-offset="46" max-vertical-offset="525">
+          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
