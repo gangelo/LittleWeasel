@@ -93,13 +93,29 @@ describe 'LittleWeasel Inline Options Tests' do
     words.each { |word| @spell.exists?(word).should == true }
   end
 
+  it 'should return true if option ignore_numeric is true, and word is a number' do
+    @spell.options = {ignore_numeric: true}
+    @spell.exists?('1').should == true
+    @spell.exists?('-1').should == true
+    @spell.exists?('1.0').should == true
+    @spell.exists?('-1.0').should == true
+  end
+
+  it 'should return false if option ignore_numeric is false, and word is a number' do
+    @spell.options = {ignore_numeric: false}
+    @spell.exists?('1').should == false
+    @spell.exists?('-1').should == false
+    @spell.exists?('1.0').should == false
+    @spell.exists?('-1.0').should == false
+  end
+
 end
 
 describe 'LittleWeasel Global Options Tests' do
 
-  before (:all) do
+  before (:each) do
     @spell = LittleWeasel::Checker.instance
-    @spell.options = {exclude_alphabet: true, strip_whitespace: true}
+    @spell.options = {exclude_alphabet: true, strip_whitespace: true, ignore_numeric: true}
   end
 
   it 'should create a LittleWeasel object' do
@@ -133,6 +149,9 @@ describe 'LittleWeasel Global Options Tests' do
 
     @spell.exists?(' h ', {exclude_alphabet: false, strip_whitespace: true}).should == true
     @spell.exists?(' h ').should == false
+
+    @spell.exists?('1', {ignore_numeric: false}).should == false
+    @spell.exists?('1').should == true
   end
 
   it 'should return true for valid word with leading spaces' do
@@ -145,6 +164,74 @@ describe 'LittleWeasel Global Options Tests' do
 
   it 'should return true for valid word with leading and trailing spaces' do
     @spell.exists?(' apple ').should == true
+  end
+
+  it 'should return true if word is a number' do
+    @spell.exists?('1').should == true
+    @spell.exists?('-1').should == true
+    @spell.exists?('1.0').should == true
+    @spell.exists?('-1.0').should == true
+  end
+
+  it 'should return false if word is a number' do
+    @spell.options = {ignore_numeric: false}
+    @spell.exists?('1').should == false
+    @spell.exists?('-1').should == false
+    @spell.exists?('1.0').should == false
+    @spell.exists?('-1.0').should == false
+  end
+
+end
+
+describe 'LittleWeasel Block Tests' do
+
+  before (:all) do
+    @spell = LittleWeasel::Checker.instance
+    @spell.options = {exclude_alphabet: true, strip_whitespace: true}
+  end
+
+  it 'should return true for valid words' do
+    @spell.exists?('apple sauce').should == true
+  end
+
+  it 'should return false for invalid words' do
+    @spell.exists?('appel sauce').should == false
+  end
+
+  it 'should return true for valid words with leading spaces' do
+    @spell.exists?(' apple sauce').should == true
+  end
+
+  it 'should return true for valid words with trailing spaces' do
+    @spell.exists?('apple sauce ').should == true
+  end
+
+  it 'should return true for valid words with leading and trailing spaces' do
+    @spell.exists?(' apple sauce ').should == true
+  end
+
+  it 'should return true for valid words split across \n and \r\n' do
+    @spell.exists?("apple\r\n\n\nsauce is great\r\n").should == true
+  end
+
+  it 'should return true for valid words separated by \t' do
+    @spell.exists?("\tapple\t\t\tsauce is great\t").should == true
+  end
+
+  it 'should return true for valid words that are repeated' do
+    @spell.exists?(' are you bad are you bad are you bad ').should == true
+  end
+
+  it 'should return true for valid words separated by non-alpha chars' do
+    @spell.exists?("hello, mister; did I \'mention\'' that lemon cake is \"great?\" It's just wonderful!").should == true
+  end
+
+  it 'should return true for valid pluralized words' do
+    @spell.exists?('Apples and peaches are great! Some people are good, each person is a people.').should == true
+  end
+
+  it 'should return true for valid words' do
+    @spell.exists?('Hell o').should == true
   end
 
 end

@@ -1,5 +1,6 @@
 require 'singleton'
 require "LittleWeasel/version"
+require 'active_support/inflector'
 
 module LittleWeasel
 
@@ -14,25 +15,31 @@ module LittleWeasel
 
     private
 
-    attr_reader :alphanet_exclusion_list
+    attr_reader :alphabet_exclusion_list
+
+    # Keep these private...will expose as options later.
+    attr_accessor :word_regex, :numeric_regex, :non_wordchar_regex
 
     public
 
     # The constructor
     def initialize
-      @options = {exclude_alphabet: false, strip_whitespace: false}
+      @options = {exclude_alphabet: false, strip_whitespace: false, ignore_numeric: true}
       @alphabet_exclusion_list = %w{ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z }
+      @numeric_regex = /^[-+]?[0-9]?(\.[0-9]+)?$+/
+      @word_regex = /\s+(?=(?:[^"]*"[^"]*")*[^"]*$)/
+      @non_wordchar_regex = /\W+/
       @dictionary = Hash.new(1)
       load
     end
 
     # Interrogates the dictionary to determine whether or not [word] exists.
     #
-    # @param [String] word the word to interrogate
+    # @param [String] word the word or words to interrogate
     # @param [Hash] options options to apply to this query (see #options=).  Options passed to this
     #   method are applied for this query only.
     #
-    # @return [Boolean] true if *word* exists, false otherwise.
+    # @return [Boolean] true if the word/words in *word* exists, false otherwise.
     #
     # @example
     #
@@ -40,12 +47,17 @@ module LittleWeasel
     #  LittleWeasel::Checker.instance.exists?('A', {exclude_alphabet:true}) # false
     #  LittleWeasel::Checker.instance.exists?('X', {exclude_alphabet:false}) # true
     #  LittleWeasel::Checker.instance.exists?('Hello') # true
-    #  LittleWeasel::Checker.instance.exists?('Hello World') # false, two words does not a single word make :)
     #
     #  LittleWeasel::Checker.instance.exists?(' Hello ') # false (default options, :strip_whitespace => false)
     #  LittleWeasel::Checker.instance.exists?(' Yes ', {strip_whitespace:true}) # true
     #  LittleWeasel::Checker.instance.exists?('No ', {strip_whitespace:false}) # false
-    #  LittleWeasel::Checker.instance.exists?('Hell o', {strip_whitespace:true}) # false, strip_whitespace only removes leading and trailing spaces
+    #  LittleWeasel::Checker.instance.exists?('How dy', {strip_whitespace:true}) # false, strip_whitespace only removes leading and trailing spaces
+    #
+    #  LittleWeasel::Checker.instance.exists?('90210') # true (default options, ignore_numeric => true)
+    #  LittleWeasel::Checker.instance.exists?('90210', {ignore_numeric:false}) # false
+    #
+    #  LittleWeasel::Checker.instance.exists?('Hello World') # true, we're accepting multiple words now :)}
+    #  LittleWeasel::Checker.instance.exists?("hello, mister; did I \'mention\'' that lemon cake is \"great?\" It's just wonderful!") # true
     #
     def exists?(word, options=nil)
       options = options || @options
@@ -55,10 +67,11 @@ module LittleWeasel
       word.strip! if options[:strip_whitespace]
 
       return false if word.empty?
-
+      return block_exists? word if block?(word)
+      return true if options[:ignore_numeric] && number?(word)
       return false if options[:exclude_alphabet] && word.length == 1 && @alphabet_exclusion_list.include?(word.upcase)
 
-      dictionary.has_key? word
+      valid_word? word
     end
 
     # Sets the global options for this gem.
@@ -86,7 +99,12 @@ module LittleWeasel
     #
     #  LittleWeasel::Checker.instance.options({strip_whitespace:true})
     #  LittleWeasel::Checker.instance.exists?(' Yes ') # true
-    #  LittleWeasel::Checker.instance.exists?('Hell o') # false, strip_whitespace only removes leading and trailing spaces
+    #  LittleWeasel::Checker.instance.exists?('How dy') # false, strip_whitespace only removes leading and trailing spaces
+    #
+    #  LittleWeasel::Checker.instance.exists?('90210') # true (default options, ignore_numeric => true)
+    #  LittleWeasel::Checker.instance.exists?('90210', {ignore_numeric:false}) # false
+    #  LittleWeasel::Checker.instance.exists?('I watch Beverly Hills 90210') # true (default options, ignore_numeric => true)
+    #  LittleWeasel::Checker.instance.exists?('I watch Beverly Hills 90210', {ignore_numeric:false}) # false
     #
     def options=(options)
       @options = options
@@ -97,6 +115,43 @@ module LittleWeasel
     # @return [Hash] The options
     def options
       @options
+    end
+
+    protected
+
+    def number?(word)
+      word.strip.gsub(@numeric_regex).count > 0
+    end
+
+    def block?(string)
+      tmp = string
+      return false unless tmp.is_a?(String)
+      tmp.gsub!(@numeric_regex, "")#.squeeze(" ").strip
+      return false unless tmp.length > 1
+      tmp.strip.scan(/[\w'-]+/).length > 1
+    end
+
+    def block_exists?(block)
+      tmp = block
+      tmp.gsub!(@numeric_regex, "").squeeze(" ").strip if options[:ignore_numeric]
+      tmp.gsub!(@non_wordchar_regex, " ")
+      tmp.split(@word_regex).uniq.each { |word|
+        return false unless valid_block_word?(word)
+      }
+      return true
+    end
+
+    def valid_word?(word)
+      tmp = word.downcase
+      exists = dictionary.has_key?(tmp)
+      exists = dictionary.has_key?(tmp.singularize) unless exists
+      puts "=> exists?(#{word}=>#{tmp}) # => #{exists}"
+      exists
+    end
+
+    def valid_block_word?(word)
+      return true if word.length == 1
+      valid_word? word.strip
     end
 
     private
@@ -110,6 +165,7 @@ module LittleWeasel
         io.each { |line| line.chomp!; @dictionary[line] = line }
       end
     end
+
   end
 
 end
