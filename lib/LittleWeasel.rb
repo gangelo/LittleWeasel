@@ -82,6 +82,8 @@ module LittleWeasel
     #  For example, LittleWeasel::Checker.instance.exists?('A'), will return true.
     # @option options [Boolean] :strip_whitespace (false) If true, leading and trailing spaces are removed before checking to see if the word exists.
     #  For example, LittleWeasel::Checker.instance.exists?(' Hello ', {strip_whitespace:true}), will return true.
+    # @option options [Boolean] :ignore_numeric (true) If true, numeric values are considered valid words.
+    #  For example, LittleWeasel::Checker.instance.exists?('1999', {ignore_numeric:true}), will return true.                                                                                                                                         #  For example, LittleWeasel::Checker.instance.exists?(' Hello ', {strip_whitespace:true}), will return true.
     #
     # @return [Hash] The options
     #
