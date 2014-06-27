@@ -64,6 +64,7 @@ module LittleWeasel
 
       return false unless word.is_a?(String)
 
+      word = word.dup
       word.strip! if options[:strip_whitespace]
 
       return false if word.empty?
@@ -126,28 +127,30 @@ module LittleWeasel
     end
 
     def block?(string)
-      tmp = string
-      return false unless tmp.is_a?(String)
-      tmp.gsub!(@numeric_regex, "")
-      return false unless tmp.length > 1
-      tmp.strip.scan(/[\w'-]+/).length > 1
+      string = string.dup
+      return false unless string.is_a?(String)
+      string.gsub!(@numeric_regex, "")
+      return false unless string.length > 1
+      string.strip.scan(/[\w'-]+/).length > 1
     end
 
-    def block_exists?(block)
-      tmp = block
-      tmp.gsub!(@numeric_regex, "").squeeze(" ").strip if options[:ignore_numeric]
-      tmp.gsub!(@non_wordchar_regex, " ")
-      tmp.split(@word_regex).uniq.each { |word|
+    def block_exists?(word_block)
+      word_block = word_block.dup
+
+      word_block.gsub!(@numeric_regex, "") if options[:ignore_numeric]
+      return false if word_block.nil?
+      word_block.strip! unless word_block.nil?
+      word_block.gsub!(@non_wordchar_regex, " ")
+      word_block.split(@word_regex).uniq.each { |word|
         return false unless valid_block_word?(word)
       }
       return true
     end
 
     def valid_word?(word)
-      tmp = word.downcase
-      exists = dictionary.has_key?(tmp)
-      exists = dictionary.has_key?(tmp.singularize) unless exists
-      #puts "=> exists?(#{word}=>#{tmp}) # => #{exists}"
+      word = word.dup.downcase
+      exists = dictionary.has_key?(word)
+      exists = dictionary.has_key?(word.singularize) unless exists
       exists
     end
 

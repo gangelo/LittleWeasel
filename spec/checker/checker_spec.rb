@@ -109,6 +109,13 @@ describe 'LittleWeasel Inline Options Tests' do
     @spell.exists?('-1.0').should == false
   end
 
+  it 'should not alter the original input' do
+    expect = "  Hello!  "
+    actual = expect.dup
+    @spell.exists?(actual, {strip_whitespace: false})
+    actual.should == expect
+  end
+
 end
 
 describe 'LittleWeasel Global Options Tests' do
@@ -181,9 +188,16 @@ describe 'LittleWeasel Global Options Tests' do
     @spell.exists?('-1.0').should == false
   end
 
+  it 'should not alter the original input' do
+    expect = "Hello!"
+    actual = expect.dup
+    @spell.exists?(actual)
+    actual.should == expect
+  end
+
 end
 
-describe 'LittleWeasel Block Tests' do
+describe 'LittleWeasel Word Block Tests' do
 
   before (:all) do
     @spell = LittleWeasel::Checker.instance
@@ -232,6 +246,13 @@ describe 'LittleWeasel Block Tests' do
 
   it 'should return true for valid words' do
     @spell.exists?('Hell o').should == true
+  end
+
+  it 'should not alter the original input' do
+    expect = "This 'cool' string should not be altered in any way, so I'm 100.00% confident!"
+    actual = expect.dup
+    @spell.exists?(actual)
+    actual.should == expect
   end
 
 end
