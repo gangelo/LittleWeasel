@@ -1,3 +1,7 @@
+### 3.0.4
+* enhancements
+  * Relax requirements on ruby version to ~> 2.0.
+
 ### 3.0.3
 
 * enhancements
