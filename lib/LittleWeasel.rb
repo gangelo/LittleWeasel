@@ -24,7 +24,7 @@ module LittleWeasel
 
     # The constructor
     def initialize
-      @options = {exclude_alphabet: false, strip_whitespace: false, ignore_numeric: true}
+      @options = { exclude_alphabet: false, strip_whitespace: false, ignore_numeric: true, single_word_mode: false }
       @alphabet_exclusion_list = %w{ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z }
       @numeric_regex = /^[-+]?[0-9]?(\.[0-9]+)?$+/
       @word_regex = /\s+(?=(?:[^"]*"[^"]*")*[^"]*$)/
@@ -56,8 +56,10 @@ module LittleWeasel
     #  LittleWeasel::Checker.instance.exists?('90210') # true (default options, ignore_numeric => true)
     #  LittleWeasel::Checker.instance.exists?('90210', {ignore_numeric:false}) # false
     #
-    #  LittleWeasel::Checker.instance.exists?('Hello World') # true, we're accepting multiple words now :)}
+    #  LittleWeasel::Checker.instance.exists?('Hello World') # true, we're accepting multiple words now by default (default options, single_word_mode => false) :)
     #  LittleWeasel::Checker.instance.exists?("hello, mister; did I \'mention\'' that lemon cake is \"great?\" It's just wonderful!") # true
+    #
+    #  LittleWeasel::Checker.instance.exists?('I love ice cream', {single_word_mode:true}) # false; while all the words are valid, more than one word will return false
     #
     def exists?(word, options=nil)
       options = options || @options
@@ -68,7 +70,12 @@ module LittleWeasel
       word.strip! if options[:strip_whitespace]
 
       return false if word.empty?
-      return block_exists? word if block?(word)
+
+      if block? word
+        return false if options[:single_word_mode]
+        return block_exists? word
+      end
+      
       return true if options[:ignore_numeric] && number?(word)
       return false if options[:exclude_alphabet] && word.length == 1 && @alphabet_exclusion_list.include?(word.upcase)
 
@@ -79,12 +86,11 @@ module LittleWeasel
     #
     # @param [Hash] options options that should apply to all subsequent calls to method *exists?* (see #exists?).
     #  Options set via this property apply to all subsequent queries.
+    #
     # @option options [Boolean] :exclude_alphabet (false) If false, letters of the alphabet are considered words.
-    #  For example, LittleWeasel::Checker.instance.exists?('A'), will return true.
     # @option options [Boolean] :strip_whitespace (false) If true, leading and trailing spaces are removed before checking to see if the word exists.
-    #  For example, LittleWeasel::Checker.instance.exists?(' Hello ', {strip_whitespace:true}), will return true.
     # @option options [Boolean] :ignore_numeric (true) If true, numeric values are considered valid words.
-    #  For example, LittleWeasel::Checker.instance.exists?('1999', {ignore_numeric:true}), will return true.                                                                                                                                         #  For example, LittleWeasel::Checker.instance.exists?(' Hello ', {strip_whitespace:true}), will return true.
+    # @option options [Boolean] :single_word_mode (false) If false, word blocks (more than one word) are considered valid if all the words exist in the dictionary.
     #
     # @return [Hash] The options
     #
@@ -108,6 +114,10 @@ module LittleWeasel
     #  LittleWeasel::Checker.instance.exists?('90210', {ignore_numeric:false}) # false
     #  LittleWeasel::Checker.instance.exists?('I watch Beverly Hills 90210') # true (default options, ignore_numeric => true)
     #  LittleWeasel::Checker.instance.exists?('I watch Beverly Hills 90210', {ignore_numeric:false}) # false
+    #
+    #  LittleWeasel::Checker.instance.options({single_word_mode:true})
+    #  LittleWeasel::Checker.instance.exists?('I love ice cream') # false; while all the words are valid, more than one word will return false
+    #  LittleWeasel::Checker.instance.exists?('Baby') # true
     #
     def options=(options)
       @options = options

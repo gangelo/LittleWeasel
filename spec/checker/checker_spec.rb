@@ -256,3 +256,31 @@ describe 'LittleWeasel Word Block Tests' do
   end
 
 end
+
+describe "option single_word_mode" do
+  before (:all) do
+    @spell = LittleWeasel::Checker.instance
+    #@spell.options = {exclude_alphabet: true, strip_whitespace: true}
+  end
+
+  describe "set globally" do
+    it 'should return true for a valid word block by default' do
+      @spell.exists?('I love apple pie').should == true
+    end
+
+    it 'should return false for a valid word block if set to true' do
+      @spell.options = { single_word_mode: true }
+      @spell.exists?('I love apple pie').should == false
+    end
+  end
+
+  describe "set inline" do
+    it 'should return false for a valid word block if set to true' do
+      @spell.exists?('I hate ice cream', single_word_mode: true).should == false
+    end
+
+    it 'should return true for a valid word block if set to false' do
+      @spell.exists?('I had a hard day', single_word_mode: false).should == true
+    end
+  end
+end
