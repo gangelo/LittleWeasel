@@ -1,9 +1,14 @@
-require 'singleton'
-require "LittleWeasel/version"
-require 'active_support/inflector'
+# frozen_string_literal: true
 
+# require 'active_support/inflector'
+
+Dir[File.join('.', 'lib/LittleWeasel/**/*.rb')].each do |f|
+  require f
+end
+
+# rubocop: disable Layout/LineLength, Style/BlockComments
+=begin
 module LittleWeasel
-
   # Provides methods to interrogate the dictionary.
   class Checker
     include Singleton
@@ -25,7 +30,7 @@ module LittleWeasel
     # The constructor
     def initialize
       @options = { exclude_alphabet: false, strip_whitespace: false, ignore_numeric: true, single_word_mode: false }
-      @alphabet_exclusion_list = %w{ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z }
+      @alphabet_exclusion_list = %w[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]
       @numeric_regex = /^[-+]?[0-9]?(\.[0-9]+)?$+/
       @word_regex = /\s+(?=(?:[^"]*"[^"]*")*[^"]*$)/
       @non_wordchar_regex = /\W+/
@@ -61,8 +66,8 @@ module LittleWeasel
     #
     #  LittleWeasel::Checker.instance.exists?('I love ice cream', {single_word_mode:true}) # false; while all the words are valid, more than one word will return false
     #
-    def exists?(word, options=nil)
-      options = options || @options
+    def exists?(word, options = nil)
+      options ||= @options
 
       return false unless word.is_a?(String)
 
@@ -73,9 +78,10 @@ module LittleWeasel
 
       if block? word
         return false if options[:single_word_mode]
+
         return block_exists? word
       end
-      
+
       return true if options[:ignore_numeric] && number?(word)
       return false if options[:exclude_alphabet] && word.length == 1 && @alphabet_exclusion_list.include?(word.upcase)
 
@@ -119,60 +125,59 @@ module LittleWeasel
     #  LittleWeasel::Checker.instance.exists?('I love ice cream') # false; while all the words are valid, more than one word will return false
     #  LittleWeasel::Checker.instance.exists?('Baby') # true
     #
-    def options=(options)
-      @options = options
-    end
 
     # Gets the global options currently set for this gem.
     #
     # @return [Hash] The options
-    def options
-      @options
-    end
+    attr_accessor :options
 
     protected
 
     def number?(word)
-      word.strip.gsub(@numeric_regex).count > 0
+      word.strip.gsub(@numeric_regex).count.positive?
     end
 
     def block?(string)
       string = string.dup
       return false unless string.is_a?(String)
-      string.gsub!(@numeric_regex, "")
+
+      string.gsub!(@numeric_regex, '')
       return false unless string.length > 1
+
       string.strip.scan(/[\w'-]+/).length > 1
     end
 
     def block_exists?(word_block)
       word_block = word_block.dup
 
-      word_block.gsub!(@numeric_regex, "") if options[:ignore_numeric]
+      word_block.gsub!(@numeric_regex, '') if options[:ignore_numeric]
       return false if word_block.nil?
-      word_block.strip! unless word_block.nil?
-      word_block.gsub!(@non_wordchar_regex, " ")
-      word_block.split(@word_regex).uniq.each { |word|
+
+      word_block&.strip!
+      word_block.gsub!(@non_wordchar_regex, ' ')
+      word_block.split(@word_regex).uniq.each do |word|
         return false unless valid_block_word?(word)
-      }
-      return true
+      end
+      true
     end
 
     def valid_word?(word)
       word = word.dup.downcase
-      exists = dictionary.has_key?(word)
-      exists = dictionary.has_key?(word.singularize) unless exists
+      exists = dictionary.key?(word)
+      exists ||= dictionary.key?(word.singularize)
       exists
     end
 
     def valid_block_word?(word)
       return true if word.length == 1
+
       valid_word? word.strip
     end
 
     private
 
     def dictionary_path
-      File.expand_path(File.dirname(__FILE__) + '/dictionary')
+      File.expand_path("#{File.dirname(__FILE__)}/dictionary")
     end
 
     def load
@@ -180,7 +185,7 @@ module LittleWeasel
         io.each { |line| line.chomp!; @dictionary[line] = line }
       end
     end
-
   end
-
 end
+=end
+# rubocop: enable Layout/LineLength, Style/BlockComments
