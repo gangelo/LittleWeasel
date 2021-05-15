@@ -1,15 +1,21 @@
 # frozen_string_literal: true
 
+require_relative 'modules/dictionary_metadata'
+
 module LittleWeasel
   module Services
-    class InvalidWordsByteSizeService
+    class MaxInvalidWordsByteSizeService
+      METADATA_KEY = :'$$max_invalid_words_bytesize$$'
+
+      include Modules::DictionaryMetadata
+
       def initialize(dictionary_words_hash)
         self.dictionary_words_hash = dictionary_words_hash
         self.current_bytesize = 0
       end
 
       def execute
-        return build_return if !max_invalid_words_bytesize?
+        return build_return unless max_invalid_words_bytesize?
 
         self.current_bytesize = dictionary_words_hash.reduce(0) do |bytesize, word_and_found|
           unless word_and_found.last
@@ -19,6 +25,16 @@ module LittleWeasel
           bytesize
         end
         build_return
+      end
+
+      def metadata
+        self.class.metadata_for(dictionary_words_hash)[METADATA_KEY]
+      end
+
+      def refresh!
+        # TODO: Implement this
+        # self.class.refresh_metadata! dictionary_words_hash
+        raise NotImplementedError
       end
 
       private
@@ -46,7 +62,7 @@ module LittleWeasel
       end
 
       def max_invalid_words_bytesize?
-        @max_invalid_words_bytesize_on ||= config.max_invalid_words_bytesize?
+        config.max_invalid_words_bytesize?
       end
 
       def config

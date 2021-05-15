@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require_relative '../services/invalid_words_bytesize_service'
+require_relative '../errors/must_override_error'
 
 module LittleWeasel
   module Modules
-    # Defines methods to support DictionaryWordHash medatada.
-    module DictionaryWordsHashMetadata
-      METADATA_KEY = :'$$metadata$$'
+    # Defines methods to support Dictionary metadata
+    module Metadata
+      METADATA_ROOT_KEY = :'$$metadata$$'
 
       def self.included(base)
         base.extend ClassMethods
@@ -22,12 +22,11 @@ module LittleWeasel
 
       module ClassMethods
         def metadata_for(dictionary_words_hash)
-          dictionary_words_hash[METADATA_KEY] || refresh_metadata!(dictionary_words_hash)
+          raise Errors::MustOverrideError
         end
 
         def refresh_metadata!(dictionary_words_hash)
-          metadata = dictionary_words_hash[METADATA_KEY] = {}
-          metadata.merge! Services::InvalidWordsByteSizeService.new(dictionary_words_hash).execute
+          raise Errors::MustOverrideError
         end
       end
     end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/module/delegation'
-require_relative 'modules/dictionary_words_hash_metadata'
+
 
 # TODO: What to do if the configuration changes for options
 # affecting max_invalid_words_bytesize? e.g.
@@ -10,16 +10,16 @@ require_relative 'modules/dictionary_words_hash_metadata'
 # reset.
 module LittleWeasel
   class DictionaryWordsHash
-    include Modules::DictionaryWordsHashMetadata
-
     delegate :count, to: :dictionary_words_hash
 
     def initialize(dictionary_words)
+      raise ArgumentError unless dictionary_words.is_a?(Array)
+
       self.dictionary_words_hash = to_hash dictionary_words
     end
 
     def [](word)
-      cached, found = cache_word_if! word
+      _cached, found = cache_word_if! word
       found
     end
 
@@ -31,7 +31,15 @@ module LittleWeasel
       return [true, true] if word_found? word
 
       cache = cache_word? word
-      dictionary_words_hash[word] = false if cache
+      if cache
+        dictionary_words_hash[word] = false
+        metadata = max_invalid_words_bytesize_metadata
+
+        # TODO: Update the cache
+        metadata[:value_exceeded?] exceeded,
+        current_invalid_word_bytesize: current_bytesize,
+        cache_invalid_words?: max_invalid_words_bytesize? && !exceeded
+      end
 
       [cache, false]
     end
@@ -39,10 +47,10 @@ module LittleWeasel
     def cache_word?(word)
       return true if word_found?(word)
 
-      _metadata = max_invalid_words_bytesize_metadata
-      return false unless _metadata[:cache_invalid_words?]
+      metadata = max_invalid_words_bytesize_metadata
+      return false unless metadata[:cache_invalid_words?]
 
-      _metadata[:value] > (word.bytesize + _metadata[:current_invalid_word_bytesize])
+      metadata[:value] > (word.bytesize + metadata[:current_invalid_word_bytesize])
     end
 
     def word_found?(word)
@@ -54,7 +62,7 @@ module LittleWeasel
     end
 
     def to_hash(dictionary_words)
-      dictionary_words.reduce(Hash.new(false)) { |hash, word| hash[word] = true; hash }
+      dictionary_words.each_with_object(Hash.new(false)) { |word, hash| hash[word] = true; }
     end
 
     attr_accessor :dictionary_words_hash

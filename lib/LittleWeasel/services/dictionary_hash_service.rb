@@ -8,18 +8,12 @@ module LittleWeasel
     # a Hash of the words.
     class DictionaryHashService
       def initialize(dictionary_words)
-        raise ArgumentError unless dictionary_words&.is_a?(Array)
+        raise ArgumentError unless dictionary_words.is_a?(Array)
 
         self.dictionary_words = dictionary_words.dup
       end
 
       def execute
-        # Hash.new do |words_hash, word_key|
-        #   binding.pry
-        #   dictionary_words_hash = DictionaryWordsHash.new words_hash
-        #   _cached, found = dictionary_words_hash.cache_word_if! word_key
-        #   found
-        # end
         DictionaryWordsHash.new dictionary_words
       end
 

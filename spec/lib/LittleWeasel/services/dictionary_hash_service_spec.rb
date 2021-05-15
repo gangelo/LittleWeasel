@@ -7,7 +7,7 @@ RSpec.describe LittleWeasel::Services::DictionaryHashService do
 
   before do
     LittleWeasel.configure { |_config| }
-    end
+  end
 
   let(:dictionary_words) { %w(gene angelo was here) }
 

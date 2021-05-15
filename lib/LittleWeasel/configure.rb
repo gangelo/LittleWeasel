@@ -43,7 +43,7 @@ module LittleWeasel
     end
 
     def max_invalid_words_bytesize?
-      max_invalid_words_bytesize > 0
+      max_invalid_words_bytesize.positive?
     end
 
     # rubocop: disable Style/TrivialAccessors
