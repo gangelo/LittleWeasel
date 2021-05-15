@@ -86,8 +86,8 @@ module LittleWeasel
           # words for each letter in the alphabet, so that we only have
           # to search the dictionary within the alphabet range in which
           # the word resides.
-          words_array = prepare_dictionary(File.read(dictionary_file_path, mode: 'r')&.split)
-          Services::DictionaryHashService.new(words_array).execute
+          dictionary_words = prepare_dictionary(File.read(dictionary_file_path, mode: 'r')&.split)
+          Services::DictionaryHashService.new(dictionary_words).execute
         end
 
         def prepare_dictionary(words)

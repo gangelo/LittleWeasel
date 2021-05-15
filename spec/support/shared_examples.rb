@@ -78,13 +78,13 @@ RSpec.shared_examples 'a valid dictionary file' do
     expect(subject).to_not be_nil
   end
 
-  it 'the dictionary is searchable' do
-    expect(subject['zebra']).to eq true
-  end
-
   describe 'searching the dictionary' do
     context 'when the words exists' do
-      it 'they are added to the dictionary Hash' do
+      it 'they can searched for and found' do
+        expect(subject['zebra']).to eq true
+      end
+
+      xit 'they are added to the dictionary cache' do
         expect(subject.count).to be_zero
         expect(subject['a']).to eq true
         expect(subject['game']).to eq true
@@ -96,6 +96,10 @@ RSpec.shared_examples 'a valid dictionary file' do
     end
 
     context 'when the words do not exist' do
+      it 'they can searched for but return false' do
+        expect(subject['not-found']).to eq false
+      end
+
       context 'when the max_invalid_words_bytesize configuration setting threashold has NOT been met' do
         before do
           LittleWeasel.configure do |config|
@@ -103,7 +107,7 @@ RSpec.shared_examples 'a valid dictionary file' do
           end
         end
 
-        it 'they are added to the dictionary Hash as words not found' do
+        xit 'they are added to the dictionary cache as invalid words' do
           expect(subject.count).to be_zero
           expect(subject['a']).to eq true
           expect(subject['badword1']).to eq false
@@ -123,7 +127,7 @@ RSpec.shared_examples 'a valid dictionary file' do
           end
         end
 
-        it 'they are not added to the dictionary Hash' do
+        xit 'they are not added to the dictionary cache' do
           expect(subject.count).to be_zero
           expect(subject['a']).to eq true
           expect(subject['badword1']).to eq false

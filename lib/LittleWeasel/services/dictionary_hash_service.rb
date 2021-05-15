@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'invalid_words_bytesize_service'
+require_relative '../dictionary_words_hash'
 
 module LittleWeasel
   module Services
@@ -8,26 +8,22 @@ module LittleWeasel
     # a Hash of the words.
     class DictionaryHashService
       def initialize(dictionary_words)
-        self.dictionary_words = dictionary_words
+        raise ArgumentError unless dictionary_words&.is_a?(Array)
+
+        self.dictionary_words = dictionary_words.dup
       end
 
       def execute
-        Hash.new do |words_hash, word_key|
-          if found? word_key
-            words_hash[word_key] = true
-          else
-            results = InvalidWordsByteSizeService.new(word_key, words_hash).execute
-            words_hash[word_key] = false if results.ok_to_cache_invalid_word?
-            false
-          end
-        end
+        # Hash.new do |words_hash, word_key|
+        #   binding.pry
+        #   dictionary_words_hash = DictionaryWordsHash.new words_hash
+        #   _cached, found = dictionary_words_hash.cache_word_if! word_key
+        #   found
+        # end
+        DictionaryWordsHash.new dictionary_words
       end
 
       private
-
-      def found?(word)
-        dictionary_words.include?(word)
-      end
 
       def dictionary_words
         @dictionary_words ||= dictionary_words

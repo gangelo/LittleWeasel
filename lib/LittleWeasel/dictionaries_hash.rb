@@ -23,7 +23,6 @@ module LittleWeasel
   #    'es-ES' => 'es-ES.txt',
   #  }
   class DictionariesHash
-    # delegate :[], :[]=, :count, :dig, :each_pair, :each_with_object, :key?, :keys, :inject, to: :hash_object
     delegate :[], to: :hash_object
 
     def initialize(hash: {})

@@ -22,8 +22,8 @@ module LittleWeasel
   # this gem.
   class Configuration
     attr_reader :dictionaries, :ignore_numerics, :language, :region,
-      :max_dictionary_file_megabytes, :max_invalid_words_bytesize, :numeric_regex,
-      :single_character_words, :strip_whitespace, :word_regex
+      :max_dictionary_file_megabytes, :max_invalid_words_bytesize,
+      :numeric_regex, :single_character_words, :strip_whitespace, :word_regex
 
     def initialize
       @dictionaries = {}
@@ -40,6 +40,10 @@ module LittleWeasel
 
     def max_dictionary_file_bytes
       @max_dictionary_file_megabytes * 1_000_000
+    end
+
+    def max_invalid_words_bytesize?
+      max_invalid_words_bytesize > 0
     end
 
     # rubocop: disable Style/TrivialAccessors
@@ -67,6 +71,7 @@ module LittleWeasel
     end
 
     def max_invalid_words_bytesize=(value)
+      value = 0 if value.negative?
       @max_invalid_words_bytesize = value
     end
 

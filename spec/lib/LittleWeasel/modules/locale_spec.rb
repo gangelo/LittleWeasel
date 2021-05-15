@@ -107,13 +107,13 @@ RSpec.describe LittleWeasel::Modules::Locale, type: :module do
       let(:region) {}
 
       it 'returns the expected locale' do
-        expect(subject.locale_from **language_region_hash).to eq expected_locale
+        expect(subject.locale_from(**language_region_hash)).to eq expected_locale
       end
     end
 
     context 'when language and reagion are defined' do
       it 'returns the expected locale' do
-        expect(subject.locale_from **language_region_hash).to eq expected_locale
+        expect(subject.locale_from(**language_region_hash)).to eq expected_locale
       end
     end
 
@@ -122,7 +122,7 @@ RSpec.describe LittleWeasel::Modules::Locale, type: :module do
       let(:region) {}
 
       it 'returns the expected locale' do
-        expect { subject.locale_from **language_region_hash }.to raise_error LittleWeasel::Errors::LanguageRequiredError
+        expect { subject.locale_from(**language_region_hash) }.to raise_error LittleWeasel::Errors::LanguageRequiredError
       end
     end
   end
