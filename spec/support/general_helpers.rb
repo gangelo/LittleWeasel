@@ -13,9 +13,5 @@ module Support
     def sym_for(klass)
       klass.name.demodulize.underscore.to_sym
     end
-
-    def hash_key_for(language, region = nil, tag = nil)
-      LittleWeasel::Modules::HashKeys.join_key(language: language, region: region, tag: tag)
-    end
   end
 end

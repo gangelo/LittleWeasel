@@ -5,142 +5,94 @@ require 'spec_helper'
 RSpec.describe LittleWeasel::DictionaryManager do
   subject { create(sym_for(described_class)) }
 
-  let(:language) { :en }
-  let(:region) { :us }
-  let(:dictionary_file_path) { dictionary_path_for(language: language, region: region) }
-  let(:all_dictionaries_array) { [:default, [:en, [:default, :us, :gb]], [:es, [:default, :es]]] }
-  let(:load_dictionaries) do
-    # Language dictionary, :en
-    subject << create(:language_dictionary, language: :en, file: language_dictionary_path(language: :en))
+  let(:dictionary_key) { LittleWeasel::Dictionaries::DictionaryKey.new(language: :en, region: :us, tag: tag) }
+  let(:file) { dictionary_path_for(locale: dictionary_key.locale) }
+  let(:tag) {}
 
-    # Region dictionaries, en-US, en-GB
-    subject << create(:region_dictionary, language: :en, region: :us, file: region_dictionary_path(language: :en, region: :us))
-    subject << create(:region_dictionary, language: :en, region: :gb, file: region_dictionary_path(language: :en, region: :gb))
-
-    # Language dictionary, :es
-    subject << create(:language_dictionary, language: :es, file: language_dictionary_path(language: :es))
-
-    # Region dictionary, es-ES
-    subject << create(:region_dictionary, language: :es, region: :es, file: region_dictionary_path(language: :es, region: :es))
+  shared_examples 'when an invalid dictionary key was passed' do
+    it 'raises an error' do
+      expect { subject.instance.add(dictionary_key: :bad_key, file: file) }.to raise_error(/does not respond_to\? :key/)
+    end
   end
 
-  describe '#instance' do
+  #.instance
+  describe '.instance' do
     it 'does not raise an error' do
       expect { subject.instance }.not_to raise_error
     end
   end
 
-  context '#instance' do
-    subject { create(sym_for(described_class)).instance }
-
-    before(:each) do
-      subject.reset
-    end
-
-    describe '#<<' do
-      context 'with valid arguments' do
-        context 'with one dictionary' do
-          let(:dictionary) { create(:region_dictionary, language: :en, region: :us, file: region_dictionary_path(language: :en, region: :us)) }
-
-          it 'adds the dictionary' do
-            subject << dictionary
-
-            expect(subject.dictionary_count).to eq 1
-          end
-        end
-
-        context 'with mixed dictionary types' do
-          include_context 'dictionaries_shared'
-          before do
-            allow(File).to receive(:exist?).and_return true
-            load_dictionaries
-          end
-
-          it 'adds the dictionaries' do
-            expect(subject.to_hash).to eq all_dictionaries_hash
-          end
-        end
+  #add
+  describe '#add' do
+    describe 'when a valid key is passed' do
+      before(:each) do
+        subject.instance.reset
       end
 
-      context 'with invalid arguments' do
-        context 'when nil' do
-          it 'returns nil' do
-            expect(subject << nil).to be_nil
-          end
+      describe 'when the dictionary is added' do
+        it 'adds the dictionary to the cache' do
+          expect { subject.instance.add(dictionary_key: dictionary_key, file: file) }.to \
+            change { subject.instance.count }.from(0).to(1)
         end
 
-        context 'when the wrong type' do
-          it 'returns nil' do
-            expect(subject << %i[not good]).to be_nil
-          end
+        it 'returns the dictionary manager instance' do
+          expect(subject.instance.add(dictionary_key: dictionary_key, file: file)).to eq subject.instance
         end
       end
     end
 
-    describe '#dictionary_count' do
-      context 'with mixed dictionaries' do
-        before do
-          allow(File).to receive(:exist?).and_return true
-          load_dictionaries
-        end
+    it_behaves_like 'when an invalid dictionary key was passed'
+  end
 
-        let(:dictionary) { create(:language_dictionary, file: language_dictionary_path(language: :xx)) }
-
-        it 'returns the right dictionary count' do
-          expect(subject.dictionary_count).to eq 5
-        end
-      end
+  #load
+  describe '#load' do
+    before do
+      subject.instance.reset
+      subject.instance.add(dictionary_key: dictionary_key, file: file)
     end
 
-    describe '#to_hash' do
-      before do
-        allow(File).to receive(:exist?).and_return true
-        load_dictionaries
-      end
+    let(:dictionary_key) { LittleWeasel::Dictionaries::DictionaryKey.new(language: :en, region: :us, tag: tag) }
+    let(:tag) { :tagged }
 
-      it 'returns the right hash' do
-        dictionaries_hash = subject.to_hash
-        expect(subject.dictionary_count).to eq 5
-        expect(dictionaries_hash[hash_key_for(:en)]).to match(/en\.txt/)
-        expect(dictionaries_hash[hash_key_for(:es)]).to match(/es\.txt/)
-        expect(dictionaries_hash[hash_key_for(:en, :us)]).to match(/en-US\.txt/)
-        expect(dictionaries_hash[hash_key_for(:en, :gb)]).to match(/en-GB\.txt/)
-        expect(dictionaries_hash[hash_key_for(:es, :es)]).to match(/es-ES\.txt/)
-      end
+    it_behaves_like 'when an invalid dictionary key was passed'
+
+    it 'loads and returns a dictionary object' do
+      expect(subject.instance.load(dictionary_key: dictionary_key)).to be_kind_of LittleWeasel::Dictionaries::Dictionary
+    end
+  end
+
+  #unload
+  describe '#unload' do
+    before do
+      subject.instance.reset
+      subject.instance.add(dictionary_key: dictionary_key, file: file)
     end
 
-    describe '#dictionary_path' do
-      before do
-        allow(File).to receive(:exist?).and_return true
-        load_dictionaries
-      end
+    it_behaves_like 'when an invalid dictionary key was passed'
 
-      context 'with a valid language and valid region' do
-        let(:hash_key) { hash_key_for(:en, :us) }
-
-        it 'returns the region dictionary file' do
-          expect(subject.dictionary_path(hash_key)).to match(/en-US\.txt/)
-        end
-      end
-
-      context 'with a valid language and invalid region' do
-        let(:hash_key) { hash_key_for(:en, :invalid) }
-
-        it 'falls back to the default language dictionary file (if it exists)' do
-          expect(subject.dictionary_path(hash_key)).to match(/en\.txt/)
-        end
-      end
+    it 'unloads the dictionary from the cache but keeps the metadata' do
+      subject.instance.unload(dictionary_key: dictionary_key)
+      expect(subject.instance.exist?(key: dictionary_key.key)).to eq true
+      expect(subject.instance.metadata?(key: dictionary_key.key)).to eq true
+      expect(subject.instance.loaded?(key: dictionary_key.key)).to eq false
     end
 
-    describe '#reset' do
-      before do
-        allow(File).to receive(:exist?).and_return true
-        load_dictionaries
-      end
-
-      it 'resets all the dictionaries to 0' do
-        expect { subject.reset }.to change { subject.dictionary_count }.from(5).to(0)
-      end
+    it 'returns true' do
+      expect(subject.instance.unload(dictionary_key: dictionary_key)).to eq true
     end
+  end
+
+  #kill
+  describe '#kill' do
+    it_behaves_like 'when an invalid dictionary key was passed'
+
+    it 'kills the dictionary'
+  end
+
+  #reset
+  describe '#reset' do
+    it_behaves_like 'when an invalid dictionary key was passed'
+
+    it 'resets the cache'
   end
 end

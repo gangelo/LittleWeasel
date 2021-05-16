@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
-require 'bundler/gem_tasks'
 require 'active_support/core_ext/object/try.rb'
+require 'benchmark/ips'
+require 'bundler/gem_tasks'
 require 'pry'
+
+require_relative 'lib/LittleWeasel'
 
 begin
   require 'rspec/core/rake_task'
@@ -16,28 +19,14 @@ end
 
 task :lw do
   require 'json'
-  require_relative 'lib/LittleWeasel'
   LittleWeasel.configure do |config|
     # TODO: Configure as needed here.
   end
   path = 'spec/support/files'
   dm = LittleWeasel::DictionaryManager.instance
 
-  puts 'Loading dictionaries...'
-  dm << LittleWeasel::LanguageDictionary.new(language: :en, file: "#{path}/en-language.txt")
-  dm << LittleWeasel::RegionDictionary.new(language: :en, region: :us, file: "#{path}/en-US-region.txt")
-  dm << LittleWeasel::LanguageDictionary.new(language: :es, file: "#{path}/es-language.txt")
-  dm << LittleWeasel::RegionDictionary.new(language: :es, region: :es, file: "#{path}/es-ES-region.txt")
-
-  puts
-  puts "DictionaryManager#count: #{dm.count}"
-  puts "DictionaryManager#to_hash:"
-  puts JSON.pretty_generate(dm.to_hash)
-  puts "DictionaryManager#to_array: #{dm.to_array}"
-
-  puts
-  puts "DictionaryManager#reset"
-  puts "DictionaryManager#count: #{dm.count}"
+  puts 'TODO: Loading dictionaries...'
+  # puts JSON.pretty_generate(dm.to_hash)
 rescue StandardError => e
   task 'lw' do
     puts e.backtrace
@@ -48,23 +37,64 @@ end
 
 task :workflow do
   require 'json'
-  require_relative 'lib/LittleWeasel'
   LittleWeasel.configure do |config|
     # TODO: Configure as needed here.
   end
   path = 'spec/support/files'
   dm = LittleWeasel::DictionaryManager.instance
-
-  en = dm << LittleWeasel::LanguageDictionary.new(language: :en, file: "#{path}/en-language.txt")
-  en_us = dm << LittleWeasel::RegionDictionary.new(language: :en, region: :us, file: "#{path}/en-US-region.txt")
-
-  dictionaries = Search.new(en, en_us)
-  dictionaries.check('zebra', [:capitalize])
-
 rescue StandardError => e
   task 'workflow' do
     puts "LittleWeasel task workflow not loaded: #{e.message}"
     exit 1
+  end
+end
+
+namespace :bm do
+  task :hash do
+    STRING_LOCALE = { 'en-US' => 'en-us' }
+    SYMBOL_LOCALE = { 'en-US' => :enUS }
+
+    puts 'String variable vs. normal String.'
+    Benchmark.ips do |x|
+      string_variable = 'string_variable'
+      x.report('string variable') { STRING_LOCALE[string_variable] }
+      x.report('normal') { STRING_LOCALE['en-US'] }
+    end
+
+    puts 'String#freeze vs. normal String.'
+    Benchmark.ips do |x|
+      x.report('freeze') { STRING_LOCALE['en-US'.freeze] }
+      x.report('normal') { STRING_LOCALE['en-US'] }
+    end
+
+    puts 'String vs Symbol'
+    Benchmark.ips do |x|
+      x.report('string') { STRING_LOCALE['en-US'] }
+      x.report('symbol') { SYMBOL_LOCALE[:enUS] }
+    end
+
+    puts 'String#freeze vs. Symbol'
+    Benchmark.ips do |x|
+      x.report('string') { STRING_LOCALE['en-US'.freeze] }
+      x.report('symbol') { SYMBOL_LOCALE[:enUS] }
+    end
+  rescue StandardError => e
+    task 'hash' do
+      puts "LittleWeasel task bm:hash not loaded: #{e.message}"
+      exit 1
+    end
+  end
+
+  task :dictionary_key do
+    puts 'DictionaryKey test'
+    Benchmark.ips do |x|
+      x.report('DictionaryKey') { DictionaryKey.key(language: :en, region: :us, tag: :tag) }
+    end
+  rescue StandardError => e
+    task 'locale' do
+      puts "LittleWeasel task bm:dictionary_key not loaded: #{e.message}"
+      exit 1
+    end
   end
 end
 

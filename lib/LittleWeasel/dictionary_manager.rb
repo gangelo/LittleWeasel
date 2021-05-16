@@ -2,43 +2,67 @@
 
 require 'active_support/core_ext/module/delegation'
 require 'singleton'
-require_relative 'modules/deep_dup'
-require_relative 'modules/dictionary_loader'
-require_relative 'modules/hash_keys'
+require_relative 'dictionaries/dictionary_key'
+require_relative 'services/dictionary_service'
 
 module LittleWeasel
-  # This class manages the dictionaries available to the word checking
-  # processes.
+  # This class provides dictionary management functionality.
   class DictionaryManager
     include Singleton
-    include Modules::DeepDup
-    include Modules::DictionaryLoader
-    include Modules::HashKeys
 
-    delegate :dictionary_count, :to_array, :to_hash, to: :dictionaries_hash
+    delegate :count, to: :dictionary_cache_service
 
     def initialize
       reset
     end
 
-    # Adds dictionary to the dictionary_hash, but does not load it.
-    def <<(dictionary)
-      return unless dictionary.is_a? Dictionaries::Dictionary
+    # TODO: Add a load: true argument that loads and returns
+    # the newly added dictionary if true?
+    def add(dictionary_key:, file:)
+      key = validate_and_return_key dictionary_key
 
-      dictionary = dictionary&.to_hash
-      dictionaries_hash.merge!(dictionary).deep_dup if dictionary
-
-      # TODO: Return dictionary?
+      dictionary_cache_service.add(key: key, file: file)
+      self
     end
 
-    # Resets the dictionaries by removing all of them from the
-    # internal dictionaries_hash.
+    def load(dictionary_key:)
+      dictionary_loader_service(dictionary_key: dictionary_key).execute
+    end
+
+    def unload(dictionary_key:)
+      key = validate_and_return_key dictionary_key
+
+      raise 'TODO: Implement this'
+      self
+    end
+
+    def kill(dictionary_key:)
+      key = validate_and_return_key dictionary_key
+
+      raise 'TODO: Implement this'
+      self
+    end
+
+    # Resets the cache by clearing it out completely.
     def reset
-      self.dictionaries_hash = DictionariesHash.new
+      dictionary_cache_service.reset!
+      self
     end
 
     private
 
-    attr_accessor :dictionaries_hash
+    attr_writer :dictionary_cache
+
+    def dictionary_cache
+      @dictionary_cache ||= {}
+    end
+
+    def dictionary_service
+      Services::DictionaryService.new dictionary_cache
+    end
+
+    def dictionary_loader_service(dictionary_key:)
+      Services::DictionaryLoaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
+    end
   end
 end

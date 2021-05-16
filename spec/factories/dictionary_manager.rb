@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :dictionary_manager, class: LittleWeasel::DictionaryManager do
     skip_create
-    initialize_with { LittleWeasel::DictionaryManager }
+    initialize_with { new }
   end
 end
