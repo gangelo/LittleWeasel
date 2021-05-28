@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'observer'
+require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/metadata'
 require_relative 'max_invalid_words_bytesize_metadata'
 
@@ -8,9 +9,8 @@ module LittleWeasel
   module Metadata
     class DictionaryMetadata
       include Observable
+      include Modules::DictionaryCacheKeys
       include Modules::Metadata
-
-      METADATA_KEY = :'$$metadata$$'
 
       attr_reader :dictionary
 
@@ -31,8 +31,8 @@ module LittleWeasel
       end
 
       def to_hash(include_root: false)
-        metadata = dictionary[METADATA_KEY]
-        return { METADATA_KEY => metadata } if include_root
+        metadata = dictionary[DICTIONARY_METADATA]
+        return { DICTIONARY_METADATA => metadata } if include_root
         metadata
       end
 
@@ -89,12 +89,12 @@ module LittleWeasel
       end
 
       def init_data(with:, **args)
-        dictionary[METADATA_KEY] = with
+        dictionary[DICTIONARY_METADATA] = with
       end
 
       def init_needed?
-        !(dictionary.key?(METADATA_KEY) &&
-          dictionary[METADATA_KEY].is_a?(Hash))
+        !(dictionary.key?(DICTIONARY_METADATA) &&
+          dictionary[DICTIONARY_METADATA].is_a?(Hash))
       end
     end
   end

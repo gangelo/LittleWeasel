@@ -96,21 +96,22 @@ module LittleWeasel
       end
 
       class << self
-        # This method resets all the DICTIONARY_CACHE_ROOT_KEYS dictionary
-        # cache root keys.
+        # This method resets dictionary_cache to its initialized state - all
+        # data is lost.
         def reset!(dictionary_cache)
-          self::DICTIONARY_CACHE_ROOT_KEYS.each { |root_key| dictionary_cache[root_key] = {} }
-          dictionary_cache
+          dictionary_cache.keys.each { |key| dictionary_cache.delete(key) }
+          dictionary_cache[DICTIONARY_CACHE] = {}
+          dictionary_cache.merge!(self::INITIALIZED_DICTIONARY_CACHE)
         end
         alias_method :init!, :reset!
         alias_method :initialize!, :reset!
 
-        # Returns the number of dictionary references. This count
-        # has nothing to do with the amount of dictionaries that
-        # are loaded, only the amount of dictionary references
+        # Returns the number of dictionaries. This count
+        # has nothing to do with whether or not the dictionaries
+        # are loaded, only the number of dictionary referenced
         # in the cache.
         def count(dictionary_cache)
-          dictionary_cache[self::DICTIONARY_REFERENCES]&.keys&.count || 0
+          dictionary_cache[self::DICTIONARY_CACHE][self::DICTIONARIES]&.keys&.count || 0
         end
 
         # Returns true if the dictionary cache is initialized; that
@@ -118,9 +119,7 @@ module LittleWeasel
         # be in after #reset! is called.
         def init?(dictionary_cache)
           initialized_dictionary_cache = reset!({})
-
-          dictionary_cache.eql?(initialized_dictionary_cache) &&
-            self::DICTIONARY_CACHE_ROOT_KEYS.all? { |key| dictionary_cache[key].empty? }
+          dictionary_cache.eql?(initialized_dictionary_cache)
         end
         alias_method :initialized?, :init?
 

@@ -20,7 +20,7 @@ module LittleWeasel
       self.dictionary = to_hash dictionary_words
       # We unconditionally attach metadata to the dictionary. DictionaryMetadata
       # only attaches the metadata services that are turned "on".
-      self.dictionary_metadata = LittleWeasel::Metadata::DictionaryMetadata.new(dictionary)
+      self.dictionary_metadata = Metadata::DictionaryMetadata.new(dictionary)
       self.dictionary_metadata.add_observers
     end
 
