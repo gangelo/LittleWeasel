@@ -206,11 +206,17 @@ module LittleWeasel
       end
 
       def dictionary_object=(object)
+        raise ArgumentError, 'Argument object is not a Dictionary object' unless object.is_a? Dictionary
+        raise ArgumentError, "The dictionary reference associated with key '#{key}' could not be found." unless dictionary_reference?
+
         # TODO:
         # Raise error if the dictionary reference does not exist.
         # Raise 'use #unload or #kill first' if dictionary_loaded? &&
         #   dictionary_object is different from object.
         return self if object == dictionary_object
+
+        raise ArgumentError, "The dictionary is already loaded/cached for key '#{key}'; use #unload or #kill first." if dictionary_loaded?
+
         dictionary_cache[DICTIONARY_CACHE][dictionary_file_key!][DICTIONARY_OBJECT] = object
       end
 

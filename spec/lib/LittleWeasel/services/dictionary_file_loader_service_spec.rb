@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Services::DictionaryFileLoaderService do
-  include_context 'dictionary cache keys'
+  include_context 'dictionary cache'
 
   subject do
     dictionary_cache_service.init! dictionary_cache
