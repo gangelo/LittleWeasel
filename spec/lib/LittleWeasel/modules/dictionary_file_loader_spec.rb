@@ -86,7 +86,7 @@ RSpec.describe LittleWeasel::Modules::DictionaryFileLoader, type: :module do
       context 'when the dictionary is NOT already loaded/cached' do
         let(:expected_dictionary_key_key) { LittleWeasel::Dictionaries::DictionaryKey.new(language: language, region: region, tag: tag).key }
         let(:expected_results) do
-          ['a',
+          ['apple',
            'better',
            'cat',
            'dog',
