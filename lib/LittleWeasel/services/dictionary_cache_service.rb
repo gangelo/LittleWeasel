@@ -169,6 +169,16 @@ module LittleWeasel
         self
       end
 
+      # Returns true if a dictionary file key can be found in the dictionary
+      # references for the given key. This method raises an error if the
+      # file key cannot be found.
+      def dictionary_file_key!
+        return dictionary_file_key if dictionary_file_key?
+
+        raise ArgumentError, "Argument key '#{key}' was not found: { '#{DICTIONARY_REFERENCES}' => { '#{key}' => { '#{DICTIONARY_FILE_KEY}' => '<dictionary file key>' } } }"
+      end
+      alias_method :dictionary_file!, :dictionary_file_key!
+
       def dictionary_loaded?
         unless dictionary_reference?
           raise ArgumentError, "Argument key '#{key}' does not exist; use #add_dictionary_reference to add it first."
@@ -177,16 +187,6 @@ module LittleWeasel
         dictionary_object?
       end
       alias_method :dictionary_cached?, :dictionary_loaded?
-
-      # Returns true if a dictionary file key can be found in the dictionary
-      # references for the given key. This method raises an error if the
-      # file key cannot be found.
-      def dictionary_file_key!
-        return dictionary_file_key if dictionary_file_key?
-
-        raise ArgumentError, "Argument key ('#{key}') was not found: { '#{DICTIONARY_REFERENCES}' => { '#{key}' => { '#{DICTIONARY_FILE_KEY}' => '<dictionary file key>' } } }"
-      end
-      alias_method :dictionary_file!, :dictionary_file_key!
 
       # Returns the dictionary object from the dictionary cache for the given
       # key. This method raises an error if the dictionary is not in the cache;
@@ -200,19 +200,16 @@ module LittleWeasel
       end
 
       def dictionary_object
-        return unless dictionary_file_key?
+        return unless dictionary_reference?
 
-        dictionary_cache.dig(DICTIONARY_CACHE, dictionary_file_key!, DICTIONARY_OBJECT)
+        dictionary_cache.dig(DICTIONARY_CACHE, dictionary_file_key!, DICTIONARY_OBJECT).tap do |object|
+          return nil if object == {}
+        end
       end
 
       def dictionary_object=(object)
         raise ArgumentError, 'Argument object is not a Dictionary object' unless object.is_a? Dictionary
         raise ArgumentError, "The dictionary reference associated with key '#{key}' could not be found." unless dictionary_reference?
-
-        # TODO:
-        # Raise error if the dictionary reference does not exist.
-        # Raise 'use #unload or #kill first' if dictionary_loaded? &&
-        #   dictionary_object is different from object.
         return self if object == dictionary_object
 
         raise ArgumentError, "The dictionary is already loaded/cached for key '#{key}'; use #unload or #kill first." if dictionary_loaded?

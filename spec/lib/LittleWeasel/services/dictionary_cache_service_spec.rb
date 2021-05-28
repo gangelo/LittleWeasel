@@ -209,6 +209,25 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
     end
   end
 
+  #dictionary_file_key!
+  describe '#dictionary_file_key!' do
+    context 'when the dictionary file key exists' do
+      subject { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_reference: true) }
+
+      it 'returns the dictionary file key' do
+        expect(subject.dictionary_file_key!).to eq dictionary_path_for(file_name: dictionary_key.key)
+      end
+    end
+
+    context 'when the dictionary file key DOES NOT exist' do
+      subject { create(:dictionary_cache_service) }
+
+      it 'raises an error' do
+        expect { subject.dictionary_file_key! }.to raise_error(/Argument key '#{key}' was not found/)
+      end
+    end
+  end
+
   #dictionary_loaded?
   describe '#dictionary_loaded?' do
     context 'when the dictionary reference does not exist' do
@@ -232,6 +251,31 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
       it 'returns false' do
         expect(subject.dictionary_loaded?).to eq false
+      end
+    end
+  end
+
+  #dictionary_object
+  describe '#dictionary_object' do
+    context 'when the dictionary object is already cached/loaded' do
+      subject { create(:dictionary_cache_service, dictionary_reference: true, load: true) }
+
+      it 'returns the dictionary object' do
+        expect(subject.dictionary_object).to be_kind_of LittleWeasel::Dictionary
+      end
+    end
+
+    context 'when the dictionary object is NOT already cached/loaded' do
+      context 'when the dictionary reference exists' do
+        it 'returns nil' do
+          expect(create(:dictionary_cache_service, dictionary_reference: true).dictionary_object).to be_nil
+        end
+      end
+
+      context 'when the dictionary reference DOES NOT exist' do
+        it 'returns nil' do
+          expect(create(:dictionary_cache_service).dictionary_object).to be_nil
+        end
       end
     end
   end
