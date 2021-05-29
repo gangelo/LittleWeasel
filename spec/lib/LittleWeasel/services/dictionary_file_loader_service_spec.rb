@@ -5,30 +5,23 @@ require 'spec_helper'
 RSpec.describe LittleWeasel::Services::DictionaryFileLoaderService do
   include_context 'dictionary cache'
 
-  subject do
-    dictionary_cache_service.init! dictionary_cache
-    described_class.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
-  end
+  subject! { create(:dictionary_file_loader_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
   before(:each) do
-    subject
+    LittleWeasel::Services::DictionaryCacheService.init! dictionary_cache
   end
 
   before { LittleWeasel.configure { |_config| } }
 
-  let(:dictionary_cache_service) { LittleWeasel::Services::DictionaryCacheService }
   let(:dictionary_key) { LittleWeasel::Dictionaries::DictionaryKey.new(language: :en, region: :us) }
-  let(:key) {  dictionary_key.key }
-  let(:file) { dictionary_path_for locale: dictionary_key.locale }
-  let(:dictionary_file_key) { file }
+  let(:key) { dictionary_key.key }
   let(:dictionary_cache) { {} }
 
   #execute
   describe '#execute' do
     context 'when the dictionary is already loaded/cached' do
       before do
-        dictionary_cache_service.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache).add_dictionary_reference file: file
-        dictionary_cache[DICTIONARY_CACHE][dictionary_file_key][DICTIONARY_OBJECT] = { dummy_dictionary_cached: true }
+        create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: key, load: true)
       end
 
       it 'raises an error' do
@@ -38,10 +31,43 @@ RSpec.describe LittleWeasel::Services::DictionaryFileLoaderService do
 
     context 'when the dictionary is NOT already loaded/cached' do
       before do
-        dictionary_cache_service.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache).add_dictionary_reference file: file
+        create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true)
       end
 
-      it_behaves_like 'the dictionary was loaded'
+      let(:expected_key) { create(:dictionary_key, language: :en, region: :us).key }
+      let(:expected_results) do
+        ['apple',
+         'better',
+         'cat',
+         'dog',
+         'everyone',
+         'fat',
+         'game',
+         'help',
+         'italic',
+         'jasmine',
+         'kelp',
+         'love',
+         'man',
+         'nope',
+         'octopus',
+         'popeye',
+         'queue',
+         'ruby',
+         'stop',
+         'top',
+         'ultimate',
+         'very',
+         'was',
+         'xylophone',
+         'yes',
+         'zebra']
+      end
+
+      it 'returns an Array of dictionary words loaded from the file' do
+        expect(key).to eq expected_key
+        expect(subject.execute).to eq expected_results
+      end
     end
   end
 end

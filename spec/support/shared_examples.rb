@@ -26,7 +26,7 @@ end
 
 RSpec.shared_examples 'the dictionary was loaded' do
   context 'when the dictionary is NOT already loaded/cached' do
-    let(:expected_dictionary_key_key) { LittleWeasel::Dictionaries::DictionaryKey.new(language: :en, region: :us).key }
+    let(:expected_dictionary_key_key) { create(:dictionary_key, language: :en, region: :us).key }
     let(:expected_results) do
       ['apple',
        'better',
