@@ -15,7 +15,9 @@ module LittleWeasel
           dictionary_cache.dictionary_object!
         else
           dictionary_words = dictionary_file_loader_service.execute
-          Dictionary.new dictionary_words: dictionary_words, dictionary_cache: dictionary_cache
+          Dictionary.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words
+          # TODO: Add the dictionary to the dictionary cache here?
+          # This dictionary needs to be aware of its own dictionary_id!
         end
         dictionary
       end
