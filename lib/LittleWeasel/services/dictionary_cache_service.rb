@@ -36,61 +36,49 @@ module LittleWeasel
       # This class expects a simple, empty Hash via the dictionary_cache;
       # attribute and produces the following structure depending on what
       # service methods act upon the Hash that is passed.
-
       #
       # @example This is an example:
       #
+      # {
+      #   'dictionary_cache' =>
       #   {
-      #   'dictionary_references' =>
+      #     'next_dictionary_id' => 0,
+      #     'dictionary_references' =>
       #     {
-      #     'en' =>
+      #       'en' =>
       #       {
-      #         :dictionary_file_key => '/en.txt'
+      #         'dictionary_id' => 0
       #       },
-      #     'en-sometag' =>
+      #       'en-US' =>
       #       {
-      #         :dictionary_file_key => '/en-sometag.txt'
-      #       },
-      #     'en-US' =>
-      #       {
-      #         :dictionary_file_key => '/en-US.txt'
-      #       },
-      #     }
-      #   :dictionary_cache =>
+      #         'dictionary_id' => 1
+      #       }
+      #     },
+      #     'dictionaries' =>
       #     {
-      #       '/en.txt' =>
+      #       0 =>
       #         {
-      #           :dictionary_metadata => {...},
-      #           :dictionary_object => {...}
+      #           'file' => '/en.txt',
+      #           'dictionary_object' => {},
+      #           'dictionary_metadata' => {}
       #         },
-      #       '/en-sometag.txt' =>
+      #       1 =>
       #         {
-      #           :dictionary_metadata => {...},
-      #           :dictionary_object => {...}
-      #         },
-      #       '/en-US.txt' =>
-      #         {
-      #           :dictionary_metadata => {...},
-      #           :dictionary_object => {...}
+      #           'file' => '/en-US.txt',
+      #           'dictionary_object' => {},
+      #           'dictionary_metadata' => {}
       #         }
       #     }
       #   }
+      # }
       #
       # @example To initialize a dictionary cache:
       #
-      #   dictionary_cache = {}
-      #   service = DictionaryCacheService.new(dictionary_cache).reset
-      #
-      #   # Then use the DictionaryCacheService...
-      #   dictioanty_key = dictionary_file_key(language: :en, region: :us)
-      #   service.add(key: dictionary_file_key.key, file: '/en-US.txt')
-      #
-      #   # etc...
-      #   service...
       def initialize(dictionary_key:, dictionary_cache:)
         self.dictionary_key = dictionary_key
         validate_dictionary_key
 
+        self.class.reset!(dictionary_cache) unless dictionary_cache[DICTIONARY_CACHE]
         self.dictionary_cache = dictionary_cache
         validate_dictionary_cache
       end
@@ -99,9 +87,7 @@ module LittleWeasel
         # This method resets dictionary_cache to its initialized state - all
         # data is lost.
         def reset!(dictionary_cache)
-          dictionary_cache.keys.each { |key| dictionary_cache.delete(key) }
-          dictionary_cache[DICTIONARY_CACHE] = {}
-          dictionary_cache.merge!(self::INITIALIZED_DICTIONARY_CACHE)
+          Modules::DictionaryCacheKeys.initialize_dictionary_cache dictionary_cache: dictionary_cache
         end
         alias_method :init!, :reset!
         alias_method :initialize!, :reset!
@@ -130,11 +116,12 @@ module LittleWeasel
         end
       end
 
-      # This method resets all the DICTIONARY_CACHE_ROOT_KEYS dictionary
-      # cache root keys for the given key.
+      # This method resets the dictionary cache for the given key.
       def reset!
-        dictionary_cache[DICTIONARY_CACHE]&.delete(dictionary_file_key)
-        dictionary_cache[DICTIONARY_REFERENCES]&.delete(key)
+        # TODO: Do not delete the dictionary if it is being pointed to by
+        # another dictionary reference.
+        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES]&.delete(dictionary_id)
+        dictionary_cache[DICTIONARY_CACHE][DICTIONARY_REFERENCES]&.delete(key)
         self
       end
       alias_method :init!, :reset!
@@ -147,9 +134,10 @@ module LittleWeasel
         dictionary_reference&.present? || false
       end
 
-      # Returns true if the dictionary cache exists for the given dictionary key.
-      def dictionary_cache?
-        dictionary_cache[DICTIONARY_CACHE].key? dictionary_file_key
+      # Returns true if the dictionary exists for the given dictionary id
+      # associated with the given key.
+      def dictionary?
+        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES].key? dictionary_id
       end
 
       # Returns true if a dictionary reference can be added. false is
@@ -163,20 +151,32 @@ module LittleWeasel
           raise ArgumentError, "Dictionary reference for key '#{key}' already exists."
         end
 
-        dictionary_reference_reset file: file
-        dictionary_cache_reset unless dictionary_cache?
+        dictionary_id = dictionary_id_for(file: file)
+        dictionary_reference_reset file: file, dictionary_id: dictionary_id
+        # Only reset the dictionary if it doesn't already exist;
+        # dictionaries can have more than one reference and we don't
+        # want to blow away the dictionary object, metadata, or any
+        # other data associated with it if it already exists.
+        dictionary_reset(file: file) unless dictionary?
         self
       end
 
-      # Returns true if a dictionary file key can be found in the dictionary
+      # Returns true if a dictionary id can be found in the dictionary
       # references for the given key. This method raises an error if the
       # file key cannot be found.
-      def dictionary_file_key!
-        return dictionary_file_key if dictionary_file_key?
+      def dictionary_id!
+        return dictionary_id if dictionary_id?
 
-        raise ArgumentError, "Argument key '#{key}' was not found: { '#{DICTIONARY_REFERENCES}' => { '#{key}' => { '#{DICTIONARY_FILE_KEY}' => '<dictionary file key>' } } }"
+        raise ArgumentError, "A dictionary id could not be found for key '#{key}."
       end
-      alias_method :dictionary_file!, :dictionary_file_key!
+
+      def dictionary_file!
+        unless dictionary_reference?
+          raise ArgumentError, "A dictionary reference could not be found for key '#{key}.'"
+        end
+
+        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][FILE]
+      end
 
       def dictionary_loaded?
         unless dictionary_reference?
@@ -201,7 +201,7 @@ module LittleWeasel
       def dictionary_object
         return unless dictionary_reference?
 
-        dictionary_cache.dig(DICTIONARY_CACHE, dictionary_file_key!, DICTIONARY_OBJECT).tap do |object|
+        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id!, DICTIONARY_OBJECT).tap do |object|
           return nil if object == {}
         end
       end
@@ -213,7 +213,7 @@ module LittleWeasel
 
         raise ArgumentError, "The dictionary is already loaded/cached for key '#{key}'; use #unload or #kill first." if dictionary_loaded?
 
-        dictionary_cache[DICTIONARY_CACHE][dictionary_file_key!][DICTIONARY_OBJECT] = object
+        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][DICTIONARY_OBJECT] = object
       end
 
       private
@@ -221,28 +221,45 @@ module LittleWeasel
       attr_writer :dictionary_cache, :dictionary_key
 
       def dictionary_reference
-        dictionary_cache.dig(DICTIONARY_REFERENCES, key)
+        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key)
       end
 
-      def dictionary_reference_reset(file:)
-        dictionary_cache[DICTIONARY_REFERENCES][key] = {
-          DICTIONARY_FILE_KEY => file
+      def dictionary_reference_reset(file:, dictionary_id:)
+        dictionary_cache[DICTIONARY_CACHE][DICTIONARY_REFERENCES][key] = {
+          DICTIONARY_ID => dictionary_id
         }
       end
 
-      def dictionary_file_key?
-        dictionary_file_key.present?
+      # Returns the dictionary_id for file if it exists in dictionaries;
+      # otherwise, returns the next dictionary id that should be used.
+      def dictionary_id_for(file:)
+        dictionaries = dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES)
+        if dictionaries
+          dictionaries.each_pair do |dictionary_id, dictionary_hash|
+            return dictionary_id if file == dictionary_hash[FILE]
+          end
+        end
+        next_dictionary_id
       end
 
-      def dictionary_file_key
-        dictionary_cache.dig(DICTIONARY_REFERENCES, key, DICTIONARY_FILE_KEY)
+      def next_dictionary_id
+        (dictionary_cache[DICTIONARY_CACHE][NEXT_DICTIONARY_ID] += 1) - 1
       end
 
-      def dictionary_cache_reset
-        dictionary_file_key = dictionary_file_key!
-        dictionary_cache[DICTIONARY_CACHE][dictionary_file_key] = {
-          DICTIONARY_METADATA => {},
+      def dictionary_id?
+        dictionary_id.present?
+      end
+
+      def dictionary_id
+        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key, DICTIONARY_ID)
+      end
+
+      def dictionary_reset(file:)
+        dictionary_id = dictionary_id!
+        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id] = {
+          FILE => file,
           DICTIONARY_OBJECT => {},
+          DICTIONARY_METADATA => {}
         }
       end
 

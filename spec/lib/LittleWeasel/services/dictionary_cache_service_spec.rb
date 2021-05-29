@@ -12,12 +12,15 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
   before { LittleWeasel.configure { |_config| } }
 
-  let(:dictionary_key) { dictionary_key_for(language: :en, region: :us) }
+  let(:en_us_dictionary_key) { dictionary_key_for(language: :en, region: :us) }
+  let(:en_gb_dictionary_key) { dictionary_key_for(language: :en, region: :gb) }
+  let(:es_es_dictionary_key) { dictionary_key_for(language: :es, region: :es) }
+
+  let(:dictionary_key) { en_us_dictionary_key }
   let(:key) { dictionary_key.key }
   let(:file) { "#{ dictionary_path_for(file_name: key) }" }
-  let(:dictionary_file_key) { file }
   let(:dictionary_cache) { {} }
-  let(:initialized_dictionary_cache) { described_class.reset!({}) }
+  let!(:initialized_dictionary_cache) { LittleWeasel::Modules::DictionaryCacheKeys.initialize_dictionary_cache(dictionary_cache: {}) }
 
   shared_examples 'the dictionary_cache object reference has not changed' do
     it 'the dictionary_cache object has not changed' do
@@ -28,11 +31,10 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
   describe 'class methods' do
     #.reset!
     describe '.reset!' do
-      subject { create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache) }
+      subject! { create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache) }
 
       before do
-        dictionary_key = create(:dictionary_key, language: :en, region: :gb)
-        create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache, dictionary_key: dictionary_key)
+        create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache, dictionary_key: en_gb_dictionary_key)
       end
 
       it 'resets the cache to an initiaized state for all keys in the cache' do
@@ -89,21 +91,14 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
   #reset!
   describe '#reset!' do
-    subject { create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache) }
+    subject! { create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache) }
 
-    let(:en_gb_dictionary_key) { dictionary_key_for language: :en, region: :gb }
-
-    before do
-      subject
-      create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache, dictionary_key: en_gb_dictionary_key)
-      original_dictionary_cache
-    end
-
-    let(:original_dictionary_cache) { dictionary_cache }
-    let(:expected_dictionary_cache) { dictionary_cache_for(dictionary_key: en_gb_dictionary_key) }
+    let!(:subject2) { create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache, dictionary_key: en_gb_dictionary_key) }
+    let!(:original_dictionary_cache) { dictionary_cache }
 
     it 'resets the cache to an initiaized state for the GIVEN KEY ONLY' do
-      expect { subject.reset! }.to change { dictionary_cache }.from(original_dictionary_cache).to(expected_dictionary_cache)
+      expect { subject.reset! }.to change { dictionary_cache }.from(original_dictionary_cache).to(subject2.dictionary_cache)
+      expect { subject2.reset! }.to change { dictionary_cache }.from(original_dictionary_cache).to(subject.dictionary_cache)
     end
 
     describe 'maintains dictionary_cache object integrity' do
@@ -125,13 +120,13 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
     end
 
     context 'when the dictionary reference DOES NOT exist' do
-      subject { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+      subject! { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
-      let(:dictionary_key) { dictionary_key_for(language: :es, region: :es) }
+      let(:dictionary_key) { es_es_dictionary_key }
       let(:dictionary_cache) do
         dictionary_keys = [
-          { dictionary_key: dictionary_key_for(language: :en, region: :us) },
-          { dictionary_key: dictionary_key_for(language: :en, region: :gb) },
+          { dictionary_key: en_us_dictionary_key },
+          { dictionary_key: en_gb_dictionary_key },
         ]
         dictionary_cache_from dictionary_keys: dictionary_keys
       end
@@ -143,7 +138,6 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
     describe 'maintains dictionary_cache object integrity' do
       it_behaves_like 'the dictionary_cache object reference has not changed' do
-        before { subject }
         let(:actual_dictionary_cache) { subject.dictionary_cache }
         let(:expected_dictionary_cache) { dictionary_cache }
       end
@@ -152,15 +146,9 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
   #add_dictionary_reference
   describe '#add_dictionary_reference' do
-    subject { create(:dictionary_cache_service, dictionary_key: dictionary_key).add_dictionary_reference(file: file) }
-
-    let(:en_gb_dictionary_key) { dictionary_key_for(language: :en, region: :gb) }
+    subject! { create(:dictionary_cache_service, dictionary_key: dictionary_key).add_dictionary_reference(file: file) }
 
     context 'when a dictionary reference for the key already exists' do
-      before do
-        subject
-      end
-
       it 'raises an error' do
         expect do
           create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: subject.dictionary_cache).add_dictionary_reference(file: file)
@@ -170,12 +158,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
     context 'when a dictionary reference for the key DOES NOT already exist' do
       describe 'when the dictionary reference dictionary file key already exists' do
-        before do
-          subject
-          original_dictionary_cache
-        end
-
-        let(:original_dictionary_cache) { subject.dictionary_cache }
+        let!(:original_dictionary_cache) { subject.dictionary_cache }
         let(:expected_dictionary_cache) do
           dictionary_keys = [
             { dictionary_key: dictionary_key, dictionary_reference: dictionary_key.key },
@@ -209,21 +192,26 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
     end
   end
 
-  #dictionary_file_key!
-  describe '#dictionary_file_key!' do
-    context 'when the dictionary file key exists' do
-      subject { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_reference: true) }
+  #dictionary_id!
+  describe '#dictionary_id!' do
+    context 'when a dictionary id associated with the dictionary key exists' do
+      subject! { create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_key: dictionary_key, dictionary_reference: true) }
 
-      it 'returns the dictionary file key' do
-        expect(subject.dictionary_file_key!).to eq dictionary_path_for(file_name: dictionary_key.key)
+      let(:subject2) do
+        create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_key: en_gb_dictionary_key, dictionary_reference: true)
+      end
+
+      it 'returns the dictionary id' do
+        expect(subject.dictionary_id!).to eq 0
+        expect(subject2.dictionary_id!).to eq 1
       end
     end
 
-    context 'when the dictionary file key DOES NOT exist' do
+    context 'when a dictionary id associated with the dictionary key DOES NOT exist' do
       subject { create(:dictionary_cache_service) }
 
       it 'raises an error' do
-        expect { subject.dictionary_file_key! }.to raise_error(/Argument key '#{key}' was not found/)
+        expect { subject.dictionary_id! }.to raise_error "A dictionary id could not be found for key '#{key}."
       end
     end
   end

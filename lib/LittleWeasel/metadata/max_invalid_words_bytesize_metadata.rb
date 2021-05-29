@@ -70,7 +70,7 @@ module LittleWeasel
       end
 
       def root_metadata_key
-        dictionary_metadata.class::METADATA_KEY
+        dictionary_metadata.class::DICTIONARY_METADATA
       end
     end
   end

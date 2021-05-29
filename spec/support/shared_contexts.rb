@@ -1,10 +1,12 @@
 RSpec.shared_context 'dictionary cache', shared_context: :metadata do
-  DICTIONARY_REFERENCES = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_REFERENCES
-  DICTIONARY_FILE_KEY = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_FILE_KEY
-  DICTIONARY_CACHE = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_CACHE
-  DICTIONARY_METADATA = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_METADATA
-  DICTIONARY_OBJECT = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_OBJECT
-  DICTIONARY_CACHE_ROOT_KEYS = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_CACHE_ROOT_KEYS
+  DICTIONARY_CACHE = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_CACHE.dup.freeze
+  NEXT_DICTIONARY_ID = LittleWeasel::Modules::DictionaryCacheKeys::NEXT_DICTIONARY_ID.dup.freeze
+  DICTIONARY_REFERENCES = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_REFERENCES.dup.freeze
+  DICTIONARY_ID = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_ID.dup.freeze
+  DICTIONARIES = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARIES.dup.freeze
+  FILE = LittleWeasel::Modules::DictionaryCacheKeys::FILE.dup.freeze
+  DICTIONARY_OBJECT = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_OBJECT.dup.freeze
+  DICTIONARY_METADATA = LittleWeasel::Modules::DictionaryCacheKeys::DICTIONARY_METADATA.dup.freeze
 
   def dictionary_cache_for(dictionary_key:, dictionary_reference: true, load: false)
     dictionary_cache_from(dictionary_keys: [{ dictionary_key: dictionary_key, dictionary_reference: dictionary_reference, load: load }])
