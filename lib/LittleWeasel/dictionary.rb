@@ -24,7 +24,6 @@ module LittleWeasel
       self.dictionary = self.class.to_hash(dictionary_words: dictionary_words)
       # We unconditionally attach metadata to the dictionary. DictionaryMetadata
       # only attaches the metadata services that are turned "on".
-      # TODO: Deal with this
       self.dictionary_metadata =
         Metadata::DictionaryMetadata.new(dictionary: dictionary,
                                          dictionary_key: dictionary_key,

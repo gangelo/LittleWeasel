@@ -30,18 +30,18 @@ module LittleWeasel
       self
     end
 
-    def load(dictionary_key:)
+    def load_dictionary(dictionary_key:)
       validate_dictionary_key dictionary_key: dictionary_key
 
       dictionary_loader_service(dictionary_key: dictionary_key).execute
     end
 
-    def unload(dictionary_key:)
+    def unload_dictionary(dictionary_key:)
       raise 'TODO: Implement this'
       self
     end
 
-    def kill(dictionary_key:)
+    def kill_dictionary(dictionary_key:)
       raise 'TODO: Implement this'
       self
     end

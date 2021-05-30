@@ -78,7 +78,7 @@ module LittleWeasel
         self.dictionary_key = dictionary_key
         validate_dictionary_key
 
-        self.class.reset!(dictionary_cache) unless dictionary_cache[DICTIONARY_CACHE]
+        self.class.reset!(dictionary_cache: dictionary_cache) unless dictionary_cache[DICTIONARY_CACHE]
         self.dictionary_cache = dictionary_cache
         validate_dictionary_cache
       end
@@ -112,7 +112,7 @@ module LittleWeasel
         # Returns true if the dictionary cache has, at a minimum, dictionary
         # references added to it.
         def populated?(dictionary_cache:)
-          count(dictionary_cache).positive?
+          count(dictionary_cache: dictionary_cache).positive?
         end
       end
 
@@ -209,7 +209,7 @@ module LittleWeasel
       def dictionary_object=(object)
         raise ArgumentError, 'Argument object is not a Dictionary object' unless object.is_a? Dictionary
         raise ArgumentError, "The dictionary reference associated with key '#{key}' could not be found." unless dictionary_reference?
-        return self if object == dictionary_object
+        return self if object.equal? dictionary_object
 
         raise ArgumentError, "The dictionary is already loaded/cached for key '#{key}'; use #unload or #kill first." if dictionary_loaded?
 
@@ -244,6 +244,16 @@ module LittleWeasel
         return metadata[metadata_key] if metadata_key
 
         metadata
+      end
+
+      def dictionary_metadata_set(metadata_key: nil, value:)
+        dictionary_hash = dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!]
+        if metadata_key
+          dictionary_hash[DICTIONARY_METADATA][metadata_key] = value
+        else
+          dictionary_hash[DICTIONARY_METADATA] = value
+        end
+        self
       end
 
       private

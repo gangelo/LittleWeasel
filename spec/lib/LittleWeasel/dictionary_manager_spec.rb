@@ -45,8 +45,8 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
-  #load
-  describe '#load' do
+  #load_dictionary
+  describe '#load_dictionary' do
     before do
       subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
     end
@@ -54,12 +54,13 @@ RSpec.describe LittleWeasel::DictionaryManager do
     let(:tag) { :tagged }
 
     it 'loads the dictionary and returns a dictionary object' do
-      expect(subject.load(dictionary_key: dictionary_key)).to be_kind_of LittleWeasel::Dictionaries::Dictionary
+      expect(subject.load_dictionary(dictionary_key: dictionary_key)).to be_kind_of LittleWeasel::Dictionary
+      #binding.pry
     end
   end
 
   #unload
-  xdescribe '#unload' do
+  xdescribe '#unload_dictionary' do
     before do
       subject.reset
       subject.add(dictionary_key: dictionary_key, file: file)
@@ -80,14 +81,14 @@ RSpec.describe LittleWeasel::DictionaryManager do
   end
 
   #kill
-  xdescribe '#kill' do
+  xdescribe '#kill_dictionary' do
     it_behaves_like 'when an invalid dictionary key was passed'
 
     it 'kills the dictionary'
   end
 
-  #reset
-  xdescribe '#reset' do
+  #reset!
+  xdescribe '#reset!' do
     it_behaves_like 'when an invalid dictionary key was passed'
 
     it 'resets the cache'

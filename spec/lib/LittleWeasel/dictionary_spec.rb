@@ -5,11 +5,15 @@ require 'spec_helper'
 RSpec.describe LittleWeasel::Dictionary do
   include_context 'dictionary keys'
 
-  subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_words: dictionary_words) }
+  subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words) }
 
-  before { LittleWeasel.configure { |_config| } }
+  before do
+    LittleWeasel.configure { |_config| }
+    create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true)
+  end
 
   let(:dictionary_key) { dictionary_key_for(language: :en, region: :us) }
+  let(:dictionary_cache) { {} }
   let(:dictionary_words) { %w(a b c d e f g h i j k l m n o p q r s t u v w x y z) }
 
   shared_examples 'the dictionary_id is set' do

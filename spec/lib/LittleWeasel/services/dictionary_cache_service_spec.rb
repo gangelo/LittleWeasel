@@ -6,9 +6,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
   include_context 'dictionary cache'
   include_context 'dictionary keys'
 
-  subject do
-    create(:dictionary_cache_service, dictionary_cache: dictionary_cache)
-  end
+  subject { create(:dictionary_cache_service, dictionary_cache: dictionary_cache) }
 
   before { LittleWeasel.configure { |_config| } }
 
@@ -38,13 +36,13 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       end
 
       it 'resets the cache to an initiaized state for all keys in the cache' do
-        expect { described_class.reset!(dictionary_cache) }.to change { dictionary_cache }.to(initialized_dictionary_cache)
+        expect { described_class.reset!(dictionary_cache: dictionary_cache) }.to change { dictionary_cache }.to(initialized_dictionary_cache)
       end
 
       describe 'maintains dictionary_cache object integrity' do
         it_behaves_like 'the dictionary_cache object reference has not changed' do
           before { subject }
-          let(:actual_dictionary_cache) { described_class.reset!(dictionary_cache) }
+          let(:actual_dictionary_cache) { described_class.reset!(dictionary_cache: dictionary_cache) }
           let(:expected_dictionary_cache) { dictionary_cache }
         end
       end
@@ -56,7 +54,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
         subject { create(:dictionary_cache_service) }
 
         it 'returns 0' do
-          expect(described_class.count(subject.dictionary_cache)).to eq 0
+          expect(described_class.count(dictionary_cache: subject.dictionary_cache)).to eq 0
         end
       end
 
@@ -64,7 +62,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
         subject { create(:dictionary_cache_service, dictionary_reference: true) }
 
         it 'returns the dictionary reference count' do
-          expect(described_class.count(subject.dictionary_cache)).to eq 1
+          expect(described_class.count(dictionary_cache: subject.dictionary_cache)).to eq 1
         end
       end
     end
@@ -75,7 +73,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
         subject { create(:dictionary_cache_service) }
 
         it 'returns false' do
-          expect(described_class.populated?(subject.dictionary_cache)).to eq false
+          expect(described_class.populated?(dictionary_cache: subject.dictionary_cache)).to eq false
         end
       end
 
@@ -83,7 +81,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
         subject { create(:dictionary_cache_service, dictionary_reference: true) }
 
         it 'returns true' do
-          expect(described_class.populated?(subject.dictionary_cache)).to eq true
+          expect(described_class.populated?(dictionary_cache: subject.dictionary_cache)).to eq true
         end
       end
     end
@@ -211,7 +209,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       subject { create(:dictionary_cache_service) }
 
       it 'raises an error' do
-        expect { subject.dictionary_id! }.to raise_error "A dictionary id could not be found for key '#{key}."
+        expect { subject.dictionary_id! }.to raise_error "A dictionary id could not be found for key '#{key}'."
       end
     end
   end
@@ -305,18 +303,10 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       end
     end
 
-    context 'when the dictionary reference does not exist' do
-      let(:dictionary) { create(:dictionary) }
-
-      it 'raises an error' do
-        expect { subject.dictionary_object = dictionary }.to raise_error "The dictionary reference associated with key '#{key}' could not be found."
-      end
-    end
-
     context 'when the dictionary is already loaded/cached and different from the dictionary object passed' do
-      subject { create(:dictionary_cache_service, dictionary_reference: true, load: true) }
+      subject { create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_key: dictionary_key, dictionary_reference: true, load: true) }
 
-      let(:dictionary) { create(:dictionary) }
+      let(:dictionary) { create(:dictionary, dictionary_cache: dictionary_cache, dictionary_key: dictionary_key) }
 
       it 'raises an error' do
         expect { subject.dictionary_object = dictionary }.to raise_error  "The dictionary is already loaded/cached for key '#{key}'; use #unload or #kill first."
@@ -331,10 +321,10 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       end
     end
 
-    context 'when the dictionary is NOT already loaded/cached and the dictionary object is DIFFERENT from the one that is loaded/cached' do
-      subject { create(:dictionary_cache_service, dictionary_reference: true) }
+    context 'when the dictionary is NOT already loaded/cached' do
+      subject { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true) }
 
-      let(:dictionary) { create(:dictionary) }
+      let(:dictionary) { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
       it 'updates the dictionary object' do
         expect { subject.dictionary_object = dictionary }.to_not raise_error
