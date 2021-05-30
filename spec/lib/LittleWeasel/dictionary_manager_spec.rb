@@ -3,94 +3,91 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::DictionaryManager do
-  subject { create(sym_for(described_class)) }
+  subject { described_class.instance.reset! }
 
-  let(:dictionary_key) { LittleWeasel::Dictionaries::DictionaryKey.new(language: :en, region: :us, tag: tag) }
-  let(:file) { dictionary_path_for(locale: dictionary_key.locale) }
+  before do
+    LittleWeasel.configure { |_config| }
+    subject
+  end
+
+  let(:dictionary_key) { create(:dictionary_key, language: language, region: region, tag: tag) }
+  let(:language) { :en }
+  let(:region) { :us }
   let(:tag) {}
+  let(:file) { dictionary_path_for(file_name: dictionary_key.key) }
 
   shared_examples 'when an invalid dictionary key was passed' do
     it 'raises an error' do
-      expect { subject.instance.add(dictionary_key: :bad_key, file: file) }.to raise_error(/does not respond_to\? :key/)
+      expect { subject.add(dictionary_key: :bad_key, file: file) }.to raise_error(/does not respond_to\? :key/)
     end
   end
 
   #.instance
   describe '.instance' do
     it 'does not raise an error' do
-      expect { subject.instance }.not_to raise_error
+      expect { subject }.not_to raise_error
     end
   end
 
-  #add
-  describe '#add' do
+  #add_dictionary_reference
+  describe '#add_dictionary_reference' do
     describe 'when a valid key is passed' do
-      before(:each) do
-        subject.instance.reset
-      end
-
       describe 'when the dictionary is added' do
         it 'adds the dictionary to the cache' do
-          expect { subject.instance.add(dictionary_key: dictionary_key, file: file) }.to \
-            change { subject.instance.count }.from(0).to(1)
+          expect { subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file) }.to \
+            change { subject.count }.from(0).to(1)
         end
 
         it 'returns the dictionary manager instance' do
-          expect(subject.instance.add(dictionary_key: dictionary_key, file: file)).to eq subject.instance
+          expect(subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)).to eq subject
         end
       end
     end
-
-    it_behaves_like 'when an invalid dictionary key was passed'
   end
 
   #load
   describe '#load' do
     before do
-      subject.instance.reset
-      subject.instance.add(dictionary_key: dictionary_key, file: file)
+      subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
     end
 
-    let(:dictionary_key) { LittleWeasel::Dictionaries::DictionaryKey.new(language: :en, region: :us, tag: tag) }
     let(:tag) { :tagged }
 
-    it_behaves_like 'when an invalid dictionary key was passed'
-
-    it 'loads and returns a dictionary object' do
-      expect(subject.instance.load(dictionary_key: dictionary_key)).to be_kind_of LittleWeasel::Dictionaries::Dictionary
+    it 'loads the dictionary and returns a dictionary object' do
+      expect(subject.load(dictionary_key: dictionary_key)).to be_kind_of LittleWeasel::Dictionaries::Dictionary
     end
   end
 
   #unload
-  describe '#unload' do
+  xdescribe '#unload' do
     before do
-      subject.instance.reset
-      subject.instance.add(dictionary_key: dictionary_key, file: file)
+      subject.reset
+      subject.add(dictionary_key: dictionary_key, file: file)
     end
 
     it_behaves_like 'when an invalid dictionary key was passed'
 
     it 'unloads the dictionary from the cache but keeps the metadata' do
-      subject.instance.unload(dictionary_key: dictionary_key)
-      expect(subject.instance.exist?(key: dictionary_key.key)).to eq true
-      expect(subject.instance.metadata?(key: dictionary_key.key)).to eq true
-      expect(subject.instance.loaded?(key: dictionary_key.key)).to eq false
+      subject.unload(dictionary_key: dictionary_key)
+      expect(subject.exist?(key: dictionary_key.key)).to eq true
+      expect(subject.metadata?(key: dictionary_key.key)).to eq true
+      expect(subject.loaded?(key: dictionary_key.key)).to eq false
     end
 
     it 'returns true' do
-      expect(subject.instance.unload(dictionary_key: dictionary_key)).to eq true
+      expect(subject.unload(dictionary_key: dictionary_key)).to eq true
     end
   end
 
   #kill
-  describe '#kill' do
+  xdescribe '#kill' do
     it_behaves_like 'when an invalid dictionary key was passed'
 
     it 'kills the dictionary'
   end
 
   #reset
-  describe '#reset' do
+  xdescribe '#reset' do
     it_behaves_like 'when an invalid dictionary key was passed'
 
     it 'resets the cache'

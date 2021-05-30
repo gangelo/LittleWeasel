@@ -3,49 +3,52 @@
 require 'active_support/core_ext/module/delegation'
 require 'singleton'
 require_relative 'dictionaries/dictionary_key'
-require_relative 'services/dictionary_service'
+require_relative 'modules/dictionary_key_validate'
+require_relative 'services/dictionary_cache_service'
 
 module LittleWeasel
   # This class provides dictionary management functionality.
   class DictionaryManager
     include Singleton
+    include Modules::DictionaryKeyValidate
 
-    delegate :count, to: :dictionary_cache_service
+    attr_reader :dictionary_cache
 
     def initialize
-      reset
+      self.dictionary_cache = {}
+      reset!
     end
 
-    # TODO: Add a load: true argument that loads and returns
-    # the newly added dictionary if true?
-    def add(dictionary_key:, file:)
-      key = validate_and_return_key dictionary_key
+    def count
+      Services::DictionaryCacheService.count dictionary_cache: dictionary_cache
+    end
 
-      dictionary_cache_service.add(key: key, file: file)
+    def add_dictionary_reference(dictionary_key:, file:)
+      validate_dictionary_key dictionary_key: dictionary_key
+
+      dictionary_cache_service(dictionary_key: dictionary_key).add_dictionary_reference(file: file)
       self
     end
 
     def load(dictionary_key:)
+      validate_dictionary_key dictionary_key: dictionary_key
+
       dictionary_loader_service(dictionary_key: dictionary_key).execute
     end
 
     def unload(dictionary_key:)
-      key = validate_and_return_key dictionary_key
-
       raise 'TODO: Implement this'
       self
     end
 
     def kill(dictionary_key:)
-      key = validate_and_return_key dictionary_key
-
       raise 'TODO: Implement this'
       self
     end
 
     # Resets the cache by clearing it out completely.
-    def reset
-      dictionary_cache_service.reset!
+    def reset!
+      Services::DictionaryCacheService.reset! dictionary_cache: dictionary_cache
       self
     end
 
@@ -53,12 +56,12 @@ module LittleWeasel
 
     attr_writer :dictionary_cache
 
-    def dictionary_cache
-      @dictionary_cache ||= {}
+    def validate_dictionary_key(dictionary_key:)
+      self.class.validate_dictionary_key dictionary_key: dictionary_key
     end
 
-    def dictionary_service
-      Services::DictionaryService.new dictionary_cache
+    def dictionary_cache_service(dictionary_key:)
+      Services::DictionaryCacheService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
     end
 
     def dictionary_loader_service(dictionary_key:)

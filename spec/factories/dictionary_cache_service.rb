@@ -46,8 +46,9 @@ FactoryBot.define do
           raise 'Transient attribute [dictionary_reference] must be true or contain <file name minus extension> if transient attribute [load] is true'
         end
         dictionary_file_loader_service = create(:dictionary_file_loader_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
+        # TODO NOW: The below - where should this take place?
         dictionary_words = dictionary_file_loader_service.execute
-        dictionary_cache_service.dictionary_object = create(:dictionary, dictionary_words: dictionary_words)
+        dictionary_cache_service.dictionary_object = create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words)
       end
     end
   end

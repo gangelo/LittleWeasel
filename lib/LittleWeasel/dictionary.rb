@@ -14,22 +14,28 @@ module LittleWeasel
     delegate :count, to: :dictionary
     delegate :key, to: :dictionary_key
 
-    attr_reader :dictionary, :dictionary_id
+    attr_reader :dictionary
 
     def initialize(dictionary_key:, dictionary_cache:, dictionary_words:)
       super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
 
       raise ArgumentError unless dictionary_words.is_a?(Array)
 
-      self.dictionary = to_hash dictionary_words
+      self.dictionary = self.class.to_hash(dictionary_words: dictionary_words)
       # We unconditionally attach metadata to the dictionary. DictionaryMetadata
       # only attaches the metadata services that are turned "on".
       # TODO: Deal with this
-      # self.dictionary_metadata = Metadata::DictionaryMetadata.new(dictionary)
-      # self.dictionary_metadata.add_observers
+      self.dictionary_metadata =
+        Metadata::DictionaryMetadata.new(dictionary: dictionary,
+                                         dictionary_key: dictionary_key,
+                                         dictionary_cache: dictionary_cache)
+      self.dictionary_metadata.add_observers
+    end
 
-      # TODO: How to assign this?
-      self.dictionary_id = nil
+    class << self
+      def to_hash(dictionary_words:)
+        dictionary_words.each_with_object(Hash.new(false)) { |word, hash| hash[word] = true; }
+      end
     end
 
     def [](word)
@@ -38,11 +44,7 @@ module LittleWeasel
 
     private
 
-    attr_writer :dictionary, :dictionary_id
+    attr_writer :dictionary
     attr_accessor :dictionary_metadata
-
-    def to_hash(dictionary_words)
-      dictionary_words.each_with_object(Hash.new(false)) { |word, hash| hash[word] = true; }
-    end
   end
 end

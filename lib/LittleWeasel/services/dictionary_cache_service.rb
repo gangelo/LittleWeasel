@@ -86,7 +86,7 @@ module LittleWeasel
       class << self
         # This method resets dictionary_cache to its initialized state - all
         # data is lost.
-        def reset!(dictionary_cache)
+        def reset!(dictionary_cache:)
           Modules::DictionaryCacheKeys.initialize_dictionary_cache dictionary_cache: dictionary_cache
         end
         alias_method :init!, :reset!
@@ -96,14 +96,14 @@ module LittleWeasel
         # has nothing to do with whether or not the dictionaries
         # are loaded, only the number of dictionary referenced
         # in the cache.
-        def count(dictionary_cache)
-          dictionary_cache[self::DICTIONARY_CACHE][self::DICTIONARIES]&.keys&.count || 0
+        def count(dictionary_cache:)
+          dictionary_cache.dig(self::DICTIONARY_CACHE, self::DICTIONARIES)&.keys&.count || 0
         end
 
         # Returns true if the dictionary cache is initialized; that
         # is, if it's in the same state the dictionary cache would
         # be in after #reset! is called.
-        def init?(dictionary_cache)
+        def init?(dictionary_cache:)
           initialized_dictionary_cache = reset!({})
           dictionary_cache.eql?(initialized_dictionary_cache)
         end
@@ -111,7 +111,7 @@ module LittleWeasel
 
         # Returns true if the dictionary cache has, at a minimum, dictionary
         # references added to it.
-        def populated?(dictionary_cache)
+        def populated?(dictionary_cache:)
           count(dictionary_cache).positive?
         end
       end
@@ -167,12 +167,12 @@ module LittleWeasel
       def dictionary_id!
         return dictionary_id if dictionary_id?
 
-        raise ArgumentError, "A dictionary id could not be found for key '#{key}."
+        raise ArgumentError, "A dictionary id could not be found for key '#{key}'."
       end
 
       def dictionary_file!
         unless dictionary_reference?
-          raise ArgumentError, "A dictionary reference could not be found for key '#{key}.'"
+          raise ArgumentError, "A dictionary reference could not be found for key '#{key}'."
         end
 
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][FILE]
@@ -216,6 +216,36 @@ module LittleWeasel
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][DICTIONARY_OBJECT] = object
       end
 
+      # Initializes the dictionary metadata associated with the given key.
+      # No initialization takes place if the metadata already exists.
+      def dictionary_metadata_init(with:)
+        return if dictionary_metadata?
+
+        dictionary_metadata_reset with: with
+      end
+
+      # This method will return true if the metadata for the dictionary associated
+      # with the given key has meaningful data; that is, the metadata is #present?
+      # not just an empty Hash or nil.
+      def dictionary_metadata?(metadata_key: nil)
+        metadata = dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id, DICTIONARY_METADATA)
+        return false unless metadata&.present?
+
+        return metadata[metadata_key]&.present? if metadata_key
+
+        metadata&.present?
+      end
+
+      def dictionary_metadata(metadata_key: nil)
+        return unless dictionary_metadata?(metadata_key: metadata_key)
+
+        metadata = dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id!, DICTIONARY_METADATA)
+
+        return metadata[metadata_key] if metadata_key
+
+        metadata
+      end
+
       private
 
       attr_writer :dictionary_cache, :dictionary_key
@@ -255,12 +285,15 @@ module LittleWeasel
       end
 
       def dictionary_reset(file:)
-        dictionary_id = dictionary_id!
-        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id] = {
+        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!] = {
           FILE => file,
           DICTIONARY_OBJECT => {},
           DICTIONARY_METADATA => {}
         }
+      end
+
+      def dictionary_metadata_reset(with:)
+        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][DICTIONARY_METADATA] = with
       end
 
       def dictionary_object?

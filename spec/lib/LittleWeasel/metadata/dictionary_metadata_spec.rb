@@ -4,48 +4,44 @@ require 'spec_helper'
 require 'observer'
 
 RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
-  subject { described_class.new dictionary }
+  subject { create(:dictionary_metadata, dictionary: dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
-  let!(:configuration) { LittleWeasel.configure { |_config| }; LittleWeasel.configuration }
-  let(:dictionary) do
-    {
-      'gene' => true,
-      'was' => true,
-      'here' => true,
-    }
+  before do
+    LittleWeasel.configure { |_config| }
+    create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true)
   end
-  let(:metadata_key) { described_class::METADATA_KEY }
+
+  let(:dictionary) { create(:dictionary_hash) }
+  let(:dictionary_key) { create(:dictionary_key) }
+  let(:dictionary_cache) { {} }
 
   #new
   describe '#new' do
-    context 'with a valid dictionary Hash' do
-      let(:expected_hash) { { metadata_key => {} } }
-
-      it 'instantiates without error' do
+    context 'with valid arguments' do
+      it 'instantiates the object' do
         expect { subject }.to_not raise_error
-      end
-
-      it 'initializes the metadata' do
-        expect(subject.dictionary).to a_kind_of Hash
-        expect(subject.dictionary.key? metadata_key).to eq true
-        expect(subject.to_hash include_root: true).to eq expected_hash
       end
     end
 
-    context 'with an invalid dictionary words Hash' do
-      context 'when nil' do
+    context 'with invalid arguments' do
+      context 'when dictionary is nil' do
+        # Note: do not use the factory for this spec becasue
+        # it creates a dictionary if a nil dictionay is passed
+        # so the test will never pass if using the factory.
+        subject { described_class.new(dictionary: dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+
         let(:dictionary) {}
 
         it 'raises an error' do
-          expect { subject }.to raise_error ArgumentError
+          expect { subject }.to raise_error(/Argument dictionary is not a Hash/)
         end
       end
 
-      context 'when not a Hash' do
-        let(:dictionary) { :not_an_array }
+      context 'when dictionary is not a Hash' do
+        let(:dictionary) { %w(I am a bad dictionary) }
 
         it 'raises an error' do
-          expect { subject }.to raise_error ArgumentError
+          expect { subject }.to raise_error(/Argument dictionary is not a Hash/)
         end
       end
     end
@@ -53,43 +49,15 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
 
   #refresh!
   describe '#refresh!' do
-    it 'notifies observers to refresh' do
-      expect(subject).to receive(:notify).with(:refresh!).and_return(subject)
-      subject.refresh!
-    end
+    it 'notifies observers to refresh'
 
     context 'when the object is already initialized' do
       context 'with correct metadata' do
-        before do
-          subject.dictionary.merge! expected_hash
-          subject.refresh!
-        end
-
-        let(:expected_hash) do
-          {
-            metadata_key =>
-              {
-                test: :test
-              }
-          }
-        end
-
-        it 'the existing metadata is not wiped out' do
-          expect(subject.to_hash(include_root: true)).to eq expected_hash
-        end
+        it 'the existing metadata is not wiped out'
       end
 
       context 'with incorrect metadata' do
-        before do
-          subject.dictionary[metadata_key] = :wrong_type
-          subject.refresh!
-        end
-
-        let(:expected_hash) { { metadata_key => {} } }
-
-        it 'metadata is re-initialized' do
-          expect(subject.to_hash(include_root: true)).to eq expected_hash
-        end
+        it 'metadata is re-initialized'
       end
     end
   end
@@ -107,7 +75,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
 
   #.add_observers
   describe '.add_observers' do
-    subject { described_class.add_observers(dictionary) }
+    subject { described_class.add_observers(dictionary, dictionary_key, dictionary_cache) }
 
     it 'returns a new DictionaryMetadata object' do
       expect(subject).to a_kind_of described_class
