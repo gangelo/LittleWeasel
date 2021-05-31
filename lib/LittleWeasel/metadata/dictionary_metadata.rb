@@ -50,7 +50,7 @@ module LittleWeasel
         self
       end
 
-      def add_observers(&block)
+      def add_observers
         # return yield(add_observers_with_block(&block)) if block_given?
 
         # self.class.add_observers(dictionary: dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)

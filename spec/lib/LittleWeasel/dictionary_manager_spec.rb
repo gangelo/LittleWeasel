@@ -55,7 +55,6 @@ RSpec.describe LittleWeasel::DictionaryManager do
 
     it 'loads the dictionary and returns a dictionary object' do
       expect(subject.load_dictionary(dictionary_key: dictionary_key)).to be_kind_of LittleWeasel::Dictionary
-      #binding.pry
     end
   end
 

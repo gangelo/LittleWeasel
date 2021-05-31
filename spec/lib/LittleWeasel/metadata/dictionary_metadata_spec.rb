@@ -72,17 +72,4 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
       expect(subject.add_observers.count_observers).to eq 1
     end
   end
-
-  #.add_observers
-  # describe '.add_observers' do
-  #   subject { described_class.add_observers(dictionary: dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
-
-  #   it 'returns a new DictionaryMetadata object' do
-  #     expect(subject).to a_kind_of described_class
-  #   end
-
-  #   it 'attaches the proper metadata observers' do
-  #     expect(subject.count_observers).to eq 1
-  #   end
-  # end
 end

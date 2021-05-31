@@ -89,8 +89,8 @@ module LittleWeasel
         def reset!(dictionary_cache:)
           Modules::DictionaryCacheKeys.initialize_dictionary_cache dictionary_cache: dictionary_cache
         end
-        alias_method :init!, :reset!
-        alias_method :initialize!, :reset!
+        alias init! reset!
+        alias initialize! reset!
 
         # Returns the number of dictionaries. This count
         # has nothing to do with whether or not the dictionaries
@@ -107,7 +107,7 @@ module LittleWeasel
           initialized_dictionary_cache = reset!({})
           dictionary_cache.eql?(initialized_dictionary_cache)
         end
-        alias_method :initialized?, :init?
+        alias initialized? init?
 
         # Returns true if the dictionary cache has, at a minimum, dictionary
         # references added to it.
@@ -124,7 +124,7 @@ module LittleWeasel
         dictionary_cache[DICTIONARY_CACHE][DICTIONARY_REFERENCES]&.delete(key)
         self
       end
-      alias_method :init!, :reset!
+      alias init! reset!
 
       # Returns true if the dictionary reference exists for the given key. This
       # method is only concerned with the dictionary reference only and has
@@ -147,9 +147,7 @@ module LittleWeasel
       end
 
       def add_dictionary_reference(file:)
-        unless add_dictionary_reference?
-          raise ArgumentError, "Dictionary reference for key '#{key}' already exists."
-        end
+        raise ArgumentError, "Dictionary reference for key '#{key}' already exists." unless add_dictionary_reference?
 
         dictionary_id = dictionary_id_for(file: file)
         dictionary_reference_reset file: file, dictionary_id: dictionary_id
@@ -171,9 +169,7 @@ module LittleWeasel
       end
 
       def dictionary_file!
-        unless dictionary_reference?
-          raise ArgumentError, "A dictionary reference could not be found for key '#{key}'."
-        end
+        raise ArgumentError, "A dictionary reference could not be found for key '#{key}'." unless dictionary_reference?
 
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][FILE]
       end
@@ -185,14 +181,15 @@ module LittleWeasel
 
         dictionary_object?
       end
-      alias_method :dictionary_cached?, :dictionary_loaded?
+      alias dictionary_cached? dictionary_loaded?
 
       # Returns the dictionary object from the dictionary cache for the given
       # key. This method raises an error if the dictionary is not in the cache;
       # that is, if the dictionary was not previously loaded.
       def dictionary_object!
         unless dictionary_object?
-          raise ArgumentError, "The dictionary associated with argument key '#{key}' is not in the cache; load it from disk first."
+          raise ArgumentError,
+            "The dictionary associated with argument key '#{key}' is not in the cache; load it from disk first."
         end
 
         dictionary_object
@@ -208,10 +205,17 @@ module LittleWeasel
 
       def dictionary_object=(object)
         raise ArgumentError, 'Argument object is not a Dictionary object' unless object.is_a? Dictionary
-        raise ArgumentError, "The dictionary reference associated with key '#{key}' could not be found." unless dictionary_reference?
+
+        unless dictionary_reference?
+          raise ArgumentError,
+            "The dictionary reference associated with key '#{key}' could not be found."
+        end
         return self if object.equal? dictionary_object
 
-        raise ArgumentError, "The dictionary is already loaded/cached for key '#{key}'; use #unload or #kill first." if dictionary_loaded?
+        if dictionary_loaded?
+          raise ArgumentError,
+            "The dictionary is already loaded/cached for key '#{key}'; use #unload or #kill first."
+        end
 
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][DICTIONARY_OBJECT] = object
       end
@@ -246,7 +250,7 @@ module LittleWeasel
         metadata
       end
 
-      def dictionary_metadata_set(metadata_key: nil, value:)
+      def dictionary_metadata_set(value:, metadata_key: nil)
         dictionary_hash = dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!]
         if metadata_key
           dictionary_hash[DICTIONARY_METADATA][metadata_key] = value
@@ -274,10 +278,8 @@ module LittleWeasel
       # otherwise, returns the next dictionary id that should be used.
       def dictionary_id_for(file:)
         dictionaries = dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES)
-        if dictionaries
-          dictionaries.each_pair do |dictionary_id, dictionary_hash|
-            return dictionary_id if file == dictionary_hash[FILE]
-          end
+        dictionaries&.each_pair do |dictionary_id, dictionary_hash|
+          return dictionary_id if file == dictionary_hash[FILE]
         end
         next_dictionary_id
       end

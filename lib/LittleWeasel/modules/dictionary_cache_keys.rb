@@ -15,7 +15,7 @@ module LittleWeasel
       module_function
 
       def initialize_dictionary_cache(dictionary_cache:)
-        dictionary_cache.keys.each { |key| dictionary_cache.delete(key) }
+        dictionary_cache.each_key { |key| dictionary_cache.delete(key) }
         dictionary_cache[DICTIONARY_CACHE] = initialized_dictionary_cache(include_root: false)
         dictionary_cache
       end
@@ -27,6 +27,7 @@ module LittleWeasel
           DICTIONARIES => {}
         }
         return { DICTIONARY_CACHE => dictionary_cache } if include_root
+
         dictionary_cache
       end
     end

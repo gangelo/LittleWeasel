@@ -28,7 +28,7 @@ module LittleWeasel
         Metadata::DictionaryMetadata.new(dictionary: dictionary,
                                          dictionary_key: dictionary_key,
                                          dictionary_cache: dictionary_cache)
-      self.dictionary_metadata.add_observers
+      dictionary_metadata.add_observers
     end
 
     class << self

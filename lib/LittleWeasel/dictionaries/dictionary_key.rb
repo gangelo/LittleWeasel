@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 require_relative '../modules/locale'
 
 module LittleWeasel
@@ -24,7 +23,7 @@ module LittleWeasel
 
         "#{locale}-#{tag}"
       end
-      alias_method :to_s, :key
+      alias to_s key
 
       class << self
         def key(language:, region: nil, tag: nil)

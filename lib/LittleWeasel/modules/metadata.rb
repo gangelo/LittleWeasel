@@ -19,7 +19,7 @@ module LittleWeasel
 
       # Receives notifications from the observer
       # when appropriate.
-      def update(action)
+      def update(_action)
         raise Errors::MustOverrideError
       end
 
@@ -42,11 +42,10 @@ module LittleWeasel
         init_data(with: with, **args) if init_needed?
       end
 
-
       # Override this method to set your specific initialization
       # data attributes; that is, whatever data attributes
       # the including class needs to be considered initialized.
-      def init_data(with:, **args)
+      def init_data(with:, **_args)
         raise Errors::MustOverrideError
       end
 
