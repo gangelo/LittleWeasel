@@ -15,8 +15,8 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
   let(:dictionary_key) { create(:dictionary_key) }
   let(:dictionary_cache) { {} }
 
-  #new
-  describe '#new' do
+  #.new
+  describe '#.new' do
     context 'with valid arguments' do
       it 'instantiates the object' do
         expect { subject }.to_not raise_error
@@ -74,15 +74,15 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
   end
 
   #.add_observers
-  describe '.add_observers' do
-    subject { described_class.add_observers(dictionary, dictionary_key, dictionary_cache) }
+  # describe '.add_observers' do
+  #   subject { described_class.add_observers(dictionary: dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
-    it 'returns a new DictionaryMetadata object' do
-      expect(subject).to a_kind_of described_class
-    end
+  #   it 'returns a new DictionaryMetadata object' do
+  #     expect(subject).to a_kind_of described_class
+  #   end
 
-    it 'attaches the proper metadata observers' do
-      expect(subject.count_observers).to eq 1
-    end
-  end
+  #   it 'attaches the proper metadata observers' do
+  #     expect(subject.count_observers).to eq 1
+  #   end
+  # end
 end

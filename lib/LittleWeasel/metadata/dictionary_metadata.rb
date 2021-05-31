@@ -23,26 +23,26 @@ module LittleWeasel
         init!
       end
 
-      class << self
-        def add_observers(dictionary:, dictionary_key:, dictionary_cache:)
-          # Add additional observers here.
-          observer_classes = [MaxInvalidWordsBytesizeMetadata]
-          return (yield observer_classes) if block_given?
+      # class << self
+      #   def add_observers(dictionary:, dictionary_key:, dictionary_cache:)
+      #     # Add additional observers here.
+      #     observer_classes = [MaxInvalidWordsBytesizeMetadata]
+      #     return (yield observer_classes) if block_given?
 
-          return new(dictionary: dictionary,
-              dictionary_key: dictionary_key,
-              dictionary_cache: dictionary_cache).tap do |dictionary_metadata|
-            observer_classes.each do |o|
-              dictionary_metadata.add_observer o.new(dictionary_metadata: dictionary_metadata,
-                                                     dictionary: dictionary,
-                                                     dictionary_key: dictionary_key,
-                                                     dictionary_cache: dictionary_cache)
-            end
-            # This is how each metadata object gets initialized.
-            dictionary_metadata.send(:notify, :init!) if observer_classes.any?
-          end
-        end
-      end
+      #     return new(dictionary: dictionary,
+      #         dictionary_key: dictionary_key,
+      #         dictionary_cache: dictionary_cache).tap do |dictionary_metadata|
+      #       observer_classes.each do |o|
+      #         dictionary_metadata.add_observer o.new(dictionary_metadata: dictionary_metadata,
+      #                                                dictionary: dictionary,
+      #                                                dictionary_key: dictionary_key,
+      #                                                dictionary_cache: dictionary_cache)
+      #       end
+      #       # This is how each metadata object gets initialized.
+      #       dictionary_metadata.send(:notify, :init!) if observer_classes.any?
+      #     end
+      #   end
+      # end
 
       def refresh!
         self.metadata = {}
@@ -53,7 +53,7 @@ module LittleWeasel
       def add_observers(&block)
         # return yield(add_observers_with_block(&block)) if block_given?
 
-        self.class.add_observers(dictionary: dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
+        # self.class.add_observers(dictionary: dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
 
         # self.class.add_observers(dictionary, dictionary_key, dictionary_cache) do |observer_classes|
         #   observer_classes.each do |o|
@@ -65,6 +65,19 @@ module LittleWeasel
         #   # This is how each metadata object gets initialized.
         #   notify(:init!) if observer_classes.any?
         # end
+
+        observer_classes = [MaxInvalidWordsBytesizeMetadata]
+        yield observer_classes if block_given?
+
+        observer_classes.each do |o|
+          add_observer o.new(dictionary_metadata: self,
+                             dictionary: dictionary,
+                             dictionary_key: dictionary_key,
+                             dictionary_cache: dictionary_cache)
+        end
+        # This is how each metadata object gets initialized.
+        notify(:init!) if observer_classes.any?
+        self
       end
 
       private
@@ -82,6 +95,7 @@ module LittleWeasel
       def notify(action)
         changed
         notify_observers action
+        self
       end
 
       def init!
