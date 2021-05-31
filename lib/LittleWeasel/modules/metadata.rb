@@ -18,16 +18,20 @@ module LittleWeasel
         def metadata_key; end
       end
 
+      def metadata_key
+        self.class.metadata_key
+      end
+
       # This method should UNconditionally update the metadata and be
       # chainable (return self).
       #
       # @example
       #
-      #   def refresh!
+      #   def refresh!(params: nil)
       #     self.metadata = Services::MaxInvalidWordsByteSizeService.new(dictionary).execute
       #     self
       #   end
-      def refresh!
+      def refresh!(params: nil)
         raise Errors::MustOverrideError
       end
 
@@ -43,12 +47,12 @@ module LittleWeasel
       #
       # @example
       #
-      #   def init!
+      #   def init!(parms: nil)
       #     self.metadata = dictionary_cache_service.dictionary_metadata(metadata_key: <metadata_hash_key>)
       #     refresh! unless metadata
       #     self
       #   end
-      def init!
+      def init!(params: nil)
         raise Errors::MustOverrideError
       end
 

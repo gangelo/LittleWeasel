@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :dictionary_metadata, class: LittleWeasel::Metadata::DictionaryMetadata do
+    dictionary {}
     dictionary_key { create(:dictionary_key) }
     dictionary_cache { {} }
-    dictionary {}
 
     skip_create
     initialize_with do

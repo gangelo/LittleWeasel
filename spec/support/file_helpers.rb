@@ -22,5 +22,9 @@ module Support
       file_name ||= locale
       File.join(File.dirname(__FILE__), "files/#{file_name}.txt")
     end
+
+    def dictionary_words_for(dictionary_file_path:)
+      File.read(dictionary_file_path, mode: 'r')&.split
+    end
   end
 end

@@ -10,15 +10,13 @@ module LittleWeasel
 
       private
 
-      attr_accessor :max_invalid_words_bytesize_metadata
-
       def cache_word_if!(word)
         return [true, true] if word_found? word
-
+binding.pry
         cache = cache_word? word
         if cache
           dictionary[word] = false
-          max_invalid_words_bytesize_metadata.current_invalid_word_bytesize += word.bytesize
+          metadata.current_invalid_word_bytesize += word.bytesize
         end
 
         [cache, false]
@@ -27,7 +25,7 @@ module LittleWeasel
       def cache_word?(word)
         return true if word_found?(word)
 
-        metadata = max_invalid_words_bytesize_metadata
+        #metadata = max_invalid_words_bytesize_metadata
         return false unless metadata.cache_invalid_words?
 
         metadata.value > (word.bytesize + metadata.current_invalid_word_bytesize)

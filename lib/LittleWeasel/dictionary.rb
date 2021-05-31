@@ -14,12 +14,12 @@ module LittleWeasel
     delegate :count, to: :dictionary
     delegate :key, to: :dictionary_key
 
-    attr_reader :dictionary
+    attr_reader :dictionary, :dictionary_metadata
 
     def initialize(dictionary_key:, dictionary_cache:, dictionary_words:)
       super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
 
-      raise ArgumentError unless dictionary_words.is_a?(Array)
+      raise ArgumentError, "Argument dictionary_words is not an Array: #{dictionary_words.class}" unless dictionary_words.is_a?(Array)
 
       self.dictionary = self.class.to_hash(dictionary_words: dictionary_words)
       # We unconditionally attach metadata to the dictionary. DictionaryMetadata
@@ -28,7 +28,7 @@ module LittleWeasel
         Metadata::DictionaryMetadata.new(dictionary: dictionary,
                                          dictionary_key: dictionary_key,
                                          dictionary_cache: dictionary_cache)
-      dictionary_metadata.add_observers
+      self.dictionary_metadata.add_observers
     end
 
     class << self
@@ -38,12 +38,12 @@ module LittleWeasel
     end
 
     def [](word)
-      dictionary.include? word
+      binding.pry
+      dictionary_metadata.notify(action: :search, params: { word: word })
     end
 
     private
 
-    attr_writer :dictionary
-    attr_accessor :dictionary_metadata
+    attr_writer :dictionary, :dictionary_metadata
   end
 end

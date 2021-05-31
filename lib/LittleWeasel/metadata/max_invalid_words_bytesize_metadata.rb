@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../modules/klass_name_to_sym'
+require_relative '../modules/max_invalid_words_bytesize_cacheable'
 require_relative '../modules/metadata_observer'
 require_relative '../services/dictionary_service'
 require_relative '../services/max_invalid_words_bytesize_service'
@@ -7,6 +9,7 @@ require_relative '../services/max_invalid_words_bytesize_service'
 module LittleWeasel
   module Metadata
     class MaxInvalidWordsBytesizeMetadata < Services::DictionaryService
+      include Modules::KlassNameToSym
       include Modules::MetadataObserver
 
       delegate :on?, :off?, :value, :value_exceeded?,
@@ -18,31 +21,43 @@ module LittleWeasel
       def initialize(dictionary_metadata:, dictionary:, dictionary_key:, dictionary_cache:)
         super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
 
-        raise ArgumentError unless dictionary_metadata.is_a? Observable
-        raise ArgumentError unless dictionary.is_a? Hash
+        raise ArgumentError, "Argument dictionary_metadata is not an Observable: #{dictionary_metadata.class}." unless dictionary_metadata.is_a? Observable
+        raise ArgumentError, "Argument dictionary is not a Hash: #{dictionary.class}." unless dictionary.is_a? Hash
 
         dictionary_metadata.add_observer self
         self.dictionary_metadata = dictionary_metadata
 
+        # TODO: Should we be doing this here?
+        self.extend(Modules::MaxInvalidWordsByteSizeCacheable)
         self.dictionary = dictionary
       end
 
       class << self
         def metadata_key
-          'max_invalid_words_bytesize'
+          to_sym
         end
       end
 
-      def refresh!
+      def refresh!(params: nil)
         self.metadata = Services::MaxInvalidWordsByteSizeService.new(dictionary).execute
         self
       end
 
-      def update(action, **args)
-        raise ArgumentError unless actions_whitelist.include? action
+      def search(params)
+        binding.pry
+        word = params[:word]
+      end
 
-        send(action)
+      def update(action, params)
+        raise ArgumentError, "Argument action is not in the actions_whitelist: #{action}" unless actions_whitelist.include? action
+binding.pry
+
+        send(action, params: params)
         self
+      end
+
+      def actions_whitelist
+        %i[init! refresh! search]
       end
 
       private
@@ -50,7 +65,7 @@ module LittleWeasel
       attr_accessor :dictionary
       attr_writer :dictionary_metadata
 
-      def init!
+      def init!(params: nil)
         self.metadata = dictionary_cache_service.dictionary_metadata(metadata_key: self.class.metadata_key)
         refresh! unless metadata
         self
