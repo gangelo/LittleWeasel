@@ -10,6 +10,7 @@ module LittleWeasel
   module Metadata
     class MaxInvalidWordsBytesizeMetadata < Services::DictionaryService
       include Modules::KlassNameToSym
+      include Modules::MaxInvalidWordsByteSizeCacheable
       include Modules::MetadataObserver
 
       delegate :on?, :off?, :value, :value_exceeded?,
@@ -26,9 +27,6 @@ module LittleWeasel
 
         dictionary_metadata.add_observer self
         self.dictionary_metadata = dictionary_metadata
-
-        # TODO: Should we be doing this here?
-        self.extend(Modules::MaxInvalidWordsByteSizeCacheable)
         self.dictionary = dictionary
       end
 
@@ -43,14 +41,12 @@ module LittleWeasel
         self
       end
 
-      def search(params)
-        binding.pry
-        word = params[:word]
+      def search(params:)
+        self[params[:word]]
       end
 
       def update(action, params)
         raise ArgumentError, "Argument action is not in the actions_whitelist: #{action}" unless actions_whitelist.include? action
-binding.pry
 
         send(action, params: params)
         self

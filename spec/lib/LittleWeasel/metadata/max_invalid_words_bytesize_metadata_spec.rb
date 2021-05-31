@@ -97,7 +97,6 @@ RSpec.describe LittleWeasel::Metadata::MaxInvalidWordsBytesizeMetadata do
 
     context "with multiple #{described_class.name.split('::')[-1]} objects" do
       before do
-        binding.pry
         dictionary_cache_service.add_dictionary_reference(file: file)
       end
 
@@ -197,16 +196,12 @@ RSpec.describe LittleWeasel::Metadata::MaxInvalidWordsBytesizeMetadata do
     context 'with an action on the whitelist' do
       before do
         #dictionary_cache_service.add_dictionary_reference(file: file)
-        binding.pry
         subject
         dictionary['argh']
-        binding.pry
       end
 
       it 'carries out the requested action' do
-        binding.pry
         expect do
-          binding.pry
           dictionary_words_hash['not-found'] = false
           subject.update(:refresh!)
         end.to change { subject.current_invalid_word_bytesize }

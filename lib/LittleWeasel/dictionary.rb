@@ -38,8 +38,9 @@ module LittleWeasel
     end
 
     def [](word)
-      binding.pry
-      dictionary_metadata.notify(action: :search, params: { word: word })
+      found = dictionary.include? word
+      dictionary_metadata.notify(action: :search, params: { word: word, found: found })
+      found
     end
 
     private

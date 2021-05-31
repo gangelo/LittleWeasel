@@ -12,7 +12,7 @@ module LittleWeasel
 
       def cache_word_if!(word)
         return [true, true] if word_found? word
-binding.pry
+
         cache = cache_word? word
         if cache
           dictionary[word] = false
@@ -25,7 +25,6 @@ binding.pry
       def cache_word?(word)
         return true if word_found?(word)
 
-        #metadata = max_invalid_words_bytesize_metadata
         return false unless metadata.cache_invalid_words?
 
         metadata.value > (word.bytesize + metadata.current_invalid_word_bytesize)

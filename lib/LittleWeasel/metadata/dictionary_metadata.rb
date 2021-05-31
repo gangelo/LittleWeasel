@@ -35,7 +35,6 @@ module LittleWeasel
       end
 
       def notify(action:, params: nil)
-        binding.pry
         changed
         notify_observers action, params
         self
