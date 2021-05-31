@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
+require_relative '../modules/metadata_observer'
 require_relative '../services/dictionary_service'
 require_relative '../services/max_invalid_words_bytesize_service'
 
 module LittleWeasel
   module Metadata
     class MaxInvalidWordsBytesizeMetadata < Services::DictionaryService
-      METADATA_KEY = 'max_invalid_words_bytesize'
+      include Modules::MetadataObserver
 
       delegate :on?, :off?, :value, :value_exceeded?,
         :current_invalid_word_bytesize, :cache_invalid_words?,
@@ -26,13 +27,18 @@ module LittleWeasel
         self.dictionary = dictionary
       end
 
+      class << self
+        def metadata_key
+          'max_invalid_words_bytesize'
+        end
+      end
+
       def refresh!
         self.metadata = Services::MaxInvalidWordsByteSizeService.new(dictionary).execute
         self
       end
 
-      def update(action)
-        actions_whitelist = %i[init! refresh!]
+      def update(action, **args)
         raise ArgumentError unless actions_whitelist.include? action
 
         send(action)
@@ -42,18 +48,12 @@ module LittleWeasel
       private
 
       attr_accessor :dictionary
-      attr_reader :metadata
       attr_writer :dictionary_metadata
 
       def init!
-        self.metadata = dictionary_cache_service.dictionary_metadata(metadata_key: METADATA_KEY)
+        self.metadata = dictionary_cache_service.dictionary_metadata(metadata_key: self.class.metadata_key)
         refresh! unless metadata
         self
-      end
-
-      def metadata=(value)
-        dictionary_cache_service.dictionary_metadata_set(metadata_key: METADATA_KEY, value: value)
-        @metadata = value
       end
     end
   end

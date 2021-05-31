@@ -1,59 +1,77 @@
 # frozen_string_literal: true
 
 require_relative '../errors/must_override_error'
+require_relative '../services/dictionary_cache_service'
 
 module LittleWeasel
   module Modules
-    # Defines methods to support Dictionary metadata
+    # Defines methods to support dictionary metadata
     module Metadata
-      # TODO: Should we allow :[]=?
-      delegate :[], :[]=, to: :dictionary
+      def self.included(base)
+        base.extend MetadataClassMethods
+      end
 
+      module MetadataClassMethods
+        # Override this method to return the metadata key associated with this
+        # metadata object in the dictionary cache. The root-level metadata
+        # object should not override this method (return nil).
+        def metadata_key; end
+      end
+
+      # This method should UNconditionally update the metadata and be
+      # chainable (return self).
+      #
+      # @example
+      #
+      #   def refresh!
+      #     self.metadata = Services::MaxInvalidWordsByteSizeService.new(dictionary).execute
+      #     self
+      #   end
       def refresh!
-        raise Errors::MustOverrideError
-      end
-
-      def to_hash(include_root: false)
-        raise Errors::MustOverrideError
-      end
-
-      # Receives notifications from the observer
-      # when appropriate.
-      def update(_action)
         raise Errors::MustOverrideError
       end
 
       private
 
-      attr_accessor :dictionary_words_hash
+      attr_reader :metadata
 
-      def init
-        raise Errors::MustOverrideError
-      end
-
+      # This method should initialize the metadata if metadata currently
+      # exists for this object or call #refresh! in the case metadaa
+      # DOES NOT currently exist for this object. The idea is that metadata
+      # should be able to be shared across metadata objects of the same
+      # type. This method should be chainable (return self).
+      #
+      # @example
+      #
+      #   def init!
+      #     self.metadata = dictionary_cache_service.dictionary_metadata(metadata_key: <metadata_hash_key>)
+      #     refresh! unless metadata
+      #     self
+      #   end
       def init!
         raise Errors::MustOverrideError
       end
 
-      def init_if(with:, **args)
-        # DO NOT overwrite the initialization data by default.
-        # By deault, this method should only update the initialization
-        # data if init_needed? returns true.
-        init_data(with: with, **args) if init_needed?
-      end
-
-      # Override this method to set your specific initialization
-      # data attributes; that is, whatever data attributes
-      # the including class needs to be considered initialized.
-      def init_data(with:, **_args)
-        raise Errors::MustOverrideError
-      end
-
-      # Should return true if this object's current
-      # initialization data state is considered to be
-      # uninitialized.
-      def init_needed?
-        raise Errors::MustOverrideError
+      # This method should set the metadata in the dictionary cache, using the
+      # appropriate metadata key for this object (or nil if the root metadata
+      # object) AND set the @metadata local attribute so that a local copy is
+      # available for use.
+      #
+      # When instantiating this object, #init! (see #init! comments). If an
+      # updated copy of the metadata is needed #refresh! (see comments) should
+      # be called.
+      #
+      # @example
+      #
+      #  def metadata=(value)
+      #    dictionary_cache_service.dictionary_metadata_set(metadata_key: METADATA_KEY, value: value)
+      #    @metadata = value
+      #  end
+      def metadata=(value)
+        dictionary_cache_service = Services::DictionaryCacheService.new(dictionary_key: dictionary_key,
+                                                                        dictionary_cache: dictionary_cache)
+        dictionary_cache_service.dictionary_metadata_set(metadata_key: self.class.metadata_key, value: value)
+        @metadata = value
       end
     end
   end
