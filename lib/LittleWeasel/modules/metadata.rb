@@ -72,10 +72,15 @@ module LittleWeasel
       #    @metadata = value
       #  end
       def metadata=(value)
-        dictionary_cache_service = Services::DictionaryCacheService.new(dictionary_key: dictionary_key,
-                                                                        dictionary_cache: dictionary_cache)
-        dictionary_cache_service.dictionary_metadata_set(metadata_key: self.class.metadata_key, value: value)
+        binding.pry
         @metadata = value
+        update_dictionary_metadata value: value
+      end
+
+      private
+
+      def update_dictionary_metadata(value:)
+        raise Errors::MustOverrideError
       end
     end
   end

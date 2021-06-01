@@ -62,9 +62,18 @@ module LittleWeasel
       attr_writer :dictionary_metadata
 
       def init!(params: nil)
-        self.metadata = dictionary_cache_service.dictionary_metadata(metadata_key: self.class.metadata_key)
+        metadata = dictionary_cache_service.dictionary_metadata(metadata_key: metadata_key)
+        binding.pry
         refresh! unless metadata
+        self.metadata = metadata
         self
+      end
+
+      def update_dictionary_metadata(value:)
+        dictionary_cache_service.dictionary_metadata_set do |dictionary_metadata|
+          binding.pry
+          dictionary_metadata[metadata_key] = value
+        end
       end
     end
   end

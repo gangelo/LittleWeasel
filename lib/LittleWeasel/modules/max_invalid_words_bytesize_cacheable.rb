@@ -15,6 +15,8 @@ module LittleWeasel
 
         cache = cache_word? word
         if cache
+          # TODO: Should this invalid word be placed under
+          # metadata separately, or added to the dictionary?
           dictionary[word] = false
           metadata.current_invalid_word_bytesize += word.bytesize
         end

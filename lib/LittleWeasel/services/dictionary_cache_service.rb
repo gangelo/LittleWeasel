@@ -250,13 +250,21 @@ module LittleWeasel
         metadata
       end
 
-      def dictionary_metadata_set(value:, metadata_key: nil)
-        dictionary_hash = dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!]
-        if metadata_key
-          dictionary_hash[DICTIONARY_METADATA][metadata_key] = value
-        else
-          dictionary_hash[DICTIONARY_METADATA] = value
-        end
+      # def dictionary_metadata_set(value:, metadata_key: nil)
+      #   dictionary_hash = dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!]
+      #   if metadata_key
+      #     dictionary_hash[DICTIONARY_METADATA][metadata_key] = value
+      #   else
+      #     dictionary_hash[DICTIONARY_METADATA] = value
+      #   end
+      #   self
+      # end
+
+      def dictionary_metadata_set
+        raise ArgumentError, 'A block was expected, but no block was passed.' unless block_given?
+
+        yield dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][DICTIONARY_METADATA]
+
         self
       end
 
