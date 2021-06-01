@@ -6,7 +6,11 @@ require 'observer'
 RSpec.describe LittleWeasel::Metadata::MaxInvalidWordsBytesizeMetadata do
   subject do
     dictionary_manager.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
-    dictionary.dictionary_metadata
+    dictionary.dictionary_metadata.observers[:max_invalid_words_bytesize_metadata][:metadata_object]
+  end
+
+  before(:each) do
+    subject.refresh!
   end
 
   let(:dictionary) { dictionary_manager.load_dictionary(dictionary_key: dictionary_key) }
@@ -46,10 +50,9 @@ RSpec.describe LittleWeasel::Metadata::MaxInvalidWordsBytesizeMetadata do
   let(:language) { :en }
   let(:region) { :us }
   let(:tag) {}
-  #let(:dictionary_words) { dictionary_words_for dictionary_file_path: file }
-  #let(:dictionary_cache) { {} }
+  # let(:dictionary_words) { dictionary_words_for dictionary_file_path: file }
+  let(:dictionary_cache) { {} }
   let(:file) { dictionary_path_for file_name: dictionary_key.key }
-
 
   let!(:configuration) do
     LittleWeasel.configure { |_config| }
@@ -194,16 +197,9 @@ RSpec.describe LittleWeasel::Metadata::MaxInvalidWordsBytesizeMetadata do
     end
 
     context 'with an action on the whitelist' do
-      before do
-        #dictionary_cache_service.add_dictionary_reference(file: file)
-        subject
-        dictionary['argh']
-      end
-
       it 'carries out the requested action' do
         expect do
-          dictionary_words_hash['not-found'] = false
-          subject.update(:refresh!)
+          dictionary['not-found']
         end.to change { subject.current_invalid_word_bytesize }
         .from(0).to(9)
       end

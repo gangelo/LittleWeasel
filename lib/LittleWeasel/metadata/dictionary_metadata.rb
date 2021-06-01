@@ -51,11 +51,34 @@ module LittleWeasel
                              dictionary_key: dictionary_key,
                              dictionary_cache: dictionary_cache)
           add_observer observer
-          self.observers[observer.to_sym] = observer.metadata_key
         end
         # This is how each metadata object gets initialized.
         notify(action: :init!) if observer_classes.any?
         self
+      end
+
+      def add_observer(observer, func=:update)
+        super
+
+        return unless observer.respond_to? :to_sym
+
+        self.observers[observer.to_sym] = {
+          metadata_key: observer.metadata_key,
+          metadata_object: observer
+        }
+      end
+
+      def delete_observer(observer)
+        super
+
+        return unless observer.respond_to? :to_sym
+
+        observers.delete(observer.to_sym)
+      end
+
+      def delete_observers
+        super
+        self.observers = {}
       end
 
       private
