@@ -41,6 +41,8 @@ module LittleWeasel
         self
       end
 
+      # This method is called when a word is being searched in the
+      # dictionary.
       def search(params:)
         self[params[:word]]
       end
@@ -63,15 +65,16 @@ module LittleWeasel
 
       def init!(params: nil)
         metadata = dictionary_cache_service.dictionary_metadata(metadata_key: metadata_key)
-        binding.pry
-        refresh! unless metadata
-        self.metadata = metadata
+        if metadata
+          self.metadata = metadata
+        else
+          refresh!
+        end
         self
       end
 
       def update_dictionary_metadata(value:)
         dictionary_cache_service.dictionary_metadata_set do |dictionary_metadata|
-          binding.pry
           dictionary_metadata[metadata_key] = value
         end
       end

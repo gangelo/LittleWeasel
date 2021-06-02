@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/object/try.rb'
+require 'active_support/inflector'
 require 'benchmark/ips'
 require 'bundler/gem_tasks'
 require 'pry'
 
 require_relative 'lib/LittleWeasel'
+require_relative 'spec/support/file_helpers'
 
 begin
   require 'rspec/core/rake_task'
@@ -40,8 +42,16 @@ task :workflow do
   LittleWeasel.configure do |config|
     # TODO: Configure as needed here.
   end
-  path = 'spec/support/files'
-  dm = LittleWeasel::DictionaryManager.instance
+  dictionary_manager = LittleWeasel::DictionaryManager.instance
+
+  dictionary_key = LittleWeasel::Dictionaries::DictionaryKey.new(language: :en, region: :us)
+  file = Support::FileHelpers.dictionary_path_for file_name: dictionary_key.key
+  dictionary_manager.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
+  binding.pry
+  dictionary = dictionary_manager.load_dictionary(dictionary_key: dictionary_key)
+  binding.pry
+  dictionary.inspect
+  binding.pry
 rescue StandardError => e
   task 'workflow' do
     puts "LittleWeasel task workflow not loaded: #{e.message}"

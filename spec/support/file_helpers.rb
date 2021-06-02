@@ -7,6 +7,8 @@ module Support
   module FileHelpers
     include LittleWeasel::Modules::Locale
 
+    module_function
+
     def region_dictionary_path language:, region:
       file_name = FileHelpers.locale language: language, region: region
       dictionary_path_for file_name: file_name

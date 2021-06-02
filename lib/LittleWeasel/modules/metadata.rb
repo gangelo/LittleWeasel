@@ -13,9 +13,10 @@ module LittleWeasel
 
       module MetadataClassMethods
         # Override this method to return the metadata key associated with this
-        # metadata object in the dictionary cache. The root-level metadata
-        # object should not override this method (return nil).
-        def metadata_key; end
+        # metadata object in the dictionary cache.
+        def metadata_key
+          to_sym
+        end
       end
 
       def metadata_key
@@ -67,18 +68,27 @@ module LittleWeasel
       #
       # @example
       #
-      #  def metadata=(value)
-      #    dictionary_cache_service.dictionary_metadata_set(metadata_key: METADATA_KEY, value: value)
-      #    @metadata = value
-      #  end
+      #   def metadata=(value)
+      #     dictionary_cache_service.dictionary_metadata_set(metadata_key: METADATA_KEY, value: value)
+      #     @metadata = value
+      #   end
       def metadata=(value)
-        binding.pry
         @metadata = value
         update_dictionary_metadata value: value
       end
 
       private
 
+      # This method should update the dictionary metadata for the the object
+      # when it is called.
+      #
+      # @example
+      #
+      #    def update_dictionary_metadata(value:)
+      #      dictionary_cache_service.dictionary_metadata_set do |dictionary_metadata|
+      #        dictionary_metadata[metadata_key] = value
+      #      end
+      #    end
       def update_dictionary_metadata(value:)
         raise Errors::MustOverrideError
       end

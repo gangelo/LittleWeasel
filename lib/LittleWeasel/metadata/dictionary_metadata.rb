@@ -97,7 +97,6 @@ module LittleWeasel
 
        def update_dictionary_metadata(value:)
         dictionary_cache_service.dictionary_metadata_set do |dictionary_metadata|
-          binding.pry
           dictionary_metadata[metadata_key] = value
         end
       end
