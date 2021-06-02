@@ -12,23 +12,25 @@ require_relative 'services/dictionary_service'
 module LittleWeasel
   class Dictionary < Services::DictionaryService
     delegate :count, to: :dictionary
-    delegate :key, to: :dictionary_key
 
     attr_reader :dictionary, :dictionary_metadata
 
     def initialize(dictionary_key:, dictionary_cache:, dictionary_words:)
       super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
 
-      raise ArgumentError, "Argument dictionary_words is not an Array: #{dictionary_words.class}" unless dictionary_words.is_a?(Array)
+      unless dictionary_words.is_a?(Array)
+        raise ArgumentError,
+          "Argument dictionary_words is not an Array: #{dictionary_words.class}"
+      end
 
       self.dictionary = self.class.to_hash(dictionary_words: dictionary_words)
       # We unconditionally attach metadata to the dictionary. DictionaryMetadata
       # only attaches the metadata services that are turned "on".
       self.dictionary_metadata =
         Metadata::DictionaryMetadata.new(dictionary: dictionary,
-                                         dictionary_key: dictionary_key,
-                                         dictionary_cache: dictionary_cache)
-      self.dictionary_metadata.add_observers
+          dictionary_key: dictionary_key,
+          dictionary_cache: dictionary_cache)
+      dictionary_metadata.add_observers
     end
 
     class << self

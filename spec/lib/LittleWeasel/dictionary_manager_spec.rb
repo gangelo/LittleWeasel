@@ -51,10 +51,6 @@ RSpec.describe LittleWeasel::DictionaryManager do
       subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
     end
 
-    after do
-      binding.pry
-    end
-
     let(:tag) { :tagged }
 
     it 'loads the dictionary and returns a dictionary object' do

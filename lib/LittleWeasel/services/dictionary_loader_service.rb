@@ -23,7 +23,7 @@ module LittleWeasel
 
       def dictionary_for(dictionary_words)
         Dictionary.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
-dictionary_words: dictionary_words
+          dictionary_words: dictionary_words
       end
 
       def dictionary_cache_loader_service

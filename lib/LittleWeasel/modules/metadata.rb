@@ -23,23 +23,6 @@ module LittleWeasel
         self.class.metadata_key
       end
 
-      # This method should UNconditionally update the metadata and be
-      # chainable (return self).
-      #
-      # @example
-      #
-      #   def refresh!(params: nil)
-      #     self.metadata = Services::MaxInvalidWordsByteSizeService.new(dictionary).execute
-      #     self
-      #   end
-      def refresh!(params: nil)
-        raise Errors::MustOverrideError
-      end
-
-      private
-
-      attr_reader :metadata
-
       # This method should initialize the metadata if metadata currently
       # exists for this object or call #refresh! in the case metadaa
       # DOES NOT currently exist for this object. The idea is that metadata
@@ -48,14 +31,35 @@ module LittleWeasel
       #
       # @example
       #
-      #   def init!(parms: nil)
+      #   def init!(_parms: nil)
       #     self.metadata = dictionary_cache_service.dictionary_metadata(metadata_key: <metadata_hash_key>)
       #     refresh! unless metadata
       #     self
       #   end
+      # rubocop: disable Lint/UnusedMethodArgument
       def init!(params: nil)
         raise Errors::MustOverrideError
       end
+      # rubocop: enable Lint/UnusedMethodArgument
+
+      # This method should UNconditionally update the metadata and be
+      # chainable (return self).
+      #
+      # @example
+      #
+      #   def refresh!(_params: nil)
+      #     self.metadata = Services::MaxInvalidWordsByteSizeService.new(dictionary).execute
+      #     self
+      #   end
+      # rubocop: disable Lint/UnusedMethodArgument
+      def refresh!(params: nil)
+        raise Errors::MustOverrideError
+      end
+      # rubocop: enable Lint/UnusedMethodArgument
+
+      private
+
+      attr_reader :metadata
 
       # This method should set the metadata in the dictionary cache, using the
       # appropriate metadata key for this object (or nil if the root metadata
@@ -77,8 +81,6 @@ module LittleWeasel
         update_dictionary_metadata value: value
       end
 
-      private
-
       # This method should update the dictionary metadata for the the object
       # when it is called.
       #
@@ -89,9 +91,11 @@ module LittleWeasel
       #        dictionary_metadata[metadata_key] = value
       #      end
       #    end
+      # rubocop: disable Lint/UnusedMethodArgument
       def update_dictionary_metadata(value:)
         raise Errors::MustOverrideError
       end
+      # rubocop: enable Lint/UnusedMethodArgument
     end
   end
 end

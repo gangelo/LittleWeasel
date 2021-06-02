@@ -150,7 +150,7 @@ module LittleWeasel
         raise ArgumentError, "Dictionary reference for key '#{key}' already exists." unless add_dictionary_reference?
 
         dictionary_id = dictionary_id_for(file: file)
-        dictionary_reference_reset file: file, dictionary_id: dictionary_id
+        dictionary_reference_reset dictionary_id: dictionary_id
         # Only reset the dictionary if it doesn't already exist;
         # dictionaries can have more than one reference and we don't
         # want to blow away the dictionary object, metadata, or any
@@ -210,7 +210,7 @@ module LittleWeasel
           raise ArgumentError,
             "The dictionary reference associated with key '#{key}' could not be found."
         end
-        return self if object.equal? dictionary_object
+        return if object.equal? dictionary_object
 
         if dictionary_loaded?
           raise ArgumentError,
@@ -276,7 +276,7 @@ module LittleWeasel
         dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key)
       end
 
-      def dictionary_reference_reset(file:, dictionary_id:)
+      def dictionary_reference_reset(dictionary_id:)
         dictionary_cache[DICTIONARY_CACHE][DICTIONARY_REFERENCES][key] = {
           DICTIONARY_ID => dictionary_id
         }

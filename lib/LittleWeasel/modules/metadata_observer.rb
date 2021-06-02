@@ -25,7 +25,7 @@ module LittleWeasel
       #    send(action)
       #    self
       #  end
-      def update(_action, **args)
+      def update(_action, **_args)
         raise Errors::MustOverrideError
       end
 

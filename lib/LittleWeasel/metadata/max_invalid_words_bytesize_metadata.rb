@@ -22,7 +22,10 @@ module LittleWeasel
       def initialize(dictionary_metadata:, dictionary:, dictionary_key:, dictionary_cache:)
         super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
 
-        raise ArgumentError, "Argument dictionary_metadata is not an Observable: #{dictionary_metadata.class}." unless dictionary_metadata.is_a? Observable
+        unless dictionary_metadata.is_a? Observable
+          raise ArgumentError,
+            "Argument dictionary_metadata is not an Observable: #{dictionary_metadata.class}."
+        end
         raise ArgumentError, "Argument dictionary is not a Hash: #{dictionary.class}." unless dictionary.is_a? Hash
 
         dictionary_metadata.add_observer self
@@ -36,10 +39,24 @@ module LittleWeasel
         end
       end
 
+      # rubocop: disable Lint/UnusedMethodArgument
+      def init!(params: nil)
+        metadata = dictionary_cache_service.dictionary_metadata(metadata_key: metadata_key)
+        if metadata
+          self.metadata = metadata
+        else
+          refresh!
+        end
+        self
+      end
+      # rubocop: enable Lint/UnusedMethodArgument
+
+      # rubocop: disable Lint/UnusedMethodArgument
       def refresh!(params: nil)
         self.metadata = Services::MaxInvalidWordsByteSizeService.new(dictionary).execute
         self
       end
+      # rubocop: enable Lint/UnusedMethodArgument
 
       # This method is called when a word is being searched in the
       # dictionary.
@@ -48,7 +65,10 @@ module LittleWeasel
       end
 
       def update(action, params)
-        raise ArgumentError, "Argument action is not in the actions_whitelist: #{action}" unless actions_whitelist.include? action
+        unless actions_whitelist.include? action
+          raise ArgumentError,
+            "Argument action is not in the actions_whitelist: #{action}"
+        end
 
         send(action, params: params)
         self
@@ -62,16 +82,6 @@ module LittleWeasel
 
       attr_accessor :dictionary
       attr_writer :dictionary_metadata
-
-      def init!(params: nil)
-        metadata = dictionary_cache_service.dictionary_metadata(metadata_key: metadata_key)
-        if metadata
-          self.metadata = metadata
-        else
-          refresh!
-        end
-        self
-      end
 
       def update_dictionary_metadata(value:)
         dictionary_cache_service.dictionary_metadata_set do |dictionary_metadata|

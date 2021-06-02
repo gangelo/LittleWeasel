@@ -28,7 +28,17 @@ module LittleWeasel
         init!
       end
 
-      def refresh!(params: nil)
+      def init!(_params: nil)
+        metadata = dictionary_cache_service.dictionary_metadata
+        if metadata
+          self.metadata = metadata
+          notify action: :init!
+        else
+          refresh!
+        end
+      end
+
+      def refresh!(_params: nil)
         self.metadata = {}
         notify action: :refresh!
         self
@@ -47,9 +57,9 @@ module LittleWeasel
 
         observer_classes.each do |o|
           observer = o.new(dictionary_metadata: self,
-                             dictionary: dictionary,
-                             dictionary_key: dictionary_key,
-                             dictionary_cache: dictionary_cache)
+            dictionary: dictionary,
+            dictionary_key: dictionary_key,
+            dictionary_cache: dictionary_cache)
           add_observer observer
         end
         # This is how each metadata object gets initialized.
@@ -57,12 +67,12 @@ module LittleWeasel
         self
       end
 
-      def add_observer(observer, func=:update)
+      def add_observer(observer, func = :update)
         super
 
         return unless observer.respond_to? :to_sym
 
-        self.observers[observer.to_sym] = {
+        observers[observer.to_sym] = {
           metadata_key: observer.metadata_key,
           metadata_object: observer
         }
@@ -85,17 +95,7 @@ module LittleWeasel
 
       attr_writer :dictionary, :observers
 
-      def init!(params: nil)
-        metadata = dictionary_cache_service.dictionary_metadata
-        if metadata
-          self.metadata = metadata
-          notify action: :init!
-        else
-          refresh!
-        end
-      end
-
-       def update_dictionary_metadata(value:)
+      def update_dictionary_metadata(value:)
         dictionary_cache_service.dictionary_metadata_set do |dictionary_metadata|
           dictionary_metadata[metadata_key] = value
         end

@@ -36,6 +36,7 @@ module LittleWeasel
       dictionary_loader_service(dictionary_key: dictionary_key).execute
     end
 
+    # rubocop: disable Lint/UnusedMethodArgument, Lint/UnreachableCode
     def unload_dictionary(dictionary_key:)
       raise 'TODO: Implement this'
       self
@@ -45,6 +46,7 @@ module LittleWeasel
       raise 'TODO: Implement this'
       self
     end
+    # rubocop: enable Lint/UnusedMethodArgument, Lint/UnreachableCode
 
     # Resets the cache by clearing it out completely.
     def reset!
