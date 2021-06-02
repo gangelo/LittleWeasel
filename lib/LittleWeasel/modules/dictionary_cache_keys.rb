@@ -10,7 +10,6 @@ module LittleWeasel
       DICTIONARIES = 'dictionaries'
       FILE = 'file'
       DICTIONARY_OBJECT = 'dictionary_object'
-      DICTIONARY_METADATA = 'dictionary_metadata'
 
       module_function
 

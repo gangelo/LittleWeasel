@@ -96,9 +96,7 @@ module LittleWeasel
       attr_writer :dictionary, :observers
 
       def update_dictionary_metadata(value:)
-        dictionary_cache_service.dictionary_metadata_set do |dictionary_metadata|
-          dictionary_metadata[metadata_key] = value
-        end
+        dictionary_cache_service.dictionary_metadata_set(value: value)
       end
     end
   end
