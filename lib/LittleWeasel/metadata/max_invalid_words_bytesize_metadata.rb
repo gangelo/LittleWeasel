@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 require_relative '../modules/klass_name_to_sym'
-require_relative '../modules/max_invalid_words_bytesize_cacheable'
 require_relative '../modules/metadata_observer'
 require_relative '../services/dictionary_service'
 require_relative '../services/max_invalid_words_bytesize_service'
+require_relative 'max_invalid_words_bytesize_cacheable'
 
 module LittleWeasel
   module Metadata
     class MaxInvalidWordsBytesizeMetadata < Services::DictionaryService
+      include Metadata::MaxInvalidWordsByteSizeCacheable
       include Modules::KlassNameToSym
-      include Modules::MaxInvalidWordsByteSizeCacheable
       include Modules::MetadataObserver
 
       delegate :on?, :off?, :value, :value_exceeded?,
@@ -61,7 +61,7 @@ module LittleWeasel
       # This method is called when a word is being searched in the
       # dictionary.
       def search(params:)
-        self[params[:word]]
+        word_valid? params[:word]
       end
 
       def update(action, params)

@@ -83,13 +83,13 @@ RSpec.describe LittleWeasel::Dictionary do
     context 'when searching for words in the dictionary' do
       context 'when the word is found' do
         it 'returns true' do
-          expect(subject['t']).to eq true
+          expect(subject.word_valid? 't').to eq true
         end
       end
 
       context 'when the word is not found' do
         it 'returns false' do
-          expect(subject['not-found']).to eq false
+          expect(subject.word_valid? 'not-found').to eq false
         end
       end
     end

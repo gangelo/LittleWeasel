@@ -39,10 +39,9 @@ module LittleWeasel
       end
     end
 
-    def [](word)
-      found = dictionary.include? word
-      dictionary_metadata.notify(action: :search, params: { word: word, found: found })
-      found
+    def word_valid?(word)
+      dictionary_metadata.notify(action: :search, params: { word: word })
+      dictionary.include?(word) && dictionary[word]
     end
 
     private
