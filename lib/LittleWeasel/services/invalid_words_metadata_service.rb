@@ -2,7 +2,7 @@
 
 module LittleWeasel
   module Services
-    class MaxInvalidWordsByteSizeService
+    class InvalidWordsMetadataService
       def initialize(dictionary)
         self.dictionary = dictionary
         self.current_bytesize = 0

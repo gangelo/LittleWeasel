@@ -5,8 +5,8 @@ require_relative 'metadata/dictionary_metadata'
 require_relative 'services/dictionary_service'
 
 # TODO: What to do if the configuration changes for options
-# affecting max_invalid_words_bytesize? e.g.
-# max_invalid_words_bytesize, max_invalid_words_bytesize?.
+# affecting invalid_words? e.g.
+# invalid_words, invalid_words?.
 # All (individual?) dictionaries metadata would need to be
 # reset.
 module LittleWeasel

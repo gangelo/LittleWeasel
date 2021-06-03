@@ -2,7 +2,7 @@
 
 module LittleWeasel
   module Metadata
-    module MaxInvalidWordsByteSizeCacheable
+    module InvalidWordsCacheable
       def word_valid?(word)
         _cached, found = cache_word_if! word
         found

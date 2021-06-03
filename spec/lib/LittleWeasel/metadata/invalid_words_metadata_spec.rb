@@ -3,10 +3,10 @@
 require 'spec_helper'
 require 'observer'
 
-RSpec.describe LittleWeasel::Metadata::MaxInvalidWordsBytesizeMetadata do
+RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
   subject do
     dictionary_manager.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
-    dictionary.dictionary_metadata.observers[:max_invalid_words_bytesize_metadata][:metadata_object]
+    dictionary.dictionary_metadata.observers[:invalid_words_metadata][:metadata_object]
   end
 
   before(:each) do

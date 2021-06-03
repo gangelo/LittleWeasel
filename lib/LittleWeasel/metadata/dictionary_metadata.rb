@@ -4,7 +4,7 @@ require 'observer'
 require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/klass_name_to_sym'
 require_relative '../services/dictionary_service'
-require_relative 'max_invalid_words_bytesize_metadata'
+require_relative 'invalid_words_metadata'
 require_relative 'metadatable'
 
 module LittleWeasel
@@ -56,7 +56,7 @@ module LittleWeasel
 
       def add_observers
         self.observers = {}
-        observer_classes = [MaxInvalidWordsBytesizeMetadata]
+        observer_classes = [InvalidWordsMetadata]
         yield observer_classes if block_given?
 
         observer_classes.each do |o|

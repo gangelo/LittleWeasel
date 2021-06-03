@@ -2,14 +2,14 @@
 
 require_relative '../modules/klass_name_to_sym'
 require_relative '../services/dictionary_service'
-require_relative '../services/max_invalid_words_bytesize_service'
-require_relative 'max_invalid_words_bytesize_cacheable'
+require_relative '../services/invalid_words_metadata_service'
+require_relative 'invalid_words_cacheable'
 require_relative 'metadata_observerable'
 
 module LittleWeasel
   module Metadata
-    class MaxInvalidWordsBytesizeMetadata < Services::DictionaryService
-      include Metadata::MaxInvalidWordsByteSizeCacheable
+    class InvalidWordsMetadata < Services::DictionaryService
+      include Metadata::InvalidWordsCacheable
       include Metadata::MetadataObserverable
       include Modules::KlassNameToSym
 
@@ -53,7 +53,7 @@ module LittleWeasel
 
       # rubocop: disable Lint/UnusedMethodArgument
       def refresh!(params: nil)
-        self.metadata = Services::MaxInvalidWordsByteSizeService.new(dictionary).execute
+        self.metadata = Services::InvalidWordsMetadataService.new(dictionary).execute
         self
       end
       # rubocop: enable Lint/UnusedMethodArgument
