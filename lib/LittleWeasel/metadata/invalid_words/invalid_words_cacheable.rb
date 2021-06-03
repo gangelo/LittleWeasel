@@ -5,14 +5,14 @@ module LittleWeasel
     module InvalidWords
       module InvalidWordsCacheable
         def word_valid?(word)
-          _cached, found = cache_word_if! word
-          found
+          cache_word_if! word
+           word_found_and_valid? word
         end
 
         private
 
         def cache_word_if!(word)
-          return [true, true] if word_found_and_valid? word
+          return true if word_found_and_valid? word
 
           cache = cache_word? word
           if cache
@@ -22,7 +22,7 @@ module LittleWeasel
             metadata.current_invalid_word_bytesize += word.bytesize
           end
 
-          [cache, false]
+          false
         end
 
         # This method returns true if the current start of the metadata

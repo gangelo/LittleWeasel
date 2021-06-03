@@ -68,8 +68,20 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
       expect(subject.add_observers).to be subject
     end
 
-    it 'attaches the proper metadata observers' do
-      expect(subject.add_observers.count_observers).to eq 1
+    context 'when a metadata object is in a state to observe' do
+      it 'added as an observer' do
+        expect(subject.add_observers.count_observers).to eq 1
+      end
+    end
+
+    context 'when a metadata object is NOT in a state to observe' do
+      before do
+        allow(LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata).to receive(:observe?).and_return(false)
+      end
+
+      it 'NOT added as an observer' do
+        expect(subject.add_observers.count_observers).to eq 0
+      end
     end
   end
 end
