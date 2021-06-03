@@ -14,14 +14,14 @@ module LittleWeasel
       include Modules::KlassNameToSym
       include Metadata::Metadatable
 
-      attr_reader :dictionary, :observers
+      attr_reader :dictionary_words, :observers
 
-      def initialize(dictionary:, dictionary_key:, dictionary_cache:)
+      def initialize(dictionary_words:, dictionary_key:, dictionary_cache:)
         super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
 
-        raise ArgumentError, "Argument dictionary is not a Hash: #{dictionary.class.name}." unless dictionary.is_a? Hash
+        raise ArgumentError, "Argument dictionary_words is not a Hash: #{dictionary_words.class.name}." unless dictionary_words.is_a? Hash
 
-        self.dictionary = dictionary
+        self.dictionary_words = dictionary_words
         self.observers = {}
 
         init!
@@ -62,7 +62,7 @@ module LittleWeasel
           next unless o.observe?
 
           observer = o.new(dictionary_metadata: self,
-            dictionary: dictionary,
+            dictionary_words: dictionary_words,
             dictionary_key: dictionary_key,
             dictionary_cache: dictionary_cache)
           # Only add metadata objects that are capable of observing
@@ -101,7 +101,7 @@ module LittleWeasel
 
       private
 
-      attr_writer :dictionary, :observers
+      attr_writer :dictionary_words, :observers
 
       def update_dictionary_metadata(value:)
         dictionary_cache_service.dictionary_metadata_set(value: value)

@@ -4,14 +4,14 @@ require 'spec_helper'
 require 'observer'
 
 RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
-  subject { create(:dictionary_metadata, dictionary: dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+  subject { create(:dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
   before do
     LittleWeasel.configure { |_config| }
     create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true)
   end
 
-  let(:dictionary) { create(:dictionary_hash) }
+  let(:dictionary_words) { create(:dictionary_hash) }
   let(:dictionary_key) { create(:dictionary_key) }
   let(:dictionary_cache) { {} }
 
@@ -28,20 +28,20 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
         # Note: do not use the factory for this spec becasue
         # it creates a dictionary if a nil dictionay is passed
         # so the test will never pass if using the factory.
-        subject { described_class.new(dictionary: dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+        subject { described_class.new(dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
-        let(:dictionary) {}
+        let(:dictionary_words) {}
 
         it 'raises an error' do
-          expect { subject }.to raise_error(/Argument dictionary is not a Hash/)
+          expect { subject }.to raise_error(/Argument dictionary_words is not a Hash/)
         end
       end
 
       context 'when dictionary is not a Hash' do
-        let(:dictionary) { %w(I am a bad dictionary) }
+        let(:dictionary_words) { %w(I am a bad dictionary) }
 
         it 'raises an error' do
-          expect { subject }.to raise_error(/Argument dictionary is not a Hash/)
+          expect { subject }.to raise_error(/Argument dictionary_words is not a Hash/)
         end
       end
     end

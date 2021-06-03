@@ -18,18 +18,18 @@ module LittleWeasel
 
         attr_reader :dictionary_metadata
 
-        def initialize(dictionary_metadata:, dictionary:, dictionary_key:, dictionary_cache:)
+        def initialize(dictionary_metadata:, dictionary_words:, dictionary_key:, dictionary_cache:)
           super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
 
           unless dictionary_metadata.is_a? Observable
             raise ArgumentError,
               "Argument dictionary_metadata is not an Observable: #{dictionary_metadata.class}."
           end
-          raise ArgumentError, "Argument dictionary is not a Hash: #{dictionary.class}." unless dictionary.is_a? Hash
+          raise ArgumentError, "Argument dictionary_words is not a Hash: #{dictionary_words.class}." unless dictionary_words.is_a? Hash
 
           dictionary_metadata.add_observer self
           self.dictionary_metadata = dictionary_metadata
-          self.dictionary = dictionary
+          self.dictionary_words = dictionary_words
         end
 
         class << self
@@ -56,7 +56,7 @@ module LittleWeasel
 
         # rubocop: disable Lint/UnusedMethodArgument
         def refresh!(params: nil)
-          self.metadata = Services::InvalidWordsService.new(dictionary).execute
+          self.metadata = Services::InvalidWordsService.new(dictionary_words).execute
           self
         end
         # rubocop: enable Lint/UnusedMethodArgument
@@ -74,7 +74,7 @@ module LittleWeasel
 
           # Cache the word as invalid (not found) if caching is
           # supposed to take place.
-          dictionary[word] = false if cache_word? word
+          dictionary_words[word] = false if cache_word? word
           false
         end
 
@@ -94,7 +94,7 @@ module LittleWeasel
 
         private
 
-        attr_accessor :dictionary
+        attr_accessor :dictionary_words
         attr_writer :dictionary_metadata
 
         def cache_word?(word)
