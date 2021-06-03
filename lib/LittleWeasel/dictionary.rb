@@ -40,8 +40,22 @@ module LittleWeasel
     end
 
     def word_valid?(word)
-      dictionary_metadata.notify(action: :search, params: { word: word })
-      dictionary.include?(word) && dictionary[word]
+      # <word_found> tells us whether or not <word> can be found in the
+      # dictionary.
+      #
+      # <word_valid> tells us whether or not the word is a valid word in
+      # the dictionary.
+      #
+      # Words found in the dictionary don't necessarily mean the word
+      # is valid; invalid words can also be found in the dictionary
+      # if the invalid words metadata functionality is using it to cache
+      # invalid words.
+      #
+      # No matter what the case, we need to notify any metadata observers
+      # of this information so that they can perform their processing.
+      word_found, word_valid = [dictionary.include?(word), dictionary[word] || false]
+      dictionary_metadata.notify(action: :word_search, params: { word: word, word_found: word_found, word_valid: word_valid })
+      word_valid
     end
 
     private

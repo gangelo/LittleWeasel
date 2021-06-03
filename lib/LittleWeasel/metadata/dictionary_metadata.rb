@@ -55,19 +55,22 @@ module LittleWeasel
         yield observer_classes if block_given?
 
         observer_classes.each do |o|
-          # If the medatata observer is not in a state to observe, or is turned
-          # "off", skip it...
+          # If the medatata observer is not in a state to observe,
+          # or is turned "off", skip it...
           #
-          # See Metadata::MetadataObserverable.observe? comments
+          # See Metadata::MetadataObserverable.observe? comments.
           next unless o.observe?
 
           observer = o.new(dictionary_metadata: self,
             dictionary: dictionary,
             dictionary_key: dictionary_key,
             dictionary_cache: dictionary_cache)
+          # Only add metadata objects that are capable of observing
+          # (i.e. #observe?).
           add_observer observer if observer.observe?
         end
         # This is how each metadata object gets initialized.
+        # Only notify if there are any observers.
         notify(action: :init!) if count_observers.positive?
         self
       end

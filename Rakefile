@@ -50,7 +50,7 @@ task :workflow do
   binding.pry
   dictionary = dictionary_manager.load_dictionary(dictionary_key: dictionary_key)
   binding.pry
-  dictionary.inspect
+  dictionary.word_valid? 'apple'
   binding.pry
 rescue StandardError => e
   task 'workflow' do

@@ -49,7 +49,7 @@ module LittleWeasel
       # @example
       #
       #   def refresh!(_params: nil)
-      #     self.metadata = Services::InvalidWordsMetadataService.new(dictionary).execute
+      #     self.metadata = Services::InvalidWordsService.new(dictionary).execute
       #     self
       #   end
       # rubocop: disable Lint/UnusedMethodArgument

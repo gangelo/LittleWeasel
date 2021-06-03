@@ -2,15 +2,13 @@
 
 require_relative '../../modules/klass_name_to_sym'
 require_relative '../../services/dictionary_service'
-require_relative '../../services/invalid_words_metadata_service'
+require_relative '../../services/invalid_words_service'
 require_relative '../metadata_observerable'
-require_relative 'invalid_words_cacheable'
 
 module LittleWeasel
   module Metadata
     module InvalidWords
       class InvalidWordsMetadata < Services::DictionaryService
-        include Metadata::InvalidWords::InvalidWordsCacheable
         include Metadata::MetadataObserverable
         include Modules::KlassNameToSym
 
@@ -40,7 +38,7 @@ module LittleWeasel
           end
 
           def observe?
-           config.max_invalid_words_bytesize?
+            config.max_invalid_words_bytesize?
           end
         end
 
@@ -58,15 +56,26 @@ module LittleWeasel
 
         # rubocop: disable Lint/UnusedMethodArgument
         def refresh!(params: nil)
-          self.metadata = Services::InvalidWordsMetadataService.new(dictionary).execute
+          self.metadata = Services::InvalidWordsService.new(dictionary).execute
           self
         end
         # rubocop: enable Lint/UnusedMethodArgument
 
         # This method is called when a word is being searched in the
         # dictionary.
-        def search(params:)
-          word_valid? params[:word]
+        def word_search(params:)
+          word, word_found, word_valid = params.fetch_values(:word, :word_found, :word_valid)
+
+          return word_valid if word_found
+
+          # If we get here, we know that the word is NOT in the
+          # dictionary, either as a valid word; or, as a cached,
+          # invalid word.
+
+          # Cache the word as invalid (not found) if caching is
+          # supposed to take place.
+          dictionary[word] = false if cache_word? word
+          false
         end
 
         def update(action, params)
@@ -80,13 +89,24 @@ module LittleWeasel
         end
 
         def actions_whitelist
-          %i[init! refresh! search]
+          %i[init! refresh! word_search]
         end
 
         private
 
         attr_accessor :dictionary
         attr_writer :dictionary_metadata
+
+        def cache_word?(word)
+          return false unless metadata.cache_invalid_words?
+
+          if metadata.value > (word.bytesize + metadata.current_invalid_word_bytesize)
+            metadata.current_invalid_word_bytesize += word.bytesize
+            true
+          else
+            false
+          end
+        end
 
         def update_dictionary_metadata(value:)
           dictionary_cache_service.dictionary_metadata_set(metadata_key: metadata_key, value: value)

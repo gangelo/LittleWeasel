@@ -2,7 +2,11 @@
 
 module LittleWeasel
   module Services
-    class InvalidWordsMetadataService
+    # This class calculates the total amount of bytes cached invalid words take
+    # up in the given dictionary and returns the results. In addition to this,
+    # metadata is also compiled to determine how many more bytes of invalid
+    # word data can be cached before the cache is depleted and shutdown.
+    class InvalidWordsService
       def initialize(dictionary)
         self.dictionary = dictionary
         self.current_bytesize = 0
