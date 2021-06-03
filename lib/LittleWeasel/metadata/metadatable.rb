@@ -32,7 +32,8 @@ module LittleWeasel
       # @example
       #
       #   def init!(_parms: nil)
-      #     self.metadata = dictionary_cache_service.dictionary_metadata(metadata_key: <metadata_hash_key>)
+      #     self.metadata = dictionary_cache_service.dictionary_metadata(
+      #       metadata_key: <metadata_hash_key>)
       #     refresh! unless metadata
       #     self
       #   end
@@ -73,8 +74,10 @@ module LittleWeasel
       # @example
       #
       #   def metadata=(value)
-      #     dictionary_cache_service = LittleWeasel::Services::DictionaryCacheService.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
-      #     dictionary_cache_service.dictionary_metadata_set(metadata_key: METADATA_KEY, value: value)
+      #     dictionary_cache_service = LittleWeasel::Services::DictionaryCacheService.new(
+      #       dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
+      #     dictionary_cache_service.dictionary_metadata_set(
+      #       metadata_key: METADATA_KEY, value: value)
       #     @metadata = value
       #   end
       def metadata=(value)

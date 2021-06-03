@@ -23,7 +23,7 @@ module LittleWeasel
   class Configuration
     attr_reader :dictionaries, :ignore_numerics, :language, :region,
       :max_dictionary_file_megabytes, :max_invalid_words_bytesize,
-      :numeric_regex, :single_character_words, :strip_whitespace, :word_regex
+      :metadata, :numeric_regex, :single_character_words, :strip_whitespace, :word_regex
 
     def initialize
       @dictionaries = {}
@@ -32,6 +32,7 @@ module LittleWeasel
       @numeric_regex = /^[-+]?[0-9]?(\.[0-9]+)?$+/
       @max_dictionary_file_megabytes = 4
       @max_invalid_words_bytesize = 25_000
+      @metadata = [LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata]
       @region = nil
       @single_character_words = /[aAI]/
       @strip_whitespace = true
@@ -73,6 +74,12 @@ module LittleWeasel
     def max_invalid_words_bytesize=(value)
       value = 0 if value.negative?
       @max_invalid_words_bytesize = value
+    end
+
+    def metadata=(value)
+      raise "Argument value is not an Array: #{value.class}" unless value.is_a? Array
+
+      @metadata = value
     end
 
     def region=(value)

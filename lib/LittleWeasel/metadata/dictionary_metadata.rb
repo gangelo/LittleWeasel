@@ -4,7 +4,6 @@ require 'observer'
 require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/klass_name_to_sym'
 require_relative '../services/dictionary_service'
-require_relative 'invalid_words_metadata'
 require_relative 'metadatable'
 
 module LittleWeasel
@@ -26,10 +25,6 @@ module LittleWeasel
         self.observers = {}
 
         init!
-      end
-
-      def observers?
-        count_observers > 0
       end
 
       def init!(_params: nil)
@@ -56,18 +51,24 @@ module LittleWeasel
 
       def add_observers
         self.observers = {}
-        observer_classes = [InvalidWordsMetadata]
+        observer_classes = config.metadata
         yield observer_classes if block_given?
 
         observer_classes.each do |o|
+          # If the medatata observer is not in a state to observe, or is turned
+          # "off", skip it...
+          #
+          # See Metadata::MetadataObserverable.observe? comments
+          next unless o.observe?
+
           observer = o.new(dictionary_metadata: self,
             dictionary: dictionary,
             dictionary_key: dictionary_key,
             dictionary_cache: dictionary_cache)
-          add_observer observer
+          add_observer observer if observer.observe?
         end
         # This is how each metadata object gets initialized.
-        notify(action: :init!) if observer_classes.any?
+        notify(action: :init!) if count_observers.positive?
         self
       end
 

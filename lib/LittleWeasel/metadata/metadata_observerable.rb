@@ -9,6 +9,48 @@ module LittleWeasel
     module MetadataObserverable
       include Metadatable
 
+      def self.included(base)
+        base.extend MetadataObserverableClassMethods
+      end
+
+      module MetadataObserverableClassMethods
+        # If the medatata observer is not in a state to observe, or is turned
+        # "off", return false; otherwise, return true...
+        #
+        # Configuration option settings may turn a metadata observer "off";
+        # for example, InvalidWordsMedata will not be observable unless
+        # LittleWeasel.configuration.max_invalid_words_bytesize? returns true.
+        #
+        # Other variables may also determine whether or not a metadata object is
+        # capable of observing; consequently, an instance-level #observe? method
+        # is also availble if this is the case (see below).
+        #
+        # If the observable state of your metadata object depends on
+        # configuration settings ALONE, return true/false using this class-level
+        # method, and do not override the instance-level #observe? method.
+        #
+        # If the observable state of your metadata object can only be determined
+        # AFTER the metadata object is instantiated: return true from the the
+        # class-level .observe? method; then, override the instance-level
+        # #observe? method and return true/false accordingly.
+        #
+        # If the observable state of your metadata object is determined by BOTH
+        # configuration settings AND variables that can only be determined AFTER
+        # the metadata object has been instantiated, use both the class-level
+        # and instance-level observe? to return true/false accordingly.
+        def observe?
+          false
+        end
+      end
+
+      # Return true/false depending on whether or not this metadata observer
+      # is in a state to observe.
+      #
+      # (See .observe? class-level method comments)
+      def observe?
+        self.class.observe?
+      end
+
       # This method receives notifications from an observable.
       # object and should be chainable (return self).
       # All actions should be filtered through the
