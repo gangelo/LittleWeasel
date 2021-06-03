@@ -4,14 +4,14 @@ require_relative '../errors/must_override_error'
 require_relative '../services/dictionary_cache_service'
 
 module LittleWeasel
-  module Modules
+  module Metadata
     # Defines methods to support dictionary metadata
-    module Metadata
+    module Metadatable
       def self.included(base)
-        base.extend MetadataClassMethods
+        base.extend MetadatableClassMethods
       end
 
-      module MetadataClassMethods
+      module MetadatableClassMethods
         # Override this method to return the metadata key associated with this
         # metadata object in the dictionary cache.
         def metadata_key
@@ -73,6 +73,7 @@ module LittleWeasel
       # @example
       #
       #   def metadata=(value)
+      #     dictionary_cache_service = LittleWeasel::Services::DictionaryCacheService.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
       #     dictionary_cache_service.dictionary_metadata_set(metadata_key: METADATA_KEY, value: value)
       #     @metadata = value
       #   end
@@ -86,11 +87,10 @@ module LittleWeasel
       #
       # @example
       #
-      #    def update_dictionary_metadata(value:)
-      #      dictionary_cache_service.dictionary_metadata_set do |dictionary_metadata|
-      #        dictionary_metadata[metadata_key] = value
-      #      end
-      #    end
+      #   def update_dictionary_metadata(value:)
+      #     dictionary_cache_service = LittleWeasel::Services::DictionaryCacheService.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
+      #     dictionary_cache_service.dictionary_metadata_set(metadata_key: metadata_key, value: value)
+      #   end
       # rubocop: disable Lint/UnusedMethodArgument
       def update_dictionary_metadata(value:)
         raise Errors::MustOverrideError

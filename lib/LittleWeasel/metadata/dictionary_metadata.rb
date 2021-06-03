@@ -3,9 +3,9 @@
 require 'observer'
 require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/klass_name_to_sym'
-require_relative '../modules/metadata'
 require_relative '../services/dictionary_service'
 require_relative 'max_invalid_words_bytesize_metadata'
+require_relative 'metadatable'
 
 module LittleWeasel
   module Metadata
@@ -13,7 +13,7 @@ module LittleWeasel
       include Observable
       include Modules::DictionaryCacheKeys
       include Modules::KlassNameToSym
-      include Modules::Metadata
+      include Metadata::Metadatable
 
       attr_reader :dictionary, :observers
 
@@ -26,6 +26,10 @@ module LittleWeasel
         self.observers = {}
 
         init!
+      end
+
+      def observers?
+        count_observers > 0
       end
 
       def init!(_params: nil)

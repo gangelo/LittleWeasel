@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 require_relative '../modules/klass_name_to_sym'
-require_relative '../modules/metadata_observer'
 require_relative '../services/dictionary_service'
 require_relative '../services/max_invalid_words_bytesize_service'
 require_relative 'max_invalid_words_bytesize_cacheable'
+require_relative 'metadata_observerable'
 
 module LittleWeasel
   module Metadata
     class MaxInvalidWordsBytesizeMetadata < Services::DictionaryService
       include Metadata::MaxInvalidWordsByteSizeCacheable
+      include Metadata::MetadataObserverable
       include Modules::KlassNameToSym
-      include Modules::MetadataObserver
 
       delegate :on?, :off?, :value, :value_exceeded?,
         :current_invalid_word_bytesize, :cache_invalid_words?,
