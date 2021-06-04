@@ -8,8 +8,11 @@ RSpec.describe LittleWeasel::Dictionary do
   subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words) }
 
   before do
-    LittleWeasel.configure { |_config| }
     create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true)
+  end
+
+  before(:each) do
+    LittleWeasel.configure { |config| config.max_invalid_words_bytesize = 25_000 }
   end
 
   let(:dictionary_key) { dictionary_key_for(language: :en, region: :us) }
@@ -44,6 +47,22 @@ RSpec.describe LittleWeasel::Dictionary do
     end
   end
 
+  #.to_hash
+  describe '.to_hash' do
+    let(:expected_hash) do
+      {
+        'this' => true,
+        'is' => true,
+        'a' => true,
+        'test' => true
+      }
+    end
+
+    it 'returns a Hash of dictionary words' do
+      expect(described_class.to_hash(dictionary_words: %w(this is a test))).to eq expected_hash
+    end
+  end
+
   #key
   describe '#key' do
     it 'returns the expected key' do
@@ -53,8 +72,34 @@ RSpec.describe LittleWeasel::Dictionary do
 
   #count
   describe '#count' do
-    it 'returns the expected count' do
+    before do
+      subject.word_valid?('badword')
+    end
+
+    it 'returns the count of all valid words' do
       expect(subject.count).to eq dictionary_words.count
+    end
+  end
+
+  #count_all_words
+  describe '#count_all_words' do
+    before do
+      subject.word_valid?('badword')
+    end
+
+    it 'returns the count of all valid and invalid words' do
+      expect(subject.count_all_words).to eq dictionary_words.count + 1
+    end
+  end
+
+  #count_invalid_words
+  describe '#count_invalid_words' do
+    before do
+      subject.word_valid?('badword')
+    end
+
+    it 'returns the count of all invalid words' do
+      expect(subject.count_invalid_words).to eq 1
     end
   end
 
@@ -99,6 +144,21 @@ RSpec.describe LittleWeasel::Dictionary do
             end.to change { subject.count_all_words }.by(2)
           end
         end
+      end
+    end
+
+    context 'when max_invalid_words_bytesize? is false' do
+      before do
+        LittleWeasel.configure { |config| config.max_invalid_words_bytesize = 0 }
+      end
+
+      it 'does NOT add the word to the cache' do
+        expect do
+          subject.word_valid?('IWillBeCached01')
+          subject.word_valid?('IWillBeCached02')
+          subject.word_valid?('IWontBeCached01')
+          subject.word_valid?('IWontBeCached02')
+        end.to change { subject.count_all_words }.by(0)
       end
     end
   end
