@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../dictionaries/dictionary_key'
-require_relative '../modules/configable'
+require_relative '../modules/configurable'
 require_relative '../modules/dictionary_cache_validate'
 require_relative '../modules/dictionary_key_validate'
 require_relative 'dictionary_cache_service'
@@ -11,7 +11,7 @@ module LittleWeasel
     # This class provides a base class for services that manage and
     # manipulate Dictionary objects.
     class DictionaryService
-      include Modules::Configable
+      include Modules::Configurable
       include Modules::DictionaryCacheValidate
       include Modules::DictionaryKeyValidate
 

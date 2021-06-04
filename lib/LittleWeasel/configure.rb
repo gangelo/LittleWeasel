@@ -5,21 +5,20 @@ module LittleWeasel
   class << self
     attr_reader :configuration
 
+    # Returns the application configuration object.
+    #
+    # @return [Configuration] the application Configuration object.
+    def configure
+      self.configuration ||= Configuration.new
+      yield(configuration)
+    end
+
     private
 
     attr_writer :configuration
   end
 
-  # Returns the application configuration object.
-  #
-  # @return [Configuration] the application Configuration object.
-  def self.configure
-    self.configuration ||= Configuration.new
-    yield(configuration)
-  end
-
-  # This class holds the configuration properties for
-  # this gem.
+  # This class holds the configuration properties for this gem.
   class Configuration
     attr_reader :dictionaries, :ignore_numerics, :language, :region,
       :max_dictionary_file_megabytes, :max_invalid_words_bytesize,
