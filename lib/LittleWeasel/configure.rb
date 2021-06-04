@@ -78,7 +78,7 @@ module LittleWeasel
     def metadata_observers=(value)
       raise "Argument value is not an Array: #{value.class}" unless value.is_a? Array
 
-      raise "Argument value contains objects that are not Metadata::MetadataObserverable" \
+      raise 'Argument value contains objects that are not Metadata::MetadataObserverable' \
         unless value.all? { |o| o.is_a? Metadata::MetadataObserverable }
 
       @metadata_observers = value
