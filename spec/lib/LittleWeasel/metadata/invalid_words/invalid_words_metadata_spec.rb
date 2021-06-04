@@ -20,6 +20,14 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
   let(:dictionary_cache) { {} }
   let(:file) { dictionary_path_for file_name: dictionary_key.key }
 
+  let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+  let(:invalid_words_metadata) { described_class.new(dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+  let(:dictionary_metadata) do
+    Class.new do
+      include Observable
+    end.new
+  end
+
   let!(:configuration) do
     LittleWeasel.configure { |_config| }
     LittleWeasel.configuration
@@ -28,11 +36,14 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
   #new
   describe '#new' do
     context 'with invalid arguments' do
+      subject { invalid_words_metadata }
+
       before do
         dictionary_cache_service.add_dictionary_reference(file: file)
       end
 
       context 'with invalid dictionary metadata' do
+        let(:dictionary_words) { { 'a' => true, 'b' => true } }
         let(:dictionary_metadata) { :wrong_type }
 
         it 'raises an error' do
@@ -41,15 +52,20 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
       end
 
       context 'with an invalid dictionary' do
-        let(:dictionary) { :wrong_type }
+        let(:dictionary_words) { :wrong_type }
 
         it 'raises an error' do
-          expect { subject }.to raise_error "Argument dictionary is not a Hash: #{dictionary.class}."
+          expect { subject }.to raise_error "Argument dictionary_words is not a Hash: #{dictionary_words.class}."
         end
       end
     end
 
     context 'with a valid arguments' do
+      before do
+        subject.word_search params: { word: 'badword1', word_found: false, word_valid: false }
+        subject.word_search params: { word: 'badword2', word_found: false, word_valid: false }
+      end
+
       it 'instantiates without error' do
         expect { subject }.to_not raise_error
       end
@@ -59,47 +75,13 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
         expect(subject.off?).to eq false
         expect(subject.value).to eq configuration.max_invalid_words_bytesize
         expect(subject.value_exceeded?).to eq false
-        expect(subject.current_invalid_word_bytesize).to eq 11
+        expect(subject.current_invalid_word_bytesize).to eq 16
         expect(subject.cache_invalid_words?).to eq true
       end
     end
 
-    context "with multiple #{described_class.name.split('::')[-1]} objects" do
-      before do
-        dictionary_cache_service.add_dictionary_reference(file: file)
-      end
-
-      context 'when sharing the same dictionary' do
-        let(:subject2) { described_class.new dictionary_metadata }
-        let(:dictionary_words_hash) do
-          {
-            'gene' => true,
-            'was' => true,
-            'here' => true,
-            'bad-word10' => false,
-          }
-        end
-
-        it 'they share the same metadata' do
-          expect(subject.dictionary_metadata).to be subject2.dictionary_metadata
-          expect(subject.current_invalid_word_bytesize).to eq 10
-          expect(subject.current_invalid_word_bytesize).to eq subject2.current_invalid_word_bytesize
-          dictionary_metadata.dictionary['bad-word02'] = false
-          dictionary_metadata.refresh!
-          expect(subject.current_invalid_word_bytesize).to eq 20
-          expect(subject.current_invalid_word_bytesize).to eq subject2.current_invalid_word_bytesize
-        end
-      end
-    end
-
     context 'with an invalid dictionary words Hash' do
-      subject { described_class.new(dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: {}) }
-
-      let(:dictionary_metadata) do
-        Class.new do
-          include Observable
-        end.new
-      end
+      subject { invalid_words_metadata }
 
       context 'when nil' do
         let(:dictionary_words) {}
