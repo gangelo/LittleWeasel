@@ -105,7 +105,7 @@ module LittleWeasel
         def cache_word?(word)
           return false unless metadata.cache_invalid_words?
 
-          if metadata.value > (word.bytesize + metadata.current_invalid_word_bytesize)
+          if metadata.value >= (word.bytesize + metadata.current_invalid_word_bytesize)
             metadata.current_invalid_word_bytesize += word.bytesize
             true
           else

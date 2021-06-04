@@ -6,8 +6,6 @@ require_relative 'services/dictionary_service'
 
 module LittleWeasel
   class Dictionary < Services::DictionaryService
-    delegate :count, to: :dictionary_words
-
     attr_reader :dictionary_words, :dictionary_metadata
 
     def initialize(dictionary_key:, dictionary_cache:, dictionary_words:)
@@ -22,7 +20,8 @@ module LittleWeasel
       # We unconditionally attach metadata to this dictionary. DictionaryMetadata
       # only attaches the metadata services that are turned "on".
       self.dictionary_metadata =
-        Metadata::DictionaryMetadata.new(dictionary_words: self.dictionary_words,
+        Metadata::DictionaryMetadata.new(
+          dictionary_words: self.dictionary_words,
           dictionary_key: dictionary_key,
           dictionary_cache: dictionary_cache)
       dictionary_metadata.add_observers
@@ -32,6 +31,22 @@ module LittleWeasel
       def to_hash(dictionary_words:)
         dictionary_words.each_with_object(Hash.new(false)) { |word, hash| hash[word] = true; }
       end
+    end
+
+    # This method returns a count of VALID words in the dictionary.
+    def count
+      dictionary_words.each_pair.count { |word, valid| valid }
+    end
+
+    # This method returns a count of all VALID and INVALID words in
+    # the dictionary.
+    def count_all_words
+      dictionary_words.count
+    end
+
+    # This method returns a count of all INVALID words in the dictionary.
+    def count_invalid_words
+      dictionary_words.each_pair.count { |word, valid| !valid }
     end
 
     def word_valid?(word)
