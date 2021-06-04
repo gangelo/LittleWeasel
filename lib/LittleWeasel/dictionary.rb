@@ -23,7 +23,8 @@ module LittleWeasel
         Metadata::DictionaryMetadata.new(
           dictionary_words: self.dictionary_words,
           dictionary_key: dictionary_key,
-          dictionary_cache: dictionary_cache)
+          dictionary_cache: dictionary_cache
+        )
       dictionary_metadata.add_observers
     end
 
@@ -35,7 +36,7 @@ module LittleWeasel
 
     # This method returns a count of VALID words in the dictionary.
     def count
-      dictionary_words.each_pair.count { |word, valid| valid }
+      dictionary_words.each_pair.count { |_word, valid| valid }
     end
 
     # This method returns a count of all VALID and INVALID words in
@@ -46,7 +47,7 @@ module LittleWeasel
 
     # This method returns a count of all INVALID words in the dictionary.
     def count_invalid_words
-      dictionary_words.each_pair.count { |word, valid| !valid }
+      dictionary_words.each_pair.count { |_word, valid| !valid }
     end
 
     def word_valid?(word)
