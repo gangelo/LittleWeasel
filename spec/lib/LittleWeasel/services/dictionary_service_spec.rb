@@ -8,7 +8,7 @@ RSpec.describe LittleWeasel::Services::DictionaryService do
   before { LittleWeasel.configure { |_config| } }
 
   let(:locale) { { language: :en, region: :us, tag: :tagged } }
-  let(:dictionary_key) { LittleWeasel::Dictionaries::DictionaryKey.new(**locale) }
+  let(:dictionary_key) { LittleWeasel::DictionaryKey.new(**locale) }
   let(:dictionary_cache) { { dictionary_cache: true } }
 
   #new

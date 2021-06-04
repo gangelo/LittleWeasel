@@ -44,7 +44,7 @@ task :workflow do
   end
   dictionary_manager = LittleWeasel::DictionaryManager.instance
 
-  dictionary_key = LittleWeasel::Dictionaries::DictionaryKey.new(language: :en, region: :us)
+  dictionary_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us)
   file = Support::FileHelpers.dictionary_path_for file_name: dictionary_key.key
   dictionary_manager.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
   binding.pry

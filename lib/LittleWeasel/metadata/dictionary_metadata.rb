@@ -8,6 +8,10 @@ require_relative 'metadatable'
 
 module LittleWeasel
   module Metadata
+    # This class manages metadata objects related to dictionaries. Metadata
+    # objects defined in LittleWeasel::Configuration#metadata_observers are
+    # added as observers, provided they are in a state to observe (see
+    # Metadata::Metadatable, Metadata::InvalidWords::InvalidWordsMetadata, etc.).
     class DictionaryMetadata < Services::DictionaryService
       include Observable
       include Modules::DictionaryCacheKeys
@@ -54,7 +58,7 @@ module LittleWeasel
 
       def add_observers
         self.observers = {}
-        observer_classes = config.metadata
+        observer_classes = config.metadata_observers
         yield observer_classes if block_given?
 
         observer_classes.each do |o|

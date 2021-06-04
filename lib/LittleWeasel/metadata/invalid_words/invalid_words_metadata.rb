@@ -8,6 +8,8 @@ require_relative '../metadata_observerable'
 module LittleWeasel
   module Metadata
     module InvalidWords
+      # This class provides the ability to cache words not found in the
+      # associated dictionary.
       class InvalidWordsMetadata < Services::DictionaryService
         include Metadata::MetadataObserverable
         include Modules::KlassNameToSym

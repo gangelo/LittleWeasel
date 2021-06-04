@@ -14,6 +14,7 @@ module LittleWeasel
         base.include(Region)
       end
 
+      # class method inclusions for convenience.
       module ClassMethods
         def locale(language:, region: nil)
           raise ArgumentError, 'Argument language does not respond to :downcase' unless language.respond_to? :downcase

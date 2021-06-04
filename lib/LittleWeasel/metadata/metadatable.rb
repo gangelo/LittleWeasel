@@ -5,12 +5,13 @@ require_relative '../services/dictionary_cache_service'
 
 module LittleWeasel
   module Metadata
-    # Defines methods to support dictionary metadata
+    # This module defines methods to support dictionary metadata objects.
     module Metadatable
       def self.included(base)
         base.extend ClassMethods
       end
 
+      # class method inclusions for convenience.
       module ClassMethods
         # Override this method to return the metadata key associated with this
         # metadata object in the dictionary cache.
@@ -91,8 +92,10 @@ module LittleWeasel
       # @example
       #
       #   def update_dictionary_metadata(value:)
-      #     dictionary_cache_service = LittleWeasel::Services::DictionaryCacheService.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
-      #     dictionary_cache_service.dictionary_metadata_set(metadata_key: metadata_key, value: value)
+      #     dictionary_cache_service = LittleWeasel::Services::DictionaryCacheService.new(
+      #       dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
+      #     dictionary_cache_service.dictionary_metadata_set(
+      #       metadata_key: metadata_key, value: value)
       #   end
       # rubocop: disable Lint/UnusedMethodArgument
       def update_dictionary_metadata(value:)

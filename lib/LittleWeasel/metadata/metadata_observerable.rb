@@ -13,6 +13,7 @@ module LittleWeasel
         base.extend ClassMethods
       end
 
+      # class method inclusions for convenience.
       module ClassMethods
         # If the medatata observer is not in a state to observe, or is turned
         # "off", return false; otherwise, return true...

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../dictionaries/dictionary_key'
+require_relative '../dictionary_key'
 require_relative '../modules/configurable'
 require_relative '../modules/dictionary_cache_validate'
 require_relative '../modules/dictionary_key_validate'

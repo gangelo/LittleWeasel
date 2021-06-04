@@ -2,6 +2,8 @@
 
 module LittleWeasel
   module Modules
+    # This module provides methods and constants used to define, initialize
+    # and manipulate a dictionary cache Hash object.
     module DictionaryCacheKeys
       DICTIONARY_CACHE = 'dictionary_cache'
       NEXT_DICTIONARY_ID = 'next_dictionary_id'

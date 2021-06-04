@@ -32,7 +32,7 @@ RSpec.describe LittleWeasel::Modules::DictionaryFileLoader, type: :module do
   let(:tag) {}
 
   let(:dictionary_cache_service) { LittleWeasel::Services::DictionaryCacheService }
-  let(:dictionary_key) { LittleWeasel::Dictionaries::DictionaryKey.new(language: language, region: region, tag: tag) }
+  let(:dictionary_key) { LittleWeasel::DictionaryKey.new(language: language, region: region, tag: tag) }
   let(:key) {  dictionary_key.key }
   let(:file) { dictionary_path_for locale: dictionary_key.locale }
   let(:dictionary_file_key) { file }
@@ -84,7 +84,7 @@ RSpec.describe LittleWeasel::Modules::DictionaryFileLoader, type: :module do
       end
 
       context 'when the dictionary is NOT already loaded/cached' do
-        let(:expected_dictionary_key_key) { LittleWeasel::Dictionaries::DictionaryKey.new(language: language, region: region, tag: tag).key }
+        let(:expected_dictionary_key_key) { LittleWeasel::DictionaryKey.new(language: language, region: region, tag: tag).key }
         let(:expected_results) do
           ['apple',
            'better',

@@ -2,7 +2,7 @@
 
 module LittleWeasel
   module Errors
-    # Describes an error when a dictionary file is not found.
+    # This class describes an error when a dictionary file is not found.
     class DictionaryFileNotFoundError < StandardError; end
   end
 end

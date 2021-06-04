@@ -2,7 +2,7 @@
 
 module LittleWeasel
   module Errors
-    # Describes an error when a dictionary file is zero bytes.
+    # This class describes an error when a dictionary file is zero bytes.
     class DictionaryFileEmptyError < StandardError; end
   end
 end

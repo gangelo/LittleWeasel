@@ -1,19 +1,20 @@
 # frozen_string_literal: true
 
-require_relative '../dictionaries/dictionary_key'
+require_relative '../dictionary_key'
 
 module LittleWeasel
   module Modules
-    # Validates a dictionary key.
+    # Provides methods to validate a dictionary key object.
     module DictionaryKeyValidate
       def self.included(base)
         base.extend ClassMethods
       end
 
+      # class method inclusions for convenience.
       module ClassMethods
         def validate_dictionary_key(dictionary_key:)
           raise ArgumentError, 'Argument dictionary_key is not a DictionaryKey object' \
-            unless dictionary_key.is_a? Dictionaries::DictionaryKey
+            unless dictionary_key.is_a? DictionaryKey
         end
       end
 

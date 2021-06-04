@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe LittleWeasel::Dictionaries::DictionaryKey, type: :class do
+RSpec.describe LittleWeasel::DictionaryKey, type: :class do
   subject { described_class.new(language: language, region: region, tag: tag) }
 
   let(:language) {}

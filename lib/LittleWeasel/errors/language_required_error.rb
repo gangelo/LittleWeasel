@@ -2,8 +2,7 @@
 
 module LittleWeasel
   module Errors
-    # Describes an error when a language is required
-    # but was missing
+    # This class describes an error when a language is required but was missing.
     class LanguageRequiredError < StandardError; end
   end
 end

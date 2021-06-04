@@ -2,7 +2,7 @@
 
 require 'active_support/core_ext/module/delegation'
 require 'singleton'
-require_relative 'dictionaries/dictionary_key'
+require_relative 'dictionary_key'
 require_relative 'modules/dictionary_key_validate'
 require_relative 'services/dictionary_cache_service'
 

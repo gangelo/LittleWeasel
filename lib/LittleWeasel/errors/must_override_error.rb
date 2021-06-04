@@ -2,8 +2,7 @@
 
 module LittleWeasel
   module Errors
-    # Describes an error when the method must be
-    # overridden.
+    # This class describes an error when the method must be overridden.
     class MustOverrideError < StandardError; end
   end
 end

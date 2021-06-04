@@ -2,7 +2,7 @@
 
 module LittleWeasel
   module Errors
-    # Describes an error when a the dictionary file is too large.
+    # This class describes an error when a the dictionary file is too large.
     class DictionaryFileTooLargeError < StandardError
       def initialize(msg: nil)
         unless msg.present?

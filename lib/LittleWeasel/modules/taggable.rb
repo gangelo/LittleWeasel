@@ -2,8 +2,7 @@
 
 module LittleWeasel
   module Modules
-    # This module provides methods to handle objects that
-    # can be tagged.
+    # This module provides methods to handle objects that can be tagged.
     module Taggable
       attr_reader :tag
 

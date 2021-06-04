@@ -8,6 +8,7 @@ module LittleWeasel
         base.extend(ClassMethods)
       end
 
+      # class method inclusions for convenience.
       module ClassMethods
         def normalize_language(language)
           language&.downcase
