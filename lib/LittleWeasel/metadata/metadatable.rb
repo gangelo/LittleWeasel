@@ -8,10 +8,10 @@ module LittleWeasel
     # Defines methods to support dictionary metadata
     module Metadatable
       def self.included(base)
-        base.extend MetadatableClassMethods
+        base.extend ClassMethods
       end
 
-      module MetadatableClassMethods
+      module ClassMethods
         # Override this method to return the metadata key associated with this
         # metadata object in the dictionary cache.
         def metadata_key

@@ -4,10 +4,10 @@ module LittleWeasel
   module Modules
     module Configurable
       def self.included(base)
-        base.extend(ConfigurableClassMethods)
+        base.extend(ClassMethods)
       end
 
-      module ConfigurableClassMethods
+      module ClassMethods
         def config
           LittleWeasel.configuration
         end

@@ -10,10 +10,10 @@ module LittleWeasel
       include Metadatable
 
       def self.included(base)
-        base.extend MetadataObserverableClassMethods
+        base.extend ClassMethods
       end
 
-      module MetadataObserverableClassMethods
+      module ClassMethods
         # If the medatata observer is not in a state to observe, or is turned
         # "off", return false; otherwise, return true...
         #

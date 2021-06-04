@@ -9,12 +9,12 @@ module LittleWeasel
     # parts of a locale to their string counter parts.
     module Locale
       def self.included(base)
-        base.extend(LocaleClassMethods)
+        base.extend(ClassMethods)
         base.include(Language)
         base.include(Region)
       end
 
-      module LocaleClassMethods
+      module ClassMethods
         def locale(language:, region: nil)
           raise ArgumentError, 'Argument language does not respond to :downcase' unless language.respond_to? :downcase
 

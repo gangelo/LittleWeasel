@@ -5,10 +5,10 @@ module LittleWeasel
     # Provides methods for normalizing region for a locale
     module Region
       def self.included(base)
-        base.extend(RegionClassMethods)
+        base.extend(ClassMethods)
       end
 
-      module RegionClassMethods
+      module ClassMethods
         def normalize_region(region)
           region&.upcase
         end

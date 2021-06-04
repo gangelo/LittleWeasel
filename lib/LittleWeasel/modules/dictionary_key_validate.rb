@@ -10,15 +10,15 @@ module LittleWeasel
         base.extend ClassMethods
       end
 
-      def validate_dictionary_key
-        self.class.validate_dictionary_key dictionary_key: dictionary_key
-      end
-
       module ClassMethods
         def validate_dictionary_key(dictionary_key:)
           raise ArgumentError, 'Argument dictionary_key is not a DictionaryKey object' \
             unless dictionary_key.is_a? Dictionaries::DictionaryKey
         end
+      end
+
+      def validate_dictionary_key
+        self.class.validate_dictionary_key dictionary_key: dictionary_key
       end
     end
   end

@@ -5,10 +5,10 @@ module LittleWeasel
     # Provides methods for normalizing language for a locale
     module Language
       def self.included(base)
-        base.extend(LanguageClassMethods)
+        base.extend(ClassMethods)
       end
 
-      module LanguageClassMethods
+      module ClassMethods
         def normalize_language(language)
           language&.downcase
         end
