@@ -5,52 +5,18 @@ require 'observer'
 
 RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
   subject do
+    dictionary_manager.reset!
     dictionary_manager.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
     dictionary.dictionary_metadata.observers[:invalid_words_metadata][:metadata_object]
-  end
-
-  before(:each) do
-    subject.refresh!
   end
 
   let(:dictionary) { dictionary_manager.load_dictionary(dictionary_key: dictionary_key) }
   let(:dictionary_manager) { LittleWeasel::DictionaryManager.instance }
 
-=begin
-  subject do
-    create(:max_invalid_words_bytesize_metadata,
-      dictionary_metadata: dictionary_metadata,
-      dictionary: dictionary,
-      dictionary_key: dictionary_key,
-      dictionary_cache: dictionary_cache)
-  end
-
-  let(:dictionary_cache_service) do
-    create(:dictionary_cache_service,
-      dictionary_key: dictionary_key,
-      dictionary_cache: dictionary_cache)
-      # DO NOT add a referene by default.
-      # dictionary_reference: dictionary_key.key)
-  end
-
-  let(:dictionary_metadata) do
-    create(:dictionary_metadata,
-      dictionary: create(:dictionary_hash, dictionary_words: dictionary_words),
-      dictionary_key: dictionary_key,
-      dictionary_cache: dictionary_cache)
-  end
-  let(:dictionary) do
-    create(:dictionary,
-      dictionary_key: dictionary_key,
-      dictionary_cache: dictionary_cache,
-      dictionary_words: dictionary_words)
-  end
-=end
   let(:dictionary_key) { create(:dictionary_key, language: language, region: region, tag: tag) }
   let(:language) { :en }
   let(:region) { :us }
   let(:tag) {}
-  # let(:dictionary_words) { dictionary_words_for dictionary_file_path: file }
   let(:dictionary_cache) { {} }
   let(:file) { dictionary_path_for file_name: dictionary_key.key }
 
@@ -127,8 +93,16 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
     end
 
     context 'with an invalid dictionary words Hash' do
+      subject { described_class.new(dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: {}) }
+
+      let(:dictionary_metadata) do
+        Class.new do
+          include Observable
+        end.new
+      end
+
       context 'when nil' do
-        let(:dictionary_words_hash) {}
+        let(:dictionary_words) {}
 
         it 'raises an error' do
           expect { subject }.to raise_error ArgumentError
@@ -136,7 +110,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
       end
 
       context 'when not a Hash' do
-        let(:dictionary_words_hash) { :not_an_array }
+        let(:dictionary_words) { :not_an_array }
 
         it 'raises an error' do
           expect { subject }.to raise_error ArgumentError
@@ -149,40 +123,10 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
   describe '#refresh!' do
     it 'the metadata is refreshed' do
       expect do
-        subject.dictionary_metadata.dictionary['not-found'] = false
+        subject.dictionary_metadata.dictionary_words['not-found'] = false
         subject.refresh!
       end.to change { subject.current_invalid_word_bytesize }
       .from(0).to(9)
-    end
-  end
-
-  #to_hash
-  describe '#to_hash' do
-    context 'with the default argument value' do
-      let(:expected_hash) do
-        {
-          described_class::METADATA_KEY => subject
-        }
-      end
-
-      it 'returns the expected Hash' do
-        expect(subject.to_hash).to eq expected_hash
-      end
-    end
-
-    context 'with argument include_root: true' do
-      let(:expected_hash) do
-        {
-          LittleWeasel::Metadata::DictionaryMetadata::METADATA_KEY =>
-            {
-              described_class::METADATA_KEY => subject
-            }
-        }
-      end
-
-      it 'returns the expected Hash with the root' do
-        expect(subject.to_hash include_root: true).to eq expected_hash
-      end
     end
   end
 
@@ -190,16 +134,17 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
   describe '#update' do
     context 'with an action NOT on the whitelist' do
       let(:action) { :bad_action! }
+      let(:params) { :params }
 
       it 'raises an error' do
-        expect { subject.update(:action) }.to raise_error "Argument action is not in the actions_whitelist: #{action}"
+        expect { subject.update(action, params) }.to raise_error "Argument action is not in the actions_whitelist: #{action}"
       end
     end
 
     context 'with an action on the whitelist' do
       it 'carries out the requested action' do
         expect do
-          dictionary['not-found']
+          dictionary.word_valid? 'not-found'
         end.to change { subject.current_invalid_word_bytesize }
         .from(0).to(9)
       end
