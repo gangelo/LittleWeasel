@@ -12,16 +12,23 @@ module LittleWeasel
     class DictionaryLoaderService < DictionaryService
       def execute
         if dictionary_cache_service.dictionary_cached?
-          dictionary_cache.dictionary_object!
+          load_from_cache
         else
-          dictionary_for dictionary_file_loader_service.execute
-          # TODO: Add the dictionary to the dictionary cache here?
+          load_from_disk
         end
       end
 
       private
 
-      def dictionary_for(dictionary_words)
+      def load_from_cache
+        dictionary_cache_service.dictionary_object!
+      end
+
+      def load_from_disk
+        dictionary_for dictionary_words: dictionary_file_loader_service.execute
+      end
+
+      def dictionary_for(dictionary_words:)
         Dictionary.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
           dictionary_words: dictionary_words
       end
