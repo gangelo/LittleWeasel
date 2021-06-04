@@ -48,8 +48,10 @@ module LittleWeasel
       #
       # No matter what the case, we need to notify any metadata observers
       # of this information so that they can perform their processing.
-      word_found, word_valid = [dictionary_words.include?(word), dictionary_words[word] || false]
-      dictionary_metadata.notify(action: :word_search, params: { word: word, word_found: word_found, word_valid: word_valid })
+      word_found = dictionary_words.include?(word)
+      word_valid = dictionary_words[word] || false
+      dictionary_metadata.notify(action: :word_search,
+        params: { word: word, word_found: word_found, word_valid: word_valid })
       word_valid
     end
 

@@ -25,7 +25,10 @@ module LittleWeasel
             raise ArgumentError,
               "Argument dictionary_metadata is not an Observable: #{dictionary_metadata.class}."
           end
-          raise ArgumentError, "Argument dictionary_words is not a Hash: #{dictionary_words.class}." unless dictionary_words.is_a? Hash
+          unless dictionary_words.is_a? Hash
+            raise ArgumentError,
+              "Argument dictionary_words is not a Hash: #{dictionary_words.class}."
+          end
 
           dictionary_metadata.add_observer self
           self.dictionary_metadata = dictionary_metadata

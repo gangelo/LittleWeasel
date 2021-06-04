@@ -19,7 +19,10 @@ module LittleWeasel
       def initialize(dictionary_words:, dictionary_key:, dictionary_cache:)
         super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
 
-        raise ArgumentError, "Argument dictionary_words is not a Hash: #{dictionary_words.class.name}." unless dictionary_words.is_a? Hash
+        unless dictionary_words.is_a? Hash
+          raise ArgumentError,
+            "Argument dictionary_words is not a Hash: #{dictionary_words.class.name}."
+        end
 
         self.dictionary_words = dictionary_words
         self.observers = {}
