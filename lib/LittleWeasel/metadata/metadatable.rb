@@ -86,6 +86,12 @@ module LittleWeasel
         update_dictionary_metadata value: value
       end
 
+      # This method updates the local metadata ONLY. Use this method if you
+      # need to update the local metadata from the dictionary cache metadata.
+      def refresh_local_metadata
+        @metadata = dictionary_cache_service.dictionary_metadata
+      end
+
       # This method should update the dictionary metadata for the the object
       # when it is called.
       #

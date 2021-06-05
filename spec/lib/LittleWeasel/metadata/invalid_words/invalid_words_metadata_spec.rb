@@ -7,7 +7,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
   subject do
     dictionary_manager.reset!
     dictionary_manager.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
-    dictionary.dictionary_metadata.observers[:invalid_words_metadata][:metadata_observer]
+    dictionary.dictionary_metadata.observers[:invalid_words_metadata]
   end
 
   let(:dictionary) { dictionary_manager.load_dictionary(dictionary_key: dictionary_key) }

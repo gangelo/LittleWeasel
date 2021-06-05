@@ -11,6 +11,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
   let(:dictionary_words) { create(:dictionary_hash) }
   let(:dictionary_key) { create(:dictionary_key) }
   let(:dictionary_cache) { {} }
+  let(:invalid_words_metadata_key) { LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata.metadata_key }
 
   #.new
   describe '#.new' do
@@ -21,7 +22,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
     end
 
     context 'with invalid arguments' do
-      context 'when dictionary is nil' do
+      context 'when dictionary_words is nil' do
         # Note: do not use the factory for this spec becasue
         # it creates a dictionary if a nil dictionay is passed
         # so the test will never pass if using the factory.
@@ -34,7 +35,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
         end
       end
 
-      context 'when dictionary is not a Hash' do
+      context 'when dictionary_words is not a Hash' do
         let(:dictionary_words) { %w(I am a bad dictionary) }
 
         it 'raises an error' do
@@ -46,7 +47,15 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
 
   #refresh!
   describe '#refresh!' do
-    it 'notifies observers to refresh'
+    before do
+      # Sanity check.
+      expect(subject.add_observers.count_observers).to eq 1
+    end
+
+    it 'notifies observers to refresh' do
+      expect(subject.observers[invalid_words_metadata_key]).to receive(:refresh!)
+      subject.refresh!
+    end
 
     context 'when the object is already initialized' do
       context 'with correct metadata' do

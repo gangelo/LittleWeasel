@@ -49,12 +49,17 @@ module LittleWeasel
       def refresh!(_params: nil)
         self.metadata = {}
         notify action: :refresh!
+        # TODO NOW: I think we need to update the local metadata since
+        # the observers were refreshed? However, if we do
+        # @metadata = dictionary_cache_service.dictionary_metadata
         self
       end
 
       def notify(action:, params: nil)
-        changed
-        notify_observers action, params
+        if count_observers.positive?
+          changed
+          notify_observers action, params
+        end
         self
       end
 
@@ -97,9 +102,7 @@ module LittleWeasel
         validate_metadata_observable observer
 
         super
-        observers[observer.metadata_key] = {
-          metadata_observer: observer
-        }
+        observers[observer.metadata_key] = observer
       end
 
       def delete_observer(observer)
