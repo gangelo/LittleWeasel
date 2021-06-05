@@ -4,6 +4,7 @@ require 'observer'
 require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/klass_name_to_sym'
 require_relative '../services/dictionary_service'
+require_relative 'metadata_observable_validatable'
 require_relative 'metadatable'
 
 module LittleWeasel
@@ -17,6 +18,7 @@ module LittleWeasel
       include Modules::DictionaryCacheKeys
       include Modules::KlassNameToSym
       include Metadata::Metadatable
+      include Metadata::MetadataObservableValidatable
 
       attr_reader :dictionary_words, :observers
 
@@ -65,46 +67,46 @@ module LittleWeasel
         yield observer_classes if block_given?
 
         observer_classes.each do |o|
+          #binding.pry
+
           # If the medatata observer is not in a state to observe,
           # or is turned "off", skip it...
           #
           # See Metadata::MetadataObserverable.observe? comments.
           next unless o.observe?
 
-          # If this observer has already beed added, don't add it
-          # again.
+          # If this observer has already beed added, don't add it again.
           next if observers.key? o.metadata_key
 
           observer = o.new(dictionary_metadata: self,
             dictionary_words: dictionary_words,
             dictionary_key: dictionary_key,
             dictionary_cache: dictionary_cache)
+
           # Only add metadata objects that are capable of observing
           # (i.e. #observe?).
           add_observer observer if observer.observe?
         end
-        # This is how each metadata object gets initialized.
-        # Only notify if there are any observers.
+        # This is how each metadata object gets initialized. Only notify if
+        # there are any observers.
         notify(action: :init!) if count_observers.positive?
         self
       end
 
       def add_observer(observer, func = :update)
+        validate_metadata_observable observer
+
         super
-
-        return unless observer.respond_to? :metadata_key
-
         observers[observer.metadata_key] = {
           metadata_observer: observer
         }
       end
 
       def delete_observer(observer)
+        validate_metadata_observable observer
+
         super
-
-        return unless observer.respond_to? :to_sym
-
-        observers.delete(observer.to_sym)
+        observers.delete(observer.metadata_key)
       end
 
       def delete_observers

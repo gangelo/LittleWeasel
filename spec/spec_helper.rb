@@ -118,4 +118,6 @@ RSpec.configure do |config|
   # Load support files
   config.include Support::FileHelpers
   config.include Support::GeneralHelpers
+
+  config.before(:each) { LittleWeasel.configure { |config| config.reset } }
 end

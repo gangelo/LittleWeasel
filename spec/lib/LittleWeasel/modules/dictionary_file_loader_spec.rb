@@ -26,7 +26,6 @@ RSpec.describe LittleWeasel::Modules::DictionaryFileLoader, type: :module do
     end.new(dictionary_key, dictionary_cache)
   end
 
-  let!(:configuration) { LittleWeasel.configure { |_config| } }
   let(:language) { :en }
   let(:region) { :us }
   let(:tag) {}

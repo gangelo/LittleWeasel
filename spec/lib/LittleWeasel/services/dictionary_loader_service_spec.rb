@@ -5,8 +5,6 @@ require 'spec_helper'
 RSpec.describe LittleWeasel::Services::DictionaryLoaderService do
   subject { create(:dictionary_loader_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
-  before { LittleWeasel.configure { |_config| } }
-
   let(:language) { :en }
   let(:region) { :us }
   let(:tag) {}

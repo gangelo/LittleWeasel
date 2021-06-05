@@ -8,8 +8,6 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
   subject { create(:dictionary_cache_service, dictionary_cache: dictionary_cache) }
 
-  before { LittleWeasel.configure { |_config| } }
-
   let(:en_us_dictionary_key) { dictionary_key_for(language: :en, region: :us) }
   let(:en_gb_dictionary_key) { dictionary_key_for(language: :en, region: :gb) }
   let(:es_es_dictionary_key) { dictionary_key_for(language: :es, region: :es) }

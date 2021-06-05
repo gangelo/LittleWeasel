@@ -80,10 +80,9 @@ module LittleWeasel
     end
 
     def metadata_observers=(value)
-      raise "Argument value is not an Array: #{value.class}" unless value.is_a? Array
+      raise ArgumentError, "Argument value is not an Array: #{value.class}" unless value.is_a? Array
 
-      raise 'Argument value contains objects that are not Metadata::MetadataObserverable' \
-        unless value.all? { |observer| observer.is_a? Metadata::MetadataObserverable }
+      # TODO: Limit the amount of observer classes, exploits?
 
       @metadata_observers = value
     end

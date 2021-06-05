@@ -10,8 +10,6 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
     dictionary.dictionary_metadata.observers[:invalid_words_metadata][:metadata_observer]
   end
 
-  before(:each) { LittleWeasel.configure { |config| config.reset } }
-
   let(:dictionary) { dictionary_manager.load_dictionary(dictionary_key: dictionary_key) }
   let(:dictionary_manager) { LittleWeasel::DictionaryManager.instance }
 
@@ -30,10 +28,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
     end.new
   end
 
-  let!(:configuration) do
-    LittleWeasel.configure { |_config| }
-    LittleWeasel.configuration
-  end
+  let(:configuration) { LittleWeasel.configuration }
 
   #new
   describe '#new' do

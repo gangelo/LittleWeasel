@@ -6,10 +6,7 @@ require 'observer'
 RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
   subject { create(:dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
-  before do
-    LittleWeasel.configure { |_config| }
-    create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true)
-  end
+  before { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true) }
 
   let(:dictionary_words) { create(:dictionary_hash) }
   let(:dictionary_key) { create(:dictionary_key) }
