@@ -25,6 +25,10 @@ module LittleWeasel
       :metadata_observers, :numeric_regex, :single_character_words, :strip_whitespace, :word_regex
 
     def initialize
+      reset
+    end
+
+    def reset
       @dictionaries = {}
       @ignore_numerics = true
       @language = nil

@@ -56,8 +56,11 @@ module LittleWeasel
         self
       end
 
-      def add_observers
-        self.observers = {}
+      def add_observers(force: false)
+        delete_observers if force
+
+        raise 'Observers have already been added; use #add_observers(force: true) instead' if count_observers.positive?
+
         observer_classes = config.metadata_observers
         yield observer_classes if block_given?
 
@@ -67,6 +70,10 @@ module LittleWeasel
           #
           # See Metadata::MetadataObserverable.observe? comments.
           next unless o.observe?
+
+          # If this observer has already beed added, don't add it
+          # again.
+          next if observers.key? o.metadata_key
 
           observer = o.new(dictionary_metadata: self,
             dictionary_words: dictionary_words,
@@ -85,11 +92,10 @@ module LittleWeasel
       def add_observer(observer, func = :update)
         super
 
-        return unless observer.respond_to? :to_sym
+        return unless observer.respond_to? :metadata_key
 
-        observers[observer.to_sym] = {
-          metadata_key: observer.metadata_key,
-          metadata_object: observer
+        observers[observer.metadata_key] = {
+          metadata_observer: observer
         }
       end
 

@@ -7,13 +7,8 @@ RSpec.describe LittleWeasel::Dictionary do
 
   subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words) }
 
-  before do
-    create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true)
-  end
-
-  before(:each) do
-    LittleWeasel.configure { |config| config.max_invalid_words_bytesize = 25_000 }
-  end
+  before(:each) { LittleWeasel.configure { |config| config.reset } }
+  before { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true) }
 
   let(:dictionary_key) { dictionary_key_for(language: :en, region: :us) }
   let(:dictionary_cache) { {} }

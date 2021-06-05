@@ -72,6 +72,28 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
       it 'added as an observer' do
         expect(subject.add_observers.count_observers).to eq 1
       end
+
+      context 'when #add_observers is called more than once' do
+        context 'when argument force is true (force: true)' do
+          before do
+            subject.add_observers
+          end
+
+          it 'reinstantiates and replaces the observers' do
+            expect(subject.add_observers(force: true).count_observers).to eq 1
+          end
+        end
+
+        context 'when argument force is false (force: false)' do
+          before do
+            subject.add_observers
+          end
+
+          it 'raises an error' do
+            expect { subject.add_observers }.to raise_error 'Observers have already been added; use #add_observers(force: true) instead'
+          end
+        end
+      end
     end
 
     context 'when a metadata object is NOT in a state to observe' do
