@@ -33,26 +33,30 @@ module LittleWeasel
         self.dictionary_words = dictionary_words
         self.observers = {}
 
-        init!
+        refresh!
       end
 
       def init!(_params: nil)
-        metadata = dictionary_cache_service.dictionary_metadata
-        if metadata
-          self.metadata = metadata
-          notify action: :init!
-        else
-          refresh!
+        self.metadata = {}
+        notify action: :init!
+        refresh_local_metadata
+        unless count_observers.zero? || metadata.present?
+          raise 'Observers were called to #init! but the dictionary cache metadata was not initialized'
         end
+
+        self
       end
 
       def refresh!(_params: nil)
-        self.metadata = {}
-        notify action: :refresh!
-        # TODO NOW: I think we need to update the local metadata since
-        # the observers were refreshed? However, if we do
-        # @metadata = dictionary_cache_service.dictionary_metadata
-        self
+        refresh_local_metadata
+        if metadata.present?
+          # If there is metadata in the dictionary cache, notify the observers
+          # to use it...
+          notify action: :refresh!
+        else
+          # ...otherwise, notify the observers to initialize themselves.
+          init!
+        end
       end
 
       def notify(action:, params: nil)
@@ -72,8 +76,6 @@ module LittleWeasel
         yield observer_classes if block_given?
 
         observer_classes.each do |o|
-          #binding.pry
-
           # If the medatata observer is not in a state to observe,
           # or is turned "off", skip it...
           #

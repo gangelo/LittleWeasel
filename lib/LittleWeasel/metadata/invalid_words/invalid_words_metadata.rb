@@ -49,19 +49,15 @@ module LittleWeasel
 
         # rubocop: disable Lint/UnusedMethodArgument
         def init!(params: nil)
-          metadata = dictionary_cache_service.dictionary_metadata(metadata_key: metadata_key)
-          if metadata
-            self.metadata = metadata
-          else
-            refresh!
-          end
+          self.metadata = Services::InvalidWordsService.new(dictionary_words).execute
           self
         end
         # rubocop: enable Lint/UnusedMethodArgument
 
         # rubocop: disable Lint/UnusedMethodArgument
         def refresh!(params: nil)
-          self.metadata = Services::InvalidWordsService.new(dictionary_words).execute
+          refresh_local_metadata
+          init! unless metadata.present?
           self
         end
         # rubocop: enable Lint/UnusedMethodArgument

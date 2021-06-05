@@ -52,6 +52,12 @@ module LittleWeasel
         self.class.observe?
       end
 
+      # This is an override of Metadata#refresh_local_metadata. See
+      # Metadata#refresh_local_metadata comments.
+      def refresh_local_metadata
+        @metadata = dictionary_cache_service.dictionary_metadata[metadata_key]
+      end
+
       # This method receives notifications from an observable.
       # object and should be chainable (return self).
       # All actions should be filtered through the

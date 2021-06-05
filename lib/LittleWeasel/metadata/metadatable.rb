@@ -24,33 +24,53 @@ module LittleWeasel
         self.class.metadata_key
       end
 
-      # This method should initialize the metadata if metadata currently
-      # exists for this object or call #refresh! in the case metadaa
-      # DOES NOT currently exist for this object. The idea is that metadata
-      # should be able to be shared across metadata objects of the same
-      # type. This method should be chainable (return self).
+      # This method should UNCONDITIONALLY update the local metadata, using the
+      # metadata_key and notify all observers (if any) to initialize themselves
+      # as well.
+      #
+      # This method should be chainable (return self).
       #
       # @example
       #
-      #   def init!(_parms: nil)
-      #     self.metadata = dictionary_cache_service.dictionary_metadata(
-      #       metadata_key: <metadata_hash_key>)
-      #     refresh! unless metadata
+      # . # Example of a root-level dictionary metadata object (e.g.
+      # . # Metadata::DictionaryMetadata)
+      #   def init!(_params: nil)
+      #     self.metadata = {}
+      #     notify action: :init!
+      #     refresh_local_metadata
+      #     unless count_observers.zero? || metadata.present?
+      #       raise 'Observers were called to #init! but the dictionary cache metadata was not initialized'
+      #     end
+      #
       #     self
       #   end
+      #
+      # . # Example of a metadata observable object (e.g.
+      # . # Metadata::InvalidWords::InvalidWordsMetadata)
+      #   def init!(params: nil)
+      #     self.metadata = Services::InvalidWordsService.new(dictionary_words).execute
+      #     self
+      #   end
+      #
       # rubocop: disable Lint/UnusedMethodArgument
       def init!(params: nil)
         raise Errors::MustOverrideError
       end
       # rubocop: enable Lint/UnusedMethodArgument
 
-      # This method should UNconditionally update the metadata and be
-      # chainable (return self).
+      # This method should refresh the local metadata from the dictionary cache,
+      # if metadata exists in the dictionary cache for the given metatata_key.
+      # Otherwise, #init! should be called to initialize this object.
+      # The idea is that metadata should be shared across metadata objects of
+      # the same type that use the same metadata_key.
+      #
+      # This method should be chainable (return self).
       #
       # @example
       #
-      #   def refresh!(_params: nil)
-      #     self.metadata = Services::InvalidWordsService.new(dictionary).execute
+      #   def refresh!(params: nil)
+      #     refresh_local_metadata
+      #     init! unless metadata.present?
       #     self
       #   end
       # rubocop: disable Lint/UnusedMethodArgument
@@ -88,6 +108,8 @@ module LittleWeasel
 
       # This method updates the local metadata ONLY. Use this method if you
       # need to update the local metadata from the dictionary cache metadata.
+      #
+      # Override this method in metadata observable classes as needed.
       def refresh_local_metadata
         @metadata = dictionary_cache_service.dictionary_metadata
       end

@@ -8,9 +8,10 @@ module LittleWeasel
     module MetadataObservableValidatable
       # This method validates a single MetadataObserverable object.
       def validate_metadata_observable(metadata_observable)
-        raise 'Argument metadata_observable is not a ' \
-          "Metadata::MetadataObserverable object: #{metadata_observable.class}" \
-          unless valid_metadata_observable? metadata_observable
+        unless valid_metadata_observable? metadata_observable
+          raise 'Argument metadata_observable is not a ' \
+            "Metadata::MetadataObserverable object: #{metadata_observable.class}"
+        end
       end
 
       def valid_metadata_observable?(metadata_observable)
