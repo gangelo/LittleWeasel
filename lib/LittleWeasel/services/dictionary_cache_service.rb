@@ -232,7 +232,7 @@ module LittleWeasel
       # with the given key has meaningful data; that is, the metadata is #present?
       # not just an empty Hash or nil.
       def dictionary_metadata?(metadata_key: nil)
-        dicionary_metadata(metadata_key: metadata_key)&.present? || false
+        dictionary_metadata(metadata_key: metadata_key)&.present? || false
       end
 
       def dictionary_metadata(metadata_key: nil)

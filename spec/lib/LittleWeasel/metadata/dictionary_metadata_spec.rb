@@ -6,7 +6,7 @@ require 'observer'
 RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
   subject { create(:dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
-  before { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true) }
+  let!(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true) }
 
   let(:dictionary_words) { create(:dictionary_hash) }
   let(:dictionary_key) { create(:dictionary_key) }
@@ -47,23 +47,30 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
 
   #refresh!
   describe '#refresh!' do
-    before do
-      # Sanity check.
-      expect(subject.add_observers.count_observers).to eq 1
-    end
-
-    it 'notifies observers to refresh' do
-      expect(subject.observers[invalid_words_metadata_key]).to receive(:refresh!)
-      subject.refresh!
-    end
-
-    context 'when the object is already initialized' do
-      context 'with correct metadata' do
-        it 'the existing metadata is not wiped out'
+    context 'when there are observers attached' do
+      before do
+        subject.add_observers
       end
 
-      context 'with incorrect metadata' do
-        it 'metadata is re-initialized'
+      it 'observers are notified to refresh' do
+        # Sanity check.
+        expect(subject.count_observers).to eq 1
+        expect(subject.observers[invalid_words_metadata_key]).to receive(:refresh!)
+        subject.refresh!
+      end
+    end
+
+    context 'when there are NO observers attached' do
+      it 'observers are NOT norified to refresh' do
+        # Sanity check.
+        expect(subject.count_observers).to eq 0
+        expect(subject.observers[invalid_words_metadata_key]).to_not receive(:refresh!)
+        subject.refresh!
+      end
+    end
+
+    context 'when dictionary metadata is already in the dictionary cache' do
+      it 'refreshes the metadata with what is currently in the dictionary cache' do
       end
     end
   end
