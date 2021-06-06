@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::DictionaryManager do
-  subject { described_class.instance.reset! }
-
   let(:dictionary_key) { create(:dictionary_key, language: language, region: region, tag: tag) }
   let(:language) { :en }
   let(:region) { :us }

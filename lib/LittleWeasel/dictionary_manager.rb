@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/module/delegation'
-require 'singleton'
 require_relative 'dictionary_key'
 require_relative 'modules/dictionary_key_validate'
 
 module LittleWeasel
   # This class provides dictionary management functionality.
   class DictionaryManager
-    include Singleton
     include Modules::DictionaryKeyValidate
 
     attr_reader :dictionary_cache

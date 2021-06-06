@@ -11,7 +11,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
   end
 
   let(:dictionary) { dictionary_manager.load_dictionary(dictionary_key: dictionary_key) }
-  let(:dictionary_manager) { LittleWeasel::DictionaryManager.instance }
+  let(:dictionary_manager) { create(:dictionary_manager) }
 
   let(:dictionary_key) { create(:dictionary_key, language: language, region: region, tag: tag) }
   let(:language) { :en }
