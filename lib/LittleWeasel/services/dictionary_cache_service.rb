@@ -71,9 +71,6 @@ module LittleWeasel
       #     }
       #   }
       # }
-      #
-      # @example To initialize a dictionary cache:
-      #
       def initialize(dictionary_key:, dictionary_cache:)
         self.dictionary_key = dictionary_key
         validate_dictionary_key

@@ -11,12 +11,6 @@ RSpec.describe LittleWeasel::DictionaryManager do
   let(:tag) {}
   let(:file) { dictionary_path_for(file_name: dictionary_key.key) }
 
-  shared_examples 'when an invalid dictionary key was passed' do
-    it 'raises an error' do
-      expect { subject.add(dictionary_key: :bad_key, file: file) }.to raise_error(/does not respond_to\? :key/)
-    end
-  end
-
   #.instance
   describe '.instance' do
     it 'does not raise an error' do
@@ -26,17 +20,8 @@ RSpec.describe LittleWeasel::DictionaryManager do
 
   #add_dictionary_reference
   describe '#add_dictionary_reference' do
-    describe 'when a valid key is passed' do
-      describe 'when the dictionary is added' do
-        it 'adds the dictionary to the cache' do
-          expect { subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file) }.to \
-            change { subject.count }.from(0).to(1)
-        end
-
-        it 'returns the dictionary manager instance' do
-          expect(subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)).to eq subject
-        end
-      end
+    it 'adds the dictionary reference' do
+      expect { subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file) }.to_not raise_error
     end
   end
 
@@ -53,38 +38,37 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
-  #unload
-  xdescribe '#unload_dictionary' do
+  #unload_dictionary
+  describe '#unload_dictionary' do
     before do
-      subject.reset
-      subject.add(dictionary_key: dictionary_key, file: file)
+      subject.reset!
+      subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
+      subject.load_dictionary(dictionary_key: dictionary_key)
     end
 
-    it_behaves_like 'when an invalid dictionary key was passed'
-
-    it 'unloads the dictionary from the cache but keeps the metadata' do
-      subject.unload(dictionary_key: dictionary_key)
-      expect(subject.exist?(key: dictionary_key.key)).to eq true
-      expect(subject.metadata?(key: dictionary_key.key)).to eq true
-      expect(subject.loaded?(key: dictionary_key.key)).to eq false
+    xit 'unloads the dictionary but keeps the file reference and metadata in the dictionary cache' do
+      subject.unload_dictionary(dictionary_key: dictionary_key)
     end
 
-    it 'returns true' do
-      expect(subject.unload(dictionary_key: dictionary_key)).to eq true
+    xit 'returns the dictionary manager instance' do
+      expect(subject.unload_dictionary(dictionary_key: dictionary_key)).to eq subject
     end
   end
 
   #kill
-  xdescribe '#kill_dictionary' do
-    it_behaves_like 'when an invalid dictionary key was passed'
+  describe '#kill_dictionary' do
+    before do
+      subject.reset!
+      subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
+      subject.load_dictionary(dictionary_key: dictionary_key)
+    end
 
-    it 'kills the dictionary'
-  end
+    xit 'removes the dictionary, file reference and metadata from the dictionary cache' do
+      subject.kill_dictionary(dictionary_key: dictionary_key)
+    end
 
-  #reset!
-  xdescribe '#reset!' do
-    it_behaves_like 'when an invalid dictionary key was passed'
-
-    it 'resets the cache'
+    xit 'returns the dictionary manager instance' do
+      expect(subject.unload_dictionary(dictionary_key: dictionary_key)).to eq subject
+    end
   end
 end

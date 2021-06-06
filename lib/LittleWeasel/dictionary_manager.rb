@@ -4,7 +4,6 @@ require 'active_support/core_ext/module/delegation'
 require 'singleton'
 require_relative 'dictionary_key'
 require_relative 'modules/dictionary_key_validate'
-require_relative 'services/dictionary_cache_service'
 
 module LittleWeasel
   # This class provides dictionary management functionality.
@@ -17,10 +16,6 @@ module LittleWeasel
     def initialize
       self.dictionary_cache = {}
       reset!
-    end
-
-    def count
-      Services::DictionaryCacheService.count dictionary_cache: dictionary_cache
     end
 
     def add_dictionary_reference(dictionary_key:, file:)
@@ -36,17 +31,27 @@ module LittleWeasel
       dictionary_loader_service(dictionary_key: dictionary_key).execute
     end
 
-    # rubocop: disable Lint/UnusedMethodArgument, Lint/UnreachableCode
+    # Unloads the dictionary (Dictionary object) associated with the dictionary
+    # key from the dictionary cache; however, the dictionary file reference
+    # and any metadata associated with the dictionary are maintained in the
+    # dictionary cache.
     def unload_dictionary(dictionary_key:)
-      raise 'TODO: Implement this'
+      validate_dictionary_key dictionary_key: dictionary_key
+
+      dictionary_unloader_service(dictionary_key: dictionary_key).execute
       self
     end
 
+    # Removes any and all traces of the dictionary associated with the
+    # dictionary key from the dictionary cache - the Dictionary object, file
+    # reference and any metadata associated with the dictionary are completely
+    # removed from the dictionary cache.
     def kill_dictionary(dictionary_key:)
-      raise 'TODO: Implement this'
+      validate_dictionary_key dictionary_key: dictionary_key
+
+      dictionary_killer_service(dictionary_key: dictionary_key).execute
       self
     end
-    # rubocop: enable Lint/UnusedMethodArgument, Lint/UnreachableCode
 
     # Resets the cache by clearing it out completely.
     def reset!
@@ -68,6 +73,14 @@ module LittleWeasel
 
     def dictionary_loader_service(dictionary_key:)
       Services::DictionaryLoaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
+    end
+
+    def dictionary_unloader_service(dictionary_key:)
+      Services::DictionaryUnloaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
+    end
+
+     def dictionary_killer_service(dictionary_key:)
+      Services::DictionaryKillerService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
     end
   end
 end
