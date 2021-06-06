@@ -1,36 +1,18 @@
 # frozen_string_literal: true
 
 require_relative '../modules/dictionary_cache_keys'
-require_relative '../modules/dictionary_cache_validate'
-require_relative '../modules/dictionary_key_validate'
+require_relative '../modules/dictionary_cache_validatable'
+require_relative '../modules/dictionary_keyable'
 
 module LittleWeasel
   module Services
-    # This class provides services that act upon a given dictionary cache. It is
-    # important that this class maintain object reference integrity of the
-    # dictionary cache object it is manipulating; this also holds true for any
-    # additional objects within the dictionary cache object hierarchy. The only
-    # exception to this rule applies to object references within the dictionary
-    # cache hierarchy, but not the dictionary cache object itself.
-    #
-    # For example...
-    #
-    # Destructive methods (reset!, init!, kill!, etc.) should be assumed to
-    # alter the object references of any or all # objects within the dictionary
-    # cache hierarchy, but NOT the object reference of the dictionary cache
-    # object itself (i.e. #dictionary_cache).
-    #
-    # Consequently, you shouldn't maintain a cached reference to any object
-    # other than the #dictionary_cache object itself; this is because these
-    # object references will not maintain object reference integrity across
-    # calls to destructive dictionary cache service methods.
     class DictionaryCacheService
+      include Modules::DictionaryKeyable
+      include Modules::DictionaryCacheValidatable
       include Modules::DictionaryCacheKeys
-      include Modules::DictionaryCacheValidate
-      include Modules::DictionaryKeyValidate
 
-      delegate :key, to: :dictionary_key
-
+      # TODO NOW: Remove :dictionary_key (added by Modules::DictionaryKeyable as private)?
+      # TODO NOW: Make :dictionary_cache private?
       attr_reader :dictionary_cache, :dictionary_key
 
       # This class expects a simple, empty Hash via the dictionary_cache;

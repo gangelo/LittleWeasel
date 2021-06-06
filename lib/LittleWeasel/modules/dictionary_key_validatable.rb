@@ -5,7 +5,7 @@ require_relative '../dictionary_key'
 module LittleWeasel
   module Modules
     # Provides methods to validate a dictionary key object.
-    module DictionaryKeyValidate
+    module DictionaryKeyValidatable
       def self.included(base)
         base.extend ClassMethods
       end
