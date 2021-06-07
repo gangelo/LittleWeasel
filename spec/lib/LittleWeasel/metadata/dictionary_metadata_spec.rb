@@ -4,13 +4,14 @@ require 'spec_helper'
 require 'observer'
 
 RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
-  subject { create(:dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+  subject { create(:dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata) }
 
   let!(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true) }
 
   let(:dictionary_words) { create(:dictionary_hash) }
   let(:dictionary_key) { create(:dictionary_key) }
   let(:dictionary_cache) { {} }
+  let(:dictionary_metadata) { {} }
   let(:invalid_words_metadata_key) { LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata.metadata_key }
 
   #.new
@@ -26,7 +27,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
         # Note: do not use the factory for this spec becasue
         # it creates a dictionary if a nil dictionay is passed
         # so the test will never pass if using the factory.
-        subject { described_class.new(dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+        subject { described_class.new(dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata) }
 
         let(:dictionary_words) {}
 

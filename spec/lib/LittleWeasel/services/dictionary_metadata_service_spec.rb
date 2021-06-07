@@ -100,7 +100,7 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
   describe '#init' do
     let(:expected_dictionary_metadata) do
       {
-        0 => {},
+        0 => { :metadata_key=>nil },
         1 => { metadata_key1: :metadata_object1 }
       }
     end

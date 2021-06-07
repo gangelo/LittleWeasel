@@ -60,11 +60,7 @@ module LittleWeasel
 
     private
 
-    attr_writer :dictionary_cache
-
-    def validate_dictionary_key(dictionary_key:)
-      self.class.validate_dictionary_key dictionary_key: dictionary_key
-    end
+    attr_writer :dictionary_cache, :dictionary_metadata
 
     def dictionary_cache_service(dictionary_key:)
       Services::DictionaryCacheService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache

@@ -7,7 +7,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
   subject do
     dictionary_manager.reset!
     dictionary_manager.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
-    dictionary.dictionary_metadata.observers[:invalid_words_metadata]
+    dictionary.dictionary_metadata_object.observers[:invalid_words_metadata]
   end
 
   let(:dictionary) { dictionary_manager.load_dictionary(dictionary_key: dictionary_key) }
@@ -18,11 +18,12 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
   let(:region) { :us }
   let(:tag) {}
   let(:dictionary_cache) { {} }
+  let(:dictionary_metadata) { {} }
   let(:file) { dictionary_path_for file_name: dictionary_key.key }
 
   let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
-  let(:invalid_words_metadata) { described_class.new(dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
-  let(:dictionary_metadata) do
+  let(:invalid_words_metadata) { described_class.new(dictionary_metadata_object: dictionary_metadata_object, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata) }
+  let(:dictionary_metadata_object) do
     Class.new do
       include Observable
     end.new
@@ -39,12 +40,21 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
         dictionary_cache_service.add_dictionary_reference(file: file)
       end
 
+      context 'with invalid dictionary metadata object' do
+        let(:dictionary_words) { { 'a' => true, 'b' => true } }
+        let(:dictionary_metadata_object) { :wrong_type }
+
+        it 'raises an error' do
+          expect { subject }.to raise_error "Argument dictionary_metadata_object is not an Observable: #{dictionary_metadata_object.class}."
+        end
+      end
+
       context 'with invalid dictionary metadata' do
         let(:dictionary_words) { { 'a' => true, 'b' => true } }
         let(:dictionary_metadata) { :wrong_type }
 
         it 'raises an error' do
-          expect { subject }.to raise_error "Argument dictionary_metadata is not an Observable: #{dictionary_metadata.class}."
+          expect { subject }.to raise_error "Argument dictionary_metadata is not a valid Hash object: #{dictionary_metadata.class}"
         end
       end
 
@@ -114,7 +124,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
   describe '#init!' do
     it 'the metadata is initialized' do
       expect do
-        subject.dictionary_metadata.dictionary_words['not-found'] = false
+        subject.dictionary_metadata_object.dictionary_words['not-found'] = false
         subject.init!
       end.to change { subject.current_invalid_word_bytesize }
       .from(0).to(9)
