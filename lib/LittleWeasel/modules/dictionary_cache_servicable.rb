@@ -10,11 +10,15 @@ module LittleWeasel
       include DictionaryKeyable
       include DictionaryCacheValidatable
 
-      attr_accessor :dictionary_cache, :dictionary_key
+      attr_reader :dictionary_cache, :dictionary_key
 
       def dictionary_cache_service
         Services::DictionaryCacheService.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
       end
+
+      private
+
+      attr_writer :dictionary_cache, :dictionary_key
     end
   end
 end

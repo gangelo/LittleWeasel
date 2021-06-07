@@ -7,11 +7,13 @@ module LittleWeasel
     module DictionaryKeyable
       include Modules::DictionaryKeyValidatable
 
+      attr_reader :dictionary_key
+
       delegate :key, to: :dictionary_key
 
       private
 
-      attr_accessor :dictionary_key
+      attr_writer :dictionary_key
     end
   end
 end

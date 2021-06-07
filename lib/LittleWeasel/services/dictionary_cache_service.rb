@@ -11,9 +11,7 @@ module LittleWeasel
       include Modules::DictionaryCacheValidatable
       include Modules::DictionaryCacheKeys
 
-      # TODO NOW: Remove :dictionary_key (added by Modules::DictionaryKeyable as private)?
-      # TODO NOW: Make :dictionary_cache private?
-      attr_reader :dictionary_cache, :dictionary_key
+      attr_accessor :dictionary_cache
 
       # This class expects a simple, empty Hash via the dictionary_cache;
       # attribute and produces the following structure depending on what
@@ -199,8 +197,6 @@ module LittleWeasel
       end
 
       private
-
-      attr_writer :dictionary_cache, :dictionary_key
 
       def dictionary_reference
         dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key)
