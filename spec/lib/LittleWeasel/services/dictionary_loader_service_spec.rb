@@ -3,13 +3,14 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Services::DictionaryLoaderService do
-  subject { create(:dictionary_loader_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+  subject { create(:dictionary_loader_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata) }
 
   let(:language) { :en }
   let(:region) { :us }
   let(:tag) {}
   let(:dictionary_key) { create(:dictionary_key, language: language, region: region, tag: tag) }
   let(:dictionary_cache) { {} }
+  let(:dictionary_metadata) { {} }
 
   #execute
   describe '#execute' do

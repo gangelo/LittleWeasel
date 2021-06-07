@@ -3,7 +3,7 @@
 require_relative '../dictionary'
 require_relative '../metadata/dictionary_metadata'
 require_relative '../modules/dictionary_cache_servicable'
-rquire_relative '../modules/dictionary_medatata_verifiable'
+require_relative '../modules/dictionary_metadata_servicable'
 require_relative '../modules/dictionary_keyable'
 require_relative 'dictionary_file_loader_service'
 
@@ -14,7 +14,7 @@ module LittleWeasel
     class DictionaryLoaderService
       include Modules::DictionaryKeyable
       include Modules::DictionaryCacheServicable
-      include Modules::DictionaryMetadataVerifiable
+      include Modules::DictionaryMetadataServicable
 
       def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:)
         validate_dictionary_key dictionary_key: dictionary_key
