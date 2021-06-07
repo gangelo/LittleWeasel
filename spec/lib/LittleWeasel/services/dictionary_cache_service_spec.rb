@@ -226,7 +226,6 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       subject { create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true) }
 
       it 'returns true' do
-        binding.pry
         expect(subject.dictionary_loaded?).to eq true
       end
     end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+=begin
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Services::DictionaryServiceDeprecated do
@@ -50,3 +51,4 @@ RSpec.describe LittleWeasel::Services::DictionaryServiceDeprecated do
     end
   end
 end
+=end
