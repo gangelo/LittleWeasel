@@ -1,15 +1,28 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/module/delegation'
+require_relative 'modules/dictionary_keyable'
+require_relative 'modules/dictionary_cache_servicable'
 require_relative 'metadata/dictionary_metadata'
-require_relative 'services/dictionary_service'
+require_relative 'modules/dictionary_metadata_servicable'
 
 module LittleWeasel
-  class Dictionary < Services::DictionaryService
-    attr_reader :dictionary_words, :dictionary_metadata
+  class Dictionary
+    include Modules::DictionaryKeyable
+    include Modules::DictionaryCacheServicable
+    include Modules::DictionaryMetadataServicable
 
-    def initialize(dictionary_key:, dictionary_cache:, dictionary_words:)
-      super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
+    attr_reader :dictionary_words
+
+    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, dictionary_metadata:)
+      self.dictionary_key = dictionary_key
+      validate_dictionary_key
+
+      self.dictionary_cache = dictionary_cache
+      validate_dictionary_cache
+
+      self.dictionary_metadata = dictionary_metadata
+      validate_dictionary_metadata
 
       unless dictionary_words.is_a?(Array)
         raise ArgumentError,
@@ -73,6 +86,6 @@ module LittleWeasel
 
     private
 
-    attr_writer :dictionary_words, :dictionary_metadata
+    attr_writer :dictionary_words
   end
 end

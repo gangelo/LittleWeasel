@@ -41,14 +41,12 @@ module LittleWeasel
       #       0 =>
       #         {
       #           'file' => '/en.txt',
-      #           'dictionary_object' => {},
-      #           'dictionary_metadata' => {}
+      #           'dictionary_object' => {}
       #         },
       #       1 =>
       #         {
       #           'file' => '/en-US.txt',
-      #           'dictionary_object' => {},
-      #           'dictionary_metadata' => {}
+      #           'dictionary_object' => {}
       #         }
       #     }
       #   }
@@ -199,47 +197,6 @@ module LittleWeasel
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][DICTIONARY_OBJECT] = object
       end
 
-      # Initializes the dictionary metadata associated with the given key.
-      # No initialization takes place if the metadata already exists.
-      def dictionary_metadata_init(with:)
-        return if dictionary_metadata?
-
-        dictionary_metadata_reset with: with
-      end
-
-      # This method will return true if the metadata for the dictionary associated
-      # with the given key has meaningful data; that is, the metadata is #present?
-      # not just an empty Hash or nil.
-      def dictionary_metadata?(metadata_key: nil)
-        dictionary_metadata(metadata_key: metadata_key)&.present? || false
-      end
-
-      def dictionary_metadata(metadata_key: nil)
-        metadata = dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id!, metadata_root_key)
-        return unless metadata
-
-        return metadata[metadata_key] if metadata_key
-
-        metadata
-      end
-
-      # This method sets the metadata for the dictionary associated with
-      # the given key. If metadata_key is omitted (nil), the metadata_root_key
-      # will be used to update the metadata with value; consequently, all
-      # the metadata under metadata_root_key is wiped out. If metadata_key
-      # is not nil, the metadata associated with that metadata key is update
-      # with value.
-      def dictionary_metadata_set(value:, metadata_key: nil)
-        dictionary_cache_metadata = dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!]
-        if metadata_key
-          dictionary_cache_metadata[metadata_root_key][metadata_key] = value
-        else
-          dictionary_cache_metadata[metadata_root_key] = value
-        end
-
-        self
-      end
-
       private
 
       attr_writer :dictionary_cache, :dictionary_key
@@ -280,16 +237,7 @@ module LittleWeasel
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!] = {
           FILE => file,
           DICTIONARY_OBJECT => {}
-          # DICTIONARY_METADATA => {}
         }
-      end
-
-      def metadata_root_key
-        LittleWeasel::Metadata::DictionaryMetadata.metadata_key
-      end
-
-      def dictionary_metadata_reset(with:)
-        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][metadata_root_key] = with
       end
 
       def dictionary_object?

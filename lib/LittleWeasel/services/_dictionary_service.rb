@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+=begin
 require_relative '../dictionary_key'
 require_relative '../modules/configurable'
 require_relative '../modules/dictionary_cache_validatable'
@@ -45,3 +46,4 @@ module LittleWeasel
     end
   end
 end
+=end

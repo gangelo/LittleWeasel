@@ -5,7 +5,7 @@ module LittleWeasel
     # This module provides methods to validate a dictionary metadata object.
     module DictionaryMetadataValidatable
       def validate_dictionary_metadata
-        raise ArgumentError, 'Argument dictionary_metadata is not a valid Hash' \
+        raise ArgumentError, "Argument dictionary_metadata is not a valid Hash object: #{dictionary_metadata.class}" \
           unless dictionary_metadata.is_a? Hash
       end
     end

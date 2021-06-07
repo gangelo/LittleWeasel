@@ -2,14 +2,23 @@
 
 require_relative '../dictionary'
 require_relative '../metadata/dictionary_metadata'
+require_relative '../modules/dictionary_cache_servicable'
+require_relative '../modules/dictionary_keyable'
 require_relative 'dictionary_file_loader_service'
-require_relative 'dictionary_service'
 
 module LittleWeasel
   module Services
     # This class provides services to load dictionaries from either disk or
     # cache.
-    class DictionaryLoaderService < DictionaryService
+    class DictionaryLoaderService
+      def initialize(dictionary_key:, dictionary_cache:)
+        self.dictionary_key = dictionary_key
+        validate_dictionary_key
+
+        self.dictionary_cache = dictionary_cache
+        validate_dictionary_cache
+      end
+
       def execute
         if dictionary_cache_service.dictionary_cached?
           load_from_cache

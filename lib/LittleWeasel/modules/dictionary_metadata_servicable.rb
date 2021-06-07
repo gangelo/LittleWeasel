@@ -14,7 +14,7 @@ module LittleWeasel
 
       private
 
-      attr_accessor :dictionary_cache, :dictionary_key, :dictionary_medatata
+      attr_accessor :dictionary_cache, :dictionary_key, :dictionary_metadata
 
       def dictionary_metadata_service
         Services::DictionaryMetadataService.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata)

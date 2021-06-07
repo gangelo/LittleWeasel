@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require 'observer'
+require_relative '../modules/dictionary_cache_servicable'
+require_relative '../modules/dictionary_metadata_servicable'
 require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/klass_name_to_sym'
-require_relative '../services/dictionary_service'
 require_relative 'metadata_observable_validatable'
 require_relative 'metadatable'
 
@@ -13,17 +14,26 @@ module LittleWeasel
     # objects defined in LittleWeasel::Configuration#metadata_observers are
     # added as observers, provided they are in a state to observe (see
     # Metadata::Metadatable, Metadata::InvalidWords::InvalidWordsMetadata, etc.).
-    class DictionaryMetadata < Services::DictionaryService
+    class DictionaryMetadata
       include Observable
       include Modules::DictionaryCacheKeys
+      include Modules::DictionaryCacheServicable
+      include Modules::DictionaryMetadataServicable
       include Modules::KlassNameToSym
       include Metadata::Metadatable
       include Metadata::MetadataObservableValidatable
 
       attr_reader :dictionary_words, :observers
 
-      def initialize(dictionary_words:, dictionary_key:, dictionary_cache:)
-        super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
+      def initialize(dictionary_words:, dictionary_key:, dictionary_cache:, dictionary_metadata:)
+        self.dictionary_key = dictionary_key
+        validate_dictionary_key
+
+        self.dictionary_cache = dictionary_cache
+        validate_dictionary_cache
+
+        self.dictionary_metadata = dictionary_metadata
+        validate_dictionary_metadata
 
         unless dictionary_words.is_a? Hash
           raise ArgumentError,

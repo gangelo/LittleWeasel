@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+require_relative '../../modules/dictionary_cache_servicable'
+require_relative '../../modules/dictionary_keyable'
 require_relative '../../modules/klass_name_to_sym'
-require_relative '../../services/dictionary_service'
 require_relative '../../services/invalid_words_service'
 require_relative '../metadata_observerable'
 
@@ -10,7 +11,10 @@ module LittleWeasel
     module InvalidWords
       # This class provides the ability to cache words not found in the
       # associated dictionary.
-      class InvalidWordsMetadata < Services::DictionaryService
+      class InvalidWordsMetadata
+        include Modules::DictionaryCacheServicable
+        include Modules::DictionaryMetadataServicable
+        include Modules::DictionaryKeyable
         include Metadata::MetadataObserverable
         include Modules::KlassNameToSym
 
@@ -18,22 +22,31 @@ module LittleWeasel
           :current_invalid_word_bytesize, :cache_invalid_words?,
           to: :metadata
 
-        attr_reader :dictionary_metadata
+        attr_reader :dictionary_metadata_object
 
-        def initialize(dictionary_metadata:, dictionary_words:, dictionary_key:, dictionary_cache:)
-          super(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
+        def initialize(dictionary_metadata_object, dictionary_metadata:, dictionary_cache:, dictionary_key:, dictionary_words:)
+          self.dictionary_key = dictionary_key
+          validate_dictionary_key
 
-          unless dictionary_metadata.is_a? Observable
+          self.dictionary_cache = dictionary_cache
+          validate_dictionary_cache
+
+          self.dictionary_metadata = dictionary_metadata
+          validate_dictionary_metadata
+
+          unless dictionary_metadata_object.is_a? Observable
             raise ArgumentError,
-              "Argument dictionary_metadata is not an Observable: #{dictionary_metadata.class}."
+              "Argument dictionary_metadata_object is not an Observable: #{dictionary_metadata_object.class}."
           end
+
+          dictionary_metadata_object.add_observer self
+          self.dictionary_metadata_object = dictionary_metadata_object
+
           unless dictionary_words.is_a? Hash
             raise ArgumentError,
               "Argument dictionary_words is not a Hash: #{dictionary_words.class}."
           end
 
-          dictionary_metadata.add_observer self
-          self.dictionary_metadata = dictionary_metadata
           self.dictionary_words = dictionary_words
         end
 
@@ -96,7 +109,6 @@ module LittleWeasel
         private
 
         attr_accessor :dictionary_words
-        attr_writer :dictionary_metadata
 
         def cache_word?(word)
           return false unless metadata.cache_invalid_words?

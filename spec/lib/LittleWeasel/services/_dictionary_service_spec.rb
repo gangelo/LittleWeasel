@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe LittleWeasel::Services::DictionaryService do
+RSpec.describe LittleWeasel::Services::DictionaryServiceDeprecated do
   subject { described_class }
 
   let(:locale) { { language: :en, region: :us, tag: :tagged } }

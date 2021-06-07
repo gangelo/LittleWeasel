@@ -31,7 +31,7 @@ RSpec.shared_context 'dictionary cache', shared_context: :metadata do
     dictionary_keys.each do |hash|
       raise ArgumentError, "Expected required Hash key :dictionary_key but it was not found" unless hash.key? :dictionary_key
 
-      dictionary_cache_service = create(:dictionary_cache_service,
+      create(:dictionary_cache_service,
         dictionary_cache: dictionary_cache,
         dictionary_key: hash[:dictionary_key],
         dictionary_reference: hash[:dictionary_reference],

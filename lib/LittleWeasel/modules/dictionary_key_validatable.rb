@@ -6,20 +6,9 @@ module LittleWeasel
   module Modules
     # Provides methods to validate a dictionary key object.
     module DictionaryKeyValidatable
-      def self.included(base)
-        base.extend ClassMethods
-      end
-
-      # class method inclusions for convenience.
-      module ClassMethods
-        def validate_dictionary_key(dictionary_key:)
-          raise ArgumentError, 'Argument dictionary_key is not a DictionaryKey object' \
-            unless dictionary_key.is_a? DictionaryKey
-        end
-      end
-
       def validate_dictionary_key
-        self.class.validate_dictionary_key dictionary_key: dictionary_key
+        raise ArgumentError, "Argument dictionary_key is not a valid DictionaryKey object: #{dictionary_key.class}" \
+          unless dictionary_key.is_a? DictionaryKey
       end
     end
   end
