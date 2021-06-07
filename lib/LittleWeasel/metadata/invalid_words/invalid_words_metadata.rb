@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative '../../modules/configurable'
 require_relative '../../modules/dictionary_cache_servicable'
 require_relative '../../modules/dictionary_keyable'
 require_relative '../../modules/klass_name_to_sym'
@@ -12,10 +13,11 @@ module LittleWeasel
       # This class provides the ability to cache words not found in the
       # associated dictionary.
       class InvalidWordsMetadata
-        include Modules::DictionaryCacheServicable
-        include Modules::DictionaryMetadataServicable
-        include Modules::DictionaryKeyable
         include Metadata::MetadataObserverable
+        include Modules::Configurable
+        include Modules::DictionaryCacheServicable
+        include Modules::DictionaryKeyable
+        include Modules::DictionaryMetadataServicable
         include Modules::KlassNameToSym
 
         delegate :on?, :off?, :value, :value_exceeded?,
@@ -24,15 +26,15 @@ module LittleWeasel
 
         attr_reader :dictionary_metadata_object
 
-        def initialize(dictionary_metadata_object, dictionary_metadata:, dictionary_cache:, dictionary_key:, dictionary_words:)
+        def initialize(dictionary_metadata_object:, dictionary_metadata:, dictionary_cache:, dictionary_key:, dictionary_words:)
+          validate_dictionary_key dictionary_key: dictionary_key
           self.dictionary_key = dictionary_key
-          validate_dictionary_key
 
+          validate_dictionary_cache dictionary_cache: dictionary_cache
           self.dictionary_cache = dictionary_cache
-          validate_dictionary_cache
 
+          validate_dictionary_metadata dictionary_metadata: dictionary_metadata
           self.dictionary_metadata = dictionary_metadata
-          validate_dictionary_metadata
 
           unless dictionary_metadata_object.is_a? Observable
             raise ArgumentError,
@@ -62,6 +64,7 @@ module LittleWeasel
 
         # rubocop: disable Lint/UnusedMethodArgument
         def init!(params: nil)
+          dictionary_metadata_service.init(metadata_key: metadata_key)
           self.metadata = Services::InvalidWordsService.new(dictionary_words).execute
           self
         end
@@ -109,6 +112,7 @@ module LittleWeasel
         private
 
         attr_accessor :dictionary_words
+        attr_writer :dictionary_metadata_object
 
         def cache_word?(word)
           return false unless metadata.cache_invalid_words?
@@ -122,7 +126,7 @@ module LittleWeasel
         end
 
         def update_dictionary_metadata(value:)
-          dictionary_cache_service.dictionary_metadata_set(metadata_key: metadata_key, value: value)
+          dictionary_metadata_service.set_dictionary_metadata(value: value, metadata_key: metadata_key)
         end
       end
     end

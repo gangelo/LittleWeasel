@@ -55,7 +55,7 @@ module LittleWeasel
       # This is an override of Metadata#refresh_local_metadata. See
       # Metadata#refresh_local_metadata comments.
       def refresh_local_metadata
-        @metadata = dictionary_cache_service.dictionary_metadata[metadata_key]
+        @metadata = dictionary_metadata_service.get_dictionary_metadata(metadata_key: metadata_key)
       end
 
       # This method receives notifications from an observable.

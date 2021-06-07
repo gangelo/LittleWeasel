@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :dictionary, class: LittleWeasel::Dictionary do
     dictionary_key { create(:dictionary_key) }
     dictionary_cache { {} }
+    dictionary_metadata { {} }
     dictionary_words do
       %w(apple
         better
@@ -35,7 +36,7 @@ FactoryBot.define do
 
     skip_create
     initialize_with do
-      new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words
+      new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words
     end
   end
 end

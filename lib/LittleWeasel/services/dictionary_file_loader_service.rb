@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
+require_relative '../modules/configurable'
 require_relative '../modules/dictionary_cache_servicable'
-require_relative '../modules/dictionary_keyable'
 require_relative '../modules/dictionary_file_loader'
+require_relative '../modules/dictionary_keyable'
 
 module LittleWeasel
   module Services
     class DictionaryFileLoaderService
+      include Modules::Configurable
       include Modules::DictionaryCacheServicable
-      include Modules::DictionaryKeyable
       include Modules::DictionaryFileLoader
+      include Modules::DictionaryKeyable
 
       def initialize(dictionary_key:, dictionary_cache:)
         validate_dictionary_key dictionary_key: dictionary_key

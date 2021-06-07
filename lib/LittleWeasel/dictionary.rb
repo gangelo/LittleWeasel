@@ -12,17 +12,17 @@ module LittleWeasel
     include Modules::DictionaryCacheServicable
     include Modules::DictionaryMetadataServicable
 
-    attr_reader :dictionary_words
+    attr_reader :dictionary_metadata_object, :dictionary_words
 
     def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, dictionary_metadata:)
+      validate_dictionary_key dictionary_key: dictionary_key
       self.dictionary_key = dictionary_key
-      validate_dictionary_key
 
+      validate_dictionary_cache dictionary_cache: dictionary_cache
       self.dictionary_cache = dictionary_cache
-      validate_dictionary_cache
 
+      validate_dictionary_metadata dictionary_metadata: dictionary_metadata
       self.dictionary_metadata = dictionary_metadata
-      validate_dictionary_metadata
 
       unless dictionary_words.is_a?(Array)
         raise ArgumentError,
@@ -32,13 +32,14 @@ module LittleWeasel
       self.dictionary_words = self.class.to_hash(dictionary_words: dictionary_words)
       # We unconditionally attach metadata to this dictionary. DictionaryMetadata
       # only attaches the metadata services that are turned "on".
-      self.dictionary_metadata =
+      self.dictionary_metadata_object =
         Metadata::DictionaryMetadata.new(
           dictionary_words: self.dictionary_words,
           dictionary_key: dictionary_key,
-          dictionary_cache: dictionary_cache
+          dictionary_cache: dictionary_cache,
+          dictionary_metadata: dictionary_metadata
         )
-      dictionary_metadata.add_observers
+      dictionary_metadata_object.add_observers
     end
 
     class << self
@@ -79,13 +80,13 @@ module LittleWeasel
       # of this information so that they can perform their processing.
       word_found = dictionary_words.include?(word)
       word_valid = dictionary_words[word] || false
-      dictionary_metadata.notify(action: :word_search,
+      dictionary_metadata_object.notify(action: :word_search,
         params: { word: word, word_found: word_found, word_valid: word_valid })
       word_valid
     end
 
     private
 
-    attr_writer :dictionary_words
+    attr_writer :dictionary_metadata_object, :dictionary_words
   end
 end

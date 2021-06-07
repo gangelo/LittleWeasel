@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'observer'
+require_relative '../modules/configurable'
 require_relative '../modules/dictionary_cache_servicable'
 require_relative '../modules/dictionary_metadata_servicable'
 require_relative '../modules/dictionary_cache_keys'
@@ -16,6 +17,7 @@ module LittleWeasel
     # Metadata::Metadatable, Metadata::InvalidWords::InvalidWordsMetadata, etc.).
     class DictionaryMetadata
       include Observable
+      include Modules::Configurable
       include Modules::DictionaryCacheKeys
       include Modules::DictionaryCacheServicable
       include Modules::DictionaryMetadataServicable
@@ -26,14 +28,14 @@ module LittleWeasel
       attr_reader :dictionary_words, :observers
 
       def initialize(dictionary_words:, dictionary_key:, dictionary_cache:, dictionary_metadata:)
+        validate_dictionary_key dictionary_key: dictionary_key
         self.dictionary_key = dictionary_key
-        validate_dictionary_key
 
+        validate_dictionary_cache dictionary_cache: dictionary_cache
         self.dictionary_cache = dictionary_cache
-        validate_dictionary_cache
 
+        validate_dictionary_metadata dictionary_metadata: dictionary_metadata
         self.dictionary_metadata = dictionary_metadata
-        validate_dictionary_metadata
 
         unless dictionary_words.is_a? Hash
           raise ArgumentError,
@@ -47,6 +49,7 @@ module LittleWeasel
       end
 
       def init!(_params: nil)
+        dictionary_metadata_service.init(metadata_key: metadata_key)
         self.metadata = {}
         notify action: :init!
         refresh_local_metadata
@@ -95,10 +98,11 @@ module LittleWeasel
           # If this observer has already beed added, don't add it again.
           next if observers.key? o.metadata_key
 
-          observer = o.new(dictionary_metadata: self,
+          observer = o.new(dictionary_metadata_object: self,
             dictionary_words: dictionary_words,
             dictionary_key: dictionary_key,
-            dictionary_cache: dictionary_cache)
+            dictionary_cache: dictionary_cache,
+            dictionary_metadata: dictionary_metadata)
 
           # Only add metadata objects that are capable of observing
           # (i.e. #observe?).
@@ -134,7 +138,7 @@ module LittleWeasel
       attr_writer :dictionary_words, :observers
 
       def update_dictionary_metadata(value:)
-        dictionary_cache_service.dictionary_metadata_set(value: value)
+        dictionary_metadata_service.set_dictionary_metadata(value: value, metadata_key: metadata_key)
       end
     end
   end

@@ -111,7 +111,7 @@ module LittleWeasel
       #
       # Override this method in metadata observable classes as needed.
       def refresh_local_metadata
-        @metadata = dictionary_cache_service.dictionary_metadata
+        @metadata = dictionary_metadata_service.dictionary_metadata
       end
 
       # This method should update the dictionary metadata for the the object

@@ -61,6 +61,8 @@ module LittleWeasel
       # associated with the dictionary_id and metadata_key.
       def init(metadata_key:)
         dictionary_metadata[dictionary_id!]&.delete(metadata_key)
+        dictionary_metadata_init_if
+        dictionary_metadata[dictionary_id!][metadata_key] = nil
         self
       end
 
@@ -80,6 +82,12 @@ module LittleWeasel
       end
 
       private
+
+      def dictionary_metadata_init_if
+        return if dictionary_metadata[dictionary_id!].present?
+
+        dictionary_metadata[dictionary_id!] = {}
+      end
 
       def dictionary_id!
         dictionary_cache_service.dictionary_id!
