@@ -26,7 +26,8 @@ module LittleWeasel
 
         attr_reader :dictionary_metadata_object
 
-        def initialize(dictionary_metadata_object:, dictionary_metadata:, dictionary_cache:, dictionary_key:, dictionary_words:)
+        def initialize(dictionary_metadata_object:, dictionary_metadata:,
+          dictionary_cache:, dictionary_key:, dictionary_words:)
           validate_dictionary_key dictionary_key: dictionary_key
           self.dictionary_key = dictionary_key
 

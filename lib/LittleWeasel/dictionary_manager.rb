@@ -67,18 +67,20 @@ module LittleWeasel
     end
 
     def dictionary_metadata_service(dictionary_key:)
-      Services::DictionaryMetadataService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata
+      Services::DictionaryMetadataService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
+        dictionary_metadata: dictionary_metadata
     end
 
     def dictionary_loader_service(dictionary_key:)
-      Services::DictionaryLoaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata
+      Services::DictionaryLoaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
+        dictionary_metadata: dictionary_metadata
     end
 
     def dictionary_unloader_service(dictionary_key:)
       Services::DictionaryUnloaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
     end
 
-     def dictionary_killer_service(dictionary_key:)
+    def dictionary_killer_service(dictionary_key:)
       Services::DictionaryKillerService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
     end
   end

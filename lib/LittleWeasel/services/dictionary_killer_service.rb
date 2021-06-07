@@ -27,7 +27,7 @@ module LittleWeasel
       end
 
       def execute
-        raise NotImplementedError, "TODO: Implement this!"
+        raise NotImplementedError, 'TODO: Implement this!'
       end
     end
   end

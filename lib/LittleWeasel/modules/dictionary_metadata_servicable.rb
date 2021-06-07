@@ -15,7 +15,8 @@ module LittleWeasel
       attr_reader :dictionary_cache, :dictionary_key, :dictionary_metadata
 
       def dictionary_metadata_service
-        Services::DictionaryMetadataService.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata)
+        Services::DictionaryMetadataService.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
+          dictionary_metadata: dictionary_metadata)
       end
 
       private

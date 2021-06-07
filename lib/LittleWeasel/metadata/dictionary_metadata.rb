@@ -54,7 +54,8 @@ module LittleWeasel
         notify action: :init!
         refresh_local_metadata
         if count_observers.positive? && metadata.blank?
-          raise 'Observers were notified to #init! but no observers initialized their respective dictionary cache metadata'
+          raise 'Observers were notified to #init! ' \
+            'but no observers initialized their respective dictionary cache metadata'
         end
 
         self
