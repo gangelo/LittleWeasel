@@ -49,9 +49,9 @@ module LittleWeasel
         # it's in the same state the dictionary metadata would be in if #init!
         # were called.
         def init?(dictionary_metadata:)
-          validate_dictionary_metadata dictionary_metadata: dictionary_metadata
+          Modules::DictionaryMetadataValidatable.validate dictionary_metadata: dictionary_metadata
 
-          initialized_dictionary_metadata = init({})
+          initialized_dictionary_metadata = init(dictionary_metadata: {})
           dictionary_metadata.eql?(initialized_dictionary_metadata)
         end
         alias initialized? init?

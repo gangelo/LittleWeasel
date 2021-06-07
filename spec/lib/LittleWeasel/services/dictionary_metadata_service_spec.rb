@@ -39,18 +39,47 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
   describe 'class methods' do
     #.init
     describe '.init' do
-      it 'initializes the dictionary metadata' do
-        expect(described_class.init(dictionary_metadata: dictionary_metadata)).to eq({})
+      context 'with a valid dictionary metadata argument' do
+        it 'initializes the dictionary metadata' do
+          expect(described_class.init(dictionary_metadata: dictionary_metadata)).to eq({})
+        end
+
+        it_behaves_like 'the dictionary_metadata object reference has not changed' do
+          let(:expected_dictionary_metadata) { dictionary_metadata }
+          let(:actual_dictionary_metadata) { subject.dictionary_metadata }
+        end
       end
 
-      it_behaves_like 'the dictionary_metadata object reference has not changed' do
-        let(:expected_dictionary_metadata) { dictionary_metadata }
-        let(:actual_dictionary_metadata) { subject.dictionary_metadata }
+      context 'with an INVALID dictionary metadata argument' do
+        subject { described_class.init(dictionary_metadata: dictionary_metadata) }
+
+        it_behaves_like 'the dictionary_metadata is invalid'
       end
     end
 
     #.init?
     describe '.init?' do
+      context 'with a valid dictionary metadata argument' do
+        context 'when the dictionary metadata is in an initialized state' do
+          let(:dictionary_metadata) { {} }
+
+          it 'returns true' do
+            expect(described_class.init?(dictionary_metadata: dictionary_metadata)).to eq true
+          end
+        end
+
+        context 'when the dictionary metadata is NOT in an initialized state' do
+          it 'returns false' do
+            expect(described_class.init?(dictionary_metadata: dictionary_metadata)).to eq false
+          end
+        end
+      end
+
+      context 'with an INVALID dictionary metadata argument' do
+        subject { described_class.init?(dictionary_metadata: dictionary_metadata) }
+
+        it_behaves_like 'the dictionary_metadata is invalid'
+      end
     end
   end
 

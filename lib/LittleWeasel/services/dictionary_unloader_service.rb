@@ -16,11 +16,11 @@ module LittleWeasel
       include Modules::DictionaryKeyable
 
       def initialize(dictionary_key:, dictionary_cache:)
+        validate_dictionary_key dictionary_key: dictionary_key
         self.dictionary_key = dictionary_key
-        validate_dictionary_key
 
+        validate_dictionary_cache dictionary_cache: dictionary_cache
         self.dictionary_cache = dictionary_cache
-        validate_dictionary_cache
       end
 
       def execute
