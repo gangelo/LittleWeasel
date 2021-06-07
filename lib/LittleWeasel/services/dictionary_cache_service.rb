@@ -52,12 +52,13 @@ module LittleWeasel
       #   }
       # }
       def initialize(dictionary_key:, dictionary_cache:)
+        validate_dictionary_key dictionary_key: dictionary_key
         self.dictionary_key = dictionary_key
-        validate_dictionary_key
+
+        validate_dictionary_cache dictionary_cache: dictionary_cache
+        self.dictionary_cache = dictionary_cache
 
         self.class.reset!(dictionary_cache: dictionary_cache) unless dictionary_cache[DICTIONARY_CACHE]
-        self.dictionary_cache = dictionary_cache
-        validate_dictionary_cache
       end
 
       class << self

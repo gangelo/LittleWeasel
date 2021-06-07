@@ -24,14 +24,14 @@ module LittleWeasel
       #     }
       #   }
       def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:)
+        validate_dictionary_key dictionary_key: dictionary_key
         self.dictionary_key = dictionary_key
-        validate_dictionary_key
 
+        validate_dictionary_cache dictionary_cache: dictionary_cache
         self.dictionary_cache = dictionary_cache
-        validate_dictionary_cache
 
+        validate_dictionary_metadata dictionary_metadata: dictionary_metadata
         self.dictionary_metadata = dictionary_metadata
-        validate_dictionary_metadata
       end
 
       class << self
@@ -39,6 +39,8 @@ module LittleWeasel
         # initialized state - all data is lost, but the object reference is
         # maintained.
         def init(dictionary_metadata:)
+          Modules::DictionaryMetadataValidatable.validate dictionary_metadata: dictionary_metadata
+
           dictionary_metadata.each_key { |key| dictionary_metadata.delete(key) }
           dictionary_metadata
         end
@@ -47,7 +49,9 @@ module LittleWeasel
         # it's in the same state the dictionary metadata would be in if #init!
         # were called.
         def init?(dictionary_metadata:)
-          initialized_dictionary_metadata = init!({})
+          validate_dictionary_metadata dictionary_metadata: dictionary_metadata
+
+          initialized_dictionary_metadata = init({})
           dictionary_metadata.eql?(initialized_dictionary_metadata)
         end
         alias initialized? init?

@@ -4,9 +4,13 @@ module LittleWeasel
   module Modules
     # This module provides methods to validate a dictionary cathe object.
     module DictionaryCacheValidatable
-      def validate_dictionary_cache
+      def self.validate(dictionary_cache:)
         raise ArgumentError, "Argument dictionary_cache is not a valid Hash object: #{dictionary_cache.class}" \
           unless dictionary_cache.is_a? Hash
+      end
+
+      def validate_dictionary_cache(dictionary_cache:)
+        DictionaryCacheValidatable.validate dictionary_cache: dictionary_cache
       end
     end
   end

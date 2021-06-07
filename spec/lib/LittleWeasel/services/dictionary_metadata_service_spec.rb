@@ -16,12 +16,11 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
   let(:key) { dictionary_key.key }
   let(:file) { "#{ dictionary_path_for(file_name: key) }" }
   let(:dictionary_cache) { {} }
-  let!(:initialized_dictionary_cache) { {} }
   let(:metadata_key) { :metadata_key }
   let(:dictionary_metadata) do
     {
-      0 => { metadata_key => :metadata_object },
-      1 => { metadata_key0: :metadata_object0 }
+      0 => { metadata_key => :metadata_object0 },
+      1 => { metadata_key1: :metadata_object1 }
     }
   end
 
@@ -38,12 +37,20 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
   end
 
   describe 'class methods' do
-    #.reset!
-    describe '.reset!' do
+    #.init
+    describe '.init' do
+      it 'initializes the dictionary metadata' do
+        expect(described_class.init(dictionary_metadata: dictionary_metadata)).to eq({})
+      end
+
+      it_behaves_like 'the dictionary_metadata object reference has not changed' do
+        let(:expected_dictionary_metadata) { dictionary_metadata }
+        let(:actual_dictionary_metadata) { subject.dictionary_metadata }
+      end
     end
 
-    #.init!
-    describe '.init!' do
+    #.init?
+    describe '.init?' do
     end
   end
 
@@ -65,7 +72,7 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
     let(:expected_dictionary_metadata) do
       {
         0 => {},
-        1 => { metadata_key0: :metadata_object0 }
+        1 => { metadata_key1: :metadata_object1 }
       }
     end
 
@@ -101,13 +108,143 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
 
   #dictionary_metadata?
   describe '#dictionary_metadata?' do
+    before do
+      allow(subject).to receive(:dictionary_id!).and_return(0)
+    end
+
+    context 'when there is dictionary metadata associated with the dictionary for the metadata_key' do
+      it 'returns true' do
+        expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to eq true
+      end
+    end
+
+    context 'when there is NO dictionary metadata associated with the dictionary for the metadata_key' do
+      context 'when there is no dictionary metadata for the dictionary_id' do
+        let(:dictionary_metadata) do
+          {
+            99 => { metadata_key => :metadata_object }
+          }
+        end
+
+        it 'returns false' do
+          expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to eq false
+        end
+      end
+
+      context 'when there is no dictionary metadata for the metadata_key' do
+        let(:dictionary_metadata) do
+          {
+            0 => { :wrong_metadata_key => :metadata_object }
+          }
+        end
+
+        it 'returns false' do
+          expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to eq false
+        end
+      end
+
+      context 'when the dictionary metadata for the metadata_key is not present' do
+        let(:dictionary_metadata) do
+          {
+            0 => { metadata_key => nil }
+          }
+        end
+
+        it 'returns false' do
+          expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to eq false
+        end
+      end
+    end
   end
 
   #get_dictionary_metadata
   describe '#get_dictionary_metadata' do
+    before do
+      allow(subject).to receive(:dictionary_id!).and_return(0)
+    end
+
+    context 'when there is no dictionary_id found in the dictionary metadata associated with the dictionary key' do
+      before do
+        allow(subject).to receive(:dictionary_id!).and_call_original
+      end
+
+      it 'raises an error' do
+        expect { subject.get_dictionary_metadata(metadata_key: metadata_key) }.to raise_error "A dictionary id could not be found for key '#{key}'."
+      end
+    end
+
+    context 'when there is dictionary metadata associated with the dictionary for the metadata_key' do
+      it 'returns true' do
+        expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to eq :metadata_object0
+      end
+    end
+
+    context 'when there is NO dictionary metadata associated with the dictionary for the metadata_key' do
+      context 'when there is no dictionary metadata for the dictionary_id' do
+        let(:dictionary_metadata) do
+          {
+            99 => { metadata_key => :metadata_object0 }
+          }
+        end
+
+        it 'returns false' do
+          expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to eq nil
+        end
+      end
+
+      context 'when there is no dictionary metadata for the metadata_key' do
+        let(:dictionary_metadata) do
+          {
+            0 => { :wrong_metadata_key => :metadata_object0 }
+          }
+        end
+
+        it 'returns false' do
+          expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to eq nil
+        end
+      end
+
+      context 'when the dictionary metadata for the metadata_key is not present' do
+        let(:dictionary_metadata) do
+          {
+            0 => { metadata_key => nil }
+          }
+        end
+
+        it 'returns false' do
+          expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to eq nil
+        end
+      end
+    end
   end
 
   #set_dictionary_metadata
   describe '#set_dictionary_metadata' do
+    before do
+      allow(subject).to receive(:dictionary_id!).and_return(0)
+    end
+
+    let(:new_metadata_object) { :new_metadata_object0 }
+
+    context 'when passing valid arguments' do
+      it 'returns self' do
+        expect(subject.set_dictionary_metadata(value: new_metadata_object, metadata_key: metadata_key)).to be subject
+      end
+
+      it 'sets the dictionary metadata value' do
+        subject.set_dictionary_metadata(value: new_metadata_object, metadata_key: metadata_key)
+        expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to eq new_metadata_object
+      end
+    end
+
+    context 'when there is no dictionary_id found in the dictionary metadata associated with the dictionary key' do
+      before do
+        allow(subject).to receive(:dictionary_id!).and_call_original
+      end
+
+      it 'raises an error' do
+        expect { subject.get_dictionary_metadata(metadata_key: metadata_key) }.to raise_error "A dictionary id could not be found for key '#{key}'."
+      end
+    end
   end
 end
