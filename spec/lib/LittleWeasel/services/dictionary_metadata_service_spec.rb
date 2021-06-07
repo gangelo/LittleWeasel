@@ -16,19 +16,24 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
   let(:key) { dictionary_key.key }
   let(:file) { "#{ dictionary_path_for(file_name: key) }" }
   let(:dictionary_cache) { {} }
-  let(:dictionary_metadata) { {} }
   let!(:initialized_dictionary_cache) { {} }
   let(:metadata_key) { :metadata_key }
+  let(:dictionary_metadata) do
+    {
+      0 => { metadata_key => :metadata_object },
+      1 => { metadata_key0: :metadata_object0 }
+    }
+  end
 
   shared_examples 'the dictionary_metadata object reference has not changed' do
     it 'the dictionary_metadata object has not changed' do
-      expect(actual_dictionary_metadata).to eq expected_dictionary_metadata
+      expect(actual_dictionary_metadata).to be expected_dictionary_metadata
     end
   end
 
   shared_examples 'the dictionary_cache object reference has not changed' do
     it 'the dictionary_cache object has not changed' do
-      expect(actual_dictionary_cache).to eq expected_dictionary_cache
+      expect(actual_dictionary_cache).to be expected_dictionary_cache
     end
   end
 
@@ -57,13 +62,6 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
 
   #init!
   describe '#init' do
-    let(:dictionary_metadata) do
-      {
-        0 => { metadata_key => :metadata_object },
-        1 => { metadata_key0: :metadata_object0 }
-      }
-    end
-
     let(:expected_dictionary_metadata) do
       {
         0 => {},
@@ -80,6 +78,17 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
         expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to eq dictionary_metadata.dig(0, metadata_key)
         subject.init(metadata_key: metadata_key)
         expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to be_nil
+        expect(dictionary_metadata).to eq expected_dictionary_metadata
+      end
+
+      it_behaves_like 'the dictionary_metadata object reference has not changed' do
+        let(:expected_dictionary_metadata) { dictionary_metadata }
+        let(:actual_dictionary_metadata) { subject.dictionary_metadata }
+      end
+
+      it_behaves_like 'the dictionary_cache object reference has not changed' do
+        let(:expected_dictionary_cache) { dictionary_cache }
+        let(:actual_dictionary_cache) { subject.dictionary_cache_service.dictionary_cache }
       end
     end
 

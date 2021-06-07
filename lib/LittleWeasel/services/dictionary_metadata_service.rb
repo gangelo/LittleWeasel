@@ -11,6 +11,8 @@ module LittleWeasel
       include Modules::DictionaryCacheServicable
       include Modules::DictionaryMetadataValidatable
 
+      attr_accessor :dictionary_metadata
+
       # @example metadata Hash structure:
       #
       #   {
@@ -74,8 +76,6 @@ module LittleWeasel
       end
 
       private
-
-      attr_accessor :dictionary_metadata
 
       def dictionary_id!
         dictionary_cache_service.dictionary_id!

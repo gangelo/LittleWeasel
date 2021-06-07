@@ -12,8 +12,6 @@ module LittleWeasel
       include DictionaryCacheValidatable
       include DictionaryMetadataValidatable
 
-      private
-
       attr_accessor :dictionary_cache, :dictionary_key, :dictionary_metadata
 
       def dictionary_metadata_service
