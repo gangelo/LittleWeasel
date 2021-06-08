@@ -31,7 +31,7 @@ module LittleWeasel
         if dictionary_cache_service.dictionary_cached?
           load_from_cache
         else
-          load_from_disk
+          dictionary_cache_service.dictionary_object = load_from_disk
         end
       end
 

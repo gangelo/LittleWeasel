@@ -138,7 +138,7 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
   #dictionary_metadata?
   describe '#dictionary_metadata?' do
     before do
-      allow(subject).to receive(:dictionary_id!).and_return(0)
+      allow(subject).to receive(:dictionary_id).and_return(0)
     end
 
     context 'when there is dictionary metadata associated with the dictionary for the metadata_key' do

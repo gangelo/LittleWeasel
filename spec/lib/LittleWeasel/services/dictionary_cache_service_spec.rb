@@ -217,8 +217,8 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
     context 'when the dictionary reference does not exist' do
       subject { create(:dictionary_cache_service, dictionary_cache: dictionary_cache) }
 
-      it 'raises an error' do
-        expect { subject.dictionary_loaded? }.to raise_error "Argument key '#{key}' does not exist; use #add_dictionary_reference to add it first."
+      it 'returns false' do
+        expect(subject.dictionary_loaded?).to eq false
       end
     end
 
@@ -251,14 +251,14 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
     context 'when the dictionary object is NOT already cached/loaded' do
       context 'when the dictionary reference exists' do
-        it 'returns nil' do
-          expect(create(:dictionary_cache_service, dictionary_reference: true).dictionary_object).to be_nil
+        it 'returns an object that is not present?' do
+          expect(create(:dictionary_cache_service, dictionary_reference: true).dictionary_object).to_not be_present
         end
       end
 
       context 'when the dictionary reference DOES NOT exist' do
-        it 'returns nil' do
-          expect(create(:dictionary_cache_service).dictionary_object).to be_nil
+        it 'returns an object that is not present?' do
+          expect(create(:dictionary_cache_service).dictionary_object).to_not be_present
         end
       end
     end

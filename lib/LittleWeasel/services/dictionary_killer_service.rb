@@ -27,7 +27,8 @@ module LittleWeasel
       end
 
       def execute
-        raise NotImplementedError, 'TODO: Implement this!'
+        dictionary_cache_service.reset!
+        dictionary_metadata_service.class.init dictionary_metadata: dictionary_metadata
       end
     end
   end

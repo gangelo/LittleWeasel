@@ -136,6 +136,12 @@ module LittleWeasel
       end
 
       # Returns true if a dictionary id can be found in the dictionary
+      # references for the given key.
+      def dictionary_id
+        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key, DICTIONARY_ID)
+      end
+
+      # Returns true if a dictionary id can be found in the dictionary
       # references for the given key. This method raises an error if the
       # file key cannot be found.
       def dictionary_id!
@@ -151,13 +157,18 @@ module LittleWeasel
       end
 
       def dictionary_loaded?
-        unless dictionary_reference?
-          raise ArgumentError, "Argument key '#{key}' does not exist; use #add_dictionary_reference to add it first."
-        end
+        # TODO NOW: Remove this?
+        #unless dictionary_reference?
+        #  raise ArgumentError, "Argument key '#{key}' does not exist; use #add_dictionary_reference to add it first."
+        #end
 
         dictionary_object?
       end
       alias dictionary_cached? dictionary_loaded?
+
+      def dictionary_object?
+        dictionary_object.present?
+      end
 
       # Returns the dictionary object from the dictionary cache for the given
       # key. This method raises an error if the dictionary is not in the cache;
@@ -174,9 +185,7 @@ module LittleWeasel
       def dictionary_object
         return unless dictionary_reference?
 
-        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id!, DICTIONARY_OBJECT).tap do |object|
-          return nil if object == {}
-        end
+        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id!, DICTIONARY_OBJECT)
       end
 
       def dictionary_object=(object)
@@ -226,19 +235,11 @@ module LittleWeasel
         dictionary_id.present?
       end
 
-      def dictionary_id
-        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key, DICTIONARY_ID)
-      end
-
       def dictionary_reset(file:)
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!] = {
           FILE => file,
           DICTIONARY_OBJECT => {}
         }
-      end
-
-      def dictionary_object?
-        dictionary_object.present?
       end
     end
   end

@@ -11,7 +11,7 @@ module LittleWeasel
 
     attr_reader :dictionary_cache, :dictionary_metadata
 
-    def initialize
+    def initialize(dictionary_cache: nil, dictionary_metadata: nil)
       self.dictionary_cache = {}
       self.dictionary_metadata = {}
       reset!
@@ -52,9 +52,10 @@ module LittleWeasel
       self
     end
 
-    # Resets the cache by clearing it out completely.
+    # Resets the cache and metadata by clearing it out completely.
     def reset!
       Services::DictionaryCacheService.reset! dictionary_cache: dictionary_cache
+      Services::DictionaryMetadataService.init dictionary_metadata: dictionary_metadata
       self
     end
 
@@ -81,7 +82,7 @@ module LittleWeasel
     end
 
     def dictionary_killer_service(dictionary_key:)
-      Services::DictionaryKillerService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
+      Services::DictionaryKillerService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata
     end
   end
 end

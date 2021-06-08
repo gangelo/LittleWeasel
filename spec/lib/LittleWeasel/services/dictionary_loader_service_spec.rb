@@ -27,10 +27,9 @@ RSpec.describe LittleWeasel::Services::DictionaryLoaderService do
     context 'when the dictionary is cached' do
       before do
         # This will load the dictionary from disk, and cache it in
-        # the dictionary cache - the DictionaryLoaderService does not
-        # add the loaded dictionary into the dictionary cache, so, we
-        # have to do it manually here.
-        dictionary_cache_service.dictionary_object = subject.execute
+        # the dictionary cache - the DictionaryLoaderService loads
+        # the dictionary into the dictionary cache if loaded from disk.
+        subject.execute
       end
 
       it 'loads the dictionary from the dictionary cache and returns the Dictionary' do

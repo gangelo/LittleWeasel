@@ -73,7 +73,7 @@ module LittleWeasel
       # This method will return true if metadata exists for the dictionary
       # associated with the given dictionary key, for the given metadata key.
       def dictionary_metadata?(metadata_key:)
-        get_dictionary_metadata(metadata_key: metadata_key)&.present? || false
+        dictionary_metadata.dig(dictionary_id, metadata_key)&.present? || false
       end
 
       def get_dictionary_metadata(metadata_key:)
