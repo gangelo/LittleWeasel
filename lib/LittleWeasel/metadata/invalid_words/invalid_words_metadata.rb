@@ -64,7 +64,7 @@ module LittleWeasel
         end
 
         # rubocop: disable Lint/UnusedMethodArgument
-        def init!(params: nil)
+        def init(params: nil)
           dictionary_metadata_service.init(metadata_key: metadata_key)
           self.metadata = Services::InvalidWordsService.new(dictionary_words).execute
           self
@@ -74,7 +74,7 @@ module LittleWeasel
         # rubocop: disable Lint/UnusedMethodArgument
         def refresh!(params: nil)
           refresh_local_metadata
-          init! unless metadata.present?
+          init unless metadata.present?
           self
         end
         # rubocop: enable Lint/UnusedMethodArgument
@@ -107,7 +107,7 @@ module LittleWeasel
         end
 
         def actions_whitelist
-          %i[init! refresh! word_search]
+          %i[init refresh! word_search]
         end
 
         private

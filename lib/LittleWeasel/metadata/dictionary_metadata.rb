@@ -48,13 +48,13 @@ module LittleWeasel
         refresh!
       end
 
-      def init!(_params: nil)
+      def init(_params: nil)
         dictionary_metadata_service.init(metadata_key: metadata_key)
         self.metadata = {}
-        notify action: :init!
+        notify action: :init
         refresh_local_metadata
         if count_observers.positive? && metadata.blank?
-          raise 'Observers were notified to #init! ' \
+          raise 'Observers were notified to #init ' \
             'but no observers initialized their respective dictionary cache metadata'
         end
 
@@ -69,7 +69,7 @@ module LittleWeasel
           notify action: :refresh!
         else
           # ...otherwise, notify the observers to initialize themselves.
-          init!
+          init
         end
       end
 
@@ -111,7 +111,7 @@ module LittleWeasel
         end
         # This is how each metadata object gets initialized. Only notify if
         # there are any observers.
-        notify(action: :init!) if count_observers.positive?
+        notify(action: :init) if count_observers.positive?
         self
       end
 

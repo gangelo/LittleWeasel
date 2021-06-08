@@ -49,7 +49,7 @@ module LittleWeasel
         end
 
         # Returns true if the dictionary metadata is initialized; that is, if
-        # it's in the same state the dictionary metadata would be in if #init!
+        # it's in the same state the dictionary metadata would be in if #init
         # were called.
         def init?(dictionary_metadata:)
           Modules::DictionaryMetadataValidatable.validate dictionary_metadata: dictionary_metadata

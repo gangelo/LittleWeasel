@@ -120,12 +120,12 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
     end
   end
 
-  #init!
-  describe '#init!' do
+  #init
+  describe '#init' do
     it 'the metadata is initialized' do
       expect do
         subject.dictionary_metadata_object.dictionary_words['not-found'] = false
-        subject.init!
+        subject.init
       end.to change { subject.current_invalid_word_bytesize }
       .from(0).to(9)
     end

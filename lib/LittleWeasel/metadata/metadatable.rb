@@ -34,12 +34,12 @@ module LittleWeasel
       #
       # . # Example of a root-level dictionary metadata object (e.g.
       # . # Metadata::DictionaryMetadata)
-      #   def init!(_params: nil)
+      #   def init(_params: nil)
       #     self.metadata = {}
-      #     notify action: :init!
+      #     notify action: :init
       #     refresh_local_metadata
       #     unless count_observers.zero? || metadata.present?
-      #       raise 'Observers were called to #init! but the dictionary cache metadata was not initialized'
+      #       raise 'Observers were called to #init but the dictionary cache metadata was not initialized'
       #     end
       #
       #     self
@@ -47,20 +47,20 @@ module LittleWeasel
       #
       # . # Example of a metadata observable object (e.g.
       # . # Metadata::InvalidWords::InvalidWordsMetadata)
-      #   def init!(params: nil)
+      #   def init(params: nil)
       #     self.metadata = Services::InvalidWordsService.new(dictionary_words).execute
       #     self
       #   end
       #
       # rubocop: disable Lint/UnusedMethodArgument
-      def init!(params: nil)
+      def init(params: nil)
         raise Errors::MustOverrideError
       end
       # rubocop: enable Lint/UnusedMethodArgument
 
       # This method should refresh the local metadata from the dictionary cache,
       # if metadata exists in the dictionary cache for the given metatata_key.
-      # Otherwise, #init! should be called to initialize this object.
+      # Otherwise, #init should be called to initialize this object.
       # The idea is that metadata should be shared across metadata objects of
       # the same type that use the same metadata_key.
       #
@@ -70,7 +70,7 @@ module LittleWeasel
       #
       #   def refresh!(params: nil)
       #     refresh_local_metadata
-      #     init! unless metadata.present?
+      #     init unless metadata.present?
       #     self
       #   end
       # rubocop: disable Lint/UnusedMethodArgument
@@ -88,7 +88,7 @@ module LittleWeasel
       # object) AND set the @metadata local attribute so that a local copy is
       # available for use.
       #
-      # When instantiating this object, #init! (see #init! comments). If an
+      # When instantiating this object, #init (see #init comments). If an
       # updated copy of the metadata is needed #refresh! (see comments) should
       # be called.
       #
