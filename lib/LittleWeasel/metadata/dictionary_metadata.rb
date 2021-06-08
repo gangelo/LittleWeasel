@@ -45,7 +45,7 @@ module LittleWeasel
         self.dictionary_words = dictionary_words
         self.observers = {}
 
-        refresh!
+        refresh
       end
 
       def init(_params: nil)
@@ -61,12 +61,12 @@ module LittleWeasel
         self
       end
 
-      def refresh!(_params: nil)
+      def refresh(_params: nil)
         refresh_local_metadata
         if metadata.present?
           # If there is metadata in the dictionary cache, notify the observers
           # to use it...
-          notify action: :refresh!
+          notify action: :refresh
         else
           # ...otherwise, notify the observers to initialize themselves.
           init

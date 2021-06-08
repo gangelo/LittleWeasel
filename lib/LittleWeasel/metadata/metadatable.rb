@@ -68,13 +68,13 @@ module LittleWeasel
       #
       # @example
       #
-      #   def refresh!(params: nil)
+      #   def refresh(params: nil)
       #     refresh_local_metadata
       #     init unless metadata.present?
       #     self
       #   end
       # rubocop: disable Lint/UnusedMethodArgument
-      def refresh!(params: nil)
+      def refresh(params: nil)
         raise Errors::MustOverrideError
       end
       # rubocop: enable Lint/UnusedMethodArgument
@@ -89,7 +89,7 @@ module LittleWeasel
       # available for use.
       #
       # When instantiating this object, #init (see #init comments). If an
-      # updated copy of the metadata is needed #refresh! (see comments) should
+      # updated copy of the metadata is needed #refresh (see comments) should
       # be called.
       #
       # @example

@@ -79,10 +79,10 @@ module LittleWeasel
       end
 
       # This method should return actions (messages) that can be sent
-      # to this object; for example, at a minimum :init and :refresh!
+      # to this object; for example, at a minimum :init and :refresh
       # need to be in this list
       def actions_whitelist
-        %i[init refresh!]
+        %i[init refresh]
       end
     end
   end

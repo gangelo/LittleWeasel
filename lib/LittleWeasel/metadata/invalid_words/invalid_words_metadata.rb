@@ -72,7 +72,7 @@ module LittleWeasel
         # rubocop: enable Lint/UnusedMethodArgument
 
         # rubocop: disable Lint/UnusedMethodArgument
-        def refresh!(params: nil)
+        def refresh(params: nil)
           refresh_local_metadata
           init unless metadata.present?
           self
@@ -107,7 +107,7 @@ module LittleWeasel
         end
 
         def actions_whitelist
-          %i[init refresh! word_search]
+          %i[init refresh word_search]
         end
 
         private

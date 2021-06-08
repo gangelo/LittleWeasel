@@ -46,8 +46,8 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
     end
   end
 
-  #refresh!
-  describe '#refresh!' do
+  #refresh
+  describe '#refresh' do
     context 'when there are observers attached' do
       before do
         subject.add_observers
@@ -56,8 +56,8 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
       it 'observers are notified to refresh' do
         # Sanity check.
         expect(subject.count_observers).to eq 1
-        expect(subject.observers[invalid_words_metadata_key]).to receive(:refresh!)
-        subject.refresh!
+        expect(subject.observers[invalid_words_metadata_key]).to receive(:refresh)
+        subject.refresh
       end
     end
 
@@ -65,8 +65,8 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
       it 'observers are NOT norified to refresh' do
         # Sanity check.
         expect(subject.count_observers).to eq 0
-        expect(subject.observers[invalid_words_metadata_key]).to_not receive(:refresh!)
-        subject.refresh!
+        expect(subject.observers[invalid_words_metadata_key]).to_not receive(:refresh)
+        subject.refresh
       end
     end
 

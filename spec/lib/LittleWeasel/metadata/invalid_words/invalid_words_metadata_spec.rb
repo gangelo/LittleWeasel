@@ -108,13 +108,13 @@ RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
     end
   end
 
-  #refresh!
-  describe '#refresh!' do
+  #refresh
+  describe '#refresh' do
     it 'the metadata is refreshed' do
       expect(subject.current_invalid_word_bytesize).to eq 0
       expect do
         dictionary.word_valid?('badword')
-        subject.refresh!
+        subject.refresh
       end.to change { subject.current_invalid_word_bytesize }
       .from(0).to(7)
     end
