@@ -6,17 +6,20 @@ require_relative '../modules/dictionary_metadata_validatable'
 
 module LittleWeasel
   module Services
+    # This class provides methods for managing and manipulating the
+    # dictionary metadata cache associated with the given dictionary,
+    # (dictionary_key) for the supplied metadata_key.
     class DictionaryMetadataService
       include Modules::DictionaryKeyable
       include Modules::DictionaryCacheServicable
       include Modules::DictionaryMetadataValidatable
 
-      attr_accessor :dictionary_metadata
+      attr_reader :dictionary_metadata
 
       # @example metadata Hash structure:
       #
       #   {
-      #     <dictionary_id> =>
+      #     <dictionary_id!> =>
       #       {
       #         :<metadata_key> => <metadata_object>
       #       },
@@ -58,11 +61,12 @@ module LittleWeasel
       end
 
       # This method initializes the dictionary metadata for dictionary metadata
-      # associated with the dictionary_id and metadata_key.
+      # associated with the dictionary_id! and metadata_key.
       def init(metadata_key:)
-        dictionary_metadata[dictionary_id!]&.delete(metadata_key)
-        dictionary_metadata_init_if
-        dictionary_metadata[dictionary_id!][metadata_key] = nil
+        metadata = dictionary_metadata[dictionary_id!]
+        metadata&.delete(metadata_key)
+        metadata = dictionary_metadata_init_if
+        metadata[metadata_key] = nil
         self
       end
 
@@ -83,10 +87,25 @@ module LittleWeasel
 
       private
 
-      def dictionary_metadata_init_if
-        return if dictionary_metadata[dictionary_id!].present?
+      attr_writer :dictionary_metadata
 
+      def dictionary_metadata_init_needed?
+        dictionary_metadata[dictionary_id!].blank?
+      end
+
+      # This method initializes the metadata for the
+      # dictionary_id! if it is not already initialized.
+      # The metadata for the given dictionary_id! is returned.
+      def dictionary_metadata_init_if
+        metadata = dictionary_metadata[dictionary_id!]
+        return metadata unless dictionary_metadata_init_needed?
+
+        metadata = {}
         dictionary_metadata[dictionary_id!] = {}
+      end
+
+      def dictionary_id
+        dictionary_cache_service.dictionary_id
       end
 
       def dictionary_id!

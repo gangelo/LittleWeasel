@@ -7,6 +7,7 @@ require_relative '../modules/dictionary_keyable'
 
 module LittleWeasel
   module Services
+    # This class provides methoda for loading dictionaries from disk.
     class DictionaryFileLoaderService
       include Modules::Configurable
       include Modules::DictionaryCacheServicable
