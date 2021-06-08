@@ -97,10 +97,8 @@ module LittleWeasel
       # dictionary_id! if it is not already initialized.
       # The metadata for the given dictionary_id! is returned.
       def dictionary_metadata_init_if
-        metadata = dictionary_metadata[dictionary_id!]
-        return metadata unless dictionary_metadata_init_needed?
+        return dictionary_metadata[dictionary_id!] unless dictionary_metadata_init_needed?
 
-        metadata = {}
         dictionary_metadata[dictionary_id!] = {}
       end
 

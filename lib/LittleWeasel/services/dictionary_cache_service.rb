@@ -157,10 +157,10 @@ module LittleWeasel
       end
 
       def dictionary_loaded?
-        # TODO NOW: Remove this?
-        #unless dictionary_reference?
+        # TODO: NOW: Remove this?
+        # unless dictionary_reference?
         #  raise ArgumentError, "Argument key '#{key}' does not exist; use #add_dictionary_reference to add it first."
-        #end
+        # end
 
         dictionary_object?
       end
