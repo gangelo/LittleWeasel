@@ -18,7 +18,7 @@ RSpec.describe LittleWeasel::Services::DictionaryLoaderService do
 
     context 'when the dictionary is not cached' do
       it 'loads the dictionary file and returns the Dictionary' do
-        expect(dictionary_cache_service.dictionary_cached?).to be false
+        expect(dictionary_cache_service.dictionary_loaded?).to be false
         expect(subject).to_not receive(:load_from_cache)
         expect(subject.execute).to be_kind_of LittleWeasel::Dictionary
       end
@@ -33,7 +33,7 @@ RSpec.describe LittleWeasel::Services::DictionaryLoaderService do
       end
 
       it 'loads the dictionary from the dictionary cache and returns the Dictionary' do
-        expect(dictionary_cache_service.dictionary_cached?).to be true
+        expect(dictionary_cache_service.dictionary_loaded?).to be true
         expect(subject).to receive(:load_from_cache).and_return(dictionary_cache_service.dictionary_object!)
         expect(subject.execute).to be dictionary_cache_service.dictionary_object!
       end

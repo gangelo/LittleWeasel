@@ -25,8 +25,8 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
   end
 
   describe 'class methods' do
-    #.reset!
-    describe '.reset!' do
+    #.init
+    describe '.init' do
       subject! { create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache) }
 
       before do
@@ -34,13 +34,13 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       end
 
       it 'resets the cache to an initiaized state for all keys in the cache' do
-        expect { described_class.reset!(dictionary_cache: dictionary_cache) }.to change { dictionary_cache }.to(initialized_dictionary_cache)
+        expect { described_class.init(dictionary_cache: dictionary_cache) }.to change { dictionary_cache }.to(initialized_dictionary_cache)
       end
 
       describe 'maintains dictionary_cache object integrity' do
         it_behaves_like 'the dictionary_cache object reference has not changed' do
           before { subject }
-          let(:actual_dictionary_cache) { described_class.reset!(dictionary_cache: dictionary_cache) }
+          let(:actual_dictionary_cache) { described_class.init(dictionary_cache: dictionary_cache) }
           let(:expected_dictionary_cache) { dictionary_cache }
         end
       end
@@ -85,21 +85,21 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
     end
   end
 
-  #reset!
-  describe '#reset!' do
+  #init
+  describe '#init' do
     subject! { create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache) }
 
     let!(:subject2) { create(:dictionary_cache_service, dictionary_reference: true, dictionary_cache: dictionary_cache, dictionary_key: en_gb_dictionary_key) }
     let!(:original_dictionary_cache) { dictionary_cache }
 
     it 'resets the cache to an initiaized state for the GIVEN KEY ONLY' do
-      expect { subject.reset! }.to change { dictionary_cache }.from(original_dictionary_cache).to(subject2.dictionary_cache)
-      expect { subject2.reset! }.to change { dictionary_cache }.from(original_dictionary_cache).to(subject.dictionary_cache)
+      expect { subject.init }.to change { dictionary_cache }.from(original_dictionary_cache).to(subject2.dictionary_cache)
+      expect { subject2.init }.to change { dictionary_cache }.from(original_dictionary_cache).to(subject.dictionary_cache)
     end
 
     describe 'maintains dictionary_cache object integrity' do
       it_behaves_like 'the dictionary_cache object reference has not changed' do
-        let(:actual_dictionary_cache) { subject.reset!.dictionary_cache }
+        let(:actual_dictionary_cache) { subject.init.dictionary_cache }
         let(:expected_dictionary_cache) { dictionary_cache }
       end
     end

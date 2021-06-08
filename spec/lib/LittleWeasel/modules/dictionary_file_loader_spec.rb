@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe LittleWeasel::Modules::DictionaryFileLoader, type: :module do
   subject do
-    dictionary_cache_service.reset! dictionary_cache: dictionary_cache
+    dictionary_cache_service.init dictionary_cache: dictionary_cache
     dictionary_file_loader
   end
 

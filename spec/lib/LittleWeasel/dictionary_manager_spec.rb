@@ -21,7 +21,7 @@ RSpec.describe LittleWeasel::DictionaryManager do
   end
 
   before(:each) do
-    subject.reset!
+    subject.init
   end
 
   #.new

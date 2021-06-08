@@ -27,7 +27,7 @@ module LittleWeasel
       end
 
       def execute
-        dictionary_cache_service.reset!
+        dictionary_cache_service.init
         dictionary_metadata_service.class.init dictionary_metadata: dictionary_metadata
       end
     end

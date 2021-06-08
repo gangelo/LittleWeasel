@@ -8,7 +8,7 @@ RSpec.describe LittleWeasel::Services::DictionaryFileLoaderService do
   subject! { create(:dictionary_file_loader_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
   before(:each) do
-    LittleWeasel::Services::DictionaryCacheService.init! dictionary_cache: dictionary_cache
+    LittleWeasel::Services::DictionaryCacheService.init dictionary_cache: dictionary_cache
   end
 
   let(:dictionary_key) { create(:dictionary_key, language: :en, region: :us) }

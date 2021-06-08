@@ -96,7 +96,7 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
     it_behaves_like 'the dictionary_metadata is invalid'
   end
 
-  #init!
+  #init
   describe '#init' do
     let(:expected_dictionary_metadata) do
       {

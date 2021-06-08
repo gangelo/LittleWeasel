@@ -56,17 +56,23 @@ module LittleWeasel
         validate_dictionary_cache dictionary_cache: dictionary_cache
         self.dictionary_cache = dictionary_cache
 
-        self.class.reset!(dictionary_cache: dictionary_cache) unless dictionary_cache[DICTIONARY_CACHE]
+        self.class.init(dictionary_cache: dictionary_cache) unless dictionary_cache[DICTIONARY_CACHE]
       end
 
       class << self
         # This method resets dictionary_cache to its initialized state - all
         # data is lost.
-        def reset!(dictionary_cache:)
+        def init(dictionary_cache:)
           Modules::DictionaryCacheKeys.initialize_dictionary_cache dictionary_cache: dictionary_cache
         end
-        alias init! reset!
-        alias initialize! reset!
+
+        # Returns true if the dictionary cache is initialized; that
+        # is, if it's in the same state the dictionary cache would
+        # be in after #init is called.
+        def init?(dictionary_cache:)
+          initialized_dictionary_cache = init({})
+          dictionary_cache.eql?(initialized_dictionary_cache)
+        end
 
         # Returns the number of dictionaries. This count
         # has nothing to do with whether or not the dictionaries
@@ -76,15 +82,6 @@ module LittleWeasel
           dictionary_cache.dig(self::DICTIONARY_CACHE, self::DICTIONARIES)&.keys&.count || 0
         end
 
-        # Returns true if the dictionary cache is initialized; that
-        # is, if it's in the same state the dictionary cache would
-        # be in after #reset! is called.
-        def init?(dictionary_cache:)
-          initialized_dictionary_cache = reset!({})
-          dictionary_cache.eql?(initialized_dictionary_cache)
-        end
-        alias initialized? init?
-
         # Returns true if the dictionary cache has, at a minimum, dictionary
         # references added to it.
         def populated?(dictionary_cache:)
@@ -93,14 +90,13 @@ module LittleWeasel
       end
 
       # This method resets the dictionary cache for the given key.
-      def reset!
+      def init
         # TODO: Do not delete the dictionary if it is being pointed to by
         # another dictionary reference.
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES]&.delete(dictionary_id)
         dictionary_cache[DICTIONARY_CACHE][DICTIONARY_REFERENCES]&.delete(key)
         self
       end
-      alias init! reset!
 
       # Returns true if the dictionary reference exists for the given key. This
       # method is only concerned with the dictionary reference only and has
@@ -156,19 +152,13 @@ module LittleWeasel
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][FILE]
       end
 
-      def dictionary_loaded?
-        # TODO: NOW: Remove this?
-        # unless dictionary_reference?
-        #  raise ArgumentError, "Argument key '#{key}' does not exist; use #add_dictionary_reference to add it first."
-        # end
-
-        dictionary_object?
-      end
-      alias dictionary_cached? dictionary_loaded?
-
+      # This method returns true if the dictionary associated with the
+      # given dictionary key is loaded/cached. If this is the case,
+      # a dictionary object is available in the dictionary cache.
       def dictionary_object?
         dictionary_object.present?
       end
+      alias dictionary_loaded? dictionary_object?
 
       # Returns the dictionary object from the dictionary cache for the given
       # key. This method raises an error if the dictionary is not in the cache;

@@ -14,7 +14,7 @@ module LittleWeasel
     def initialize
       self.dictionary_cache = {}
       self.dictionary_metadata = {}
-      reset!
+      init
     end
 
     def add_dictionary_reference(dictionary_key:, file:)
@@ -53,8 +53,8 @@ module LittleWeasel
     end
 
     # Resets the cache and metadata by clearing it out completely.
-    def reset!
-      Services::DictionaryCacheService.reset! dictionary_cache: dictionary_cache
+    def init
+      Services::DictionaryCacheService.init dictionary_cache: dictionary_cache
       Services::DictionaryMetadataService.init dictionary_metadata: dictionary_metadata
       self
     end
