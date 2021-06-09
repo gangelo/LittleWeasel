@@ -135,6 +135,33 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
     end
   end
 
+  #delete_observer
+  describe '#delete_observer' do
+    context 'when a valid observer object is passed' do
+      before do
+        subject.add_observers
+      end
+
+      let(:observer) { subject.observers.values.first }
+
+      it 'the observer is removed from the #observers list' do
+        expect { subject.delete_observer(observer) }
+          .to change { subject.observers.count }
+          .from(1)
+          .to(0)
+      end
+    end
+
+    context 'when an INVALID observer object is passed' do
+      let(:bad_observer) { :bad_observer }
+
+      it 'raises an error' do
+        expect { subject.delete_observer(bad_observer) }.to raise_error 'Argument metadata_observable is not a ' \
+            "Metadata::MetadataObserverable object: #{bad_observer.class}"
+      end
+    end
+  end
+
   #add_observers
   describe '#add_observers' do
     it 'returns the same object that was called' do
