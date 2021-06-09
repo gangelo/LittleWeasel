@@ -46,6 +46,25 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       end
     end
 
+    #.init?
+    describe '.init?' do
+      context 'when passing an initialized dictionary cache Hash' do
+        it 'returns true' do
+          expect(described_class.init? dictionary_cache: initialized_dictionary_cache).to eq true
+        end
+      end
+
+      context 'when passing a NON-initialized dictionary cache Hash' do
+        before do
+          subject.add_dictionary_reference file: file
+        end
+
+        it 'returns false' do
+          expect(described_class.init? dictionary_cache: dictionary_cache).to eq false
+        end
+      end
+    end
+
     #.count
     describe '.count' do
       context 'when there are no dictionary references' do
@@ -278,7 +297,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       it 'returns the dictionary cache for the dictionary' do
         expect(subject.dictionary_reference?).to eq true
         expect(subject.dictionary_loaded?).to eq true
-        expect(subject.dictionary_object).to be_kind_of LittleWeasel::Dictionary
+        expect(subject.dictionary_object!).to be_kind_of LittleWeasel::Dictionary
       end
     end
   end
@@ -298,6 +317,20 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
         it 'raises an error' do
           expect { subject.dictionary_object = :wrong_object }.to raise_error 'Argument object is not a Dictionary object'
         end
+      end
+    end
+
+    context 'when there is NO dictionary reference' do
+      before do
+        allow(dictionary_object).to receive(:is_a?).and_return(true)
+      end
+
+      subject { create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_key: dictionary_key, dictionary_reference: false) }
+
+      let(:dictionary_object) { Object.new }
+
+      it 'raises an error' do
+        expect { subject.dictionary_object = dictionary_object }.to raise_error "The dictionary reference associated with key '#{key}' could not be found."
       end
     end
 

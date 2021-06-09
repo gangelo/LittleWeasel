@@ -67,11 +67,6 @@ module LittleWeasel
       Services::DictionaryCacheService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
     end
 
-    def dictionary_metadata_service(dictionary_key:)
-      Services::DictionaryMetadataService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
-        dictionary_metadata: dictionary_metadata
-    end
-
     def dictionary_loader_service(dictionary_key:)
       Services::DictionaryLoaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
         dictionary_metadata: dictionary_metadata

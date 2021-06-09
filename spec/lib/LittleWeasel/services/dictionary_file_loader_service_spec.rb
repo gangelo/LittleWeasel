@@ -19,7 +19,7 @@ RSpec.describe LittleWeasel::Services::DictionaryFileLoaderService do
   describe '#execute' do
     context 'when the dictionary is already loaded/cached' do
       before do
-        create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: key, load: true)
+        create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true)
       end
 
       it 'raises an error' do

@@ -70,7 +70,7 @@ module LittleWeasel
         # is, if it's in the same state the dictionary cache would
         # be in after #init is called.
         def init?(dictionary_cache:)
-          initialized_dictionary_cache = init({})
+          initialized_dictionary_cache = init(dictionary_cache: {})
           dictionary_cache.eql?(initialized_dictionary_cache)
         end
 
