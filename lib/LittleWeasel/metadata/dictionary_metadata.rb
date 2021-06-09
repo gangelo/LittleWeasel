@@ -25,6 +25,8 @@ module LittleWeasel
       include Metadata::Metadatable
       include Metadata::MetadataObservableValidatable
 
+      delegate :[], to: :observers
+
       attr_reader :dictionary_words, :observers
 
       def initialize(dictionary_words:, dictionary_key:, dictionary_cache:, dictionary_metadata:)

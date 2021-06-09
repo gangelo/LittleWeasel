@@ -51,6 +51,27 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
+  #get_dictionary_metadata_observer
+  describe '#get_dictionary_metadata_observer' do
+    context 'when metadata exists for the dictionary, for the given metadata key' do
+      before do
+        subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
+        subject.load_dictionary(dictionary_key: dictionary_key)
+      end
+
+      let(:expected_metadata_observer_type) do
+        LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata
+      end
+
+      it 'returns the metadata object' do
+        expect(subject.get_dictionary_metadata_observer(dictionary_key: dictionary_key, metadata_key: metadata_key)).to be_kind_of expected_metadata_observer_type
+      end
+    end
+
+    context 'when metadata DOES NOT exists for the dictionary, for the given metadata key' do
+    end
+  end
+
   #unload_dictionary
   describe '#unload_dictionary' do
     before do
