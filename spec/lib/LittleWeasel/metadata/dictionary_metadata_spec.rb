@@ -1,18 +1,17 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'observer'
 
 RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
   subject { create(:dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata) }
 
   let!(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true) }
-
   let(:dictionary_words) { create(:dictionary_hash) }
   let(:dictionary_key) { create(:dictionary_key) }
   let(:dictionary_cache) { {} }
   let(:dictionary_metadata) { {} }
-  let(:invalid_words_metadata_key) { LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata.metadata_key }
+  let(:invalid_words_metadata_key) { invalid_words_metadata_class.metadata_key }
+  let(:invalid_words_metadata_class) { LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata }
 
   #.new
   describe '#.new' do
@@ -42,6 +41,33 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
         it 'raises an error' do
           expect { subject }.to raise_error(/Argument dictionary_words is not a Hash/)
         end
+      end
+    end
+  end
+
+  #[]
+  describe '#[]' do
+    context 'when passing a valid metadata_key' do
+      context 'when it is a key that points to a valid metadata observer' do
+        before do
+          subject.add_observers
+        end
+
+        it 'returns the metadata observer object' do
+          expect(subject[invalid_words_metadata_key]).to be_kind_of invalid_words_metadata_class
+        end
+      end
+
+      context 'when it is a key that DOES NOT point to a valid metadata observer' do
+        it 'returns nil' do
+          expect(subject[invalid_words_metadata_key]).to be_nil
+        end
+      end
+    end
+
+    context 'when passing an INVALID metadata_key' do
+      it 'returns nil' do
+        expect(subject[:bad_metadata_key]).to be_nil
       end
     end
   end

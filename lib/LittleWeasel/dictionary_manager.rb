@@ -17,13 +17,6 @@ module LittleWeasel
       init
     end
 
-    def get_dictionary_metadata_observer(dictionary_key:, metadata_key:)
-        validate_dictionary_key dictionary_key: dictionary_key
-
-        dictionary = load_dictionary dictionary_key: dictionary_key
-        dictionary.dictionary_metadata_object[metadata_key]
-    end
-
     def add_dictionary_reference(dictionary_key:, file:)
       validate_dictionary_key dictionary_key: dictionary_key
 
