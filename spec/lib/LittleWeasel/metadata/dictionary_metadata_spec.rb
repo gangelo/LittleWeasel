@@ -6,6 +6,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
   subject { create(:dictionary_metadata, dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata) }
 
   let!(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true, load: true) }
+  let!(:dictionary_metadata_service) { create(:dictionary_metadata_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata) }
   let(:dictionary_words) { create(:dictionary_hash) }
   let(:dictionary_key) { create(:dictionary_key) }
   let(:dictionary_cache) { {} }
@@ -72,6 +73,38 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
     end
   end
 
+  #init
+  describe '#init' do
+    context 'when there are observers attached' do
+      before do
+        subject.add_observers
+      end
+
+      context 'when metadata is in the dictionary cache' do
+        it 'observers are notified to init' do
+          # Sanity check.
+          expect(subject.count_observers).to eq 1
+          expect(subject.observers[invalid_words_metadata_key]).to receive(:init)
+          subject.init
+        end
+      end
+    end
+
+    context 'when there are NO observers attached' do
+      it 'observers are NOT notified to init' do
+        # Sanity check.
+        expect(subject.count_observers).to eq 0
+        expect(subject.observers[invalid_words_metadata_key]).to_not receive(:init)
+        subject.init
+      end
+    end
+
+    context 'when dictionary metadata is already in the dictionary cache' do
+      it 'inits the metadata with what is currently in the dictionary cache' do
+      end
+    end
+  end
+
   #refresh
   describe '#refresh' do
     context 'when there are observers attached' do
@@ -88,7 +121,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
     end
 
     context 'when there are NO observers attached' do
-      it 'observers are NOT norified to refresh' do
+      it 'observers are NOT notified to refresh' do
         # Sanity check.
         expect(subject.count_observers).to eq 0
         expect(subject.observers[invalid_words_metadata_key]).to_not receive(:refresh)

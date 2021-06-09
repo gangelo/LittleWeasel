@@ -2,9 +2,9 @@
 
 require 'observer'
 require_relative '../modules/configurable'
+require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/dictionary_cache_servicable'
 require_relative '../modules/dictionary_metadata_servicable'
-require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/klass_name_to_sym'
 require_relative 'metadata_observable_validatable'
 require_relative 'metadatable'
@@ -17,13 +17,13 @@ module LittleWeasel
     # Metadata::Metadatable, Metadata::InvalidWords::InvalidWordsMetadata, etc.).
     class DictionaryMetadata
       include Observable
+      include Metadata::Metadatable
+      include Metadata::MetadataObservableValidatable
       include Modules::Configurable
       include Modules::DictionaryCacheKeys
       include Modules::DictionaryCacheServicable
       include Modules::DictionaryMetadataServicable
       include Modules::KlassNameToSym
-      include Metadata::Metadatable
-      include Metadata::MetadataObservableValidatable
 
       delegate :[], to: :observers
 
@@ -55,11 +55,6 @@ module LittleWeasel
         self.metadata = {}
         notify action: :init
         refresh_local_metadata
-        if count_observers.positive? && metadata.blank?
-          raise 'Observers were notified to #init ' \
-            'but no observers initialized their respective dictionary cache metadata'
-        end
-
         self
       end
 

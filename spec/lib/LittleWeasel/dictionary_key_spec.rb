@@ -51,6 +51,17 @@ RSpec.describe LittleWeasel::DictionaryKey, type: :class do
     end
   end
 
+  #.key
+  describe '.key' do
+    let(:language) { :xx }
+    let(:region) { :yy }
+    let(:tag) { :zz }
+
+    it 'returns the locale' do
+      expect(described_class.key language: language, region: region, tag: tag).to eq 'xx-YY-zz'
+    end
+  end
+
   #key
   describe '#key' do
     context 'with no tag' do
