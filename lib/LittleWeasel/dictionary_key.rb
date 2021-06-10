@@ -18,9 +18,6 @@ module LittleWeasel
     attr_reader :language, :region
 
     def initialize(language:, region: nil, tag: nil)
-      #raise ArgumentError, 'Argument language is not a Symbol' unless language.is_a? Symbol
-      #raise ArgumentError, 'Argument region is not a Symbol' if region.present? && !region.is_a?(Symbol)
-
       validate_language language: language
       self.language = self.class.normalize_language language
 
