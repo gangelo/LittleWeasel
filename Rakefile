@@ -19,39 +19,21 @@ rescue LoadError => e
   end
 end
 
-task :lw do
-  require 'json'
-  LittleWeasel.configure do |config|
-    # TODO: Configure as needed here.
-  end
-  path = 'spec/support/files'
-  dm = LittleWeasel::DictionaryManager.instance
-
-  puts 'TODO: Loading dictionaries...'
-  # puts JSON.pretty_generate(dm.to_hash)
-rescue StandardError => e
-  task 'lw' do
-    puts e.backtrace
-    puts "LittleWeasel task lw not loaded: #{e.message}"
-    exit 1
-  end
-end
-
 task :workflow do
   require 'json'
   LittleWeasel.configure do |config|
     # TODO: Configure as needed here.
   end
-  dictionary_manager = LittleWeasel::DictionaryManager.instance
+  dictionary_manager = LittleWeasel::DictionaryManager.new
 
   dictionary_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us)
   file = Support::FileHelpers.dictionary_path_for file_name: dictionary_key.key
   dictionary_manager.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
-  binding.pry
   dictionary = dictionary_manager.load_dictionary(dictionary_key: dictionary_key)
-  binding.pry
-  dictionary.word_valid? 'apple'
-  binding.pry
+  IO.foreach("#{file}") do |word|
+    word.strip!
+    puts "word_valid?('#{word}'') #=> #{dictionary.word_valid?(word)}"
+  end
 rescue StandardError => e
   task 'workflow' do
     puts "LittleWeasel task workflow not loaded: #{e.message}"
@@ -98,7 +80,9 @@ namespace :bm do
   task :dictionary_key do
     puts 'DictionaryKey test'
     Benchmark.ips do |x|
-      x.report('DictionaryKey') { DictionaryKey.key(language: :en, region: :us, tag: :tag) }
+      x.report('DictionaryKey') do
+        DictionaryKey.key(language: :en, region: :us, tag: :tag)
+      end
     end
   rescue StandardError => e
     task 'locale' do
