@@ -8,15 +8,8 @@ module LittleWeasel
     module WordFilterable
       attr_reader :position
 
-      def word_valid?(word:, word_filters:)
+      def word_valid?(word:)
         raise Errors::MustOverrideError
-      end
-
-      def continue?
-        raise Errors::MustOverrideError
-      end
-
-      def next_filter?
       end
 
       private
