@@ -11,9 +11,9 @@ FactoryBot.define do
       # Values are: false, true or <file name minus extension>
       # If false, no dictionary reference will be added.
       # If true, a dictionary reference based on the dictionary_key.key will be
-      # used (e.g. 'en-US-tag' > '<path to spec file folder>/en-US.tag.txt').
+      #   used (e.g. 'en-US-tag' would equate to: '<path to spec file folder>/en-US.tag.txt').
       # If <file name minus extension>, <file name minus extension> will be
-      # used (e.g. <path to spec file folder>/<file name minus extension>.txt)
+      #   used (e.g. <path to spec file folder>/<file name minus extension>.txt)
       dictionary_reference { false }
 
       # Set to true if you want the dictionary reference to be loaded from disk.
@@ -46,7 +46,6 @@ FactoryBot.define do
           raise 'Transient attribute [dictionary_reference] must be true or contain <file name minus extension> if transient attribute [load] is true'
         end
         dictionary_file_loader_service = create(:dictionary_file_loader_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
-        # TODO NOW: The below - where should this take place?
         dictionary_words = dictionary_file_loader_service.execute
         dictionary_cache_service.dictionary_object = create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words)
       end

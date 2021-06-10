@@ -24,24 +24,7 @@ module LittleWeasel
       end
 
       def execute
-        unless dictionary_cache_service.dictionary_reference?
-          raise ArgumentError,
-            "The dictionary reference associated with key '#{key}' could not be found."
-        end
-
-        unless dictionary_cache_service.dictionary_loaded?
-          raise ArgumentError,
-            "The dictionary is not loaded/cached for key '#{key}'."
-        end
-
-        unload_dictionary
-      end
-
-      private
-
-      def unload_dictionary
-        dictionary_id = dictionary_cache_service.dictionary_id!
-        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id][DICTIONARY_OBJECT] = nil
+        dictionary_cache_service.unload_dictionary
       end
     end
   end

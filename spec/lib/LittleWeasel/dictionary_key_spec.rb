@@ -36,7 +36,7 @@ RSpec.describe LittleWeasel::DictionaryKey, type: :class do
     context 'when passing invalid arguments' do
       context 'when passing an invalid language' do
         it 'raises an error' do
-          expect { subject }.to raise_error 'Argument language is not a Symbol'
+          expect { subject }.to raise_error "Argument language '#{language}' is not a Symbol."
         end
       end
 
@@ -45,7 +45,7 @@ RSpec.describe LittleWeasel::DictionaryKey, type: :class do
         let(:region) { 1 }
 
         it 'raises an error' do
-          expect { subject }.to raise_error 'Argument region is not a Symbol'
+          expect { subject }.to raise_error "Argument region '#{region}' is not a Symbol."
         end
       end
     end

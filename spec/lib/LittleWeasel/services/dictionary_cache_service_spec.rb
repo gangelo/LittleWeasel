@@ -15,6 +15,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
   let(:dictionary_key) { en_us_dictionary_key }
   let(:key) { dictionary_key.key }
   let(:file) { "#{ dictionary_path_for(file_name: key) }" }
+  let(:file_minus_ext) { key }
   let(:dictionary_cache) { {} }
   let!(:initialized_dictionary_cache) { LittleWeasel::Modules::DictionaryCacheKeys.initialize_dictionary_cache(dictionary_cache: {}) }
 
@@ -360,6 +361,39 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       it 'updates the dictionary object' do
         expect { subject.dictionary_object = dictionary }.to_not raise_error
         expect(subject.dictionary_object).to eq dictionary
+      end
+    end
+  end
+
+  #unload_dictionary
+  describe '#unload_dictionary' do
+    #let!(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+
+    context 'when the dictionary has no reference in the dictionary cache' do
+      it 'raises an error' do
+        expect{ subject.unload_dictionary }.to raise_error  "The dictionary reference associated with key '#{key}' could not be found."
+      end
+    end
+
+    context 'when the dictionary is NOT loaded/cached' do
+      before do
+        subject.add_dictionary_reference file: file
+      end
+
+      it 'raises an error' do
+        expect{ subject.unload_dictionary }.to raise_error "The dictionary associated with key '#{key}' is not loaded/cached."
+      end
+    end
+
+    context 'when the dictionary is loaded/cached' do
+      subject { create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_reference: file_minus_ext, load: true) }
+
+      let!(:unloaded_dictionary_object) { subject.dictionary_object! }
+
+      it 'unloads the dictionary from the dictionary cache and returns the unloaded dictionary object' do
+        expect(subject.dictionary_loaded?).to be true
+        expect(subject.unload_dictionary).to be unloaded_dictionary_object
+        expect(subject.dictionary_loaded?).to be false
       end
     end
   end
