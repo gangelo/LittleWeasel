@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+require_relative '../../modules/class_name_to_symbol'
 require_relative '../../modules/configurable'
 require_relative '../../modules/dictionary_cache_servicable'
 require_relative '../../modules/dictionary_keyable'
-require_relative '../../modules/klass_name_to_sym'
 require_relative '../../services/invalid_words_service'
 require_relative '../metadata_observerable'
 
@@ -14,11 +14,11 @@ module LittleWeasel
       # associated dictionary.
       class InvalidWordsMetadata
         include Metadata::MetadataObserverable
+        include Modules::ClassNameToSymbol
         include Modules::Configurable
         include Modules::DictionaryCacheServicable
         include Modules::DictionaryKeyable
         include Modules::DictionaryMetadataServicable
-        include Modules::KlassNameToSym
 
         delegate :on?, :off?, :value, :value_exceeded?,
           :current_invalid_word_bytesize, :cache_invalid_words?,

@@ -51,6 +51,12 @@ RSpec.describe LittleWeasel do
       end
     end
 
+    describe '#metadata_observers=' do
+      it 'set to an Array with InvalidWordsMetadata by default' do
+        expect(subject.metadata_observers).to eq [LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata]
+      end
+    end
+
     describe '#single_character_words' do
       it 'provides a regex by default' do
         expect(subject.single_character_words).to eq(/[aAI]/)
@@ -70,128 +76,85 @@ RSpec.describe LittleWeasel do
     end
   end
 
-  context 'class methods' do
-    describe '.configuration' do
-      context 'defaults' do
-        describe '#dictionaries' do
-          it 'returns the expected default value' do
-            expect(subject.dictionaries).to eq({})
-          end
+  #.configuration
+  describe '.configuration' do
+    context 'when passing a block' do
+      subject do
+        described_class.configure do |config|
+          config.dictionaries = :dictionaries
+          config.ignore_numerics = :ignore_numerics
+          config.language = :language
+          config.max_dictionary_file_megabytes = max_dictionary_file_megabytes
+          config.metadata_observers = metadata_observers
+          config.numeric_regex = :numeric_regex
+          config.region = :region
+          config.single_character_words = :single_character_words
+          config.strip_whitespace = :strip_whitespace
+          config.word_regex = :word_regex
         end
+        described_class.configuration
+      end
 
-        describe '#ignore_numerics' do
-          it 'returns the expected default value' do
-            expect(subject.ignore_numerics).to eq true
-          end
-        end
+      let(:max_dictionary_file_megabytes) { 1_222_333 }
+      let(:metadata_observers) { %i(observer0 observer1) }
 
-        describe '#language' do
-          it 'returns the expected default value' do
-            expect(subject.language).to be_nil
-          end
-        end
-
-        describe '#numeric_regex' do
-          it 'returns the expected default value' do
-            expect(subject.numeric_regex).to eq(/^[-+]?[0-9]?(\.[0-9]+)?$+/)
-          end
-        end
-
-        describe '#region' do
-          it 'returns the expected default value' do
-            expect(subject.region).to be_nil
-          end
-        end
-
-        describe '#single_character_words' do
-          it 'returns the expected default value' do
-            expect(subject.single_character_words).to eq(/[aAI]/)
-          end
-        end
-
-        describe '#strip_whitespace' do
-          it 'returns the expected default value' do
-            expect(subject.strip_whitespace).to eq true
-          end
-        end
-
-        describe '#word_regex' do
-          it 'returns the expected default value' do
-            expect(subject.word_regex).to eq(/\s+(?=(?:[^"]*"[^"]*")*[^"]*$)/)
-          end
+      describe '#dictionaries=' do
+        it 'sets the value' do
+          expect(subject.dictionaries).to eq :dictionaries
         end
       end
 
-      context 'when passing a block' do
-        subject do
-          described_class.configure do |config|
-            config.dictionaries = :dictionaries
-            config.ignore_numerics = :ignore_numerics
-            config.language = :language
-            config.max_dictionary_file_megabytes = max_dictionary_file_megabytes
-            config.numeric_regex = :numeric_regex
-            config.region = :region
-            config.single_character_words = :single_character_words
-            config.strip_whitespace = :strip_whitespace
-            config.word_regex = :word_regex
-          end
-          described_class.configuration
+      describe '#ignore_numerics=' do
+        it 'sets the value' do
+          expect(subject.ignore_numerics).to eq :ignore_numerics
         end
+      end
 
-        let(:max_dictionary_file_megabytes) { 1_222_333 }
-
-        describe '#dictionaries=' do
-          it 'sets the value' do
-            expect(subject.dictionaries).to eq :dictionaries
-          end
+      describe '#language=' do
+        it 'sets the value' do
+          expect(subject.language).to eq :language
         end
+      end
 
-        describe '#ignore_numerics=' do
-          it 'sets the value' do
-            expect(subject.ignore_numerics).to eq :ignore_numerics
-          end
+      describe '#max_dictionary_file_megabytes=' do
+        it 'sets the value' do
+          expect(subject.max_dictionary_file_megabytes).to eq max_dictionary_file_megabytes
         end
+      end
 
-        describe '#language=' do
-          it 'sets the value' do
-            expect(subject.language).to eq :language
-          end
+      describe '#metadata_observers=' do
+        it 'sets the value' do
+          expect(subject.metadata_observers).to eq metadata_observers
         end
+      end
 
-        describe '#max_dictionary_file_megabytes=' do
-          it 'sets the value' do
-            expect(subject.max_dictionary_file_megabytes).to eq max_dictionary_file_megabytes
-          end
+      describe '#numeric_regex=' do
+        it 'sets the value' do
+          expect(subject.numeric_regex).to eq :numeric_regex
         end
+      end
 
-        describe '#numeric_regex=' do
-          it 'sets the value' do
-            expect(subject.numeric_regex).to eq :numeric_regex
-          end
+      describe '#region=' do
+        it 'sets the value' do
+          expect(subject.region).to eq :region
         end
+      end
 
-        describe '#region=' do
-          it 'sets the value' do
-            expect(subject.region).to eq :region
-          end
+      describe '#single_character_words=' do
+        it 'sets the value' do
+          expect(subject.single_character_words).to eq :single_character_words
         end
+      end
 
-        describe '#single_character_words=' do
-          it 'sets the value' do
-            expect(subject.single_character_words).to eq :single_character_words
-          end
+      describe '#strip_whitespace=' do
+        it 'sets the value' do
+          expect(subject.strip_whitespace).to eq :strip_whitespace
         end
+      end
 
-        describe '#strip_whitespace=' do
-          it 'sets the value' do
-            expect(subject.strip_whitespace).to eq :strip_whitespace
-          end
-        end
-
-        describe '#word_regex=' do
-          it 'sets the value' do
-            expect(subject.word_regex).to eq :word_regex
-          end
+      describe '#word_regex=' do
+        it 'sets the value' do
+          expect(subject.word_regex).to eq :word_regex
         end
       end
     end

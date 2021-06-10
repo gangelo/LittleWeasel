@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'observer'
+require_relative '../modules/class_name_to_symbol'
 require_relative '../modules/configurable'
 require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/dictionary_cache_servicable'
 require_relative '../modules/dictionary_metadata_servicable'
-require_relative '../modules/klass_name_to_sym'
 require_relative 'metadata_observable_validatable'
 require_relative 'metadatable'
 
@@ -19,11 +19,11 @@ module LittleWeasel
       include Observable
       include Metadata::Metadatable
       include Metadata::MetadataObservableValidatable
+      include Modules::ClassNameToSymbol
       include Modules::Configurable
       include Modules::DictionaryCacheKeys
       include Modules::DictionaryCacheServicable
       include Modules::DictionaryMetadataServicable
-      include Modules::KlassNameToSym
 
       delegate :[], to: :observers
 
