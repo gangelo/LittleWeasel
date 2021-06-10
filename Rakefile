@@ -34,6 +34,8 @@ task :workflow do
     word.strip!
     puts "word_valid?('#{word}'') #=> #{dictionary.word_valid?(word)}"
   end
+  dictionary.word_valid? 'badword'
+  binding.pry
 rescue StandardError => e
   task 'workflow' do
     puts "LittleWeasel task workflow not loaded: #{e.message}"

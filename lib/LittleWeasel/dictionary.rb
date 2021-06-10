@@ -48,22 +48,6 @@ module LittleWeasel
       end
     end
 
-    # This method returns a count of VALID words in the dictionary.
-    def count
-      dictionary_words.each_pair.count { |_word, valid| valid }
-    end
-
-    # This method returns a count of all VALID and INVALID words in
-    # the dictionary.
-    def count_all_words
-      dictionary_words.count
-    end
-
-    # This method returns a count of all INVALID words in the dictionary.
-    def count_invalid_words
-      dictionary_words.each_pair.count { |_word, valid| !valid }
-    end
-
     def word_valid?(word)
       # <word_found> tells us whether or not <word> can be found in the
       # dictionary_words.
@@ -83,6 +67,22 @@ module LittleWeasel
       dictionary_metadata_object.notify(action: :word_search,
         params: { word: word, word_found: word_found, word_valid: word_valid })
       word_valid
+    end
+
+    # This method returns a count of VALID words in the dictionary.
+    def count
+      dictionary_words.each_pair.count { |_word, valid| valid }
+    end
+
+    # This method returns a count of all VALID and INVALID words in
+    # the dictionary.
+    def count_all_words
+      dictionary_words.count
+    end
+
+    # This method returns a count of all INVALID words in the dictionary.
+    def count_invalid_words
+      dictionary_words.each_pair.count { |_word, valid| !valid }
     end
 
     private

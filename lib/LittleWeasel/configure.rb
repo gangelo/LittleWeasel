@@ -35,7 +35,7 @@ module LittleWeasel
       @numeric_regex = /^[-+]?[0-9]?(\.[0-9]+)?$+/
       @max_dictionary_file_megabytes = 4
       @max_invalid_words_bytesize = 25_000
-      @metadata_observers = [LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata]
+      @metadata_observers = [LittleWeasel::Metadata::InvalidWordsMetadata]
       @region = nil
       @single_character_words = /[aAI]/
       @strip_whitespace = true

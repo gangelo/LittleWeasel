@@ -53,7 +53,7 @@ RSpec.describe LittleWeasel do
 
     describe '#metadata_observers=' do
       it 'set to an Array with InvalidWordsMetadata by default' do
-        expect(subject.metadata_observers).to eq [LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata]
+        expect(subject.metadata_observers).to eq [LittleWeasel::Metadata::InvalidWordsMetadata]
       end
     end
 

@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'observer'
 
-RSpec.describe LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata do
+RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
   subject do
     dictionary_manager.init
     dictionary_manager.add_dictionary_reference(dictionary_key: dictionary_key, file: file)

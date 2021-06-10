@@ -12,7 +12,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
   let(:dictionary_cache) { {} }
   let(:dictionary_metadata) { {} }
   let(:invalid_words_metadata_key) { invalid_words_metadata_class.metadata_key }
-  let(:invalid_words_metadata_class) { LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata }
+  let(:invalid_words_metadata_class) { LittleWeasel::Metadata::InvalidWordsMetadata }
 
   #.new
   describe '#.new' do
@@ -198,7 +198,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
 
     context 'when a metadata object is NOT in a state to observe' do
       before do
-        allow(LittleWeasel::Metadata::InvalidWords::InvalidWordsMetadata).to receive(:observe?).and_return(false)
+        allow(LittleWeasel::Metadata::InvalidWordsMetadata).to receive(:observe?).and_return(false)
       end
 
       it 'NOT added as an observer' do
