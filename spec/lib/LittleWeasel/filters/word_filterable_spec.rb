@@ -2,30 +2,49 @@
 
 require 'spec_helper'
 
-RSpec.describe LittleWeasel::Filters::SingleCharacterWordFilter do
+RSpec.describe LittleWeasel::Filters::WordFilterable do
   subject { described_class.new filter_on: filter_on }
 
   let(:filter_on) { true }
 
-  #filter_match?
-  describe '#filter_match?' do
-    context 'when word single character word' do
-      it 'returns true' do
-        %w(a A I).each do |number|
-          expect(subject.filter_match? number).to eq true
+  #.new
+  describe '.new' do
+    context 'when argument filter_on is valid' do
+      context 'when true' do
+        it 'instantiates the object' do
+          expect { subject }.to_not raise_error
+        end
+      end
+
+      context 'when false' do
+        let(:filter_on) { false }
+
+        it 'instantiates the object' do
+          expect { subject }.to_not raise_error
         end
       end
     end
 
-    context 'when word is NOT a single character word' do
-      it 'returns false' do
-        expect(subject.filter_match? 'X').to eq false
-        expect(subject.filter_match? :a).to eq false
-        expect(subject.filter_match? Object.new).to eq false
+    context 'when argument filter_on is INVALID' do
+      context 'when argument filter_on is not true or false' do
+        let(:filter_on) { :not_true_or_false }
+
+        it 'raises an error' do
+          expect { subject.new filter_on: filter_on }.to raise_error "Argument filter_on is not true or false: #{filter_on}"
+        end
       end
     end
+  end
 
-    let(:word) { 'x' }
+  #filter_match?
+  describe '#filter_match?' do
+    let(:word) { 'word' }
+
+    context 'when not overridden' do
+      it 'raises an error' do
+        expect { subject.filter_match? 'boom' }.to raise_error LittleWeasel::Errors::MustOverrideError
+      end
+    end
 
     context 'when #filter_match? returns true' do
       before { allow(subject.class).to receive(:filter_match?).and_return(true) }

@@ -51,3 +51,27 @@ RSpec.shared_examples 'the dictionary_metadata is invalid' do
     end
   end
 end
+
+RSpec.shared_examples 'the filter matches and #filter_on? is true' do
+  it 'returns true' do
+    expect(subject.filter_match? word).to eq true
+  end
+end
+
+RSpec.shared_examples 'the filter DOES NOT match and #filter_on? is true' do
+  it 'returns false' do
+    expect(subject.filter_match? word).to eq false
+  end
+end
+
+RSpec.shared_examples 'the filter matches and #filter_on? is false' do
+  it 'returns false' do
+    expect(subject.filter_match? word).to eq false
+  end
+end
+
+RSpec.shared_examples 'the filter DOES NOT match and #filter_on? is false' do
+  it 'returns false' do
+    expect(subject.filter_match? word).to eq false
+  end
+end

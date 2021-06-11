@@ -6,8 +6,7 @@ require_relative 'word_filterable'
 module LittleWeasel
   module Filters
     # This class represents a numeric filter.
-    class NumericFilter
-      include WordFilterable
+    class NumericFilter < WordFilterable
 
       class << self
         def filter_match?(word)

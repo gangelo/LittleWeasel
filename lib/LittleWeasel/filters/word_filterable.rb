@@ -5,21 +5,32 @@ require_relative '../errors/must_override_error'
 module LittleWeasel
   module Filters
     # This module provides methods/functionality for filtering dictionary words.
-    module WordFilterable
-      def self.included(base)
-        base.extend(ClassMethods)
+    class WordFilterable
+      def initialize(filter_on: true)
+        raise ArgumentError, "Argument filter_on is not true or false: #{filter_on}" unless [true, false].include? filter_on
+
+        self.filter_on = filter_on
       end
 
-      module ClassMethods
-        def word_valid?(word)
-          filter_match? word
-        end
-
-        # Override this method and return true if the filter matches.
-        def filter_match?(word)
+      class << self
+        def filter_match?(_word)
           raise Errors::MustOverrideError
         end
       end
+
+      def filter_match?(word)
+        return false unless filter_on?
+
+        self.class.filter_match? word
+      end
+
+      def filter_on?
+        filter_on
+      end
+
+      private
+
+      attr_accessor :filter_on
     end
   end
 end
