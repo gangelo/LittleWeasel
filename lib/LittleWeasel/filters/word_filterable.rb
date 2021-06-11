@@ -6,6 +6,8 @@ module LittleWeasel
   module Filters
     # This module provides methods/functionality for filtering dictionary words.
     class WordFilterable
+      attr_accessor :filter_on
+
       def initialize(filter_on: true)
         raise ArgumentError, "Argument filter_on is not true or false: #{filter_on}" unless [true,
                                                                                              false].include? filter_on
@@ -29,9 +31,8 @@ module LittleWeasel
         filter_on
       end
 
-      private
-
-      attr_accessor :filter_on
+      def turn_filter_on
+      end
     end
   end
 end

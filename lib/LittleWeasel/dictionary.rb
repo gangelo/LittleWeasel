@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'active_support/core_ext/module/delegation'
 require_relative 'metadata/dictionary_metadata'
 require_relative 'modules/dictionary_cache_servicable'
 require_relative 'modules/dictionary_keyable'

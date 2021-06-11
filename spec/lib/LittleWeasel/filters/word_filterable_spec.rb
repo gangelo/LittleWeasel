@@ -9,6 +9,24 @@ RSpec.describe LittleWeasel::Filters::WordFilterable do
 
   #.new
   describe '.new' do
+    context 'sets #filter_on' do
+      context 'when true is passed' do
+        let(:filter_on) { true }
+
+        it 'sets #filter_on to true' do
+          expect(subject.filter_on).to eq true
+        end
+      end
+
+      context 'when false is passed' do
+        let(:filter_on) { false }
+
+        it 'sets #filter_on to false' do
+          expect(subject.filter_on).to eq false
+        end
+      end
+    end
+
     context 'when argument filter_on is valid' do
       context 'when true' do
         it 'instantiates the object' do
@@ -32,6 +50,46 @@ RSpec.describe LittleWeasel::Filters::WordFilterable do
         it 'raises an error' do
           expect { subject.new filter_on: filter_on }.to raise_error "Argument filter_on is not true or false: #{filter_on}"
         end
+      end
+    end
+  end
+
+  #filter_on
+  describe '#filter_on' do
+    context 'when set to true' do
+      before do
+        subject.filter_on = true
+      end
+
+      it 'returns true' do
+        expect(subject.filter_on).to eq true
+      end
+    end
+
+    context 'when set to false' do
+      before do
+        subject.filter_on = false
+      end
+
+      it 'returns false' do
+        expect(subject.filter_on).to eq false
+      end
+    end
+  end
+
+  #filter_on?
+  describe '#filter_on?' do
+    context 'when #filter_on is true' do
+      it 'returns true' do
+        expect(subject.filter_on?).to eq true
+      end
+    end
+
+    context 'when #filter_on is false' do
+      let(:filter_on) { false }
+
+      it 'returns false' do
+        expect(subject.filter_on?).to eq false
       end
     end
   end
