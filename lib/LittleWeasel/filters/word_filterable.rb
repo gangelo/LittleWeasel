@@ -6,15 +6,20 @@ module LittleWeasel
   module Filters
     # This module provides methods/functionality for filtering dictionary words.
     module WordFilterable
-      attr_reader :position
-
-      def word_valid?(word:)
-        raise Errors::MustOverrideError
+      def self.included(base)
+        base.extend(ClassMethods)
       end
 
-      private
+      module ClassMethods
+        def word_valid?(word)
+          filter_match? word
+        end
 
-      attr_writer :position
+        # Override this method and return true if the filter matches.
+        def filter_match?(word)
+          raise Errors::MustOverrideError
+        end
+      end
     end
   end
 end
