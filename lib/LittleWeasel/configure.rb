@@ -33,7 +33,7 @@ module LittleWeasel
       @ignore_numerics = true
       @language = nil
       @numeric_regex = /^[-+]?[0-9]?(\.[0-9]+)?$+/
-      @max_dictionary_file_megabytes = 4
+      @max_dictionary_file_megabytes = 5
       @max_invalid_words_bytesize = 25_000
       @metadata_observers = [LittleWeasel::Metadata::InvalidWordsMetadata]
       @region = nil

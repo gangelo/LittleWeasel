@@ -40,8 +40,8 @@ RSpec.describe LittleWeasel do
     end
 
     describe '#max_dictionary_file_megabytes' do
-      it 'set to 4 by default' do
-        expect(subject.max_dictionary_file_megabytes).to eq 4
+      it 'set to 5 by default' do
+        expect(subject.max_dictionary_file_megabytes).to eq 5
       end
     end
 

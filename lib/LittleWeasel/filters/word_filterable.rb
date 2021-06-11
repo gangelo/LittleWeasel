@@ -7,7 +7,8 @@ module LittleWeasel
     # This module provides methods/functionality for filtering dictionary words.
     class WordFilterable
       def initialize(filter_on: true)
-        raise ArgumentError, "Argument filter_on is not true or false: #{filter_on}" unless [true, false].include? filter_on
+        raise ArgumentError, "Argument filter_on is not true or false: #{filter_on}" unless [true,
+                                                                                             false].include? filter_on
 
         self.filter_on = filter_on
       end

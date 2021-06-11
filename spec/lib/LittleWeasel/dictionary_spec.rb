@@ -8,10 +8,14 @@ RSpec.describe LittleWeasel::Dictionary do
   subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words) }
 
   before(:each) { LittleWeasel.configure { |config| config.reset } }
-  before { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true) }
+  before do
+    dictionary_cache_service
+  end
 
+  let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true) }
   let(:dictionary_key) { dictionary_key_for(language: :en, region: :us) }
   let(:dictionary_cache) { {} }
+  let(:dictionary_metadata) { {} }
   let(:dictionary_file_path) { dictionary_path_for(file_name: dictionary_key.key) }
   let(:dictionary_words) { dictionary_words_for(dictionary_file_path: dictionary_file_path) }
 
@@ -55,6 +59,36 @@ RSpec.describe LittleWeasel::Dictionary do
 
     it 'returns a Hash of dictionary words' do
       expect(described_class.to_hash(dictionary_words: %w(this is a test))).to eq expected_hash
+    end
+  end
+
+  #detached?
+  describe '#detached?' do
+    before do
+      subject
+    end
+
+    let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: dictionary_key.key, load: true) }
+
+    context 'when the dictionary object is in the dictionary cache' do
+      it 'returns false' do
+        dictionary_cache_service
+        expect(dictionary_cache_service.dictionary_object?).to eq true
+        expect(subject.detached?).to eq false
+      end
+    end
+
+    context 'when the dictionary object is NOT in the dictionary cache' do
+      before do
+        dictionary_cache_service
+        dictionary_killer_service = create(:dictionary_killer_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata)
+        dictionary_killer_service.execute
+      end
+
+      it 'returns true' do
+        expect(dictionary_cache_service.dictionary_object?).to eq false
+        expect(subject.detached?).to eq true
+      end
     end
   end
 

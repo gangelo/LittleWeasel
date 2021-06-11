@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/module/delegation'
-require_relative 'modules/dictionary_keyable'
-require_relative 'modules/dictionary_cache_servicable'
 require_relative 'metadata/dictionary_metadata'
+require_relative 'modules/dictionary_cache_servicable'
+require_relative 'modules/dictionary_keyable'
 require_relative 'modules/dictionary_metadata_servicable'
 
 module LittleWeasel
   class Dictionary
-    include Modules::DictionaryKeyable
     include Modules::DictionaryCacheServicable
+    include Modules::DictionaryKeyable
     include Modules::DictionaryMetadataServicable
 
     attr_reader :dictionary_metadata_object, :dictionary_words
@@ -67,6 +67,14 @@ module LittleWeasel
       dictionary_metadata_object.notify(action: :word_search,
         params: { word: word, word_found: word_found, word_valid: word_valid })
       word_valid
+    end
+
+    # This method returns true if this dictionary object is detached from the
+    # dictionary cache; this can happen if the dictionary object is unloaded
+    # from the dictionary cache(DictionaryManager#unload_dictionary) or the
+    # dictionary is killed (DictionaryManager#kill_dictionary).
+    def detached?
+      !dictionary_cache_service.dictionary_object?
     end
 
     # This method returns a count of VALID words in the dictionary.
