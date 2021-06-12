@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require_relative '../errors/must_override_error'
-require_relative 'word_filterable'
+require_relative 'word_filter'
 
 module LittleWeasel
   module Filters
     # This class represents a filter for single character words.
-    class SingleCharacterWordFilter < WordFilterable
+    class SingleCharacterWordFilter < WordFilter
       class << self
         def filter_match?(word)
           return false unless word.is_a? String

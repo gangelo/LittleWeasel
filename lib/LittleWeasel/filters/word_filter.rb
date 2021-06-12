@@ -5,7 +5,7 @@ require_relative '../errors/must_override_error'
 module LittleWeasel
   module Filters
     # This module provides methods/functionality for filtering dictionary words.
-    class WordFilterable
+    class WordFilter
       attr_accessor :filter_on
 
       def initialize(filter_on: true)

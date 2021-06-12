@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe LittleWeasel::Filters::WordFilterable do
+RSpec.describe LittleWeasel::Filters::WordFilter do
   subject { described_class.new filter_on: filter_on }
 
   let(:filter_on) { true }

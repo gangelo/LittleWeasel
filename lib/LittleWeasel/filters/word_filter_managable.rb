@@ -7,7 +7,10 @@ module LittleWeasel
       attr_reader :word_filters
 
       def filter_match?(word)
-        return false if word_filter.nil? || word_filter.empty?
+        raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a? String
+
+        word = word.strip
+        return false if word.empty?
 
         word_filters.any? do |word_filter|
           word_filter.filter_match? word
