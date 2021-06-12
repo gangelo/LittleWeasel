@@ -20,26 +20,17 @@ module LittleWeasel
 
   # This class holds the configuration properties for this gem.
   class Configuration
-    attr_reader :dictionaries, :ignore_numerics, :language, :region,
-      :max_dictionary_file_megabytes, :max_invalid_words_bytesize,
-      :metadata_observers, :numeric_regex, :single_character_words, :strip_whitespace, :word_regex
+    attr_reader :max_dictionary_file_megabytes,
+      :max_invalid_words_bytesize, :metadata_observers
 
     def initialize
       reset
     end
 
     def reset
-      @dictionaries = {}
-      @ignore_numerics = true
-      @language = nil
-      @numeric_regex = /^[-+]?[0-9]?(\.[0-9]+)?$+/
       @max_dictionary_file_megabytes = 5
       @max_invalid_words_bytesize = 25_000
       @metadata_observers = [LittleWeasel::Metadata::InvalidWordsMetadata]
-      @region = nil
-      @single_character_words = /[aAI]/
-      @strip_whitespace = true
-      @word_regex = /\s+(?=(?:[^"]*"[^"]*")*[^"]*$)/
     end
 
     def max_dictionary_file_bytes
@@ -51,25 +42,6 @@ module LittleWeasel
     end
 
     # rubocop: disable Style/TrivialAccessors
-    # We may want to perform validation later on,
-    # besides, reek flags these as writable attributes
-    # if I simply made them attr_accessor/attr_writer
-    def dictionaries=(value)
-      @dictionaries = value
-    end
-
-    def ignore_numerics=(value)
-      @ignore_numerics = value
-    end
-
-    def language=(value)
-      @language = value
-    end
-
-    def numeric_regex=(value)
-      @numeric_regex = value
-    end
-
     def max_dictionary_file_megabytes=(value)
       @max_dictionary_file_megabytes = value
     end
@@ -85,22 +57,6 @@ module LittleWeasel
       # TODO: Limit the amount of observer classes, exploits?
 
       @metadata_observers = value
-    end
-
-    def region=(value)
-      @region = value
-    end
-
-    def single_character_words=(value)
-      @single_character_words = value
-    end
-
-    def strip_whitespace=(value)
-      @strip_whitespace = value
-    end
-
-    def word_regex=(value)
-      @word_regex = value
     end
     # rubocop: enable Style/TrivialAccessors
   end
