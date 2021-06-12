@@ -51,6 +51,17 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
+  #create_dictionary
+  describe '#create_dictionary' do
+    context 'when the dictionary reference does not exist and the dictionary is not loaded/cached' do
+      it 'adds a dictionary reference, loads/caches the dictionary and returns a dictionary object' do
+        expect(subject.create_dictionary(dictionary_key: dictionary_key, file: file)).to be_kind_of LittleWeasel::Dictionary
+        expect(dictionary_cache_service.dictionary_reference?).to eq true
+        expect(dictionary_cache_service.dictionary_object?).to eq true
+      end
+    end
+  end
+
   #unload_dictionary
   describe '#unload_dictionary' do
     before do

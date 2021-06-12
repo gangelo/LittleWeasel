@@ -30,6 +30,15 @@ module LittleWeasel
       dictionary_loader_service(dictionary_key: dictionary_key).execute
     end
 
+    # Adds a dictionary reference, loads the dictionary, and returns a
+    # Dictionary object all in the same call.
+    def create_dictionary(dictionary_key:, file:)
+      validate_dictionary_key dictionary_key: dictionary_key
+
+      add_dictionary_reference dictionary_key: dictionary_key, file: file
+      load_dictionary dictionary_key: dictionary_key
+    end
+
     # Unloads the dictionary (Dictionary object) associated with the dictionary
     # key from the dictionary cache; however, the dictionary file reference
     # and any metadata associated with the dictionary are maintained in the
