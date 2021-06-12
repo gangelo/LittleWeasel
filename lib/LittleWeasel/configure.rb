@@ -21,7 +21,7 @@ module LittleWeasel
   # This class holds the configuration properties for this gem.
   class Configuration
     attr_reader :max_dictionary_file_megabytes,
-      :max_invalid_words_bytesize, :metadata_observers
+      :max_invalid_words_bytesize, :metadata_observers, :word_filters
 
     def initialize
       reset
@@ -30,7 +30,13 @@ module LittleWeasel
     def reset
       @max_dictionary_file_megabytes = 5
       @max_invalid_words_bytesize = 25_000
-      @metadata_observers = [LittleWeasel::Metadata::InvalidWordsMetadata]
+      @metadata_observers = [
+        LittleWeasel::Metadata::InvalidWordsMetadata
+      ]
+      @word_filters = [
+        LittleWeasel::Filters::NumericFilter,
+        LittleWeasel::Filters::SingleCharacterWordFilter
+      ]
     end
 
     def max_dictionary_file_bytes
@@ -57,6 +63,14 @@ module LittleWeasel
       # TODO: Limit the amount of observer classes, exploits?
 
       @metadata_observers = value
+    end
+
+    def word_filters=(value)
+      raise ArgumentError, "Argument value is not an Array: #{value.class}" unless value.is_a? Array
+
+      # TODO: Limit the amount of word filter classes, exploits?
+
+      @word_filters = value
     end
     # rubocop: enable Style/TrivialAccessors
   end

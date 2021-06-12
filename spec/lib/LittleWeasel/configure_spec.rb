@@ -23,7 +23,18 @@ RSpec.describe LittleWeasel do
 
     describe '#metadata_observers=' do
       it 'set to an Array with InvalidWordsMetadata by default' do
-        expect(subject.metadata_observers).to eq [LittleWeasel::Metadata::InvalidWordsMetadata]
+        expect(subject.metadata_observers).to eq [
+          LittleWeasel::Metadata::InvalidWordsMetadata
+        ]
+      end
+    end
+
+    describe '#word_filters=' do
+      it 'set to an Array with default word filters' do
+        expect(subject.word_filters).to eq [
+          LittleWeasel::Filters::NumericFilter,
+          LittleWeasel::Filters::SingleCharacterWordFilter
+        ]
       end
     end
   end
@@ -35,12 +46,14 @@ RSpec.describe LittleWeasel do
         described_class.configure do |config|
           config.max_dictionary_file_megabytes = max_dictionary_file_megabytes
           config.metadata_observers = metadata_observers
+          config.word_filters = word_filters
         end
         described_class.configuration
       end
 
       let(:max_dictionary_file_megabytes) { 1_222_333 }
       let(:metadata_observers) { %i(observer0 observer1) }
+      let(:word_filters) { %i(word_filter0 word_filter1) }
 
       describe '#max_dictionary_file_megabytes=' do
         it 'sets the value' do
@@ -51,6 +64,12 @@ RSpec.describe LittleWeasel do
       describe '#metadata_observers=' do
         it 'sets the value' do
           expect(subject.metadata_observers).to eq metadata_observers
+        end
+      end
+
+      describe '#word_filters=' do
+        it 'sets the value' do
+          expect(subject.word_filters).to eq word_filters
         end
       end
     end
