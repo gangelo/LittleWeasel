@@ -156,6 +156,16 @@ RSpec.describe LittleWeasel::Dictionary do
 
   #word_valid?
   describe '#word_valid?' do
+    context 'when argument word is INVALID' do
+      context 'when not a String' do
+        let(:word) { :not_a_string }
+
+        it 'raises an error' do
+          expect { subject.word_valid?(word) }.to raise_error "Argument word is not a String: #{word.class}"
+        end
+      end
+    end
+
     context 'when searching for words in the dictionary' do
       context 'when the word is found' do
         it 'returns true' do

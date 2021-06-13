@@ -54,6 +54,8 @@ module LittleWeasel
     end
 
     def word_valid?(word)
+      raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a?(String)
+
       # <word_found> tells us whether or not <word> can be found in the
       # dictionary_words.
       #
