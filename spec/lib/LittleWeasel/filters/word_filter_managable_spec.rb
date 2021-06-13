@@ -56,7 +56,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
 
     context 'when argument word_filters is NOT nil' do
       it 'the word filters passed to the method are appended to the #word_filters Array' do
-        expect(subject.add_filters(word_filters: [WordFilter01, WordFilter02]).count).to eq 3
+        expect(subject.add_filters(word_filters: [WordFilter01.new, WordFilter02.new]).count).to eq 3
         expect(subject.word_filters).to include(a_kind_of(WordFilter01))
         expect(subject.word_filters).to include(a_kind_of(WordFilter02))
         expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::NumericFilter))
@@ -66,8 +66,8 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     context 'when a block is passed' do
       before do
         subject.add_filters do |word_filters|
-          word_filters << WordFilter01
-          word_filters << WordFilter02
+          word_filters << WordFilter01.new
+          word_filters << WordFilter02.new
         end
       end
 
@@ -85,7 +85,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     it 'replaces any existing word filters' do
       expect(subject.word_filters.count).to eq 1
       expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::NumericFilter))
-      expect(subject.replace_filters(word_filters: [WordFilter01, WordFilter02]).count).to eq 2
+      expect(subject.replace_filters(word_filters: [WordFilter01.new, WordFilter02.new]).count).to eq 2
       expect(subject.word_filters).to include(a_kind_of(WordFilter01))
       expect(subject.word_filters).to include(a_kind_of(WordFilter02))
     end

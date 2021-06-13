@@ -35,11 +35,7 @@ module LittleWeasel
     def create_dictionary(dictionary_key:, file:, word_filters: nil)
       validate_dictionary_key dictionary_key: dictionary_key
 
-      add_dictionary_reference dictionary_key: dictionary_key, file: file
-      dictionary_words = dictionary_file_loader_service(dictionary_key: dictionary_key).execute
-      dictionary = Dictionary.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
-        dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, word_filters: word_filters)
-      dictionary_cache_service(dictionary_key: dictionary_key).dictionary_object = dictionary
+      dictionary_creator_service(dictionary_key: dictionary_key, file: file, word_filters: word_filters).execute
     end
 
     # Unloads the dictionary (Dictionary object) associated with the dictionary
@@ -74,6 +70,11 @@ module LittleWeasel
     private
 
     attr_writer :dictionary_cache, :dictionary_metadata
+
+    def dictionary_creator_service(dictionary_key:, file:, word_filters:)
+      Services::DictionaryCreatorService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
+        dictionary_metadata: dictionary_metadata, file: file, word_filters: word_filters
+    end
 
     def dictionary_cache_service(dictionary_key:)
       Services::DictionaryCacheService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache

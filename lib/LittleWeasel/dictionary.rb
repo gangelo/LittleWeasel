@@ -44,7 +44,8 @@ module LittleWeasel
         )
       dictionary_metadata_object.add_observers
 
-      add_filters word_filters: word_filters || config.word_filters
+      word_filters ||= config.word_filters.map { |word_filter| word_filter.new }
+      add_filters word_filters: word_filters
     end
 
     class << self

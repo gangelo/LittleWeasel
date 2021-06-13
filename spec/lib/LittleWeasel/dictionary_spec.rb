@@ -57,7 +57,7 @@ RSpec.describe LittleWeasel::Dictionary do
       end
 
       context 'when argument word_filters is NOT nil' do
-        let(:word_filters) { [WordFilter01, WordFilter02] }
+        let(:word_filters) { [WordFilter01.new, WordFilter02.new] }
 
         it 'the dictionary will use the word filters passed' do
           expect(subject.word_filters.count).to eq 2

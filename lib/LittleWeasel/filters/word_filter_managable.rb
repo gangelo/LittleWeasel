@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'word_filter_validatable'
+require_relative 'word_filters_validatable'
 
 module LittleWeasel
   module Filters
@@ -13,7 +13,7 @@ module LittleWeasel
     # should be notified of the word now that it is considered "valid"
     # although may not literally be a valid word in the dictionary.
     module WordFilterManagable
-      include WordFilterValidatable
+      include WordFiltersValidatable
 
       def word_filters
         @word_filters ||= []
@@ -33,20 +33,9 @@ module LittleWeasel
         word_filters ||= []
         yield word_filters if block_given?
 
-        unless word_filters.is_a? Array
-          raise ArgumentError,
-            "Argument word_filters is not an Array: #{word_filters.class}"
-        end
-        raise ArgumentError, 'Argument word_filters is blank' if word_filters.blank?
+        validate_word_filters word_filters: word_filters
 
-        word_filters.each do |word_filter|
-          word_filter_object = word_filter.new
-          validate_word_filter word_filter: word_filter_object
-
-          self.word_filters << word_filter_object
-        end
-
-        self.word_filters
+        self.word_filters.concat word_filters
       end
       alias append_filters add_filters
 
