@@ -30,13 +30,15 @@ module LittleWeasel
       dictionary_loader_service(dictionary_key: dictionary_key).execute
     end
 
-    # Adds a dictionary reference, loads the dictionary, and returns a
-    # Dictionary object all in the same call.
-    def create_dictionary(dictionary_key:, file:)
+    # Adds a dictionary reference, creates the dictionary and returns the
+    # Dictionary object.
+    def create_dictionary(dictionary_key:, file:, word_filters: nil)
       validate_dictionary_key dictionary_key: dictionary_key
 
       add_dictionary_reference dictionary_key: dictionary_key, file: file
-      load_dictionary dictionary_key: dictionary_key
+      dictionary = load_dictionary dictionary_key: dictionary_key
+      dictionary.replace_filters(word_filters: word_filters) if word_filters.present?
+      dictionary
     end
 
     # Unloads the dictionary (Dictionary object) associated with the dictionary

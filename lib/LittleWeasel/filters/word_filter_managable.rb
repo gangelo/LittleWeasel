@@ -48,6 +48,12 @@ module LittleWeasel
 
         self.word_filters
       end
+      alias append_filters add_filters
+
+      def replace_filters(word_filters:)
+        clear_filters
+        add_filters word_filters: word_filters
+      end
 
       def filters_on=(on)
         raise ArgumentError, "Argument on is not true or false: #{on.class}" unless [true, false].include?(on)

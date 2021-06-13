@@ -60,6 +60,16 @@ RSpec.describe LittleWeasel::DictionaryManager do
         expect(dictionary_cache_service.dictionary_object?).to eq true
       end
     end
+
+    context 'when the dictionary reference exists' do
+      before do
+        subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
+      end
+
+      it 'raises an error' do
+        expect { subject.create_dictionary(dictionary_key: dictionary_key, file: file) }.to raise_error "Dictionary reference for key '#{dictionary_key.key}' already exists."
+      end
+    end
   end
 
   #unload_dictionary

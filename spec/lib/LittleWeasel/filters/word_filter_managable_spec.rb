@@ -80,6 +80,17 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     end
   end
 
+  #replace_filters
+  describe '#replace_filters' do
+    it 'replaces any existing word filters' do
+      expect(subject.word_filters.count).to eq 1
+      expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::NumericFilter))
+      expect(subject.replace_filters(word_filters: [WordFilter01, WordFilter02]).count).to eq 2
+      expect(subject.word_filters).to include(a_kind_of(WordFilter01))
+      expect(subject.word_filters).to include(a_kind_of(WordFilter02))
+    end
+  end
+
   #filters_on=
   describe '#filters_on=' do
     context 'when a boolean is not passed' do
