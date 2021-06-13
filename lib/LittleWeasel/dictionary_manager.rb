@@ -37,7 +37,8 @@ module LittleWeasel
 
       add_dictionary_reference dictionary_key: dictionary_key, file: file
       dictionary_words = dictionary_file_loader_service(dictionary_key: dictionary_key).execute
-      dictionary = Dictionary.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, word_filters: word_filters)
+      dictionary = Dictionary.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
+        dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, word_filters: word_filters)
       dictionary_cache_service(dictionary_key: dictionary_key).dictionary_object = dictionary
     end
 
