@@ -36,9 +36,9 @@ module LittleWeasel
       validate_dictionary_key dictionary_key: dictionary_key
 
       add_dictionary_reference dictionary_key: dictionary_key, file: file
-      dictionary = load_dictionary dictionary_key: dictionary_key
-      dictionary.replace_filters(word_filters: word_filters) if word_filters.present?
-      dictionary
+      dictionary_words = dictionary_file_loader_service(dictionary_key: dictionary_key).execute
+      dictionary = Dictionary.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, word_filters: word_filters)
+      dictionary_cache_service(dictionary_key: dictionary_key).dictionary_object = dictionary
     end
 
     # Unloads the dictionary (Dictionary object) associated with the dictionary
@@ -76,6 +76,10 @@ module LittleWeasel
 
     def dictionary_cache_service(dictionary_key:)
       Services::DictionaryCacheService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
+    end
+
+    def dictionary_file_loader_service(dictionary_key:)
+      Services::DictionaryFileLoaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
     end
 
     def dictionary_loader_service(dictionary_key:)
