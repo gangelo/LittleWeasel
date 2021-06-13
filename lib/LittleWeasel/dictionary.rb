@@ -1,19 +1,23 @@
 # frozen_string_literal: true
 
+require_relative 'filters/word_filter_managable'
 require_relative 'metadata/dictionary_metadata'
+require_relative 'modules/configurable'
 require_relative 'modules/dictionary_cache_servicable'
 require_relative 'modules/dictionary_keyable'
 require_relative 'modules/dictionary_metadata_servicable'
 
 module LittleWeasel
   class Dictionary
+    include Filters::WordFilterManagable
+    include Modules::Configurable
     include Modules::DictionaryCacheServicable
     include Modules::DictionaryKeyable
     include Modules::DictionaryMetadataServicable
 
     attr_reader :dictionary_metadata_object, :dictionary_words
 
-    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, dictionary_metadata:)
+    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, dictionary_metadata:, word_filters: nil)
       validate_dictionary_key dictionary_key: dictionary_key
       self.dictionary_key = dictionary_key
 
@@ -39,6 +43,8 @@ module LittleWeasel
           dictionary_metadata: dictionary_metadata
         )
       dictionary_metadata_object.add_observers
+
+      add_filters word_filters: word_filters || config.word_filters
     end
 
     class << self
@@ -65,7 +71,9 @@ module LittleWeasel
       word_valid = dictionary_words[word] || false
       dictionary_metadata_object.notify(action: :word_search,
         params: { word: word, word_found: word_found, word_valid: word_valid })
-      word_valid
+      # TODO: re filter_match?: What to do with this, I don't think this
+      # should just return here. What about metadata notification?
+      filter_match?(word) || word_valid
     end
 
     # This method returns true if this dictionary object is detached from the

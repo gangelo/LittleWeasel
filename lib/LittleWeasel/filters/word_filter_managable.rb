@@ -8,8 +8,10 @@ module LittleWeasel
     # Word fliters are processes through which words are passed; if the
     # process returns true, the word should be considered valid and all
     # subsequent filters ignored; if the process returns false, the word
-    # should be passed to the next filter, and so on. Word filters should
-    # typically be checked BEFORE checking a word against a dictionary.
+    # should be passed to the next filter, and so on. When using word
+    # filters, you need to consider whether or not metadata observers
+    # should be notified of the word now that it is considered "valid"
+    # although may not literally be a valid word in the dictionary.
     module WordFilterManagable
       include WordFilterValidatable
 
@@ -17,12 +19,25 @@ module LittleWeasel
         @word_filters ||= []
       end
 
-      # Adds word filters to the #word_filters Array.
-      def add_filters(word_filters: nil)
+      def clear_filters
         self.word_filters = []
+      end
 
-        word_filters ||= config.word_filters
+      # Adds word filters to the #word_filters Array.
+      #
+      # If Argument word_filter is nil, a block must be passed to populate
+      # the word_filters with an Array of valid word filter class types.
+      def add_filters(word_filters: nil)
+        raise 'A block is required if argument word_filters is nil' if word_filters.nil? && !block_given?
+
+        word_filters ||= []
         yield word_filters if block_given?
+
+        unless word_filters.is_a? Array
+          raise ArgumentError,
+            "Argument word_filters is not an Array: #{word_filters.class}"
+        end
+        raise ArgumentError, 'Argument word_filters is blank' if word_filters.blank?
 
         word_filters.each do |word_filter|
           word_filter_object = word_filter.new
@@ -34,8 +49,16 @@ module LittleWeasel
         self.word_filters
       end
 
+      def filters_on=(on)
+        raise ArgumentError, "Argument on is not true or false: #{on.class}" unless [true, false].include?(on)
+
+        word_filters.each { |word_filter| word_filter.filter_on = on }
+      end
+
       def filter_match?(word)
         raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a? String
+
+        return false if word_filters.blank?
 
         word = word.strip
         return false if word.empty?

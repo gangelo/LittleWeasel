@@ -11,7 +11,7 @@ module LittleWeasel
         def filter_match?(word)
           return false unless word.is_a? String
 
-          /[aAI]/.match? word.to_s
+          /^[aAI]{1}$/.match? word.to_s
         end
       end
     end

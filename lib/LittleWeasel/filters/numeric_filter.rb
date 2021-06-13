@@ -15,4 +15,3 @@ module LittleWeasel
     end
   end
 end
-

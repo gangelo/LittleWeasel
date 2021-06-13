@@ -30,6 +30,10 @@ module LittleWeasel
       def filter_on?
         filter_on
       end
+
+      def filter_off?
+        !filter_on?
+      end
     end
   end
 end

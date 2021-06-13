@@ -4,8 +4,9 @@ require 'spec_helper'
 
 RSpec.describe LittleWeasel::Dictionary do
   include_context 'dictionary keys'
+  include_context 'mock word filters'
 
-  subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words) }
+  subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words, word_filters: word_filters) }
 
   before(:each) { LittleWeasel.configure { |config| config.reset } }
   before do
@@ -18,6 +19,7 @@ RSpec.describe LittleWeasel::Dictionary do
   let(:dictionary_metadata) { {} }
   let(:dictionary_file_path) { dictionary_path_for(file_name: dictionary_key.key) }
   let(:dictionary_words) { dictionary_words_for(dictionary_file_path: dictionary_file_path) }
+  let(:word_filters) {}
 
   #.new
   describe '.new' do
@@ -41,6 +43,26 @@ RSpec.describe LittleWeasel::Dictionary do
 
         it 'raises an error' do
           expect { subject }.to raise_error ArgumentError
+        end
+      end
+    end
+
+    describe 'word_filter:' do
+      context 'when argument word_filters is nil' do
+        it 'the dictionary will use the word filters found in the configuration' do
+          expect(subject.word_filters.count).to eq 2
+          expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::NumericFilter))
+          expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::SingleCharacterWordFilter))
+        end
+      end
+
+      context 'when argument word_filters is NOT nil' do
+        let(:word_filters) { [WordFilter01, WordFilter02] }
+
+        it 'the dictionary will use the word filters passed' do
+          expect(subject.word_filters.count).to eq 2
+          expect(subject.word_filters).to include(a_kind_of(WordFilter01))
+          expect(subject.word_filters).to include(a_kind_of(WordFilter02))
         end
       end
     end

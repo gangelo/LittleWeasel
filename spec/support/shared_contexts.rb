@@ -40,7 +40,20 @@ RSpec.shared_context 'dictionary keys', shared_context: :metadata do
   end
 end
 
+RSpec.shared_context 'mock word filters', shared_context: :metadata do
+  class WordFilter01 < LittleWeasel::Filters::WordFilter
+    class << self
+      def filter_match?(word)
+        true
+      end
+    end
+  end
+
+  class WordFilter02 < WordFilter01; end
+end
+
 RSpec.configure do |config|
   config.include_context 'dictionary cache', include_shared: true
   config.include_context 'dictionary keys', include_shared: true
+  config.include_context 'mock word filters', include_shared: true
 end
