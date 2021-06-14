@@ -17,16 +17,29 @@ module LittleWeasel
       include WordFilterable
       include WordFiltersValidatable
 
+      # Override attr_reader word_filter found in WordFilterable
+      # so that we don't raise nil errors when using word_filters.
+      def word_filters
+        @word_filters ||= []
+      end
+
       def clear_filters
         self.word_filters = []
       end
 
-      # Adds word filters to the #word_filters Array.
+      # Appends word filters to the #word_filters Array.
       #
-      # If Argument word_filter is blank?, a block must be passed to populate
-      # the word_filters with an Array of valid word filter class types.
-      def add_filters(word_filters: [])
-        raise 'A block is required if argument word_filters is blank' if word_filters.blank? && !block_given?
+      # If Argument word_filter is nil, a block must be passed to populate
+      # the word_filters with an Array of valid word filter objects.
+      #
+      # This method is used for adding/appending word filters to the
+      # word_filters Array. To replace word filters, use #replace_filters;
+      # to perform any other manipulation of the word_filters Array,
+      # use #word_filters directly.
+      def add_filters(word_filters: nil)
+        return if word_filters.is_a?(Array) && word_filters.blank?
+
+        raise 'A block is required if argument word_filters is nil' if word_filters.nil? && !block_given?
 
         word_filters ||= []
         yield word_filters if block_given?

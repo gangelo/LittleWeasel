@@ -21,7 +21,7 @@ module LittleWeasel
       include Modules::DictionaryKeyable
       include Modules::DictionaryMetadataServicable
 
-      def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:, file:, word_filters: [])
+      def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:, file:, word_filters: nil)
         validate_dictionary_key dictionary_key: dictionary_key
         self.dictionary_key = dictionary_key
 

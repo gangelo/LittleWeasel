@@ -17,7 +17,7 @@ module LittleWeasel
 
     attr_reader :dictionary_metadata_object, :dictionary_words
 
-    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, dictionary_metadata:, word_filters: [])
+    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, dictionary_metadata:, word_filters: nil)
       validate_dictionary_key dictionary_key: dictionary_key
       self.dictionary_key = dictionary_key
 
@@ -32,19 +32,16 @@ module LittleWeasel
           "Argument dictionary_words is not an Array: #{dictionary_words.class}"
       end
 
+      # Set up the dictionary metadata object and observers
       self.dictionary_words = self.class.to_hash(dictionary_words: dictionary_words)
-      # We unconditionally attach metadata to this dictionary. DictionaryMetadata
-      # only attaches the metadata services that are turned "on".
-      self.dictionary_metadata_object =
-        Metadata::DictionaryMetadata.new(
-          dictionary_words: self.dictionary_words,
-          dictionary_key: dictionary_key,
-          dictionary_cache: dictionary_cache,
-          dictionary_metadata: dictionary_metadata
-        )
+      self.dictionary_metadata_object = create_dictionary_metadata
       dictionary_metadata_object.add_observers
 
-      word_filters = config.word_filters.map(&:new) if word_filters.blank?
+      # If word_filters is nil, the word filters defined in the configuration
+      # will be used (Configuration#word_filters).
+      # If word_filters is an empty Array ([]), no word filters will be used.
+      # If word_filters populated, the word filter objects will be used.
+      word_filters = config.word_filters.map(&:new) if word_filters.nil?
       add_filters word_filters: word_filters
     end
 
@@ -106,5 +103,16 @@ module LittleWeasel
     private
 
     attr_writer :dictionary_metadata_object, :dictionary_words
+
+    def create_dictionary_metadata
+      # We unconditionally attach metadata to this dictionary. DictionaryMetadata
+      # only attaches the metadata services that are turned "on".
+      Metadata::DictionaryMetadata.new(
+        dictionary_words: dictionary_words,
+        dictionary_key: dictionary_key,
+        dictionary_cache: dictionary_cache,
+        dictionary_metadata: dictionary_metadata
+      )
+    end
   end
 end

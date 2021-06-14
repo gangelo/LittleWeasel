@@ -18,11 +18,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     end.new(word_filters)
   end
 
-  let(:word_filters) do
-    word_filters = []
-    word_filters << numeric_filter
-    word_filters
-  end
+  let(:word_filters) { [numeric_filter] }
   let(:numeric_filter) { LittleWeasel::Filters::NumericFilter.new filter_on: filter_on }
   let(:filter_on) { true }
 
@@ -37,14 +33,32 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
   #add_filters
   describe '#add_filters' do
     context 'when argument word_filters is nil' do
-      it 'it requires a block to be passed' do
-        expect { subject.add_filters }.to raise_error 'A block is required if argument word_filters is blank'
+      context 'when no block is passed' do
+        it 'raises an error' do
+          expect { subject.add_filters }.to raise_error 'A block is required if argument word_filters is nil'
+        end
+      end
+
+      context 'when a block is passed' do
+        before do
+          subject.add_filters do |word_filters|
+            word_filters << WordFilter01.new
+            word_filters << WordFilter02.new
+          end
+        end
+
+        it 'the word filters are appended to the word_filters Array' do
+          expect(subject.word_filters.count).to eq 3
+          expect(subject.word_filters).to include(a_kind_of(WordFilter01))
+          expect(subject.word_filters).to include(a_kind_of(WordFilter02))
+          expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::NumericFilter))
+        end
       end
     end
 
-    context 'when argument word_filters is an blank Array' do
-      it 'raises an error' do
-        expect { subject.add_filters(word_filters: []) }.to raise_error 'A block is required if argument word_filters is blank'
+    context 'when argument word_filters is a blank Array ([])' do
+      it 'nothing is changed' do
+        expect { subject.add_filters(word_filters: []) }.to_not change { subject.word_filters.count }.from(subject.word_filters.count)
       end
     end
 

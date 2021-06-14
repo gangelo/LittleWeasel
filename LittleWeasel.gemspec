@@ -29,7 +29,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'redcarpet', '~> 3.5', '>= 3.5.1'
   spec.add_development_dependency 'reek', '~> 6.0', '>= 6.0.4'
   spec.add_development_dependency 'rspec', '~> 3.10'
-  spec.add_development_dependency 'rubocop', '~> 1.14'
+  # This verson of rubocop is returning errors.
+  # spec.add_development_dependency 'rubocop', '~> 1.14'
+  spec.add_development_dependency 'rubocop', '~> 1.9.1'
   spec.add_development_dependency 'rubocop-performance', '~> 1.11', '>= 1.11.3'
   spec.add_development_dependency 'rubocop-rspec', '~> 2.3'
   spec.add_development_dependency 'simplecov', '~> 0.21.2'

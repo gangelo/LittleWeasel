@@ -35,7 +35,7 @@ module LittleWeasel
 
     # Adds a dictionary reference, creates the dictionary and returns the
     # Dictionary object.
-    def create_dictionary(dictionary_key:, file:, word_filters: [])
+    def create_dictionary(dictionary_key:, file:, word_filters: nil)
       validate_dictionary_key dictionary_key: dictionary_key
 
       dictionary_creator_service(dictionary_key: dictionary_key, file: file, word_filters: word_filters).execute

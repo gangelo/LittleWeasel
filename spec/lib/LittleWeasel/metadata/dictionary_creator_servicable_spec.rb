@@ -20,10 +20,6 @@ RSpec.describe LittleWeasel::Modules::DictionaryCreatorServicable, type: :module
       self.file = file
       self.word_filters = word_filters
     end
-
-    def execute
-      dictionary_creator_service.execute
-    end
   end
 
   subject { SubjectMock.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, file: file, word_filters: word_filters) }
@@ -36,7 +32,25 @@ RSpec.describe LittleWeasel::Modules::DictionaryCreatorServicable, type: :module
   let(:dictionary_metadata) { {} }
   let(:word_filters) {}
 
-  it 'instantiates' do
-    expect { subject.execute }.to_not raise_error
+  #attributes
+  describe 'attributes' do
+    it 'responds to the correct attributes' do
+      expect(subject).to respond_to(
+        :dictionary_key,
+        :dictionary_cache,
+        :file,
+        :word_filters)
+    end
+  end
+
+  #dictionary_creator_service
+  describe '#dictionary_creator_service' do
+    it 'responds to #dictionary_creator_service' do
+      expect(subject).to respond_to(:dictionary_creator_service)
+    end
+
+    it 'returns a Services::DictionaryCreatorService object' do
+      expect(subject.dictionary_creator_service).to be_kind_of LittleWeasel::Services::DictionaryCreatorService
+    end
   end
 end

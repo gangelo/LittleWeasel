@@ -56,6 +56,14 @@ RSpec.describe LittleWeasel::Dictionary do
         end
       end
 
+      context 'when argument word_filters is an empty Array ([])' do
+        let(:word_filters) { [] }
+
+        it 'no word filters will be used' do
+          expect(subject.word_filters.count).to eq 0
+        end
+      end
+
       context 'when argument word_filters is NOT nil' do
         let(:word_filters) { [WordFilter01.new, WordFilter02.new] }
 

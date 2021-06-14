@@ -7,9 +7,9 @@ module LittleWeasel
     # This module provides the word_filters attribute for objects
     # that support word filters.
     module WordFilterable
-      def word_filters
-        @word_filters ||= []
-      end
+      @word_filters = []
+
+      attr_reader :word_filters
 
       private
 
