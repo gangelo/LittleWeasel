@@ -4,10 +4,13 @@ require 'active_support/core_ext/module/delegation'
 require_relative 'dictionary_key'
 require_relative 'modules/dictionary_key_validatable'
 
+require_relative 'modules/dictionary_creator_servicable'
+
 module LittleWeasel
   # This class provides dictionary management functionality.
   class DictionaryManager
     include Modules::DictionaryKeyValidatable
+    include Modules::DictionaryCreatorServicable
 
     attr_reader :dictionary_cache, :dictionary_metadata
 
@@ -32,7 +35,7 @@ module LittleWeasel
 
     # Adds a dictionary reference, creates the dictionary and returns the
     # Dictionary object.
-    def create_dictionary(dictionary_key:, file:, word_filters: nil)
+    def create_dictionary(dictionary_key:, file:, word_filters: [])
       validate_dictionary_key dictionary_key: dictionary_key
 
       dictionary_creator_service(dictionary_key: dictionary_key, file: file, word_filters: word_filters).execute
@@ -78,10 +81,6 @@ module LittleWeasel
 
     def dictionary_cache_service(dictionary_key:)
       Services::DictionaryCacheService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
-    end
-
-    def dictionary_file_loader_service(dictionary_key:)
-      Services::DictionaryFileLoaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
     end
 
     def dictionary_loader_service(dictionary_key:)

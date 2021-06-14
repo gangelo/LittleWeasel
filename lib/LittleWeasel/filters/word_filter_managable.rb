@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'word_filterable'
 require_relative 'word_filters_validatable'
 
 module LittleWeasel
@@ -13,11 +14,8 @@ module LittleWeasel
     # should be notified of the word now that it is considered "valid"
     # although may not literally be a valid word in the dictionary.
     module WordFilterManagable
+      include WordFilterable
       include WordFiltersValidatable
-
-      def word_filters
-        @word_filters ||= []
-      end
 
       def clear_filters
         self.word_filters = []
@@ -25,10 +23,10 @@ module LittleWeasel
 
       # Adds word filters to the #word_filters Array.
       #
-      # If Argument word_filter is nil, a block must be passed to populate
+      # If Argument word_filter is blank?, a block must be passed to populate
       # the word_filters with an Array of valid word filter class types.
-      def add_filters(word_filters: nil)
-        raise 'A block is required if argument word_filters is nil' if word_filters.nil? && !block_given?
+      def add_filters(word_filters: [])
+        raise 'A block is required if argument word_filters is blank' if word_filters.blank? && !block_given?
 
         word_filters ||= []
         yield word_filters if block_given?
@@ -62,10 +60,6 @@ module LittleWeasel
           word_filter.filter_match? word
         end
       end
-
-      private
-
-      attr_writer :word_filters
     end
   end
 end

@@ -9,7 +9,7 @@ module LittleWeasel
       extend WordFilterValidatable
 
       def self.validate(word_filters:)
-        raise ArgumentError, 'Argument word_filters is blank' if word_filters.blank?
+        return if word_filters.blank?
 
         unless word_filters.is_a? Array
           raise ArgumentError,

@@ -38,13 +38,13 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
   describe '#add_filters' do
     context 'when argument word_filters is nil' do
       it 'it requires a block to be passed' do
-        expect { subject.add_filters }.to raise_error 'A block is required if argument word_filters is nil'
+        expect { subject.add_filters }.to raise_error 'A block is required if argument word_filters is blank'
       end
     end
 
     context 'when argument word_filters is an blank Array' do
       it 'raises an error' do
-        expect { subject.add_filters(word_filters: []) }.to raise_error 'Argument word_filters is blank'
+        expect { subject.add_filters(word_filters: []) }.to raise_error 'A block is required if argument word_filters is blank'
       end
     end
 

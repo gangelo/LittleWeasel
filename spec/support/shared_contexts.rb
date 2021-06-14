@@ -50,6 +50,14 @@ RSpec.shared_context 'mock word filters', shared_context: :metadata do
   end
 
   class WordFilter02 < WordFilter01; end
+
+  class DollarSignFilter < LittleWeasel::Filters::WordFilter
+    class << self
+      def filter_match?(word)
+        word == '$'
+      end
+    end
+  end
 end
 
 RSpec.configure do |config|

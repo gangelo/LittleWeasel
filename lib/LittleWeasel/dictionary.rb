@@ -17,7 +17,7 @@ module LittleWeasel
 
     attr_reader :dictionary_metadata_object, :dictionary_words
 
-    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, dictionary_metadata:, word_filters: nil)
+    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, dictionary_metadata:, word_filters: [])
       validate_dictionary_key dictionary_key: dictionary_key
       self.dictionary_key = dictionary_key
 
@@ -44,7 +44,7 @@ module LittleWeasel
         )
       dictionary_metadata_object.add_observers
 
-      word_filters ||= config.word_filters.map { |word_filter| word_filter.new }
+      word_filters = config.word_filters.map(&:new) if word_filters.blank?
       add_filters word_filters: word_filters
     end
 

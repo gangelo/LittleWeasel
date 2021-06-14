@@ -18,5 +18,26 @@ RSpec.describe LittleWeasel::Services::DictionaryCreatorService do
   let(:dictionary_metadata) { {} }
   let(:word_filters) {}
 
-  it 'does a lot of stuff'
+  #execute
+  describe '#execute' do
+    context 'when argument word_filters is an empty Array' do
+      let(:dictionary) { subject.execute }
+
+      it 'creates a dictionary with the default word filters' do
+        expect(dictionary).to be_kind_of LittleWeasel::Dictionary
+        expect(dictionary.word_valid? '1000').to eq true
+        expect(dictionary.word_valid? 'A').to eq true
+      end
+    end
+
+    context 'when argument word_filters contains word filters' do
+      let(:dictionary) { subject.execute }
+      let(:word_filters) { [DollarSignFilter.new] }
+
+      it 'creates a dictionary with the word filters passed' do
+        expect(dictionary).to be_kind_of LittleWeasel::Dictionary
+        expect(dictionary.word_valid? '$').to eq true
+      end
+    end
+  end
 end

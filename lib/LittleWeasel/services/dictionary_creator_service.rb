@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../dictionary'
+require_relative '../filters/word_filters_validatable'
+require_relative '../filters/word_filterable'
 require_relative '../metadata/dictionary_metadata'
 require_relative '../modules/dictionary_cache_servicable'
 require_relative '../modules/dictionary_creator_servicable'
@@ -13,12 +15,13 @@ module LittleWeasel
     # This class provides services to load dictionaries from either disk or
     # cache.
     class DictionaryCreatorService
+      include Filters::WordFilterable
+      include Filters::WordFiltersValidatable
       include Modules::DictionaryCacheServicable
-      include Modules::DictionaryCreatorServicable
       include Modules::DictionaryKeyable
       include Modules::DictionaryMetadataServicable
 
-      def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:, file:, word_filters: nil)
+      def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:, file:, word_filters: [])
         validate_dictionary_key dictionary_key: dictionary_key
         self.dictionary_key = dictionary_key
 
@@ -38,7 +41,7 @@ module LittleWeasel
         dictionary_cache_service.add_dictionary_reference(file: file)
         dictionary_words = dictionary_file_loader_service.execute
         dictionary = Dictionary.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
-         dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, word_filters: word_filters)
+          dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, word_filters: word_filters)
         dictionary_cache_service.dictionary_object = dictionary
       end
 
