@@ -26,9 +26,9 @@ RSpec.describe 'Dictionary integration', type: :integration do
 
       it '#word_valid? returns true for numbers' do
         dictionary.filters_on = false
-        expect(dictionary.word_valid?(number)).to eq false
+        expect(dictionary.word_valid?(number).success?).to eq false
         dictionary.filters_on = true
-        expect(dictionary.word_valid?(number)).to eq true
+        expect(dictionary.word_valid?(number).success?).to eq true
       end
     end
   end

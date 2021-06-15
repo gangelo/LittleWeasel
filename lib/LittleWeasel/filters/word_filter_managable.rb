@@ -61,17 +61,21 @@ module LittleWeasel
         word_filters.each { |word_filter| word_filter.filter_on = on }
       end
 
-      def filter_match?(word)
+      def filters_matched(word)
         raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a? String
 
-        return false if word_filters.blank?
+        return [] if word_filters.blank?
 
         word = word.strip
-        return false if word.empty?
+        return [] if word.empty?
 
-        word_filters.any? do |word_filter|
-          word_filter.filter_match? word
-        end
+        word_filters.map do |word_filter|
+          word_filter.to_sym if word_filter.filter_match?(word)
+        end.compact
+      end
+
+      def filter_match?(word)
+        filters_matched(word).present?
       end
     end
   end

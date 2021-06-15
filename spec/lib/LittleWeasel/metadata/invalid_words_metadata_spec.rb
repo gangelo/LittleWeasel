@@ -69,8 +69,26 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
 
     context 'with a valid arguments' do
       before do
-        subject.word_search params: { word: 'badword1', word_found: false, word_valid: false }
-        subject.word_search params: { word: 'badword2', word_found: false, word_valid: false }
+        subject.word_search params: { word_results: word_results1 }
+        subject.word_search params: { word_results: word_results2 }
+      end
+
+      let(:word_results1) do
+        create(:word_results,
+          filters_matched: [],
+          original_word: 'badword1',
+          preprocessed_word: nil,
+          word_cached: false,
+          word_valid: false)
+      end
+
+      let(:word_results2) do
+        create(:word_results,
+          filters_matched: [],
+          original_word: 'badword2',
+          preprocessed_word: nil,
+          word_cached: false,
+          word_valid: false)
       end
 
       it 'instantiates without error' do

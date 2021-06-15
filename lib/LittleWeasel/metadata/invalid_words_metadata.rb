@@ -81,9 +81,9 @@ module LittleWeasel
       # This method is called when a word is being searched in the
       # dictionary.
       def word_search(params:)
-        word, word_found, word_valid = params.fetch_values(:word, :word_found, :word_valid)
+        word_results = params[:word_results]
 
-        return word_valid if word_found
+        return word_results.word_valid if word_results.word_cached?
 
         # If we get here, we know that the word is NOT in the
         # dictionary, either as a valid word; or, as a cached,
@@ -91,7 +91,9 @@ module LittleWeasel
 
         # Cache the word as invalid (not found) if caching is
         # supposed to take place.
-        dictionary_words[word] = false if cache_word? word
+        # TODO: If preprocessing ever gets incorporated, use
+        # word_results.preprocessed_word
+        dictionary_words[word_results.original_word] = false if cache_word? word_results.original_word
         false
       end
 

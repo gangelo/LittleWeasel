@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 require_relative '../errors/must_override_error'
+require_relative '../modules/class_name_to_symbol'
 
 module LittleWeasel
   module Filters
     # This module provides methods/functionality for filtering dictionary words.
     class WordFilter
+      include Modules::ClassNameToSymbol
+
       attr_accessor :filter_on
 
       def initialize(filter_on: true)

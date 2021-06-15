@@ -25,8 +25,8 @@ RSpec.describe LittleWeasel::Services::DictionaryCreatorService do
 
       it 'creates a dictionary with the default word filters' do
         expect(dictionary).to be_kind_of LittleWeasel::Dictionary
-        expect(dictionary.word_valid? '1000').to eq true
-        expect(dictionary.word_valid? 'A').to eq true
+        expect(dictionary.word_valid?('1000').success?).to eq true
+        expect(dictionary.word_valid?('A').success?).to eq true
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCreatorService do
 
       it 'creates a dictionary with the word filters passed' do
         expect(dictionary).to be_kind_of LittleWeasel::Dictionary
-        expect(dictionary.word_valid? '$').to eq true
+        expect(dictionary.word_valid?('$').success?).to eq true
       end
     end
   end

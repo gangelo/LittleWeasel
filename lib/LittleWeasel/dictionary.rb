@@ -6,6 +6,7 @@ require_relative 'modules/configurable'
 require_relative 'modules/dictionary_cache_servicable'
 require_relative 'modules/dictionary_keyable'
 require_relative 'modules/dictionary_metadata_servicable'
+require_relative 'word_results'
 
 module LittleWeasel
   class Dictionary
@@ -54,6 +55,11 @@ module LittleWeasel
     def word_valid?(word)
       raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a?(String)
 
+      word_results = WordResults.new(original_word: word)
+      word_results.filters_matched = filters_matched(word)
+      word_results.word_cached = dictionary_words.include?(word)
+      word_results.word_valid = dictionary_words[word] || false
+
       # <word_found> tells us whether or not <word> can be found in the
       # dictionary_words.
       #
@@ -67,13 +73,18 @@ module LittleWeasel
       #
       # No matter what the case, we need to notify any metadata observers
       # of this information so that they can perform their processing.
-      word_found = dictionary_words.include?(word)
-      word_valid = dictionary_words[word] || false
       dictionary_metadata_object.notify(action: :word_search,
-        params: { word: word, word_found: word_found, word_valid: word_valid })
-      # TODO: re filter_match?: What to do with this, I don't think this
-      # should just return here. What about metadata notification?
-      filter_match?(word) || word_valid
+        params: { word_results: word_results })
+      word_results
+    end
+
+    def block_valid?(word_block)
+      word_split_regex = /\s+(?=(?:[^"]*"[^"]*")*[^"]*$)/
+      words = word_block.split(word_split_regex)
+
+      words.map do |word|
+        word_valid? word
+      end
     end
 
     # This method returns true if this dictionary object is detached from the

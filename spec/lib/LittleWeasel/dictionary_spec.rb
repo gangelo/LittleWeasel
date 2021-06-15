@@ -9,12 +9,10 @@ RSpec.describe LittleWeasel::Dictionary do
   subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words, word_filters: word_filters) }
 
   before(:each) { LittleWeasel.configure { |config| config.reset } }
-  before do
-    dictionary_cache_service
-  end
+  before { dictionary_cache_service }
 
-  let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: true) }
-  let(:dictionary_key) { dictionary_key_for(language: :en, region: :us) }
+  let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: dictionary_key.key) }
+  let(:dictionary_key) { dictionary_key_for(language: :en, region: :us, tag: :big) }
   let(:dictionary_cache) { {} }
   let(:dictionary_metadata) { {} }
   let(:dictionary_file_path) { dictionary_path_for(file_name: dictionary_key.key) }
@@ -177,15 +175,45 @@ RSpec.describe LittleWeasel::Dictionary do
     context 'when searching for words in the dictionary' do
       context 'when the word is found' do
         it 'returns true' do
-          expect(subject.word_valid? 'dog').to eq true
+          expect(subject.word_valid?('dog').success?).to eq true
         end
       end
 
       context 'when the word is not found' do
         it 'returns false' do
-          expect(subject.word_valid? 'badword').to eq false
+          expect(subject.word_valid?('badword').success?).to eq false
         end
       end
+    end
+  end
+
+  #block_valid?
+  describe '#block_valid?' do
+    context 'when nil is passed' do
+    end
+
+    context 'when an empty String is passed' do
+    end
+
+    context 'when a block with all valid words is passed' do
+      subject do
+        create(:dictionary,
+          dictionary_key: dictionary_key,
+          dictionary_cache: dictionary_cache,
+          dictionary_words: dictionary_words,
+          word_filters: word_filters).block_valid? word_block
+      end
+
+      let(:word_block) do
+        "I was born in 1964; before your time, I'm afraid!"
+      end
+
+      it 'does something' do
+        binding.pry
+        expect(subject.count).to eq 6
+      end
+    end
+    context 'when a block with some INVALID words are passed' do
     end
   end
 
