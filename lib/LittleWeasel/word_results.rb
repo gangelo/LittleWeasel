@@ -7,7 +7,7 @@ module LittleWeasel
     attr_reader :original_word
     attr_accessor :filters_matched, :preprocessed_word, :word_cached, :word_valid
 
-    def initialize(filters_matched: [], original_word:, preprocessed_word: nil, word_cached: false, word_valid: false)
+    def initialize(original_word:, filters_matched: [], preprocessed_word: nil, word_cached: false, word_valid: false)
       self.filters_matched = filters_matched
       self.original_word = original_word
       self.preprocessed_word = preprocessed_word

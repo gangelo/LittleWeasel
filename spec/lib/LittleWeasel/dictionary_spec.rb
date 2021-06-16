@@ -209,8 +209,7 @@ RSpec.describe LittleWeasel::Dictionary do
       end
 
       it 'does something' do
-        binding.pry
-        expect(subject.count).to eq 6
+        expect(subject.count).to eq 10
       end
     end
     context 'when a block with some INVALID words are passed' do

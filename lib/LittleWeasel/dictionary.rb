@@ -6,6 +6,7 @@ require_relative 'modules/configurable'
 require_relative 'modules/dictionary_cache_servicable'
 require_relative 'modules/dictionary_keyable'
 require_relative 'modules/dictionary_metadata_servicable'
+require_relative 'preprocessors/word_preprocessor_managable'
 require_relative 'word_results'
 
 module LittleWeasel
@@ -15,6 +16,7 @@ module LittleWeasel
     include Modules::DictionaryCacheServicable
     include Modules::DictionaryKeyable
     include Modules::DictionaryMetadataServicable
+    include Preprocessors::WordPreprocessorManagable
 
     attr_reader :dictionary_metadata_object, :dictionary_words
 
@@ -55,6 +57,7 @@ module LittleWeasel
     def word_valid?(word)
       raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a?(String)
 
+      preprocessor_results = preprocess(word)
       word_results = WordResults.new(original_word: word)
       word_results.filters_matched = filters_matched(word)
       word_results.word_cached = dictionary_words.include?(word)

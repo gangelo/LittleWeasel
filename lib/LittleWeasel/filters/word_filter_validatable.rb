@@ -16,6 +16,7 @@ module LittleWeasel
       # Filters::WordFilter.
       def self.valid_word_filter?(word_filter:)
         word_filter.respond_to?(:filter_on?) &&
+          word_filter.respond_to?(:filter_off?) &&
           word_filter.respond_to?(:filter_on) &&
           word_filter.respond_to?(:filter_on=) &&
           word_filter.respond_to?(:filter_match?) &&

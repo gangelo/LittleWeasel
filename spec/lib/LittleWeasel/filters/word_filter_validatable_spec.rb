@@ -14,6 +14,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterValidatable, type: :module do
   let(:filter_class) do
     filter = Class.new do
       def filter_on?; end
+      def filter_off?; end
       def filter_on; end
       def filter_on=; end
       def filter_match?; end

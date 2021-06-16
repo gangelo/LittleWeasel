@@ -65,8 +65,6 @@ module LittleWeasel
         raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a? String
 
         return [] if word_filters.blank?
-
-        word = word.strip
         return [] if word.empty?
 
         word_filters.map do |word_filter|

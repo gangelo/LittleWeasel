@@ -37,6 +37,12 @@ RSpec.describe LittleWeasel do
         ]
       end
     end
+
+    describe '#word_preprocessors=' do
+      it 'set to an Array with default word preprocessors' do
+        expect(subject.word_preprocessors).to eq []
+      end
+    end
   end
 
   #.configuration
@@ -47,6 +53,7 @@ RSpec.describe LittleWeasel do
           config.max_dictionary_file_megabytes = max_dictionary_file_megabytes
           config.metadata_observers = metadata_observers
           config.word_filters = word_filters
+          config.word_preprocessors = word_preprocessors
         end
         described_class.configuration
       end
@@ -54,6 +61,7 @@ RSpec.describe LittleWeasel do
       let(:max_dictionary_file_megabytes) { 1_222_333 }
       let(:metadata_observers) { %i(observer0 observer1) }
       let(:word_filters) { %i(word_filter0 word_filter1) }
+      let(:word_preprocessors) { %i(word_preprocessors0 word_preprocessors1) }
 
       describe '#max_dictionary_file_megabytes=' do
         it 'sets the value' do
@@ -70,6 +78,12 @@ RSpec.describe LittleWeasel do
       describe '#word_filters=' do
         it 'sets the value' do
           expect(subject.word_filters).to eq word_filters
+        end
+      end
+
+      describe '#word_preprocessors=' do
+        it 'sets the value' do
+          expect(subject.word_preprocessors).to eq word_preprocessors
         end
       end
     end
