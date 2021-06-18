@@ -8,11 +8,26 @@ module LittleWeasel
     attr_accessor :filters_matched, :preprocessed_word, :word_cached, :word_valid
 
     def initialize(original_word:, filters_matched: [], preprocessed_word: nil, word_cached: false, word_valid: false)
-      self.filters_matched = filters_matched
       self.original_word = original_word
+      self.filters_matched = filters_matched
       self.preprocessed_word = preprocessed_word
       self.word_cached = word_cached
       self.word_valid = word_valid
+
+      validate
+    end
+
+    def validate
+      raise ArgumentError, "Argument original_word is not a String: #{original_word.class}" \
+        unless original_word.is_a? String
+      raise ArgumentError, "Argument filters_matched is not an Array: #{filters_matched.class}" \
+        unless filters_matched.is_a? Array
+      raise ArgumentError, "Argument preprocessed_word is not a String: #{preprocessed_word.class}" \
+        unless preprocessed_word.nil? || preprocessed_word.is_a?(String)
+      raise ArgumentError, "Argument word_cached is not true or false: #{word_cached.class}" \
+        unless [true, false].include? word_cached
+      raise ArgumentError, "Argument word_valid is not true or false: #{word_cached.class}" \
+        unless [true, false].include? word_valid
     end
 
     # Returns true if the word is valid (found in the dictionary), or

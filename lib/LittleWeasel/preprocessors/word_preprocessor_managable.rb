@@ -48,7 +48,7 @@ module LittleWeasel
 
         self.word_preprocessors.concat word_preprocessors
 
-        self.word_preprocessors.sort_by(&:order)
+        self.word_preprocessors.sort_by!(&:order)
       end
       alias append_preprocessors add_preprocessors
 
@@ -65,24 +65,11 @@ module LittleWeasel
 
       def preprocess(word)
         word_preprocessors.map do |word_preprocessor|
-          word_preprocessor.preprocess word
+          word_preprocessor.preprocess(word).tap do |processed_word|
+            word = processed_word.preprocessed_word
+          end
         end
       end
-
-      # def preprocessors_applied(word)
-      #   raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a? String
-
-      #   return [] if word_preprocessors.blank?
-      #   return [] if word.empty?
-
-      #   word_preprocessors.map do |word_preprocessor|
-      #     word_preprocessor.to_sym if word_preprocessor.preprocessor_applied?(word)
-      #   end.compact
-      # end
-
-      # def preprocessor_applied?(word)
-      #   preprocessors_applied(word).present?
-      # end
     end
   end
 end
