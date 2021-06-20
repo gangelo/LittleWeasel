@@ -13,6 +13,7 @@ RSpec.describe LittleWeasel::WordResults do
   end
 
   let(:original_word) { 'original-word' }
+  let(:word) { original_word }
   let(:filters_matched) { [] }
   let(:preprocessed_word_results) {}
   let(:word_cached) { false }
@@ -192,12 +193,24 @@ RSpec.describe LittleWeasel::WordResults do
 
   #preprocessed_word_or_original_word
   describe '#preprocessed_word_or_original_word' do
+    let(:original_word) { 'word' }
+
     context 'when the word has been preprocessed' do
-      it 'returns #preprocesed_word'
+      let(:preprocessed_word_results) do
+        create(:preprocessed_word_results,
+          original_word: original_word,
+          with_word_processors: 2)
+      end
+
+      it 'returns #preprocesed_word' do
+        expect(subject.preprocessed_word_or_original_word).to eq 'word-0-1'
+      end
     end
 
     context 'when the word has NOT been preprocessed' do
-      it 'returns #original_word'
+      it 'returns #original_word' do
+        expect(subject.preprocessed_word_or_original_word).to eq original_word
+      end
     end
   end
 end

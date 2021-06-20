@@ -5,8 +5,7 @@ module LittleWeasel
     # This module validates preprocessed word types.
     module PreprocessedWordValidatable
       def self.validate(preprocessed_word:)
-        error_messages = []
-        error_messages.concat validate_methods(preprocessed_word: preprocessed_word)
+        error_messages = validate_methods(preprocessed_word: preprocessed_word)
         raise ArgumentError, "Argument preprocessed_word: #{error_messages.join('; ')}" if error_messages.present?
       end
 
