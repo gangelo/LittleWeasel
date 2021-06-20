@@ -57,11 +57,14 @@ module LittleWeasel
     def word_valid?(word)
       raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a?(String)
 
-      preprocessor_results = preprocess(word)
-      word_results = WordResults.new(original_word: word)
-      word_results.filters_matched = filters_matched(word)
-      word_results.word_cached = dictionary_words.include?(word)
-      word_results.word_valid = dictionary_words[word] || false
+      preprocessed_word_results = preprocess(word)
+      preprocessed_word = preprocessed_word_results.preprocessed_word
+      filters_matched = filters_matched(preprocessed_word || word)
+      word_results = WordResults.new(original_word: word,
+        filters_matched: filters_matched,
+        preprocessed_word_results: preprocessed_word_results,
+        word_cached: dictionary_words.include?(preprocessed_word || word),
+        word_valid: dictionary_words[preprocessed_word || word] || false)
 
       # <word_found> tells us whether or not <word> can be found in the
       # dictionary_words.

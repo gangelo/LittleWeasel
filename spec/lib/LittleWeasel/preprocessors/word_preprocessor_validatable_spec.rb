@@ -55,7 +55,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorValidatable, type: :
     end
 
     context 'when the object DOES NOT quack right' do
-      let(:expected_error_message) { /Argument word_preprocessor does not respond to/ }
+      let(:expected_error_message) { /Argument word_preprocessor: does not respond to/ }
 
       context 'when a class method is missing' do
         context 'when the class does not respond to .preprocess' do

@@ -190,9 +190,11 @@ RSpec.describe LittleWeasel::Dictionary do
   #block_valid?
   describe '#block_valid?' do
     context 'when nil is passed' do
+      it 'does something'
     end
 
     context 'when an empty String is passed' do
+      it 'does something'
     end
 
     context 'when a block with all valid words is passed' do
@@ -208,11 +210,11 @@ RSpec.describe LittleWeasel::Dictionary do
         "I was born in 1964; before your time, I'm afraid!"
       end
 
-      it 'does something' do
-        expect(subject.count).to eq 10
-      end
+      it 'does something'
     end
+
     context 'when a block with some INVALID words are passed' do
+      it 'does something'
     end
   end
 

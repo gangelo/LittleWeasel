@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/module/delegation'
 require 'observer'
 require_relative '../modules/class_name_to_symbol'
 require_relative '../modules/configurable'

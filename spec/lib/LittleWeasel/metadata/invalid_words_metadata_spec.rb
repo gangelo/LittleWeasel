@@ -73,23 +73,8 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
         subject.word_search params: { word_results: word_results2 }
       end
 
-      let(:word_results1) do
-        create(:word_results,
-          filters_matched: [],
-          original_word: 'badword1',
-          preprocessed_word: nil,
-          word_cached: false,
-          word_valid: false)
-      end
-
-      let(:word_results2) do
-        create(:word_results,
-          filters_matched: [],
-          original_word: 'badword2',
-          preprocessed_word: nil,
-          word_cached: false,
-          word_valid: false)
-      end
+      let(:word_results1) { create(:word_results, original_word: 'badword1') }
+      let(:word_results2) { create(:word_results, original_word: 'badword2') }
 
       it 'instantiates without error' do
         expect { subject }.to_not raise_error

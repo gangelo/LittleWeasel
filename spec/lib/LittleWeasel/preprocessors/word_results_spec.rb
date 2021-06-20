@@ -3,9 +3,20 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::WordResults do
-  subject { described_class.new original_word: original_word }
+  subject do
+    create(:word_results,
+      original_word: original_word,
+      filters_matched: filters_matched,
+      preprocessed_word_results: preprocessed_word_results,
+      word_cached: word_cached,
+      word_valid: word_valid)
+  end
 
-  let(:original_word) { 'orgional-word' }
+  let(:original_word) { 'original-word' }
+  let(:filters_matched) { [] }
+  let(:preprocessed_word_results) {}
+  let(:word_cached) { false }
+  let(:word_valid) { false }
 
   #.new
   describe '.new' do
@@ -13,48 +24,46 @@ RSpec.describe LittleWeasel::WordResults do
       it 'instantiates the object' do
         expect { subject }.to_not raise_error
       end
-
-      context 'when preprocessed_word is nil' do
-        it 'instantiates the object' do
-          expect { described_class.new original_word: original_word, preprocessed_word: nil }.to_not raise_error
-        end
-      end
-
-      context 'when preprocessed_word is a String' do
-        it 'instantiates the object' do
-          expect { described_class.new original_word: original_word, preprocessed_word: 'word' }.to_not raise_error
-        end
-      end
     end
 
     context 'with INVALID arguments' do
       context 'when argument original_word is invalid' do
+        let(:original_word) {}
+
         it 'raises an error' do
-          expect { described_class.new original_word: nil }.to raise_error /Argument original_word is not a String/
+          expect { subject }.to raise_error /Argument original_word is not a String/
         end
       end
 
       context 'when argument filters_matched is invalid' do
+        let(:filters_matched) {}
+
         it 'raises an error' do
-          expect { described_class.new original_word: original_word, filters_matched: nil }.to raise_error /Argument filters_matched is not an Array/
+          expect { subject }.to raise_error /Argument filters_matched is not an Array/
         end
       end
 
-      context 'when argument preprocessed_word is invalid' do
+      context 'when argument preprocessed_word_results is invalid' do
+        let(:preprocessed_word_results) { :invalid }
+
         it 'raises an error' do
-          expect { described_class.new original_word: original_word, preprocessed_word: :not_a_string }.to raise_error /Argument preprocessed_word is not a String/
+          expect { subject }.to raise_error /Argument preprocessed_word_results does not respond to/
         end
       end
 
       context 'when argument word_cached is invalid' do
+        let(:word_cached) {}
+
         it 'raises an error' do
-          expect { described_class.new original_word: original_word, word_cached: nil }.to raise_error /Argument word_cached is not true or false/
+          expect { subject }.to raise_error /Argument word_cached is not true or false/
         end
       end
 
       context 'when argument word_valid is invalid' do
+        let(:word_valid) {}
+
         it 'raises an error' do
-          expect { described_class.new original_word: original_word, word_valid: nil }.to raise_error /Argument word_valid is not true or false/
+          expect { subject }.to raise_error /Argument word_valid is not true or false/
         end
       end
     end
@@ -62,8 +71,6 @@ RSpec.describe LittleWeasel::WordResults do
 
   #success?
   describe '#success?' do
-    subject { described_class.new original_word: original_word }
-
     context 'when #filter_match? is false AND #word_valid? is false' do
       before do
         allow(subject).to receive(:filter_match?).and_return false
@@ -103,9 +110,7 @@ RSpec.describe LittleWeasel::WordResults do
   #filter_match?
   describe '#filter_match?' do
     context '#when filters_matched is present' do
-      before do
-        subject.filters_matched = [:matched_filter]
-      end
+      let(:filters_matched) { [:matched_filter] }
 
       it 'returns true' do
         expect(subject.filter_match?).to eq true
@@ -122,9 +127,7 @@ RSpec.describe LittleWeasel::WordResults do
   #word_cached?
   describe '#word_cached?' do
     context '#when word_cached is true' do
-      before do
-        subject.word_cached = true
-      end
+      let(:word_cached) { true }
 
       it 'returns true' do
         expect(subject.word_cached?).to eq true
@@ -141,9 +144,7 @@ RSpec.describe LittleWeasel::WordResults do
   #word_valid?
   describe '#word_valid?' do
     context '#when word_valid is true' do
-      before do
-        subject.word_valid = true
-      end
+      let(:word_valid) { true }
 
       it 'returns true' do
         expect(subject.word_valid?).to eq true
@@ -159,10 +160,19 @@ RSpec.describe LittleWeasel::WordResults do
 
   #preprocessed_word?
   describe '#preprocessed_word?' do
-    subject { described_class.new original_word: original_word, preprocessed_word: preprocessed_word }
+    subject do
+      create(:word_results,
+        original_word: original_word,
+        filters_matched: [],
+        preprocessed_word_results: preprocessed_word_results,
+        word_cached: false,
+        word_valid: false)
+    end
 
     context 'when #preprocessed_word is NOT nil' do
-      let(:preprocessed_word) { 'word' }
+      let(:preprocessed_word_results) do
+        create(:preprocessed_word_results, with_word_processors: 2)
+      end
 
       it 'returns true' do
         expect(subject.preprocessed_word?).to be true
@@ -170,7 +180,9 @@ RSpec.describe LittleWeasel::WordResults do
     end
 
     context 'when #preprocessed_word is nil' do
-      let(:preprocessed_word) { nil }
+      let(:preprocessed_word_results) do
+        create(:preprocessed_word_results)
+      end
 
       it 'returns false' do
         expect(subject.preprocessed_word?).to be false

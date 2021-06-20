@@ -1,20 +1,28 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/module/delegation'
+require_relative 'preprocessors/preprocessed_word_results_validatable'
+
 module LittleWeasel
   # This class represents the results of attempting to find a word
   # in a dictionary.
   class WordResults
-    attr_reader :original_word
-    attr_accessor :filters_matched, :preprocessed_word, :word_cached, :word_valid
+    include Preprocessors::PreprocessedWordResultsValidatable
 
-    def initialize(original_word:, filters_matched: [], preprocessed_word: nil, word_cached: false, word_valid: false)
+    attr_reader :filters_matched, :original_word, :preprocessed_word_results, :word_cached, :word_valid
+
+    delegate :preprocessed_word, to: :preprocessed_word_results
+
+    def initialize(original_word:, filters_matched: [], preprocessed_word_results: nil, word_cached: false, word_valid: false)
       self.original_word = original_word
       self.filters_matched = filters_matched
-      self.preprocessed_word = preprocessed_word
       self.word_cached = word_cached
       self.word_valid = word_valid
 
       validate
+
+      validate_prepreprocessed_word_results preprocessed_word_results: preprocessed_word_results if preprocessed_word_results.present?
+      self.preprocessed_word_results = preprocessed_word_results
     end
 
     def validate
@@ -22,8 +30,6 @@ module LittleWeasel
         unless original_word.is_a? String
       raise ArgumentError, "Argument filters_matched is not an Array: #{filters_matched.class}" \
         unless filters_matched.is_a? Array
-      raise ArgumentError, "Argument preprocessed_word is not a String: #{preprocessed_word.class}" \
-        unless preprocessed_word.nil? || preprocessed_word.is_a?(String)
       raise ArgumentError, "Argument word_cached is not true or false: #{word_cached.class}" \
         unless [true, false].include? word_cached
       raise ArgumentError, "Argument word_valid is not true or false: #{word_cached.class}" \
@@ -65,6 +71,6 @@ module LittleWeasel
 
     private
 
-    attr_writer :original_word
+    attr_writer :filters_matched, :original_word, :preprocessed_word_results, :word_cached, :word_valid
   end
 end

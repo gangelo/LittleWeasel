@@ -17,6 +17,18 @@ module LittleWeasel
       include WordPreprocessable
       include WordPreprocessorsValidatable
 
+      def self.included(base)
+        base.extend(ClassMethods)
+      end
+
+      module ClassMethods
+        def preprocessed_word(preprocessed_words:)
+          return if preprocessed_words.blank?
+
+          preprocessed_words.max_by(&order).preprocessed_word
+        end
+      end
+
       # Override attr_reader word_preprocessor found in WordPreprocessable
       # so that we don't raise nil errors when using word_preprocessors.
       def word_preprocessors
@@ -63,12 +75,18 @@ module LittleWeasel
         word_preprocessors.each { |word_preprocessor| word_preprocessor.preprocessor_on = on }
       end
 
+      # Returns a Preprocessors::PreprocessedWordResults object.
       def preprocess(word)
-        word_preprocessors.map do |word_preprocessor|
+        preprocessed_words = word_preprocessors.map do |word_preprocessor|
           word_preprocessor.preprocess(word).tap do |processed_word|
             word = processed_word.preprocessed_word
           end
         end
+        PreprocessedWordResults.new(original_word: word, preprocessed_words: preprocessed_words)
+      end
+
+      def preprocessed_word(preprocessed_words:)
+        self.class.preprocessed_word preprocessed_words: preprocessed_words
       end
     end
   end
