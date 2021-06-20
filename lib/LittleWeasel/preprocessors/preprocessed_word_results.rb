@@ -36,7 +36,7 @@ module LittleWeasel
 
       # Returns true if the word was preprocessed
       def preprocessed?
-        self.class.preprocessed? preprocessed_words
+        self.class.preprocessed? preprocessed_words: preprocessed_words
       end
 
       private
