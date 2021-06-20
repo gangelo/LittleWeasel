@@ -13,7 +13,8 @@ module LittleWeasel
 
     delegate :preprocessed_word, to: :preprocessed_word_results
 
-    def initialize(original_word:, filters_matched: [], preprocessed_word_results: nil, word_cached: false, word_valid: false)
+    def initialize(original_word:, filters_matched: [],
+      preprocessed_word_results: nil, word_cached: false, word_valid: false)
       self.original_word = original_word
       self.filters_matched = filters_matched
       self.word_cached = word_cached
@@ -21,7 +22,9 @@ module LittleWeasel
 
       validate
 
-      validate_prepreprocessed_word_results preprocessed_word_results: preprocessed_word_results if preprocessed_word_results.present?
+      if preprocessed_word_results.present?
+        validate_prepreprocessed_word_results preprocessed_word_results: preprocessed_word_results
+      end
       self.preprocessed_word_results = preprocessed_word_results
     end
 

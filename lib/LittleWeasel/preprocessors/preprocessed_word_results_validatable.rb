@@ -7,8 +7,16 @@ module LittleWeasel
     # This module validates preprocessed word result types.
     module PreprocessedWordResultsValidatable
       def self.validate(preprocessed_word_results:)
-        raise ArgumentError, validation_error_message(object: preprocessed_word_results, respond_to: :original_word) unless preprocessed_word_results.respond_to? :original_word
-        raise ArgumentError, validation_error_message(object: preprocessed_word_results, respond_to: :preprocessed_words) unless preprocessed_word_results.respond_to? :preprocessed_words
+        unless preprocessed_word_results.respond_to? :original_word
+          raise ArgumentError,
+            validation_error_message(object: preprocessed_word_results,
+respond_to: :original_word)
+        end
+        unless preprocessed_word_results.respond_to? :preprocessed_words
+          raise ArgumentError,
+            validation_error_message(object: preprocessed_word_results,
+respond_to: :preprocessed_words)
+        end
 
         error_messages = []
         preprocessed_word_results&.preprocessed_words&.each do |preprocessed_word|
