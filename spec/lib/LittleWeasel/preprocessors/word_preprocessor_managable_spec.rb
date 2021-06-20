@@ -85,6 +85,31 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
       MockWordPreprocessor04.new]
   end
 
+  #preprocessed_word
+  describe '#preprocessed_word' do
+    context 'when word is blank' do
+      it 'returns nil' do
+        expect(subject.preprocessed_word word: 'word').to be_nil
+      end
+    end
+
+    context 'when word is not a String' do
+      it 'returns nil' do
+        expect(subject.preprocessed_word word: :not_a_word).to be_nil
+      end
+    end
+
+    context 'when word is NOT blank' do
+      before do
+        subject.replace_preprocessors word_preprocessors: word_preprocessors_01_thru_03
+      end
+
+      it 'returns the preprocessed word' do
+        expect(subject.preprocessed_word word: 'word').to eq 'word-0-1-2'
+      end
+    end
+  end
+
   #word_preprocessors
   describe '#word_preprocessors' do
     it 'returns an empty Array ([]) by default' do
@@ -185,7 +210,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
 
     it 'preprocesses the word' do
       expect(subject.word_preprocessors.count).to eq word_preprocessors.count
-      expect(subject.preprocess(word).preprocessed_words.map(&:preprocessed_word)).to eq %w(word-0 word-0-1 word-0-1-2)
+      expect(subject.preprocess(word: word).preprocessed_words.map(&:preprocessed_word)).to eq %w(word-0 word-0-1 word-0-1-2)
     end
   end
 end

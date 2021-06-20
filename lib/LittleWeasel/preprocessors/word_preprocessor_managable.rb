@@ -22,10 +22,13 @@ module LittleWeasel
       end
 
       module ClassMethods
+        # Returns the final (or last) preprocessed word in the Array of preprocessed
+        # words. The final preprocessed word is the word that has passed through
+        # all the word preprocessors.
         def preprocessed_word(preprocessed_words:)
           return if preprocessed_words.blank?
 
-          preprocessed_words.max_by(&order).preprocessed_word
+          preprocessed_words.max_by(&:preprocessor_order).preprocessed_word
         end
       end
 
@@ -76,16 +79,21 @@ module LittleWeasel
       end
 
       # Returns a Preprocessors::PreprocessedWordResults object.
-      def preprocess(word)
-        preprocessed_words = word_preprocessors.map do |word_preprocessor|
+      def preprocess(word:)
+        preprocessed_words = preprocessed_words word: word
+        PreprocessedWordResults.new(original_word: word, preprocessed_words: preprocessed_words)
+      end
+
+      def preprocessed_words(word:)
+         word_preprocessors.map do |word_preprocessor|
           word_preprocessor.preprocess(word).tap do |processed_word|
             word = processed_word.preprocessed_word
           end
         end
-        PreprocessedWordResults.new(original_word: word, preprocessed_words: preprocessed_words)
       end
 
-      def preprocessed_word(preprocessed_words:)
+      def preprocessed_word(word:)
+        preprocessed_words = preprocessed_words word: word
         self.class.preprocessed_word preprocessed_words: preprocessed_words
       end
     end

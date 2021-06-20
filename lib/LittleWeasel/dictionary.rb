@@ -57,7 +57,7 @@ module LittleWeasel
     def word_valid?(word)
       raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a?(String)
 
-      preprocessed_word_results = preprocess(word)
+      preprocessed_word_results = preprocess(word: word)
       preprocessed_word = preprocessed_word_results.preprocessed_word
       filters_matched = filters_matched(preprocessed_word || word)
       word_results = WordResults.new(original_word: word,
