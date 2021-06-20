@@ -11,7 +11,7 @@ module LittleWeasel
 
     attr_reader :filters_matched, :original_word, :preprocessed_word_results, :word_cached, :word_valid
 
-    delegate :preprocessed_word, to: :preprocessed_word_results
+    delegate :preprocessed_word, to: :preprocessed_word_results, allow_nil: true
 
     # Important: Regarding Boolean Methods
     #
@@ -95,6 +95,17 @@ module LittleWeasel
     # present?; otherwise, they should all reflect that of #original_word.
     def preprocessed_word?
       preprocessed_word.present?
+    end
+
+    # Returns #preprocessed_word (if available) or #original_word.
+    # #preprocessed_word will be present if #original_word has
+    # met the criteria for preprocessing and passed through at least
+    # one preprocessor.
+    #
+    # See "Important: Regarding Boolean Methods" notes at the top of this
+    # class definition for more detail.
+    def preprocessed_word_or_original_word
+      preprocessed_word || original_word
     end
 
     # Returns true if the word was found in the dictionary as a valid word

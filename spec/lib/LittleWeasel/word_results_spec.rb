@@ -189,4 +189,15 @@ RSpec.describe LittleWeasel::WordResults do
       end
     end
   end
+
+  #preprocessed_word_or_original_word
+  describe '#preprocessed_word_or_original_word' do
+    context 'when the word has been preprocessed' do
+      it 'returns #preprocesed_word'
+    end
+
+    context 'when the word has NOT been preprocessed' do
+      it 'returns #original_word'
+    end
+  end
 end

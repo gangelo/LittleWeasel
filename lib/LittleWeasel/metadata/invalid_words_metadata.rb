@@ -83,17 +83,16 @@ module LittleWeasel
       def word_search(params:)
         word_results = params[:word_results]
 
-        return word_results.word_valid if word_results.word_cached?
+        # TODO NOW: Should we be returning #word_valid? or #success?
+        return word_results.word_valid? if word_results.word_cached?
 
-        # If we get here, we know that the word is NOT in the
-        # dictionary, either as a valid word; or, as a cached,
-        # invalid word.
+        # If we get here, we know that the word is NOT in the dictionary either
+        # as a valid word OR as a cached, INVALID word.
 
-        # Cache the word as invalid (not found) if caching is
-        # supposed to take place.
-        # TODO: If preprocessing ever gets incorporated, use
-        # word_results.preprocessed_word
-        dictionary_words[word_results.original_word] = false if cache_word? word_results.original_word
+        # If caching is supposed to take place, cache the word as invalid
+        # (not found).
+        word = word_results.preprocessed_word_or_original_word
+        dictionary_words[word] = false if cache_word? word
         false
       end
 
