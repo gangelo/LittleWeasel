@@ -66,19 +66,6 @@ module LittleWeasel
         word_cached: dictionary_words.include?(preprocessed_word || word),
         word_valid: dictionary_words[preprocessed_word || word] || false)
 
-      # <word_found> tells us whether or not <word> can be found in the
-      # dictionary_words.
-      #
-      # <word_valid> tells us whether or not the word is a valid word in
-      # the dictionary_words.
-      #
-      # Words found in the dictionary_words don't necessarily mean the word
-      # is valid; invalid words can also be found in the dictionary_words
-      # if the invalid words metadata functionality is using it to cache
-      # invalid words.
-      #
-      # No matter what the case, we need to notify any metadata observers
-      # of this information so that they can perform their processing.
       dictionary_metadata_object.notify(action: :word_search,
         params: { word_results: word_results })
       word_results
