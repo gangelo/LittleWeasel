@@ -10,12 +10,13 @@ module LittleWeasel
         unless preprocessed_word_results.respond_to? :original_word
           raise ArgumentError,
             validation_error_message(object: preprocessed_word_results,
-respond_to: :original_word)
+            respond_to: :original_word)
         end
+
         unless preprocessed_word_results.respond_to? :preprocessed_words
           raise ArgumentError,
             validation_error_message(object: preprocessed_word_results,
-respond_to: :preprocessed_words)
+            respond_to: :preprocessed_words)
         end
 
         error_messages = []
