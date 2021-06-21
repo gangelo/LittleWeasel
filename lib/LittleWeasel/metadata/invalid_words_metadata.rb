@@ -83,7 +83,7 @@ module LittleWeasel
       def word_search(params:)
         word_results = params[:word_results]
 
-        # TODO NOW: Should we be returning #word_valid? or #success?
+        # TODO: NOW: Should we be returning #word_valid? or #success?
         return word_results.word_valid? if word_results.word_cached?
 
         # If we get here, we know that the word is NOT in the dictionary either

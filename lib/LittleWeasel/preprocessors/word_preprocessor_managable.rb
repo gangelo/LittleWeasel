@@ -85,7 +85,7 @@ module LittleWeasel
       end
 
       def preprocessed_words(word:)
-         word_preprocessors.map do |word_preprocessor|
+        word_preprocessors.map do |word_preprocessor|
           word_preprocessor.preprocess(word).tap do |processed_word|
             word = processed_word.preprocessed_word
           end

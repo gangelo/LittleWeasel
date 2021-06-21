@@ -67,9 +67,9 @@ module LittleWeasel
         return [] if word_filters.blank?
         return [] if word.empty?
 
-        word_filters.map do |word_filter|
+        word_filters.filter_map do |word_filter|
           word_filter.to_sym if word_filter.filter_match?(word)
-        end.compact
+        end
       end
 
       def filter_match?(word)

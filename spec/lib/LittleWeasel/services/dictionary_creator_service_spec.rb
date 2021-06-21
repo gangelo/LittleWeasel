@@ -21,22 +21,40 @@ RSpec.describe LittleWeasel::Services::DictionaryCreatorService do
   #execute
   describe '#execute' do
     context 'when argument word_filters is an empty Array' do
+      let(:word_filters) { [] }
       let(:dictionary) { subject.execute }
 
-      it 'creates a dictionary with the default word filters' do
+      it 'creates a dictionary that uses no word filters' do
         expect(dictionary).to be_kind_of LittleWeasel::Dictionary
-        expect(dictionary.word_valid?('1000').success?).to eq true
-        expect(dictionary.word_valid?('A').success?).to eq true
+        expect(dictionary.word_filters).to be_blank
+      end
+    end
+
+    context 'when argument word_filters is nil' do
+      let(:word_filters) {}
+      let(:dictionary) { subject.execute }
+
+      it 'creates a dictionary that uses no word filters' do
+        expect(dictionary).to be_kind_of LittleWeasel::Dictionary
+        expect(dictionary.word_filters).to be_blank
       end
     end
 
     context 'when argument word_filters contains word filters' do
       let(:dictionary) { subject.execute }
-      let(:word_filters) { [DollarSignFilter.new] }
+      let(:word_filters) do
+        [
+          DollarSignFilter.new,
+          LittleWeasel::Filters::NumericFilter.new,
+          LittleWeasel::Filters::SingleCharacterWordFilter.new
+        ]
+      end
 
       it 'creates a dictionary with the word filters passed' do
         expect(dictionary).to be_kind_of LittleWeasel::Dictionary
         expect(dictionary.word_valid?('$').success?).to eq true
+        expect(dictionary.word_valid?('1000').success?).to eq true
+        expect(dictionary.word_valid?('A').success?).to eq true
       end
     end
   end

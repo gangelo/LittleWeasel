@@ -17,12 +17,14 @@ RSpec.describe 'Dictionary integration', type: :integration do
   describe 'Dictionary default word filters are applied' do
     subject { create(:dictionary_manager) }
 
-    let(:dictionary) { subject.create_dictionary(dictionary_key: dictionary_key, file: dictionary_file_path) }
+    let(:dictionary) { subject.create_dictionary(dictionary_key: dictionary_key, file: dictionary_file_path, word_filters: word_filters) }
     let(:dictionary_cache) { subject.dictionary_cache }
     let(:dictionary_metadata) { subject.dictionary_metadata }
+    let(:word_filters) {}
 
     context 'NumericFilter is applied' do
       let(:number) { 1_000.to_s }
+      let(:word_filters) { [LittleWeasel::Filters::NumericFilter.new] }
 
       context 'filters are turned on by default' do
         let(:results) { dictionary.word_valid?(number) }

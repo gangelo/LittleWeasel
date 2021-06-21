@@ -47,10 +47,8 @@ RSpec.describe LittleWeasel::Dictionary do
 
     describe 'word_filter:' do
       context 'when argument word_filters is nil' do
-        it 'the dictionary will use the word filters found in the configuration' do
-          expect(subject.word_filters.count).to eq 2
-          expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::NumericFilter))
-          expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::SingleCharacterWordFilter))
+        it 'no word filters will be used' do
+          expect(subject.word_filters).to be_blank
         end
       end
 

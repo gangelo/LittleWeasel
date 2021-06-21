@@ -40,12 +40,7 @@ module LittleWeasel
       self.dictionary_metadata_object = create_dictionary_metadata
       dictionary_metadata_object.add_observers
 
-      # If word_filters is nil, the word filters defined in the configuration
-      # will be used (Configuration#word_filters).
-      # If word_filters is an empty Array ([]), no word filters will be used.
-      # If word_filters populated, the word filter objects will be used.
-      word_filters = config.word_filters.map(&:new) if word_filters.nil?
-      add_filters word_filters: word_filters
+      add_filters word_filters: word_filters || []
     end
 
     class << self
