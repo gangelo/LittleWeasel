@@ -34,10 +34,12 @@ module LittleWeasel
       @metadata_observers = [
         LittleWeasel::Metadata::InvalidWordsMetadata
       ]
-      @word_filters = [
-        LittleWeasel::Filters::NumericFilter,
-        LittleWeasel::Filters::SingleCharacterWordFilter
-      ]
+      @word_filters = {
+        'en-US' => [
+          LittleWeasel::Filters::NumericFilter,
+          LittleWeasel::Filters::SingleCharacterWordFilter
+          ]
+        }
       @word_preprocessors = []
     end
 

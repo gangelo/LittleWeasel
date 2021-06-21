@@ -24,11 +24,32 @@ RSpec.describe 'Dictionary integration', type: :integration do
     context 'NumericFilter is applied' do
       let(:number) { 1_000.to_s }
 
-      it '#word_valid? returns true for numbers' do
-        dictionary.filters_on = false
-        expect(dictionary.word_valid?(number).success?).to eq false
-        dictionary.filters_on = true
-        expect(dictionary.word_valid?(number).success?).to eq true
+      context 'filters are turned on by default' do
+        let(:results) { dictionary.word_valid?(number) }
+
+        it '#word_valid? returns true for numbers with the filters turned on' do
+          expect(results.success?).to eq true
+        end
+
+        it 'returns the filters that were matched' do
+          expect(results.filters_matched).to eq [:numeric_filter]
+        end
+      end
+
+      context 'with filters turned off' do
+        before do
+          dictionary.filters_on = false
+        end
+
+        let(:results) { dictionary.word_valid?(number) }
+
+        it '#word_valid? returns false for numbers with the filters turned off' do
+          expect(results.success?).to eq false
+        end
+
+        it 'returns no filters matched' do
+          expect(results.filters_matched).to eq []
+        end
       end
     end
   end
