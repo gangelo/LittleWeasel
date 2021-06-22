@@ -23,7 +23,8 @@ module LittleWeasel
       include Modules::DictionaryMetadataServicable
       include Preprocessors::WordPreprocessorManagable
 
-      def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:, file:, word_filters: nil, word_preprocessors: nil)
+      def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:,
+        file:, word_filters: nil, word_preprocessors: nil)
         validate_dictionary_key dictionary_key: dictionary_key
         self.dictionary_key = dictionary_key
 
