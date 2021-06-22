@@ -60,8 +60,47 @@ RSpec.shared_context 'mock word filters', shared_context: :metadata do
   end
 end
 
+RSpec.shared_context 'mock word preprocessors', shared_context: :metadata do
+  class UpcaseWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
+    def initialize(order:, preprocessor_on: true)
+      super order: order, preprocessor_on: preprocessor_on
+    end
+
+    class << self
+      def preprocess(word)
+        [true, word.upcase];
+      end
+    end
+  end
+
+  class DowncaseWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
+    def initialize(order:, preprocessor_on: true)
+      super order: order, preprocessor_on: preprocessor_on
+    end
+
+    class << self
+      def preprocess(word)
+        [true, word.downcase];
+      end
+    end
+  end
+
+  class CapitalizeWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
+    def initialize(order:, preprocessor_on: true)
+      super order: order, preprocessor_on: preprocessor_on
+    end
+
+    class << self
+      def preprocess(word)
+        [true, word.capitalize];
+      end
+    end
+  end
+end
+
 RSpec.configure do |config|
   config.include_context 'dictionary cache', include_shared: true
   config.include_context 'dictionary keys', include_shared: true
   config.include_context 'mock word filters', include_shared: true
+  config.include_context 'mock word preprocessors', include_shared: true
 end
