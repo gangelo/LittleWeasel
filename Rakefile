@@ -4,7 +4,6 @@ require 'active_support/core_ext/object/try.rb'
 require 'active_support/inflector'
 require 'benchmark/ips'
 require 'bundler/gem_tasks'
-require 'pry'
 
 require_relative 'lib/LittleWeasel'
 require_relative 'spec/support/file_helpers'
@@ -35,7 +34,6 @@ task :workflow do
     puts "word_valid?('#{word}'') #=> #{dictionary.word_valid?(word)}"
   end
   dictionary.word_valid? 'badword'
-  binding.pry
 rescue StandardError => e
   task 'workflow' do
     puts "LittleWeasel task workflow not loaded: #{e.message}"
