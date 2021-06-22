@@ -7,7 +7,7 @@ RSpec.describe LittleWeasel::WordResults do
     create(:word_results,
       original_word: original_word,
       filters_matched: filters_matched,
-      preprocessed_word_results: preprocessed_word_results,
+      preprocessed_words: preprocessed_words,
       word_cached: word_cached,
       word_valid: word_valid)
   end
@@ -15,7 +15,7 @@ RSpec.describe LittleWeasel::WordResults do
   let(:original_word) { 'original-word' }
   let(:word) { original_word }
   let(:filters_matched) { [] }
-  let(:preprocessed_word_results) {}
+  let(:preprocessed_words) {}
   let(:word_cached) { false }
   let(:word_valid) { false }
 
@@ -44,11 +44,11 @@ RSpec.describe LittleWeasel::WordResults do
         end
       end
 
-      context 'when argument preprocessed_word_results is invalid' do
-        let(:preprocessed_word_results) { :invalid }
+      context 'when argument preprocessed_words is invalid' do
+        let(:preprocessed_words) { :invalid }
 
         it 'raises an error' do
-          expect { subject }.to raise_error /Argument preprocessed_word_results does not respond to/
+          expect { subject }.to raise_error /Argument preprocessed_words does not respond to/
         end
       end
 
@@ -67,6 +67,65 @@ RSpec.describe LittleWeasel::WordResults do
           expect { subject }.to raise_error /Argument word_valid is not true or false/
         end
       end
+    end
+  end
+
+  #original_word=
+  describe '#original_word=' do
+    let(:changed_value) { "#{original_word}-changed" }
+
+    it 'sets @original_word' do
+      expect(subject.original_word).to eq original_word
+      subject.original_word = changed_value
+      expect(subject.original_word).to eq changed_value
+    end
+  end
+
+  #filters_matched=
+  describe '#filters_matched=' do
+    let(:filters_matched) { [:filters_matched] }
+    let(:changed_value) { [:filters_matched_changed] }
+
+    it 'sets @filters_matched' do
+      expect(subject.filters_matched).to eq filters_matched
+      subject.filters_matched = changed_value
+      expect(subject.filters_matched).to eq changed_value
+    end
+  end
+
+  #word_cached=
+  describe '#word_cached=' do
+    let(:changed_value) { !word_cached }
+
+    it 'sets @word_cached' do
+      expect(subject.word_cached).to eq word_cached
+      subject.word_cached = changed_value
+      expect(subject.word_cached).to eq changed_value
+    end
+  end
+
+  #word_valid=
+  describe '#word_valid=' do
+    let(:changed_value) { !word_valid }
+
+    it 'sets @word_valid' do
+      expect(subject.word_valid).to eq word_valid
+      subject.word_valid = changed_value
+      expect(subject.word_valid).to eq changed_value
+    end
+  end
+
+  #preprocesed_words=
+  describe '#preprocesed_words=' do
+    let(:changed_value) do
+      create(:preprocessed_words, with_word_processors: 2, original_word: original_word)
+    end
+
+    it 'sets @preprocesed_words' do
+      expect { subject.preprocessed_words = changed_value }.to \
+        change { subject.preprocessed_words }
+        .from(preprocessed_words)
+        .to(changed_value)
     end
   end
 
@@ -165,14 +224,14 @@ RSpec.describe LittleWeasel::WordResults do
       create(:word_results,
         original_word: original_word,
         filters_matched: [],
-        preprocessed_word_results: preprocessed_word_results,
+        preprocessed_words: preprocessed_words,
         word_cached: false,
         word_valid: false)
     end
 
     context 'when #preprocessed_word is NOT nil' do
-      let(:preprocessed_word_results) do
-        create(:preprocessed_word_results, with_word_processors: 2)
+      let(:preprocessed_words) do
+        create(:preprocessed_words, with_word_processors: 2)
       end
 
       it 'returns true' do
@@ -181,8 +240,8 @@ RSpec.describe LittleWeasel::WordResults do
     end
 
     context 'when #preprocessed_word is nil' do
-      let(:preprocessed_word_results) do
-        create(:preprocessed_word_results)
+      let(:preprocessed_words) do
+        create(:preprocessed_words)
       end
 
       it 'returns false' do
@@ -196,8 +255,8 @@ RSpec.describe LittleWeasel::WordResults do
     let(:original_word) { 'word' }
 
     context 'when the word has been preprocessed' do
-      let(:preprocessed_word_results) do
-        create(:preprocessed_word_results,
+      let(:preprocessed_words) do
+        create(:preprocessed_words,
           original_word: original_word,
           with_word_processors: 2)
       end

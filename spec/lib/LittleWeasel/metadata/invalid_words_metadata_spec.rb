@@ -116,7 +116,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
     it 'the metadata is refreshed' do
       expect(subject.current_invalid_word_bytesize).to eq 0
       expect do
-        dictionary.word_valid?('badword')
+        dictionary.word_results('badword')
         subject.refresh
       end.to change { subject.current_invalid_word_bytesize }
       .from(0).to(7)
@@ -148,7 +148,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
     context 'with an action on the whitelist' do
       it 'carries out the requested action' do
         expect do
-          dictionary.word_valid? 'not-found'
+          dictionary.word_results 'not-found'
         end.to change { subject.current_invalid_word_bytesize }
         .from(0).to(9)
       end

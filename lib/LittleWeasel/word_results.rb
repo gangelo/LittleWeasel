@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/module/delegation'
-require_relative 'preprocessors/preprocessed_word_results_validatable'
+require_relative 'preprocessors/preprocessed_words_validatable'
 
 module LittleWeasel
   # This class represents the results of attempting to find a word
   # in a dictionary.
   class WordResults
-    include Preprocessors::PreprocessedWordResultsValidatable
+    include Preprocessors::PreprocessedWordsValidatable
 
-    attr_reader :filters_matched, :original_word, :preprocessed_word_results, :word_cached, :word_valid
+    attr_reader :filters_matched, :original_word, :preprocessed_words, :word_cached, :word_valid
 
-    delegate :preprocessed_word, to: :preprocessed_word_results, allow_nil: true
+    delegate :preprocessed_word, to: :preprocessed_words, allow_nil: true
 
     # Important: Regarding Boolean Methods
     #
@@ -34,18 +34,40 @@ module LittleWeasel
     # checked against the dictionary for validity, and cached, NOT
     # #original_word.
     def initialize(original_word:, filters_matched: [],
-      preprocessed_word_results: nil, word_cached: false, word_valid: false)
+      preprocessed_words: nil, word_cached: false, word_valid: false)
+
       self.original_word = original_word
       self.filters_matched = filters_matched
       self.word_cached = word_cached
       self.word_valid = word_valid
+      self.preprocessed_words = preprocessed_words
+    end
 
-      validate
+    def original_word=(value)
+      validate_original_word(original_word: value)
+      @original_word = value
+    end
 
-      if preprocessed_word_results.present?
-        validate_prepreprocessed_word_results preprocessed_word_results: preprocessed_word_results
+    def filters_matched=(value)
+      validate_filters_matched(filters_matched: value)
+      @filters_matched = value
+    end
+
+    def word_cached=(value)
+      validate_word_cached(word_cached: value)
+      @word_cached = value
+    end
+
+    def word_valid=(value)
+      vaidate_word_valid(word_valid: value)
+      @word_valid = value
+    end
+
+    def preprocessed_words=(value)
+      if value.present?
+        validate_prepreprocessed_words preprocessed_words: value
+        @preprocessed_words = value
       end
-      self.preprocessed_word_results = preprocessed_word_results
     end
 
     # Returns true if the word is valid (found in the dictionary), or
@@ -119,15 +141,22 @@ module LittleWeasel
 
     private
 
-    attr_writer :filters_matched, :original_word, :preprocessed_word_results, :word_cached, :word_valid
-
-    def validate
+    def validate_original_word(original_word:)
       raise ArgumentError, "Argument original_word is not a String: #{original_word.class}" \
         unless original_word.is_a? String
+    end
+
+    def validate_filters_matched(filters_matched:)
       raise ArgumentError, "Argument filters_matched is not an Array: #{filters_matched.class}" \
         unless filters_matched.is_a? Array
+    end
+
+    def validate_word_cached(word_cached:)
       raise ArgumentError, "Argument word_cached is not true or false: #{word_cached.class}" \
         unless [true, false].include? word_cached
+    end
+
+    def vaidate_word_valid(word_valid:)
       raise ArgumentError, "Argument word_valid is not true or false: #{word_cached.class}" \
         unless [true, false].include? word_valid
     end

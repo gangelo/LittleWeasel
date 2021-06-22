@@ -2,7 +2,7 @@
 
 module LittleWeasel
   module Preprocessors
-    class PreprocessedWordResults
+    class PreprocessedWords
       attr_reader :original_word
       attr_accessor :preprocessed_words
 

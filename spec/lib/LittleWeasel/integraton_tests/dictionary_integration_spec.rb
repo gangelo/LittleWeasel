@@ -17,14 +17,14 @@ RSpec.describe 'Dictionary integration', type: :integration do
   let(:dictionary_words) { dictionary_words_for(dictionary_file_path: dictionary_file_path) }
   let(:word_filters) {}
 
-  #word_valid?
-  describe '#word_valid?' do
+  #word_results
+  describe '#word_results' do
     describe 'when using word filters' do
       let(:word_filters) { [LittleWeasel::Filters::NumericFilter.new] }
       let(:number) { 1_000.to_s }
 
       context 'with word filters turned on' do
-        let(:word_results) { dictionary.word_valid?(number) }
+        let(:word_results) { dictionary.word_results(number) }
 
         describe 'WordResults return object' do
           it '#success? returns true' do
@@ -60,7 +60,7 @@ RSpec.describe 'Dictionary integration', type: :integration do
           end
 
           it '#word_cached? returns true 2nd-nth time the word was searched if invalid words are being cached by any metadata processing' do
-            dictionary.word_valid?(number)
+            dictionary.word_results(number)
             expect(word_results.word_cached?).to eq true
           end
         end
@@ -71,7 +71,7 @@ RSpec.describe 'Dictionary integration', type: :integration do
           dictionary.filters_on = false
         end
 
-        let(:word_results) { dictionary.word_valid?(number) }
+        let(:word_results) { dictionary.word_results(number) }
 
         it 'results are NOT influenced by the word filter(s)' do
           expect(word_results.success?).to eq false

@@ -128,7 +128,7 @@ RSpec.describe LittleWeasel::Dictionary do
   #count
   describe '#count' do
     before do
-      subject.word_valid?('badword')
+      subject.word_results('badword')
     end
 
     it 'returns the count of all valid words' do
@@ -139,7 +139,7 @@ RSpec.describe LittleWeasel::Dictionary do
   #count_all_words
   describe '#count_all_words' do
     before do
-      subject.word_valid?('badword')
+      subject.word_results('badword')
     end
 
     it 'returns the count of all valid and invalid words' do
@@ -150,7 +150,7 @@ RSpec.describe LittleWeasel::Dictionary do
   #count_invalid_words
   describe '#count_invalid_words' do
     before do
-      subject.word_valid?('badword')
+      subject.word_results('badword')
     end
 
     it 'returns the count of all invalid words' do
@@ -158,14 +158,14 @@ RSpec.describe LittleWeasel::Dictionary do
     end
   end
 
-  #word_valid?
-  describe '#word_valid?' do
+  #word_results
+  describe '#word_results' do
     context 'when argument word is INVALID' do
       context 'when not a String' do
         let(:word) { :not_a_string }
 
         it 'raises an error' do
-          expect { subject.word_valid?(word) }.to raise_error "Argument word is not a String: #{word.class}"
+          expect { subject.word_results(word) }.to raise_error "Argument word is not a String: #{word.class}"
         end
       end
     end
@@ -173,20 +173,20 @@ RSpec.describe LittleWeasel::Dictionary do
     context 'when searching for words in the dictionary' do
       context 'when the word is found' do
         it 'returns true' do
-          expect(subject.word_valid?('dog').success?).to eq true
+          expect(subject.word_results('dog').success?).to eq true
         end
       end
 
       context 'when the word is not found' do
         it 'returns false' do
-          expect(subject.word_valid?('badword').success?).to eq false
+          expect(subject.word_results('badword').success?).to eq false
         end
       end
     end
   end
 
-  #block_valid?
-  describe '#block_valid?' do
+  #block_results
+  describe '#block_results' do
     context 'when nil is passed' do
       it 'does something'
     end
@@ -201,7 +201,7 @@ RSpec.describe LittleWeasel::Dictionary do
           dictionary_key: dictionary_key,
           dictionary_cache: dictionary_cache,
           dictionary_words: dictionary_words,
-          word_filters: word_filters).block_valid? word_block
+          word_filters: word_filters).block_results word_block
       end
 
       let(:word_block) do
@@ -222,7 +222,7 @@ RSpec.describe LittleWeasel::Dictionary do
       context 'when a word is not found' do
         context 'when the max_invalid_words_bytesize threashold has not been exceeded' do
           it 'adds the word to the cache' do
-            expect { subject.word_valid?('badword') }.to change { subject.count_all_words }.by(1)
+            expect { subject.word_results('badword') }.to change { subject.count_all_words }.by(1)
           end
         end
 
@@ -233,10 +233,10 @@ RSpec.describe LittleWeasel::Dictionary do
 
           it 'does NOT add the word to the cache' do
             expect do
-              subject.word_valid?('IWillBeCached01')
-              subject.word_valid?('IWillBeCached02')
-              subject.word_valid?('IWontBeCached01')
-              subject.word_valid?('IWontBeCached02')
+              subject.word_results('IWillBeCached01')
+              subject.word_results('IWillBeCached02')
+              subject.word_results('IWontBeCached01')
+              subject.word_results('IWontBeCached02')
             end.to change { subject.count_all_words }.by(2)
           end
         end
@@ -250,10 +250,10 @@ RSpec.describe LittleWeasel::Dictionary do
 
       it 'does NOT add the word to the cache' do
         expect do
-          subject.word_valid?('IWillBeCached01')
-          subject.word_valid?('IWillBeCached02')
-          subject.word_valid?('IWontBeCached01')
-          subject.word_valid?('IWontBeCached02')
+          subject.word_results('IWillBeCached01')
+          subject.word_results('IWillBeCached02')
+          subject.word_results('IWontBeCached01')
+          subject.word_results('IWontBeCached02')
         end.to change { subject.count_all_words }.by(0)
       end
     end

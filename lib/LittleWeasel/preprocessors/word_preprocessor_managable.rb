@@ -78,10 +78,10 @@ module LittleWeasel
         word_preprocessors.each { |word_preprocessor| word_preprocessor.preprocessor_on = on }
       end
 
-      # Returns a Preprocessors::PreprocessedWordResults object.
+      # Returns a Preprocessors::PreprocessedWords object.
       def preprocess(word:)
         preprocessed_words = preprocessed_words word: word
-        PreprocessedWordResults.new(original_word: word, preprocessed_words: preprocessed_words)
+        PreprocessedWords.new(original_word: word, preprocessed_words: preprocessed_words)
       end
 
       def preprocessed_words(word:)

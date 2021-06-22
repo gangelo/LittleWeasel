@@ -51,15 +51,15 @@ module LittleWeasel
       end
     end
 
-    def word_valid?(word)
+    def word_results(word)
       raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a?(String)
 
-      preprocessed_word_results = preprocess(word: word)
-      preprocessed_word = preprocessed_word_results.preprocessed_word
+      preprocessed_words = preprocess(word: word)
+      preprocessed_word = preprocessed_words.preprocessed_word
       filters_matched = filters_matched(preprocessed_word || word)
       word_results = WordResults.new(original_word: word,
         filters_matched: filters_matched,
-        preprocessed_word_results: preprocessed_word_results,
+        preprocessed_words: preprocessed_words,
         word_cached: dictionary_words.include?(preprocessed_word || word),
         word_valid: dictionary_words[preprocessed_word || word] || false)
 
@@ -69,12 +69,13 @@ module LittleWeasel
       word_results
     end
 
-    def block_valid?(word_block)
-      word_split_regex = /\s+(?=(?:[^"]*"[^"]*")*[^"]*$)/
-      words = word_block.split(word_split_regex)
+    def block_results(word_block)
+      # TODO: regex to split word block needs to be moved
+      # to a configurable location.
+      words = word_block.split(/\s+(?=(?:[^"]*"[^"]*")*[^"]*$)/)
 
       words.map do |word|
-        word_valid? word
+        word_results word
       end
     end
 
