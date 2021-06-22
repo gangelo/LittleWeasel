@@ -20,7 +20,7 @@ module LittleWeasel
 
     attr_reader :dictionary_metadata_object, :dictionary_words
 
-    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, dictionary_metadata:, word_filters: nil)
+    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, dictionary_metadata:, word_filters: nil, word_preprocessors: nil)
       validate_dictionary_key dictionary_key: dictionary_key
       self.dictionary_key = dictionary_key
 
@@ -41,6 +41,7 @@ module LittleWeasel
       dictionary_metadata_object.add_observers
 
       add_filters word_filters: word_filters || []
+      add_preprocessors word_preprocessors: word_preprocessors || []
     end
 
     class << self
