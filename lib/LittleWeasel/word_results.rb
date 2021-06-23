@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/module/delegation'
+require_relative 'modules/word_results_validatable'
 require_relative 'preprocessors/preprocessed_words_validatable'
 
 module LittleWeasel
   # This class represents the results of attempting to find a word
   # in a dictionary.
   class WordResults
+    include Modules::WordResultsValidatable
     include Preprocessors::PreprocessedWordsValidatable
 
     attr_reader :filters_matched, :original_word, :preprocessed_words, :word_cached, :word_valid
@@ -33,6 +35,7 @@ module LittleWeasel
     # #preprocessed_word that is passed through any subsequent word filters,
     # checked against the dictionary for validity, and cached, NOT
     # #original_word.
+    # :reek:BooleanParameter - ignored, boolean params do not determine logic path, but only report status.
     def initialize(original_word:, filters_matched: [],
       preprocessed_words: nil, word_cached: false, word_valid: false)
 
@@ -67,6 +70,8 @@ module LittleWeasel
       if value.present?
         validate_prepreprocessed_words preprocessed_words: value
         @preprocessed_words = value
+      else
+        @preprocessed_words = nil
       end
     end
 
@@ -137,28 +142,6 @@ module LittleWeasel
     # class definition for more detail.
     def word_cached?
       word_cached
-    end
-
-    private
-
-    def validate_original_word
-      raise ArgumentError, "Argument original_word is not a String: #{original_word.class}" \
-        unless original_word.is_a? String
-    end
-
-    def validate_filters_matched
-      raise ArgumentError, "Argument filters_matched is not an Array: #{filters_matched.class}" \
-        unless filters_matched.is_a? Array
-    end
-
-    def validate_word_cached
-      raise ArgumentError, "Argument word_cached is not true or false: #{word_cached.class}" \
-        unless [true, false].include? word_cached
-    end
-
-    def vaidate_word_valid
-      raise ArgumentError, "Argument word_valid is not true or false: #{word_cached.class}" \
-        unless [true, false].include? word_valid
     end
   end
 end
