@@ -9,8 +9,9 @@ require_relative 'dictionary_file_loader_service'
 
 module LittleWeasel
   module Services
-    # This class provides services to load dictionaries from either disk or
-    # cache.
+    # This class provides services to load dictionaries from either disk (if
+    # the dictionary has not been loaded) or from the dictionary cache if the
+    # dictionary has already been loaded from disk.
     class DictionaryLoaderService
       include Modules::DictionaryKeyable
       include Modules::DictionaryCacheServicable

@@ -12,7 +12,7 @@ module LittleWeasel
       # You can use your own word filter types as long as they quack correctly;
       # however, you are responsible for the behavior of these required methods/
       # attributes. It's probably better to follow the pattern of existing word
-      # filter objects (e.g. Filters::NumericFilter) and inherit from
+      # filter objects (e.g. Filters::EnUs::NumericFilter) and inherit from
       # Filters::WordFilter.
       def self.valid_word_filter?(word_filter:)
         word_filter.respond_to?(:filter_on?) &&

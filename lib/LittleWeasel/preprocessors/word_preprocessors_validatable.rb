@@ -4,7 +4,8 @@ require_relative 'word_preprocessor_validatable'
 
 module LittleWeasel
   module Preprocessors
-    # This module provides methods to validate an Array of word preprocessors.
+    # This module provides methods to validate an Array of word preprocessor
+    # objects.
     module WordPreprocessorsValidatable
       extend WordPreprocessorValidatable
 

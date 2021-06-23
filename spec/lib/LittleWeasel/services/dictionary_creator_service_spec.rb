@@ -45,8 +45,8 @@ RSpec.describe LittleWeasel::Services::DictionaryCreatorService do
       let(:word_filters) do
         [
           DollarSignFilter.new,
-          LittleWeasel::Filters::NumericFilter.new,
-          LittleWeasel::Filters::SingleCharacterWordFilter.new
+          LittleWeasel::Filters::EnUs::NumericFilter.new,
+          LittleWeasel::Filters::EnUs::SingleCharacterWordFilter.new
         ]
       end
 

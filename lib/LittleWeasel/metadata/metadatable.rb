@@ -5,7 +5,8 @@ require_relative '../services/dictionary_cache_service'
 
 module LittleWeasel
   module Metadata
-    # This module defines methods to support dictionary metadata objects.
+    # This module defines methods to support objects that manage other objects
+    # that manage metadata related to a dictionary/ies.
     module Metadatable
       def self.included(base)
         base.extend ClassMethods

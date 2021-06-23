@@ -6,6 +6,8 @@ require_relative 'dictionary_cache_validatable'
 
 module LittleWeasel
   module Modules
+    # This module defines methods and attributes to consume the dictionary
+    # cache service.
     module DictionaryCacheServicable
       include DictionaryKeyable
       include DictionaryCacheValidatable

@@ -25,7 +25,7 @@ RSpec.describe 'Dictionary integration', type: :integration do
   #word_results
   describe '#word_results' do
     describe 'when using word filters' do
-      let(:word_filters) { [LittleWeasel::Filters::NumericFilter.new] }
+      let(:word_filters) { [LittleWeasel::Filters::EnUs::NumericFilter.new] }
       let(:number) { 1_000.to_s }
 
       context 'with word filters turned on' do

@@ -6,6 +6,8 @@ require_relative '../filters/word_filters_validatable'
 
 module LittleWeasel
   module Modules
+    # This module defines methods and attributes to consume the dictionary
+    # creator service.
     module DictionaryCreatorServicable
       include DictionaryKeyable
       include Filters::WordFiltersValidatable

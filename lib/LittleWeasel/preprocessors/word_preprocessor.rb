@@ -7,13 +7,20 @@ require_relative 'preprocessed_word'
 
 module LittleWeasel
   module Preprocessors
-    # This module provides methods/functionality for preprocessing dictionary words.
+    # This is a base class that provides methods and functionality for
+    # word preprocessors. A "word preprocessor" is an object that manipulates a
+    # word before it is passed to any word filters and before it is compared
+    # against the dictionary for validity.
     class WordPreprocessor
       include Modules::ClassNameToSymbol
       include Modules::Orderable
 
       attr_accessor :preprocessor_on
 
+      # order:Integer, the order in which this preprocessor should
+      # be applied.
+      # preprocessor_on:Boolean, whether or not this preprocessor
+      # should be applied to any words.
       def initialize(order:, preprocessor_on: true)
         validate_order order: order
         self.order = order

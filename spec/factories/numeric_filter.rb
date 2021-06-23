@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 FactoryBot.define do
-  factory :numeric_filter, class: LittleWeasel::Filters::NumericFilter do
+  factory :numeric_filter, class: LittleWeasel::Filters::EnUs::NumericFilter do
     filter_on { true }
 
     skip_create

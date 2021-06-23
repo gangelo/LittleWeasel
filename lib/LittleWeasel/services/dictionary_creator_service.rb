@@ -13,8 +13,8 @@ require_relative 'dictionary_file_loader_service'
 
 module LittleWeasel
   module Services
-    # This class provides services to load dictionaries from either disk or
-    # cache.
+    # This class provides a service to load dictionaries from disk, create
+    # and return a Dictionary object.
     class DictionaryCreatorService
       include Filters::WordFilterable
       include Filters::WordFiltersValidatable

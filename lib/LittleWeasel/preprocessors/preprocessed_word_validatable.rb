@@ -2,7 +2,7 @@
 
 module LittleWeasel
   module Preprocessors
-    # This module validates preprocessed word types.
+    # This module provides functionality that validates preprocessed word types.
     module PreprocessedWordValidatable
       def self.validate(preprocessed_word:)
         error_messages = validate_methods(preprocessed_word: preprocessed_word)

@@ -4,7 +4,7 @@ require_relative 'preprocessed_word_validatable'
 
 module LittleWeasel
   module Preprocessors
-    # This module validates preprocessed word result types.
+    # This module provides methods to validate preprocessed words types.
     module PreprocessedWordsValidatable
       def self.validate(preprocessed_words:)
         unless preprocessed_words.respond_to? :original_word

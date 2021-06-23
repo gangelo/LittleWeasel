@@ -6,6 +6,14 @@ require_relative '../modules/dictionary_keyable'
 
 module LittleWeasel
   module Services
+    # This class provides methods and attributes that can be used to manage the
+    # dictionary cache. The "dictionary cache" is a simple Hash that provides
+    # access to informaiton related to dictionaries through a dictionary "key".
+    # A dictionary "key" is a unique key comprised of a locale and
+    # optional "tag" (see Modules::Taggable and DictionaryKey for more
+    # information). The dictionary cache also provides a way for dictionary
+    # objects to share dictionary information, in particular, the dictionary
+    # file and dictionary metadata.
     class DictionaryCacheService
       include Modules::DictionaryKeyable
       include Modules::DictionaryCacheValidatable
@@ -13,9 +21,8 @@ module LittleWeasel
 
       attr_accessor :dictionary_cache
 
-      # This class expects a simple, empty Hash via the dictionary_cache;
-      # attribute and produces the following structure depending on what
-      # service methods act upon the Hash that is passed.
+      # This class produces the following (example) Hash that represents the
+      # dictionary cache structure depending:
       #
       # @example This is an example:
       #

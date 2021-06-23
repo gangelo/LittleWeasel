@@ -14,8 +14,9 @@ module LittleWeasel
   module Metadata
     # This class manages metadata objects related to dictionaries. Metadata
     # objects defined in LittleWeasel::Configuration#metadata_observers are
-    # added as observers, provided they are in a state to observe (see
-    # Metadata::Metadatable, Metadata::InvalidWords::InvalidWordsMetadata, etc.).
+    # added as observers, provided they are in a state to observe
+    # (see Metadata::Metadatable, Metadata::InvalidWords::InvalidWordsMetadata,
+    # etc.).
     class DictionaryMetadata
       include Observable
       include Metadata::Metadatable

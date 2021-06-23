@@ -5,8 +5,8 @@ require_relative 'region'
 
 module LittleWeasel
   module Modules
-    # This module provides methods to handle conversion of
-    # parts of a locale to their string counter parts.
+    # This module provides methods to handle conversion of parts of a locale to
+    # their string counter parts.
     module Locale
       def self.included(base)
         base.extend(ClassMethods)

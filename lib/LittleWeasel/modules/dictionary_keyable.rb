@@ -5,6 +5,10 @@ require_relative 'dictionary_key_validatable'
 
 module LittleWeasel
   module Modules
+    # This module defines attributes and functionality for a dictionary
+    # key. A dictionary key is a unique key (basically a locale and optional
+    # tag suffix) that is used to link a dictionary to the dictionary cache
+    # and dictionary metadata objects.
     module DictionaryKeyable
       include Modules::DictionaryKeyValidatable
 

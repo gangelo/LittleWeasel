@@ -2,7 +2,7 @@
 
 module LittleWeasel
   module Modules
-    # Provides methods for normalizing language for a locale
+    # Provides methods for normalizing language for a locale.
     module Language
       def self.included(base)
         base.extend(ClassMethods)

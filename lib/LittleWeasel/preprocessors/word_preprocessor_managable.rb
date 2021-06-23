@@ -5,14 +5,29 @@ require_relative 'word_preprocessor_validatable'
 
 module LittleWeasel
   module Preprocessors
-    # This module provides methods/functionality to manage word preprocessors.
-    # Word preprocessors are processes through which words are passed before
-    # determining whether or not they can be found in the dictionary. When
-    # using word preprocessors, you need to consider whether or not metadata
-    # observers should be notified of the preprocessed word now that it has
-    # been preprocessed; because, the original word may not be found as a valid
-    # word in the dictionary, while the preprocessed word might and vise
-    # versa.
+    # This module provides methods and functionality to manage word
+    # preprocessors. A "word preprocessor" is an object that manipulates a word
+    # before it is passed to any word filters and before it is compared against
+    # the dictionary for validity.
+    #
+    # When creating your own word preprocessors, here are some things you
+    # need to consider:
+    #
+    # Multiple word preprocessors can be applied to a given word. Word
+    # processors will be applied to a word in
+    # Preprocessors::WordPreprocessor#order order (ascending). Even though this
+    # is the case, it doesn't mean you should seek to apply more than one word
+    # preprocessor at a time. However, if you do, write and order your word
+    # preprocessors in such a way that each preprocessor manipulates the word
+    # in a complimentary rather than contridictionary way. For example,
+    # applying one word preprocessor that convert a word to uppercase and a
+    # second that converts the word to lowercase, contradict each other.
+    #
+    # Another thing you need to consider, is whether or not metadata observers
+    # should be notified of the preprocessed word (now that it has been
+    # potentially manipulated) or if they should be notified of the original
+    # word; this is because, the original word may not be found as a valid word
+    # in the dictionary, while the preprocessed word might and vise versa.
     module WordPreprocessorManagable
       include WordPreprocessable
       include WordPreprocessorsValidatable

@@ -2,7 +2,7 @@
 
 module LittleWeasel
   module Modules
-    # This module provides methods to validate tags.
+    # This module provides methods to validate a tag.
     module TagValidatable
       def self.validate(tag:)
         raise ArgumentError, "Argument tag '#{tag}' is not a Symbol." unless tag.blank? || tag.is_a?(Symbol)

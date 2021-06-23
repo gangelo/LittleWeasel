@@ -5,7 +5,8 @@ require_relative 'metadatable'
 
 module LittleWeasel
   module Metadata
-    # Defines methods to support dictionary metadata
+    # Defines methods to support metadata modules that are observers of
+    # objects that include Metadata::DictionaryMetadata.
     module MetadataObserverable
       include Metadatable
 

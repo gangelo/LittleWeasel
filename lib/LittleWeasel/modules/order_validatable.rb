@@ -2,7 +2,8 @@
 
 module LittleWeasel
   module Modules
-    # This module provides methods to validate orders.
+    # This module provides methods to validate a value that can be used
+    # in sorting.
     module OrderValidatable
       def self.validate(order:)
         raise ArgumentError, "Argument order is not an Integer: #{order.class}" unless order.is_a? Integer

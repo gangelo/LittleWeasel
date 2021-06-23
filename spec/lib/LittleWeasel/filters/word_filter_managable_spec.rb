@@ -19,7 +19,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
   end
 
   let(:word_filters) { [numeric_filter] }
-  let(:numeric_filter) { LittleWeasel::Filters::NumericFilter.new filter_on: filter_on }
+  let(:numeric_filter) { LittleWeasel::Filters::EnUs::NumericFilter.new filter_on: filter_on }
   let(:filter_on) { true }
 
   #clear_filters
@@ -51,7 +51,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
           expect(subject.word_filters.count).to eq 3
           expect(subject.word_filters).to include(a_kind_of(WordFilter01))
           expect(subject.word_filters).to include(a_kind_of(WordFilter02))
-          expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::NumericFilter))
+          expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::EnUs::NumericFilter))
         end
       end
     end
@@ -73,7 +73,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
         expect(subject.add_filters(word_filters: [WordFilter01.new, WordFilter02.new]).count).to eq 3
         expect(subject.word_filters).to include(a_kind_of(WordFilter01))
         expect(subject.word_filters).to include(a_kind_of(WordFilter02))
-        expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::NumericFilter))
+        expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::EnUs::NumericFilter))
       end
     end
 
@@ -89,7 +89,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
         expect(subject.word_filters.count).to eq 3
         expect(subject.word_filters).to include(a_kind_of(WordFilter01))
         expect(subject.word_filters).to include(a_kind_of(WordFilter02))
-        expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::NumericFilter))
+        expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::EnUs::NumericFilter))
       end
     end
   end
@@ -98,7 +98,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
   describe '#replace_filters' do
     it 'replaces any existing word filters' do
       expect(subject.word_filters.count).to eq 1
-      expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::NumericFilter))
+      expect(subject.word_filters).to include(a_kind_of(LittleWeasel::Filters::EnUs::NumericFilter))
       expect(subject.replace_filters(word_filters: [WordFilter01.new, WordFilter02.new]).count).to eq 2
       expect(subject.word_filters).to include(a_kind_of(WordFilter01))
       expect(subject.word_filters).to include(a_kind_of(WordFilter02))

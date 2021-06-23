@@ -4,8 +4,8 @@ require_relative 'word_filters_validatable'
 
 module LittleWeasel
   module Filters
-    # This module provides the word_filters attribute for objects
-    # that support word filters.
+    # This module provides the word_filters attribute for objects that support
+    # word filters.
     module WordFilterable
       @word_filters = []
 

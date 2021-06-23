@@ -2,10 +2,18 @@
 
 module LittleWeasel
   module Preprocessors
+    # This class provides a container for Preprocessors::PreprocessedWord
+    # objects.
     class PreprocessedWords
       attr_reader :original_word
       attr_accessor :preprocessed_words
 
+      # original_word:String the unsullied word before any preprocessing has
+      # been applied to it.
+      # preprocessed_words:Array, Preprocessors::PreprocessedWord, an Array
+      # of Preprocessors::PreprocessedWord objects that represents the
+      # original_word having passed through each successive
+      # Preprocessors::WordPreprocessor.
       def initialize(original_word:, preprocessed_words:)
         self.original_word = original_word
         self.preprocessed_words = preprocessed_words

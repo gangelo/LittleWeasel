@@ -2,7 +2,7 @@
 
 module LittleWeasel
   module Modules
-    # This module provides attribtues/methods to handle objects that can be
+    # This module provides attribtues and methods to manage objects that can be
     # ordered or sorted.
     module Orderable
       include OrderValidatable

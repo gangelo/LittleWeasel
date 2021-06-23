@@ -7,6 +7,8 @@ require_relative 'dictionary_metadata_validatable'
 
 module LittleWeasel
   module Modules
+    # This module defines methods and attributes to consume the dictionary
+    # metadata service.
     module DictionaryMetadataServicable
       include DictionaryKeyable
       include DictionaryCacheValidatable

@@ -7,7 +7,7 @@ require_relative '../modules/dictionary_metadata_validatable'
 module LittleWeasel
   module Services
     # This class provides methods for managing and manipulating the
-    # dictionary metadata cache associated with the given dictionary,
+    # dictionary metadata associated with the given dictionary,
     # (dictionary_key) for the supplied metadata_key.
     class DictionaryMetadataService
       include Modules::DictionaryKeyable
