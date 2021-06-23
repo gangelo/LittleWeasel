@@ -44,23 +44,23 @@ module LittleWeasel
     end
 
     def original_word=(value)
-      validate_original_word(original_word: value)
       @original_word = value
+      validate_original_word
     end
 
     def filters_matched=(value)
-      validate_filters_matched(filters_matched: value)
       @filters_matched = value
+      validate_filters_matched
     end
 
     def word_cached=(value)
-      validate_word_cached(word_cached: value)
       @word_cached = value
+      validate_word_cached
     end
 
     def word_valid=(value)
-      vaidate_word_valid(word_valid: value)
       @word_valid = value
+      vaidate_word_valid
     end
 
     def preprocessed_words=(value)
@@ -141,22 +141,22 @@ module LittleWeasel
 
     private
 
-    def validate_original_word(original_word:)
+    def validate_original_word
       raise ArgumentError, "Argument original_word is not a String: #{original_word.class}" \
         unless original_word.is_a? String
     end
 
-    def validate_filters_matched(filters_matched:)
+    def validate_filters_matched
       raise ArgumentError, "Argument filters_matched is not an Array: #{filters_matched.class}" \
         unless filters_matched.is_a? Array
     end
 
-    def validate_word_cached(word_cached:)
+    def validate_word_cached
       raise ArgumentError, "Argument word_cached is not true or false: #{word_cached.class}" \
         unless [true, false].include? word_cached
     end
 
-    def vaidate_word_valid(word_valid:)
+    def vaidate_word_valid
       raise ArgumentError, "Argument word_valid is not true or false: #{word_cached.class}" \
         unless [true, false].include? word_valid
     end
