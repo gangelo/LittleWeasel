@@ -9,13 +9,10 @@ module LittleWeasel
     class WordFilter
       include Modules::ClassNameToSymbol
 
-      attr_accessor :filter_on
+      attr_reader :filter_on
 
-      def initialize(filter_on: true)
-        raise ArgumentError, "Argument filter_on is not true or false: #{filter_on}" \
-          unless [true, false].include? filter_on
-
-        self.filter_on = filter_on
+      def initialize
+        filter_on!
       end
 
       class << self
@@ -29,10 +26,25 @@ module LittleWeasel
         end
       end
 
+      def filter_on=(value)
+        raise ArgumentError, "Argument value is not true or false: #{value.class}" \
+          unless [true, false].include? value
+
+        @filter_on = value
+      end
+
       def filter_match?(word)
         return false if filter_off?
 
         self.class.filter_match? word
+      end
+
+      def filter_on!
+        self.filter_on = true
+      end
+
+      def filter_off!
+        self.filter_on = false
       end
 
       def filter_on?

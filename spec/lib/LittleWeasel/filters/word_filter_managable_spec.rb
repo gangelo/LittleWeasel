@@ -19,8 +19,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
   end
 
   let(:word_filters) { [numeric_filter] }
-  let(:numeric_filter) { LittleWeasel::Filters::EnUs::NumericFilter.new filter_on: filter_on }
-  let(:filter_on) { true }
+  let(:numeric_filter) { LittleWeasel::Filters::EnUs::NumericFilter.new }
 
   #clear_filters
   describe '#clear_filters' do
@@ -123,7 +122,9 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     end
 
     context 'when false is assigned' do
-      let(:filter_on) { false }
+      before do
+        subject.filters_on = false
+      end
 
       it 'turns all the filters off' do
         expect(subject.word_filters.count).to_not be_zero
@@ -153,7 +154,10 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     end
 
     context 'when argument word matches a filter' do
-      let(:filter_on) { true }
+      before do
+        subject.filters_on = true
+      end
+
       let(:word) { '123456789' }
 
       it 'returns true' do
@@ -162,7 +166,10 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     end
 
     context 'when argument word DOES NOT match a filter' do
-      let(:filter_on) { false }
+      before do
+        subject.filters_on = false
+      end
+
       let(:word) { '123456789' }
 
       it 'returns false' do

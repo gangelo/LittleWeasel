@@ -3,9 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Filters::EnUs::NumericFilter do
-  subject { described_class.new filter_on: filter_on }
-
-  let(:filter_on) { true }
+  subject { described_class.new }
 
   #filter_match?
   describe 'filter_match?' do
@@ -35,7 +33,9 @@ RSpec.describe LittleWeasel::Filters::EnUs::NumericFilter do
       end
 
       context 'when #filter_on? is false' do
-        let(:filter_on) { false }
+        before do
+          subject.filter_on = false
+        end
 
         it_behaves_like 'the filter matches and #filter_on? is false'
       end
