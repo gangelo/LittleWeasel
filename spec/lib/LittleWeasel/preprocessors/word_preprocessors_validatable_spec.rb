@@ -40,7 +40,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorsValidatable, type: 
     context 'when passing an INVALID argument' do
       context 'when passing an invalid Array' do
         it 'raises an error' do
-          expect { subject.validate_word_preprocessors(word_preprocessors: :not_an_array) }.to raise_error /Argument word_preprocessors is not an Array/
+          expect { subject.validate_word_preprocessors(word_preprocessors: :not_an_array) }.to raise_error(/Argument word_preprocessors is not an Array/)
         end
       end
     end

@@ -32,7 +32,7 @@ RSpec.describe LittleWeasel::WordResults do
         let(:original_word) {}
 
         it 'raises an error' do
-          expect { subject }.to raise_error /Argument original_word is not a String/
+          expect { subject }.to raise_error(/Argument original_word is not a String/)
         end
       end
 
@@ -40,7 +40,7 @@ RSpec.describe LittleWeasel::WordResults do
         let(:filters_matched) {}
 
         it 'raises an error' do
-          expect { subject }.to raise_error /Argument filters_matched is not an Array/
+          expect { subject }.to raise_error(/Argument filters_matched is not an Array/)
         end
       end
 
@@ -48,7 +48,7 @@ RSpec.describe LittleWeasel::WordResults do
         let(:preprocessed_words) { :invalid }
 
         it 'raises an error' do
-          expect { subject }.to raise_error /Argument preprocessed_words does not respond to/
+          expect { subject }.to raise_error(/Argument preprocessed_words does not respond to/)
         end
       end
 
@@ -56,7 +56,7 @@ RSpec.describe LittleWeasel::WordResults do
         let(:word_cached) {}
 
         it 'raises an error' do
-          expect { subject }.to raise_error /Argument word_cached is not true or false/
+          expect { subject }.to raise_error(/Argument word_cached is not true or false/)
         end
       end
 
@@ -64,7 +64,7 @@ RSpec.describe LittleWeasel::WordResults do
         let(:word_valid) {}
 
         it 'raises an error' do
-          expect { subject }.to raise_error /Argument word_valid is not true or false/
+          expect { subject }.to raise_error(/Argument word_valid is not true or false/)
         end
       end
     end

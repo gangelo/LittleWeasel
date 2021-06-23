@@ -133,7 +133,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
     context 'when passing an INVALID argument' do
       context 'when passing an Array of invalid word preprocessors' do
         it 'raises an error' do
-          expect { subject.add_preprocessors(word_preprocessors: %i(bad word preprocessors)) }.to raise_error /Argument word_preprocessor: does not respond to/
+          expect { subject.add_preprocessors(word_preprocessors: %i(bad word preprocessors)) }.to raise_error(/Argument word_preprocessor: does not respond to/)
         end
       end
     end

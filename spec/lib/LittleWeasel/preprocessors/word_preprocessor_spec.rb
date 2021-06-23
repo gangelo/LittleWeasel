@@ -23,7 +23,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
           let(:order) { :not_an_integer }
 
           it 'raises an error' do
-            expect { subject }.to raise_error /Argument order is not an Integer/
+            expect { subject }.to raise_error(/Argument order is not an Integer/)
           end
         end
 

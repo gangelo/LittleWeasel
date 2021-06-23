@@ -4,6 +4,7 @@ detectors:
   TooManyInstanceVariables:
     exclude:
       - "LittleWeasel::Configuration"
+      - "LittleWeasel::WordResults"
   # private methods do not have to depend on instance state
   # https://github.com/troessner/reek/blob/master/docs/Utility-Function.md
   UtilityFunction:

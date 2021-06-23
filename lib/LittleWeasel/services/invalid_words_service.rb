@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../metadata/invalid_words_service_results'
+
 module LittleWeasel
   module Services
     # This class calculates the total amount of bytes cached invalid words take
@@ -15,13 +17,7 @@ module LittleWeasel
       def execute
         return build_return unless max_invalid_words_bytesize?
 
-        self.current_bytesize = dictionary.reduce(0) do |bytesize, word_and_found|
-          unless word_and_found.last
-            bytesize += word_and_found.first.bytesize
-            break unless bytesize < max_invalid_words_bytesize
-          end
-          bytesize
-        end
+        self.current_bytesize = calculate_current_bytesize
         build_return
       end
 
@@ -29,37 +25,22 @@ module LittleWeasel
 
       attr_accessor :current_bytesize, :dictionary
 
-      def build_return
-        values = {
-          max_invalid_words_bytesize?: max_invalid_words_bytesize?,
-          current_invalid_word_bytesize: current_bytesize,
-          max_invalid_words_bytesize: max_invalid_words_bytesize
-        }
-        return_struct_for(values.keys).new(*values.values)
+      def calculate_current_bytesize
+        dictionary.reduce(0) do |bytesize, word_and_found|
+          unless word_and_found.last
+            bytesize += word_and_found.first.bytesize
+            break unless bytesize < max_invalid_words_bytesize
+          end
+          bytesize
+        end
       end
 
-      def return_struct_for(keys)
-        Struct.new(*keys) do
-          def on?
-            max_invalid_words_bytesize?
-          end
-
-          def off?
-            !on?
-          end
-
-          def value
-            max_invalid_words_bytesize
-          end
-
-          def value_exceeded?
-            on? && current_invalid_word_bytesize > max_invalid_words_bytesize
-          end
-
-          def cache_invalid_words?
-            on? && !value_exceeded?
-          end
-        end
+      def build_return
+        Metadata::InvalidWordsServiceResults.new(
+          max_invalid_words_bytesize_on: max_invalid_words_bytesize?,
+          current_invalid_word_bytesize: current_bytesize,
+          max_invalid_words_bytesize: max_invalid_words_bytesize
+        )
       end
 
       def max_invalid_words_bytesize

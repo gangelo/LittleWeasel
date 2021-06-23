@@ -1,4 +1,4 @@
-RSpec.shared_context 'dictionary cache', shared_context: :metadata do
+RSpec.shared_context 'dictionary cache' do #, shared_context: :metadata do
   def dictionary_cache_for(dictionary_key:, dictionary_reference: true, load: false)
     dictionary_cache_from(dictionary_keys: [{ dictionary_key: dictionary_key, dictionary_reference: dictionary_reference, load: load }])
   end
@@ -34,33 +34,46 @@ RSpec.shared_context 'dictionary cache', shared_context: :metadata do
   end
 end
 
-RSpec.shared_context 'dictionary keys', shared_context: :metadata do
+RSpec.shared_context 'dictionary keys' do #, shared_context: :metadata do
   def dictionary_key_for(language:, region: nil, tag: nil)
    create(:dictionary_key, language: language, region: region, tag: tag)
   end
 end
 
-RSpec.shared_context 'mock word filters', shared_context: :metadata do
-  class WordFilter01 < LittleWeasel::Filters::WordFilter
-    class << self
-      def filter_match?(word)
-        true
+RSpec.shared_context 'mock word filters' do #, shared_context: :metadata do
+
+  unless Object.const_defined?('WordFilter01')
+    class WordFilter01 < LittleWeasel::Filters::WordFilter
+      class << self
+        def filter_match?(word)
+          true
+        end
       end
     end
   end
 
-  class WordFilter02 < WordFilter01; end
+  unless Object.const_defined?('WordFilter02')
+    class WordFilter02 < LittleWeasel::Filters::WordFilter
+      class << self
+        def filter_match?(word)
+          true
+        end
+      end
+    end
+  end
 
-  class DollarSignFilter < LittleWeasel::Filters::WordFilter
-    class << self
-      def filter_match?(word)
-        word == '$'
+  unless Object.const_defined?('DollarSignFilter')
+    class DollarSignFilter < LittleWeasel::Filters::WordFilter
+      class << self
+        def filter_match?(word)
+          word == '$'
+        end
       end
     end
   end
 end
 
-RSpec.shared_context 'mock word preprocessors', shared_context: :metadata do
+RSpec.shared_context 'mock word preprocessors' do #, shared_context: :metadata do
   class UpcaseWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
     def initialize(order:, preprocessor_on: true)
       super order: order, preprocessor_on: preprocessor_on

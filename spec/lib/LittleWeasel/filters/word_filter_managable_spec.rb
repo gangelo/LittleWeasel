@@ -63,7 +63,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
 
     context 'when argument word_filters is not an Array' do
       it 'raises an error' do
-        expect { subject.add_filters(word_filters: :not_an_array) }.to raise_error /Argument word_filters is not an Array:/
+        expect { subject.add_filters(word_filters: :not_an_array) }.to raise_error(/Argument word_filters is not an Array:/)
       end
     end
 
@@ -108,7 +108,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
   describe '#filters_on=' do
     context 'when a boolean is not passed' do
       it 'raises an error' do
-        expect { subject.filters_on = :not_a_boolean }.to raise_error /Argument on is not true or false:/
+        expect { subject.filters_on = :not_a_boolean }.to raise_error(/Argument on is not true or false:/)
       end
     end
 
