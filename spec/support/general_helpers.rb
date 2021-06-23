@@ -9,7 +9,7 @@ module Support
     # subclass. This creates a symbol from the class name that
     # factory_bot will like.
 
-    # disable :reek:UtilityFunction - ignored, this is only spec support.
+    # :reek:UtilityFunction - ignored, this is only spec support.
     def sym_for(klass)
       klass.name.demodulize.underscore.to_sym
     end
