@@ -27,7 +27,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorValidatable, type: :
     end
 
     it 'raises an error' do
-      expect { subject.validate_word_preprocessor word_preprocessor: word_processor }.to raise_error expected_error_message
+      expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_processor }.to raise_error expected_error_message
     end
   end
 
@@ -37,12 +37,12 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorValidatable, type: :
     end
 
     it 'raises an error' do
-      expect { subject.validate_word_preprocessor word_preprocessor: word_processor }.to raise_error expected_error_message
+      expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_processor }.to raise_error expected_error_message
     end
   end
 
-  #validate_word_preprocessor
-  describe '#validate_word_preprocessor' do
+  #.validate_word_preprocessor
+  describe '.validate_word_preprocessor' do
     before do
       allow(word_processor.class).to receive(:respond_to?).and_call_original
       allow(word_processor).to receive(:respond_to?).and_call_original
@@ -50,7 +50,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorValidatable, type: :
 
     context 'when the object quacks right' do
       it 'passes validation' do
-        expect { subject.validate_word_preprocessor word_preprocessor: word_processor }.to_not raise_error
+        expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_processor }.to_not raise_error
       end
     end
 

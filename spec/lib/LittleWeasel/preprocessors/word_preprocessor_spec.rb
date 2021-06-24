@@ -41,7 +41,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
           let(:preprocessor_on) { :not_true_or_false }
 
           it 'raises an error' do
-            expect { subject }.to raise_error "Argument preprocessor_on is not true or false: #{preprocessor_on}"
+            expect { subject }.to raise_error "Argument value is not true or false: #{preprocessor_on}"
           end
         end
       end

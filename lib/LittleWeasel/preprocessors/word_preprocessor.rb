@@ -15,7 +15,7 @@ module LittleWeasel
       include Modules::ClassNameToSymbol
       include Modules::Orderable
 
-      attr_accessor :preprocessor_on
+      attr_reader :preprocessor_on
 
       # order:Integer, the order in which this preprocessor should
       # be applied.
@@ -24,10 +24,6 @@ module LittleWeasel
       def initialize(order:, preprocessor_on: true)
         validate_order order: order
         self.order = order
-
-        raise ArgumentError, "Argument preprocessor_on is not true or false: #{preprocessor_on}" \
-          unless [true, false].include? preprocessor_on
-
         self.preprocessor_on = preprocessor_on
       end
 
@@ -62,6 +58,13 @@ module LittleWeasel
         def preprocess(_word)
           raise Errors::MustOverrideError
         end
+      end
+
+      def preprocessor_on=(value)
+        raise ArgumentError, "Argument value is not true or false: #{value}" \
+          unless [true, false].include? value
+
+        @preprocessor_on = value
       end
 
       # Returns true if word meets the criteria for preprocessing. false
