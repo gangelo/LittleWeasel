@@ -7,23 +7,17 @@ module LittleWeasel
     # This module provides methods to validate an Array of word preprocessor
     # objects.
     module WordPreprocessorsValidatable
-      extend WordPreprocessorValidatable
-
-      def self.validate(word_preprocessors:)
-        return if word_preprocessors.blank?
-
-        unless word_preprocessors.is_a? Array
-          raise ArgumentError,
-            "Argument word_preprocessors is not an Array: #{word_preprocessors.class}"
-        end
-
-        word_preprocessors.each do |word_preprocessor|
-          validate_word_preprocessor word_preprocessor: word_preprocessor
-        end
-      end
+      module_function
 
       def validate_word_preprocessors(word_preprocessors:)
-        WordPreprocessorsValidatable.validate word_preprocessors: word_preprocessors
+        return if word_preprocessors.blank?
+
+        raise ArgumentError, "Argument word_preprocessors is not an Array: #{word_preprocessors.class}" \
+          unless word_preprocessors.is_a? Array
+
+        word_preprocessors.each do |word_preprocessor|
+          WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_preprocessor
+        end
       end
     end
   end
