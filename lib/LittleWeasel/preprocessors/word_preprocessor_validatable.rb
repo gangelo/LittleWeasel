@@ -35,10 +35,6 @@ module LittleWeasel
       def validation_error_message(object:, respond_to:)
         "Argument word_preprocessor: does not respond to: #{object}#{respond_to}"
       end
-
-      # def validate_word_preprocessor(word_preprocessor:)
-      #   WordPreprocessorValidatable.validate word_preprocessor: word_preprocessor
-      # end
     end
   end
 end
