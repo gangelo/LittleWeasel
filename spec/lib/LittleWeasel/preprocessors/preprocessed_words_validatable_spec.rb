@@ -25,11 +25,11 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordsValidatable, type: 
   let(:original_word) { 'word' }
   let(:with_word_processors) { 0 }
 
-  #validate_prepreprocessed_words
-  describe '#validate_prepreprocessed_words' do
+  #.validate_prepreprocessed_words
+  describe '.validate_prepreprocessed_words' do
     context 'when the object is valid' do
       it 'does not raise an error' do
-        expect { subject.validate_prepreprocessed_words(preprocessed_words: preprocessed_words) }.to_not raise_error
+        expect { PreprocessedWordsValidatable.validate_prepreprocessed_words(preprocessed_words: preprocessed_words) }.to_not raise_error
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordsValidatable, type: 
         let(:method) { :original_word }
 
         it 'raises an error' do
-          expect{ subject.validate_prepreprocessed_words(preprocessed_words: preprocessed_words) }.to raise_error expected_error
+          expect{ PreprocessedWordsValidatable.validate_prepreprocessed_words(preprocessed_words: preprocessed_words) }.to raise_error expected_error
         end
       end
 
@@ -50,7 +50,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordsValidatable, type: 
         let(:method) { :preprocessed_words }
 
         it 'raises an error' do
-          expect{ subject.validate_prepreprocessed_words(preprocessed_words: preprocessed_words) }.to raise_error expected_error
+          expect{ PreprocessedWordsValidatable.validate_prepreprocessed_words(preprocessed_words: preprocessed_words) }.to raise_error expected_error
         end
       end
     end
