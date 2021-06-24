@@ -20,29 +20,34 @@ module LittleWeasel
       end
 
       def validate_original_word(preprocessed_word:)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#original_word') unless preprocessed_word.respond_to?(:original_word)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#original_word=') unless preprocessed_word.respond_to?(:original_word=)
+        preprocessed_word_class = preprocessed_word.class
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#original_word') unless preprocessed_word.respond_to?(:original_word)
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#original_word=') unless preprocessed_word.respond_to?(:original_word=)
       end
 
       def validate_preprocessed_word(preprocessed_word:)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#preprocessed_word') unless preprocessed_word.respond_to?(:preprocessed_word)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#preprocessed_word=') unless preprocessed_word.respond_to?(:preprocessed_word=)
+        preprocessed_word_class = preprocessed_word.class
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#preprocessed_word') unless preprocessed_word.respond_to?(:preprocessed_word)
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#preprocessed_word=') unless preprocessed_word.respond_to?(:preprocessed_word=)
       end
 
       def validate_preprocessed(preprocessed_word:)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#preprocessed') unless preprocessed_word.respond_to?(:preprocessed)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#preprocessed=') unless preprocessed_word.respond_to?(:preprocessed=)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#preprocessed?') unless preprocessed_word.respond_to?(:preprocessed?)
+        preprocessed_word_class = preprocessed_word.class
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#preprocessed') unless preprocessed_word.respond_to?(:preprocessed)
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#preprocessed=') unless preprocessed_word.respond_to?(:preprocessed=)
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#preprocessed?') unless preprocessed_word.respond_to?(:preprocessed?)
       end
 
       def validate_preprocessor(preprocessed_word:)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#preprocessor') unless preprocessed_word.respond_to?(:preprocessor)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#preprocessor=') unless preprocessed_word.respond_to?(:preprocessor=)
+        preprocessed_word_class = preprocessed_word.class
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#preprocessor') unless preprocessed_word.respond_to?(:preprocessor)
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#preprocessor=') unless preprocessed_word.respond_to?(:preprocessor=)
       end
 
       def validate_preprocessor_order(preprocessed_word:)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#preprocessor_order') unless preprocessed_word.respond_to?(:preprocessor_order)
-        raise validation_error_message(object: preprocessed_word.class, respond_to: '#preprocessor_order=') unless preprocessed_word.respond_to?(:preprocessor_order=)
+        preprocessed_word_class = preprocessed_word.class
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#preprocessor_order') unless preprocessed_word.respond_to?(:preprocessor_order)
+        raise validation_error_message(object: preprocessed_word_class, respond_to: '#preprocessor_order=') unless preprocessed_word.respond_to?(:preprocessor_order=)
       end
     end
     # rubocop: enable Layout/LineLength
