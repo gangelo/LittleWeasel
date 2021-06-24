@@ -30,11 +30,11 @@ module LittleWeasel
         raise validation_error_message(object: word_preprocessor_class, respond_to: '#preprocessor_on=') unless word_preprocessor.respond_to?(:preprocessor_on=)
         raise validation_error_message(object: word_preprocessor_class, respond_to: '#preprocessor_on?') unless word_preprocessor.respond_to?(:preprocessor_on?)
       end
-      # rubocop: enable Layout/LineLength
 
       def validation_error_message(object:, respond_to:)
         "Argument word_preprocessor: does not respond to: #{object}#{respond_to}"
       end
     end
+    # rubocop: enable Layout/LineLength
   end
 end

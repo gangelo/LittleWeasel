@@ -31,11 +31,11 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
   let(:preprocessor) { :preprocesor0 }
   let(:preprocessor_order) { 0 }
 
-  #validate_prepreprocessed_word
-  describe '#validate_prepreprocessed_word' do
+  #.validate_prepreprocessed_word
+  describe '.validate_prepreprocessed_word' do
     context 'when the object is valid' do
       it 'does not raise an error' do
-        expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to_not raise_error
+        expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to_not raise_error
       end
     end
 
@@ -45,7 +45,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :original_word }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
 
@@ -54,7 +54,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :original_word= }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
 
@@ -63,7 +63,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :preprocessed_word }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
 
@@ -72,7 +72,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :preprocessed_word= }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
 
@@ -81,7 +81,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :preprocessed }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
 
@@ -90,7 +90,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :preprocessed= }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
 
@@ -99,7 +99,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :preprocessed? }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
 
@@ -108,7 +108,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :preprocessor }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
 
@@ -117,7 +117,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :preprocessor= }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
 
@@ -126,7 +126,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :preprocessor_order }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
 
@@ -135,7 +135,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
         let(:method) { :preprocessor_order= }
 
         it 'raises an eror' do
-          expect { subject.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
+          expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to raise_error(/Argument preprocessed_word: does not respond to.+#{method}/)
         end
       end
     end

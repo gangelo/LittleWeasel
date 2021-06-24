@@ -21,7 +21,7 @@ module LittleWeasel
 
         error_messages = []
         preprocessed_words&.preprocessed_words&.each do |preprocessed_word|
-          error_messages.concat PreprocessedWordValidatable.validate_methods preprocessed_word: preprocessed_word
+          PreprocessedWordValidatable.validate_prepreprocessed_word preprocessed_word: preprocessed_word
         end
         raise "Argument preprocessed_words element(s): #{error_messages}" if error_messages.present?
       end
