@@ -19,7 +19,7 @@ module LittleWeasel
       include Modules::DictionaryCacheValidatable
       include Modules::DictionaryCacheKeys
 
-      attr_accessor :dictionary_cache
+      attr_reader :dictionary_cache
 
       # This class produces the following (example) Hash that represents the
       # dictionary cache structure depending:
@@ -100,8 +100,9 @@ module LittleWeasel
       def init
         # TODO: Do not delete the dictionary if it is being pointed to by
         # another dictionary reference.
-        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES]&.delete(dictionary_id)
-        dictionary_cache[DICTIONARY_CACHE][DICTIONARY_REFERENCES]&.delete(key)
+        dictionary_cache_hash = dictionary_cache[DICTIONARY_CACHE]
+        dictionary_cache_hash[DICTIONARIES]&.delete(dictionary_id)
+        dictionary_cache_hash[DICTIONARY_REFERENCES]&.delete(key)
         self
       end
 
@@ -157,6 +158,10 @@ module LittleWeasel
         raise ArgumentError, "A dictionary reference could not be found for key '#{key}'." unless dictionary_reference?
 
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][FILE]
+      end
+
+      def dictionary_file
+        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id, FILE)
       end
 
       # This method returns true if the dictionary associated with the
@@ -219,6 +224,8 @@ module LittleWeasel
       end
 
       private
+
+      attr_writer :dictionary_cache
 
       def dictionary_reference
         dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key)
