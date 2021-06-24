@@ -131,10 +131,10 @@ module LittleWeasel
 
         dictionary_id = dictionary_id_for(file: file)
         dictionary_reference_reset dictionary_id: dictionary_id
-        # Only reset the dictionary if it doesn't already exist;
-        # dictionaries can have more than one reference and we don't
-        # want to blow away the dictionary object, metadata, or any
-        # other data associated with it if it already exists.
+        # Only reset the dictionary if it doesn't already exist; dictionaries
+        # can have more than one reference and we don't want to blow away the
+        # dictionary object, metadata, or any other data associated with it if
+        # it already exists.
         dictionary_reset(file: file) unless dictionary?
         self
       end
