@@ -39,7 +39,7 @@ module LittleWeasel
       validate_dictionary_key dictionary_key: dictionary_key
 
       dictionary_creator_service(dictionary_key: dictionary_key, file: file, word_filters: word_filters,
-word_preprocessors: word_preprocessors).execute
+        word_preprocessors: word_preprocessors).execute
     end
 
     # Unloads the dictionary (Dictionary object) associated with the dictionary
