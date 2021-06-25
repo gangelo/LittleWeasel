@@ -10,7 +10,7 @@ module LittleWeasel
       class NumericFilter < WordFilter
         class << self
           def filter_match?(word)
-            /^[-+]?[[:digit:]]{1,3}(?:,?[[:digit:]]{3})*(?:\.[[:digit:]]{2})?$/.match? word.to_s
+            /^[-+]?[[:digit:]]{1,3}(?:,?[[:digit:]]{3})*(?:\.[[:digit:]]{1,2})?$/.match? word.to_s
           end
         end
       end

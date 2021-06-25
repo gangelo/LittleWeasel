@@ -9,9 +9,17 @@ RSpec.describe LittleWeasel::Filters::EnUs::NumericFilter do
   describe 'filter_match?' do
     context 'when word is a number' do
       it 'returns true' do
-        [-1.00, -1, 0, 1, 100, 100.10, 1234_56, +100.00, 1_000_000.00].each do |number|
-          expect(subject.filter_match? number).to eq true
-        end
+        expect(subject.filter_match?('-1.00')).to eq true
+        expect(subject.filter_match?('-1')).to eq true
+        expect(subject.filter_match?('0')).to eq true
+        expect(subject.filter_match?('1')).to eq true
+        expect(subject.filter_match?('100')).to eq true
+        expect(subject.filter_match?('100.10')).to eq true
+        expect(subject.filter_match?(1234_56)).to eq true
+        expect(subject.filter_match?('+100.0')).to eq true
+        expect(subject.filter_match?(1_000_000.00)).to eq true
+        expect(subject.filter_match?(1_000_000.10)).to eq true
+        expect(subject.filter_match?(1_000_000.01)).to eq true
       end
     end
 
