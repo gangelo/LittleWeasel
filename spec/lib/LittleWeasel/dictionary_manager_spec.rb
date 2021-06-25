@@ -38,6 +38,13 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
+  #add_dictionary_memory_source
+  describe '#add_dictionary_memory_source' do
+    it 'adds the dictionary reference' do
+      expect { subject.add_dictionary_memory_source(dictionary_key: dictionary_key) }.to_not raise_error
+    end
+  end
+
   #load_dictionary
   describe '#load_dictionary' do
     before do
@@ -68,6 +75,29 @@ RSpec.describe LittleWeasel::DictionaryManager do
 
       it 'raises an error' do
         expect { subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file) }.to raise_error "Dictionary reference for key '#{dictionary_key.key}' already exists."
+      end
+    end
+  end
+
+  #create_dictionary_from_memory
+  describe '#create_dictionary_from_memory' do
+    let(:dictionary_words) { dictionary_words_for(dictionary_file_path: file) }
+
+    context 'when the dictionary reference does not exist and the dictionary is not cached' do
+      it 'adds a dictionary reference caches the dictionary and returns a dictionary object' do
+        expect(subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: dictionary_words)).to be_kind_of LittleWeasel::Dictionary
+        expect(dictionary_cache_service.dictionary_reference?).to eq true
+        expect(dictionary_cache_service.dictionary_object?).to eq true
+      end
+    end
+
+    context 'when the dictionary reference exists' do
+      before do
+        subject.add_dictionary_memory_source(dictionary_key: dictionary_key)
+      end
+
+      it 'raises an error' do
+        expect { subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: dictionary_words) }.to raise_error "Dictionary reference for key '#{dictionary_key.key}' already exists."
       end
     end
   end

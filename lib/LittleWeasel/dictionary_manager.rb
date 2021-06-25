@@ -45,10 +45,10 @@ module LittleWeasel
       self
     end
 
-    def add_dictionary_memory_source(dictionary_key:, dictionary_words:)
+    def add_dictionary_memory_source(dictionary_key:)
       validate_dictionary_key dictionary_key: dictionary_key
 
-      dictionary_cache_service(dictionary_key: dictionary_key).add_dictionary_memory_source(dictionary_words: dictionary_words)
+      dictionary_cache_service(dictionary_key: dictionary_key).add_dictionary_memory_source
       self
     end
 
