@@ -6,10 +6,11 @@ FactoryBot.define do
     dictionary_cache { {} }
     dictionary_metadata { {} }
     word_filters {}
+    word_preprocessors {}
 
     skip_create
     initialize_with do
-      new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, word_filters: word_filters)
+      new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, word_filters: word_filters, word_preprocessors: word_preprocessors)
     end
   end
 end
