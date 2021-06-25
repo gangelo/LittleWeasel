@@ -22,7 +22,7 @@ module LittleWeasel
       attr_reader :dictionary_cache
 
       # This class produces the following (example) Hash that represents the
-      # dictionary cache structure depending:
+      # dictionary cache structure:
       #
       # @example This is an example:
       #
