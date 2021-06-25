@@ -38,7 +38,7 @@ FactoryBot.define do
         else
           evaluator.dictionary_reference
         end
-        dictionary_cache_service.add_dictionary_reference(file: dictionary_path_for(file_name: file_name))
+        dictionary_cache_service.add_dictionary_file_source(file: dictionary_path_for(file_name: file_name))
       end
 
       if evaluator.load

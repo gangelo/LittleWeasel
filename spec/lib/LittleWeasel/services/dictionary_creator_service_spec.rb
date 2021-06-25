@@ -6,7 +6,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCreatorService do
   include_context 'dictionary keys'
   include_context 'mock word filters'
 
-  subject { create(:dictionary_creator_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, file: file, word_filters: word_filters) }
+  subject { create(:dictionary_creator_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, word_filters: word_filters) }
 
   let(:language) { :en }
   let(:region) { :us }
@@ -18,11 +18,11 @@ RSpec.describe LittleWeasel::Services::DictionaryCreatorService do
   let(:dictionary_metadata) { {} }
   let(:word_filters) {}
 
-  #execute
-  describe '#execute' do
+  #from_file_source
+  describe '#from_file_source' do
     context 'when argument word_filters is an empty Array' do
       let(:word_filters) { [] }
-      let(:dictionary) { subject.execute }
+      let(:dictionary) { subject.from_file_source file: file }
 
       it 'creates a dictionary that uses no word filters' do
         expect(dictionary).to be_kind_of LittleWeasel::Dictionary
@@ -32,7 +32,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCreatorService do
 
     context 'when argument word_filters is nil' do
       let(:word_filters) {}
-      let(:dictionary) { subject.execute }
+      let(:dictionary) { subject.from_file_source file: file }
 
       it 'creates a dictionary that uses no word filters' do
         expect(dictionary).to be_kind_of LittleWeasel::Dictionary
@@ -41,7 +41,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCreatorService do
     end
 
     context 'when argument word_filters contains word filters' do
-      let(:dictionary) { subject.execute }
+      let(:dictionary) { subject.from_file_source file: file }
       let(:word_filters) do
         [
           DollarSignFilter.new,
@@ -57,5 +57,10 @@ RSpec.describe LittleWeasel::Services::DictionaryCreatorService do
         expect(dictionary.word_results('A').success?).to eq true
       end
     end
+  end
+
+  #from_memory_source
+  describe '#from_memory_source' do
+    it 'does something'
   end
 end

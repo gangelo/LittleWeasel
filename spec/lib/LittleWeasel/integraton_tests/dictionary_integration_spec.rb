@@ -11,7 +11,7 @@ RSpec.describe 'Dictionary integration', type: :integration do
   before(:each) { LittleWeasel.configure { |config| config.reset } }
 
   let(:dictionary) do
-    subject.create_dictionary(dictionary_key: dictionary_key, file: dictionary_file_path,
+    subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: dictionary_file_path,
       word_filters: word_filters, word_preprocessors: word_preprocessors)
   end
   let(:dictionary_key) { dictionary_key_for(language: :en, region: :us) }

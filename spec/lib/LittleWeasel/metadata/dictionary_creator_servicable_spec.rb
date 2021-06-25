@@ -13,16 +13,15 @@ RSpec.describe LittleWeasel::Modules::DictionaryCreatorServicable, type: :module
     include LittleWeasel::Modules::DictionaryKeyable
     include LittleWeasel::Modules::DictionaryMetadataServicable
 
-    def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:, file:, word_filters:)
+    def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:, word_filters:)
       self.dictionary_key = dictionary_key
       self.dictionary_cache = dictionary_cache
       self.dictionary_metadata = dictionary_metadata
-      self.file = file
       self.word_filters = word_filters
     end
   end
 
-  subject { SubjectMock.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, file: file, word_filters: word_filters) }
+  subject { SubjectMock.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, word_filters: word_filters) }
 
   let(:en_us_dictionary_key) { dictionary_key_for(language: :en, region: :us) }
   let(:dictionary_key) { en_us_dictionary_key }
@@ -38,7 +37,6 @@ RSpec.describe LittleWeasel::Modules::DictionaryCreatorServicable, type: :module
       expect(subject).to respond_to(
         :dictionary_key,
         :dictionary_cache,
-        :file,
         :word_filters)
     end
   end

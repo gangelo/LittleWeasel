@@ -24,7 +24,7 @@ module LittleWeasel
       include Preprocessors::WordPreprocessorManagable
 
       def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:,
-        file:, word_filters: nil, word_preprocessors: nil)
+        word_filters: nil, word_preprocessors: nil)
         validate_dictionary_key dictionary_key: dictionary_key
         self.dictionary_key = dictionary_key
 
@@ -39,25 +39,31 @@ module LittleWeasel
 
         validate_word_preprocessors word_preprocessors: word_preprocessors unless word_preprocessors.blank?
         self.word_preprocessors = word_preprocessors
-
-        self.file = file
       end
 
-      def execute
-        dictionary_cache_service.add_dictionary_reference(file: file)
+      def from_file_source(file:)
+        dictionary_cache_service.add_dictionary_file_source(file: file)
         dictionary_words = dictionary_file_loader_service.execute
-        dictionary = Dictionary.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
-          dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, word_filters: word_filters,
-          word_preprocessors: word_preprocessors)
-        dictionary_cache_service.dictionary_object = dictionary
+        create_dictionary dictionary_words: dictionary_words
+      end
+
+      def from_memory_source(dictionary_words:)
+        dictionary_cache_service.add_dictionary_memory_source
+        create_dictionary dictionary_words: dictionary_words
       end
 
       private
 
-      attr_accessor :file
-
       def dictionary_file_loader_service
         Services::DictionaryFileLoaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
+      end
+
+      def create_dictionary(dictionary_words:)
+        Dictionary.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
+          dictionary_metadata: dictionary_metadata, dictionary_words: dictionary_words, word_filters: word_filters,
+          word_preprocessors: word_preprocessors).tap do |dictionary|
+          dictionary_cache_service.dictionary_object = dictionary
+        end
       end
     end
   end

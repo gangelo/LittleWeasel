@@ -6,7 +6,7 @@ require 'observer'
 RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
   subject do
     dictionary_manager.init
-    dictionary_manager.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
+    dictionary_manager.add_dictionary_file_source(dictionary_key: dictionary_key, file: file)
     dictionary.dictionary_metadata_object.observers[:invalid_words_metadata]
   end
 
@@ -37,7 +37,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
       subject { invalid_words_metadata }
 
       before do
-        dictionary_cache_service.add_dictionary_reference(file: file)
+        dictionary_cache_service.add_dictionary_file_source(file: file)
       end
 
       context 'with invalid dictionary metadata object' do

@@ -10,7 +10,7 @@ module LittleWeasel
       DICTIONARY_REFERENCES = 'dictionary_references'
       DICTIONARY_ID = 'dictionary_id'
       DICTIONARIES = 'dictionaries'
-      FILE = 'file'
+      SOURCE = 'source'
       DICTIONARY_OBJECT = 'dictionary_object'
 
       module_function

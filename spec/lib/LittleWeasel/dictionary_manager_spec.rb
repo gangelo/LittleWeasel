@@ -31,17 +31,17 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
-  #add_dictionary_reference
-  describe '#add_dictionary_reference' do
+  #add_dictionary_file_source
+  describe '#add_dictionary_file_source' do
     it 'adds the dictionary reference' do
-      expect { subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file) }.to_not raise_error
+      expect { subject.add_dictionary_file_source(dictionary_key: dictionary_key, file: file) }.to_not raise_error
     end
   end
 
   #load_dictionary
   describe '#load_dictionary' do
     before do
-      subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
+      subject.add_dictionary_file_source(dictionary_key: dictionary_key, file: file)
     end
 
     let(:tag) { :tagged }
@@ -51,11 +51,11 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
-  #create_dictionary
-  describe '#create_dictionary' do
+  #create_dictionary_from_file
+  describe '#create_dictionary_from_file' do
     context 'when the dictionary reference does not exist and the dictionary is not loaded/cached' do
       it 'adds a dictionary reference, loads/caches the dictionary and returns a dictionary object' do
-        expect(subject.create_dictionary(dictionary_key: dictionary_key, file: file)).to be_kind_of LittleWeasel::Dictionary
+        expect(subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file)).to be_kind_of LittleWeasel::Dictionary
         expect(dictionary_cache_service.dictionary_reference?).to eq true
         expect(dictionary_cache_service.dictionary_object?).to eq true
       end
@@ -63,11 +63,11 @@ RSpec.describe LittleWeasel::DictionaryManager do
 
     context 'when the dictionary reference exists' do
       before do
-        subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
+        subject.add_dictionary_file_source(dictionary_key: dictionary_key, file: file)
       end
 
       it 'raises an error' do
-        expect { subject.create_dictionary(dictionary_key: dictionary_key, file: file) }.to raise_error "Dictionary reference for key '#{dictionary_key.key}' already exists."
+        expect { subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file) }.to raise_error "Dictionary reference for key '#{dictionary_key.key}' already exists."
       end
     end
   end
@@ -75,7 +75,7 @@ RSpec.describe LittleWeasel::DictionaryManager do
   #unload_dictionary
   describe '#unload_dictionary' do
     before do
-      subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
+      subject.add_dictionary_file_source(dictionary_key: dictionary_key, file: file)
       subject.load_dictionary(dictionary_key: dictionary_key)
     end
 
@@ -95,7 +95,7 @@ RSpec.describe LittleWeasel::DictionaryManager do
   #kill
   describe '#kill_dictionary' do
     before do
-      subject.add_dictionary_reference(dictionary_key: dictionary_key, file: file)
+      subject.add_dictionary_file_source(dictionary_key: dictionary_key, file: file)
       subject.load_dictionary(dictionary_key: dictionary_key)
     end
 

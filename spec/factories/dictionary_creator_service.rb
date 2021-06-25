@@ -5,12 +5,11 @@ FactoryBot.define do
     dictionary_key { create(:dictionary_key) }
     dictionary_cache { {} }
     dictionary_metadata { {} }
-    file {}
     word_filters {}
 
     skip_create
     initialize_with do
-      new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, file: file, word_filters: word_filters)
+      new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata, word_filters: word_filters)
     end
   end
 end

@@ -39,18 +39,27 @@ module LittleWeasel
       #       'en-US' =>
       #       {
       #         'dictionary_id' => 1
+      #       },
+      #       'en-US-temp' =>
+      #       {
+      #         'dictionary_id' => 2
       #       }
       #     },
       #     'dictionaries' =>
       #     {
       #       0 =>
       #         {
-      #           'file' => '/en.txt',
+      #           'source' => '/en.txt',
       #           'dictionary_object' => {}
       #         },
       #       1 =>
       #         {
-      #           'file' => '/en-US.txt',
+      #           'source' => '/en-US.txt',
+      #           'dictionary_object' => {}
+      #         },
+      #       2 =>
+      #         {
+      #           'source' => 'memory',
       #           'dictionary_object' => {}
       #         }
       #     }
@@ -126,17 +135,26 @@ module LittleWeasel
         !dictionary_reference?
       end
 
-      def add_dictionary_reference(file:)
-        raise ArgumentError, "Dictionary reference for key '#{key}' already exists." unless add_dictionary_reference?
+      # Adds a dictionary file source. A "file source" is a file path that
+      # indicates that the dictionary words associated with this dictionary are
+      # located on disk. This file path is used to locate and load the
+      # dictionary words into the dictionary cache for use.
+      #
+      # @param file [String] a file path pointing to the dictionary file to load and use.
+      #
+      # @return returns a reference to self.
+      def add_dictionary_file_source(file:)
+        add_dictionary_source(source: file)
+      end
 
-        dictionary_id = dictionary_id_for(file: file)
-        dictionary_reference_reset dictionary_id: dictionary_id
-        # Only reset the dictionary if it doesn't already exist; dictionaries
-        # can have more than one reference and we don't want to blow away the
-        # dictionary object, metadata, or any other data associated with it if
-        # it already exists.
-        dictionary_reset(file: file) unless dictionary?
-        self
+      # Adds a dictionary memory source. A "memory source" indicates that the
+      # dictionary words associated with this dictionary were created
+      # dynamically and will be located in memory, as opposed to loaded from
+      # a file on disk.
+      #
+      # @return returns a reference to self.
+      def add_dictionary_memory_source
+        add_dictionary_source(source: 'memory')
       end
 
       # Returns true if a dictionary id can be found in the dictionary
@@ -157,11 +175,11 @@ module LittleWeasel
       def dictionary_file!
         raise ArgumentError, "A dictionary reference could not be found for key '#{key}'." unless dictionary_reference?
 
-        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][FILE]
+        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][SOURCE]
       end
 
       def dictionary_file
-        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id, FILE)
+        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id, SOURCE)
       end
 
       # This method returns true if the dictionary associated with the
@@ -227,6 +245,22 @@ module LittleWeasel
 
       attr_writer :dictionary_cache
 
+      # @param source [String] the dictionary source. This can be a file path
+      # or the key word 'memory' to indicate the dictionary was created
+      # dynamically from memory.
+      def add_dictionary_source(source:)
+        raise ArgumentError, "Dictionary reference for key '#{key}' already exists." unless add_dictionary_reference?
+
+        dictionary_id = dictionary_id_for(source: source)
+        dictionary_reference_reset dictionary_id: dictionary_id
+        # Only reset the dictionary if it doesn't already exist; dictionaries
+        # can have more than one reference and we don't want to blow away the
+        # dictionary object, metadata, or any other data associated with it if
+        # it already exists.
+        dictionary_reset(source: source) unless dictionary?
+        self
+      end
+
       def dictionary_reference
         dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key)
       end
@@ -237,12 +271,12 @@ module LittleWeasel
         }
       end
 
-      # Returns the dictionary_id for file if it exists in dictionaries;
+      # Returns the dictionary_id for the source if it exists in dictionaries;
       # otherwise, returns the next dictionary id that should be used.
-      def dictionary_id_for(file:)
+      def dictionary_id_for(source:)
         dictionaries = dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES)
         dictionaries&.each_pair do |dictionary_id, dictionary_hash|
-          return dictionary_id if file == dictionary_hash[FILE]
+          return dictionary_id if source == dictionary_hash[SOURCE]
         end
         next_dictionary_id
       end
@@ -255,9 +289,9 @@ module LittleWeasel
         dictionary_id.present?
       end
 
-      def dictionary_reset(file:)
+      def dictionary_reset(source:)
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!] = {
-          FILE => file,
+          SOURCE => source,
           DICTIONARY_OBJECT => {}
         }
       end

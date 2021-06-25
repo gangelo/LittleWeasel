@@ -38,7 +38,7 @@ module LittleWeasel
 
       # Set up the dictionary metadata object and observers
       self.dictionary_words = self.class.to_hash(dictionary_words: dictionary_words)
-      self.dictionary_metadata_object = create_dictionary_metadata
+      self.dictionary_metadata_object = create_dictionary_from_file_metadata
       dictionary_metadata_object.add_observers
 
       add_filters word_filters: word_filters || []
@@ -107,7 +107,7 @@ module LittleWeasel
 
     attr_writer :dictionary_metadata_object, :dictionary_words
 
-    def create_dictionary_metadata
+    def create_dictionary_from_file_metadata
       # We unconditionally attach metadata to this dictionary. DictionaryMetadata
       # only attaches the metadata services that are turned "on".
       Metadata::DictionaryMetadata.new(
