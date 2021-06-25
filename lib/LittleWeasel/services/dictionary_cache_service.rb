@@ -3,6 +3,7 @@
 require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/dictionary_cache_validatable'
 require_relative '../modules/dictionary_keyable'
+require_relative '../modules/dictionary_sourceable'
 
 module LittleWeasel
   module Services
@@ -18,6 +19,7 @@ module LittleWeasel
       include Modules::DictionaryKeyable
       include Modules::DictionaryCacheValidatable
       include Modules::DictionaryCacheKeys
+      include Modules::DictionarySourceable
 
       attr_reader :dictionary_cache
 
@@ -154,7 +156,7 @@ module LittleWeasel
       #
       # @return returns a reference to self.
       def add_dictionary_memory_source
-        add_dictionary_source(source: 'memory')
+        add_dictionary_source(source: MEMORY_SOURCE)
       end
 
       # Returns true if a dictionary id can be found in the dictionary

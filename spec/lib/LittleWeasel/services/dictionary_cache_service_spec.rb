@@ -213,6 +213,27 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
     end
   end
 
+  #dictionary_file
+  describe '#dictionary_file' do
+    context 'when a file source is used' do
+      subject! { create(:dictionary_cache_service, dictionary_key: dictionary_key).add_dictionary_file_source(file: file) }
+
+      it 'returns the dictionary file' do
+        expect(subject.dictionary_file).to eq file
+      end
+    end
+
+    context 'when a memory source is used' do
+      subject! { create(:dictionary_cache_service, dictionary_key: dictionary_key).add_dictionary_memory_source }
+
+      let(:dictionary_words) { dictionary_words_for(dictionary_file_path: file) }
+
+      it 'returns the dictionary file' do
+        expect(subject.dictionary_file).to eq LittleWeasel::Modules::DictionarySourceable::MEMORY_SOURCE
+      end
+    end
+  end
+
   #dictionary_id!
   describe '#dictionary_id!' do
     context 'when a dictionary id associated with the dictionary key exists' do
