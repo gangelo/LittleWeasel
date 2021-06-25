@@ -25,15 +25,23 @@ task :workflow do
     # TODO: Configure as needed here.
   end
   dictionary_manager = LittleWeasel::DictionaryManager.new
-  dictionary_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us, tag: :big)
+  dictionary_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us)
   file = Support::FileHelpers.dictionary_path_for file_name: dictionary_key.key
   word_filters = [
     LittleWeasel::Filters::EnUs::NumericFilter.new,
+    LittleWeasel::Filters::EnUs::CurrencyFilter.new,
     LittleWeasel::Filters::EnUs::SingleCharacterWordFilter.new
   ]
   word_preprocessors = nil
-  dictionary = dictionary_manager.create_dictionary(dictionary_key: dictionary_key, file: file, word_filters: word_filters, word_preprocessors: word_preprocessors)
-  IO.foreach("#{file}") do |word|
+  dictionary_words = Support::FileHelpers.dictionary_words_for dictionary_file_path: file
+  dictionary = dictionary_manager.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: dictionary_words, word_filters: word_filters, word_preprocessors: word_preprocessors)
+  dictionary_words << 'I'.dup
+  dictionary_words << '1000'.dup
+  dictionary_words << '1,000'.dup
+  dictionary_words << '10,000.00'.dup
+  dictionary_words << '$100,000'.dup
+  dictionary_words << '+$100,000,000.10'.dup
+  dictionary_words.each do |word|
     word.strip!
     word_results = dictionary.word_results word
     puts "word_results('#{word}') #=>"

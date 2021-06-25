@@ -6,11 +6,11 @@ require_relative '../word_filter'
 module LittleWeasel
   module Filters
     module EnUs
-      # This class represents a numeric filter.
-      class NumericFilter < WordFilter
+      # This class represents a currency filter.
+      class CurrencyFilter < WordFilter
         class << self
           def filter_match?(word)
-            /^[-+]?[[:digit:]]{1,3}(?:,?[[:digit:]]{3})*(?:\.[[:digit:]]{2})?$/.match? word.to_s
+            /^[-+]?\$[[:digit:]]{1,3}(?:,?[[:digit:]]{3})*(?:\.[[:digit:]]{2})?$/.match? word.to_s
           end
         end
       end
