@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/inflector'
+
 module LittleWeasel
   module Modules
     # This module provides methods to convert the class name of the class
