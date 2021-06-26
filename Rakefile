@@ -19,6 +19,33 @@ rescue LoadError => e
   end
 end
 
+task :test do
+  LittleWeasel.configure { |config| }
+binding.pry
+  # Create a Dictionary Manager
+  dictionary_manager = LittleWeasel::DictionaryManager.new
+
+  # Create our unique key for the dictionary
+  en_us_names_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us, tag: :names)
+binding.pry
+  # Set up any word preprocessors and/or word filters we want to use
+  word_preprocessors = [LittleWeasel::Preprocessors::EnUs::CapitalizePreprocessor.new]
+  word_filters = [LittleWeasel::Filters::EnUs::SingleCharacterWordFilter.new]
+binding.pry
+  # Create a dictionary of names from memory
+  names_dictionary = dictionary_manager.create_dictionary_from_memory(dictionary_key: en_us_names_key, dictionary_words: %w(Able Bartholomew Cain Deborah Elijah), word_filters: word_filters, word_preprocessors: word_preprocessors)
+binding.pry
+  # Check some words against the dictionary
+  word_results = names_dictionary.word_results 'elijah'
+  binding.pry
+rescue StandardError => e
+  task 'test' do
+    puts "LittleWeasel task test not loaded: #{e.message}"
+    exit 1
+  end
+end
+
+
 task :workflow do
   require 'json'
   LittleWeasel.configure do |config|
@@ -35,12 +62,16 @@ task :workflow do
   word_preprocessors = nil
   dictionary_words = Support::FileHelpers.dictionary_words_for dictionary_file_path: file
   dictionary = dictionary_manager.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: dictionary_words, word_filters: word_filters, word_preprocessors: word_preprocessors)
+  dictionary_words << 'A'.dup
   dictionary_words << 'I'.dup
   dictionary_words << '1000'.dup
   dictionary_words << '1,000'.dup
   dictionary_words << '10,000.00'.dup
+  dictionary_words << '+100.00'.dup
+  dictionary_words << '-200,000.00'.dup
   dictionary_words << '$100,000'.dup
   dictionary_words << '+$100,000,000.10'.dup
+  dictionary_words << '-$999,000,000.10'.dup
   dictionary_words.each do |word|
     word.strip!
     word_results = dictionary.word_results word

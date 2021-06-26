@@ -247,6 +247,8 @@ module LittleWeasel
 
       attr_writer :dictionary_cache
 
+      # Adds a dictionary source (file or memory).
+      #
       # @param source [String] the dictionary source. This can be a file path
       # or the key word 'memory' to indicate the dictionary was created
       # dynamically from memory.

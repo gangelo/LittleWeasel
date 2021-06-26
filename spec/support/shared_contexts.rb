@@ -97,18 +97,6 @@ RSpec.shared_context 'mock word preprocessors' do #, shared_context: :metadata d
       end
     end
   end
-
-  class CapitalizeWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
-    def initialize(order:, preprocessor_on: true)
-      super order: order, preprocessor_on: preprocessor_on
-    end
-
-    class << self
-      def preprocess(word)
-        [true, word.capitalize];
-      end
-    end
-  end
 end
 
 RSpec.configure do |config|
