@@ -9,6 +9,28 @@ require 'pry'
 require_relative 'lib/LittleWeasel'
 require_relative 'spec/support/file_helpers'
 
+def print_word_results(word, word_results, comments = nil)
+  puts "word_results for '#{word}'..."
+  puts "comments: #{comments}" unless comments.nil?
+  puts "word_results #=>"
+  puts "  #original_word: #{word_results.original_word}"
+  puts "  #preprocessed_word: #{word_results.preprocessed_word}"
+  puts "  #success?: #{word_results.success?}"
+  puts "  #word_valid?: #{word_results.word_valid?}"
+  puts "  #word_cached?: #{word_results.word_cached?}"
+  puts "  #preprocessed_word?: #{word_results.preprocessed_word?}"
+  puts "  #preprocessed_word_or_original_word: #{word_results.preprocessed_word_or_original_word}"
+  puts "  #filter_match?: #{word_results.filter_match?}"
+  puts "  #filters_matched: #{word_results.filters_matched}"
+  puts "  #preprocessed_words:"
+  word_results.preprocessed_words&.preprocessed_words.each_with_index do |preprocessed_word, index|
+    puts "    preprocessed_word #{index} #=>"
+    puts "      #preprocessor: :#{preprocessed_word.preprocessor}"
+    puts "      #preprocessor_order: #{preprocessed_word.preprocessor_order}"
+  end
+  puts
+end
+
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)
@@ -19,35 +41,140 @@ rescue LoadError => e
   end
 end
 
-task :test do
+# Creates a dictionary from a file on disk
+task :from_file do
   LittleWeasel.configure { |config| }
-binding.pry
-  # Create a Dictionary Manager
+
+  # Create a Dictionary Manager.
   dictionary_manager = LittleWeasel::DictionaryManager.new
 
-  # Create our unique key for the dictionary
-  en_us_names_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us, tag: :names)
-binding.pry
-  # Set up any word preprocessors and/or word filters we want to use
-  word_preprocessors = [LittleWeasel::Preprocessors::EnUs::CapitalizePreprocessor.new]
-  word_filters = [LittleWeasel::Filters::EnUs::SingleCharacterWordFilter.new]
-binding.pry
-  # Create a dictionary of names from memory
-  names_dictionary = dictionary_manager.create_dictionary_from_memory(dictionary_key: en_us_names_key, dictionary_words: %w(Able Bartholomew Cain Deborah Elijah), word_filters: word_filters, word_preprocessors: word_preprocessors)
-binding.pry
-  # Check some words against the dictionary
-  word_results = names_dictionary.word_results 'elijah'
-  binding.pry
+  # Create our unique key for the dictionary.
+  en_us_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us)
+
+  file = Support::FileHelpers.dictionary_path_for file_name: en_us_key.key
+
+  # Create a dictionary of names from memory.
+  en_us_names_dictionary = dictionary_manager.create_dictionary_from_file(
+    dictionary_key: en_us_key,
+    file: file)
+
+  # Get some word results...
+
+  # Get results for a word we know exists.
+  word = 'apple'
+  word_results = en_us_names_dictionary.word_results word
+  print_word_results word, word_results, "found (#{word} is in the dictionary)"
+
+  # Get results for a word we know DOES NOT exist.
+  word = 'dapple'
+  word_results = en_us_names_dictionary.word_results word
+  print_word_results word, word_results, "not found (#{word} is not in the dictionary)"
 rescue StandardError => e
-  task 'test' do
-    puts "LittleWeasel task test not loaded: #{e.message}"
+  task 'from_file' do
+    puts "LittleWeasel task from_file not loaded: #{e.message}"
     exit 1
   end
 end
 
+# Creates a dictionary of names from memory
+task :from_memory do
+  LittleWeasel.configure { |config| }
 
-task :workflow do
-  require 'json'
+  # Create a Dictionary Manager.
+  dictionary_manager = LittleWeasel::DictionaryManager.new
+
+  # Create our unique key for the dictionary.
+  en_us_names_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us, tag: :names)
+
+  # Create a dictionary of names from memory.
+  en_us_names_dictionary = dictionary_manager.create_dictionary_from_memory(
+    dictionary_key: en_us_names_key, dictionary_words: %w(Abel Bartholomew Cain Deborah Elijah))
+
+  # Get some word results...
+
+  # Get results for a name we know exists.
+  word = 'Abel'
+  word_results = en_us_names_dictionary.word_results word
+  print_word_results word, word_results, "found (#{word} is in the dictionary)"
+
+  # Get results for a name we know DOES NOT exist.
+  word = 'Henry'
+  word_results = en_us_names_dictionary.word_results word
+  print_word_results word, word_results, "not found (#{word} is not in the dictionary)"
+rescue StandardError => e
+  task 'from_memory' do
+    puts "LittleWeasel task from_memory not loaded: #{e.message}"
+    exit 1
+  end
+end
+
+# Shows application of word filters and word preprocessors.
+task :advanced do
+  LittleWeasel.configure { |config| }
+
+  # Create a Dictionary Manager.
+  dictionary_manager = LittleWeasel::DictionaryManager.new
+
+  # Create our unique key for the dictionary.
+  en_us_names_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us, tag: :names)
+
+  # Create a Henry word filter.
+  class HenryFilter < LittleWeasel::Filters::WordFilter
+    class << self
+      def filter_match?(word)
+        word== 'Henry'
+      end
+    end
+  end
+  word_filters = [HenryFilter.new]
+
+  # Add a word preprocessor.
+  word_preprocessors = [LittleWeasel::Preprocessors::EnUs::CapitalizePreprocessor.new(preprocessor_on: false)]
+
+  # Create a dictionary of names from memory.
+  en_us_names_dictionary = dictionary_manager.create_dictionary_from_memory(
+    dictionary_key: en_us_names_key,
+    dictionary_words: %w(Abel Bartholomew Cain Deborah Elijah),
+    word_filters: word_filters,
+    word_preprocessors: word_preprocessors)
+
+  # Turn off our word filters and word preprocessors to start
+  en_us_names_dictionary.filters_on = false
+  en_us_names_dictionary.preprocessors_on = false
+
+  # Get results for a name we know DOES NOT exist.
+  word = 'Henry'
+  word_results = en_us_names_dictionary.word_results word
+  print_word_results word, word_results, "not found (#{word} is not in the dictionary)"
+
+  # Turn the filters on so we get a hit.
+  en_us_names_dictionary.filters_on = true
+
+  # Get results for Henry again - it should be found due to the filter.
+  word = 'Henry'
+  word_results = en_us_names_dictionary.word_results word
+  print_word_results word, word_results, 'should be found due to the HenryFilter!'
+
+  # Get results for a name we know DOES NOT exist.
+  word = 'henry'
+  word_results = en_us_names_dictionary.word_results word
+  print_word_results word, word_results, "not found (#{word} is not in the dictionary and henry is lower case, no filter match)"
+
+  # Turn our preprocessors on so that henry is converted to Henry
+  # and consequently, the filter will match and we'll get a hit.
+  en_us_names_dictionary.preprocessors_on = true
+
+  word = 'henry'
+  word_results = en_us_names_dictionary.word_results word
+  print_word_results word, word_results, "found (#{word} is not in the dictionary but the word preprocessor and word filter work together to get a filter match and consider the name valid)"
+rescue StandardError => e
+  task 'from_memory' do
+    puts "LittleWeasel task from_memory not loaded: #{e.message}"
+    exit 1
+  end
+end
+
+task :word_filters do
   LittleWeasel.configure do |config|
     # TODO: Configure as needed here.
   end
@@ -75,25 +202,11 @@ task :workflow do
   dictionary_words.each do |word|
     word.strip!
     word_results = dictionary.word_results word
-    puts "word_results('#{word}') #=>"
-    puts "  #original_word: #{word_results.original_word}"
-    puts "  #preprocessed_word: #{word_results.preprocessed_word}"
-    puts "  #success?: #{word_results.success?}"
-    puts "  #word_valid?: #{word_results.word_valid?}"
-    puts "  #word_cached?: #{word_results.word_cached?}"
-    puts "  #preprocessed_word?: #{word_results.preprocessed_word?}"
-    puts "  #preprocessed_word_or_original_word: #{word_results.preprocessed_word_or_original_word}"
-    puts "  #filter_match?: #{word_results.filter_match?}"
-    puts "  #filters_matched: #{word_results.filters_matched}"
-    puts "  #preprocessed_words:"
-    word_results.preprocessed_words&.preprocessed_words.each_with_index do |index, preprocessed_word|
-      puts "    preprocessed_word #{index}: #{preprocessed_word}"
-    end
+    print_word_results word, word_results
   end
-  dictionary.word_results 'badword'
 rescue StandardError => e
   task 'workflow' do
-    puts "LittleWeasel task workflow not loaded: #{e.message}"
+    puts "LittleWeasel task word_filters not loaded: #{e.message}"
     exit 1
   end
 end
