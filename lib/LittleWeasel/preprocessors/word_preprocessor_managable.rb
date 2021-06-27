@@ -32,21 +32,6 @@ module LittleWeasel
       include WordPreprocessable
       include WordPreprocessorsValidatable
 
-      def self.included(base)
-        base.extend(ClassMethods)
-      end
-
-      module ClassMethods
-        # Returns the final (or last) preprocessed word in the Array of preprocessed
-        # words. The final preprocessed word is the word that has passed through
-        # all the word preprocessors.
-        def preprocessed_word(preprocessed_words:)
-          return if preprocessed_words.blank?
-
-          preprocessed_words.max_by(&:preprocessor_order).preprocessed_word
-        end
-      end
-
       # Override attr_reader word_preprocessor found in WordPreprocessable
       # so that we don't raise nil errors when using word_preprocessors.
       def word_preprocessors
@@ -69,16 +54,14 @@ module LittleWeasel
       def add_preprocessors(word_preprocessors: nil)
         return if word_preprocessors.is_a?(Array) && word_preprocessors.blank?
 
-        raise 'A block is required if argument word_preprocessors is nil' if word_preprocessors.nil? && !block_given?
+        unless word_preprocessors.present? || block_given?
+          raise 'A block is required if argument word_preprocessors is nil'
+        end
 
         word_preprocessors ||= []
         yield word_preprocessors if block_given?
 
-        validate_word_preprocessors word_preprocessors: word_preprocessors
-
-        self.word_preprocessors.concat word_preprocessors
-
-        self.word_preprocessors.sort_by!(&:order)
+        concat_and_sort_word_preprocessors! word_preprocessors
       end
       alias append_preprocessors add_preprocessors
 
@@ -107,9 +90,24 @@ module LittleWeasel
         end
       end
 
+      # Returns the final (or last) preprocessed word in the Array of
+      # preprocessed words. The final preprocessed word is the word that has
+      # passed through all the word preprocessors.
       def preprocessed_word(word:)
-        preprocessed_words = preprocessed_words word: word
-        self.class.preprocessed_word preprocessed_words: preprocessed_words
+        preprocessed_words = self.preprocessed_words word: word
+        preprocessed_words.max_by(&:preprocessor_order).preprocessed_word unless preprocessed_words.blank?
+      end
+
+      private
+
+      # This method concatinates preprocessors to #word_preprocessors,
+      # sorts #word_preprocessors by WordPreprocessor#order and
+      # returns the results.
+      def concat_and_sort_word_preprocessors!(preprocessors)
+        validate_word_preprocessors word_preprocessors: preprocessors
+
+        word_preprocessors.concat preprocessors
+        word_preprocessors.sort_by!(&:order)
       end
     end
   end

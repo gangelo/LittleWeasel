@@ -24,7 +24,7 @@ module LittleWeasel
       def initialize(order:)
         validate_order order: order
         self.order = order
-        self.preprocessor_on!
+        preprocessor_on!
       end
 
       class << self
