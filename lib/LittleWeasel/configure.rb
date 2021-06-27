@@ -24,7 +24,7 @@ module LittleWeasel
   # attr_reader :max_dictionary_file_megabytes, :max_invalid_words_bytesize, :metadata_observers
   class Configuration
     attr_reader :max_dictionary_file_megabytes,
-      :max_invalid_words_bytesize, :metadata_observers
+      :max_invalid_words_bytesize, :metadata_observers, :word_block_regex
 
     # The constructor; calls {#reset}.
     def initialize
@@ -40,6 +40,11 @@ module LittleWeasel
       @metadata_observers = [
         LittleWeasel::Metadata::InvalidWordsMetadata
       ]
+      # TODO: Is this the correct regex to use, or is there something better?
+      # @word_block_regex = /\s+(?=(?:[^"]*"[^"]*")*[^"]*$)/
+      # @word_block_regex = /(?:(?:[\-A-Za-z0-9]|\d(?!\d|\b))+(?:'[\-A-Za-z0-9]+)?)/
+      # @word_block_regex = /(?:(?:[\-a-z0-9]|\d(?!\d|\b))+(?:'[\-a-z0-9]+)?)/i
+      @word_block_regex = /[[[:word:]]'-]+/
     end
 
     # Returns the maximum consumable dictionary size in bytes. Dictionaries
@@ -83,6 +88,10 @@ module LittleWeasel
       # TODO: Limit the amount of observer classes, exploits?
 
       @metadata_observers = value
+    end
+
+    def word_block_regex=(value)
+      @word_block_regex = value
     end
     # rubocop: enable Style/TrivialAccessors
   end

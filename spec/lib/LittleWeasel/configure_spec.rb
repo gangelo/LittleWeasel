@@ -28,6 +28,12 @@ RSpec.describe LittleWeasel do
         ]
       end
     end
+
+    describe '#word_block_regex' do
+      it 'set to the default regex to split work blocks by default' do
+        expect(subject.word_block_regex).to eq /[[[:word:]]'-]+/
+      end
+    end
   end
 
   #.configuration
@@ -37,12 +43,14 @@ RSpec.describe LittleWeasel do
         described_class.configure do |config|
           config.max_dictionary_file_megabytes = max_dictionary_file_megabytes
           config.metadata_observers = metadata_observers
+          config.word_block_regex = word_block_regex
         end
         described_class.configuration
       end
 
       let(:max_dictionary_file_megabytes) { 1_222_333 }
       let(:metadata_observers) { %i(observer0 observer1) }
+      let(:word_block_regex) { :word_block_regex }
 
       describe '#max_dictionary_file_megabytes=' do
         it 'sets the value' do
@@ -53,6 +61,12 @@ RSpec.describe LittleWeasel do
       describe '#metadata_observers=' do
         it 'sets the value' do
           expect(subject.metadata_observers).to eq metadata_observers
+        end
+      end
+
+      describe '#word_block_regex=' do
+        it 'sets the value' do
+          expect(subject.word_block_regex).to eq word_block_regex
         end
       end
     end

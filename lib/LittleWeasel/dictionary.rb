@@ -70,10 +70,10 @@ module LittleWeasel
     end
 
     def block_results(word_block)
-      # TODO: regex to split word block needs to be moved
-      # to a configurable location.
-      words = word_block.split(/\s+(?=(?:[^"]*"[^"]*")*[^"]*$)/)
+      raise ArgumentError, "Argument word_block is not a String: #{word_block.class}" unless word_block.is_a?(String)
+      raise ArgumentError, "Argument word_block is empty: #{word_block.class}" unless word_block.present?
 
+      words = word_block.scan(config.word_block_regex)
       words.map do |word|
         word_results word
       end

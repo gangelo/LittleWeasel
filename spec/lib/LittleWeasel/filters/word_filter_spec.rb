@@ -16,6 +16,17 @@ RSpec.describe LittleWeasel::Filters::WordFilter do
     end
   end
 
+  #filter_off!
+  describe '#filter_off!' do
+    before do
+      subject.filter_off!
+    end
+
+    it 'sets the filter off' do
+      expect(subject.filter_off?).to eq true
+    end
+  end
+
   #filter_on
   describe '#filter_on' do
     context 'when set to true' do
