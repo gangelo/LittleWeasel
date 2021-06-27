@@ -3,7 +3,11 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
-  subject { described_class.new order: order, preprocessor_on: preprocessor_on }
+  subject do
+    word_preprocessor = described_class.new order: order
+    word_preprocessor.preprocessor_on = preprocessor_on
+    word_preprocessor
+  end
 
   let(:preprocessor_on) { true }
   let(:order) { 0 }

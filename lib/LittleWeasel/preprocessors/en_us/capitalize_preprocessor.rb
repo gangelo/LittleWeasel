@@ -7,7 +7,7 @@ module LittleWeasel
     module EnUs
       # This preprocessor capitializes a word.
       class CapitalizePreprocessor < WordPreprocessor
-        def initialize(order: 0, preprocessor_on: true)
+        def initialize(order: 0)
           super
         end
 

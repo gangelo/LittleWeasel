@@ -14,8 +14,8 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
   subject { MockSubject.new }
 
   class MockWordPreprocessor01 < LittleWeasel::Preprocessors::WordPreprocessor
-    def initialize(order: 0, preprocessor_on: true)
-      super order: order, preprocessor_on: preprocessor_on
+    def initialize(order: 0)
+      super order: order
     end
 
     class << self

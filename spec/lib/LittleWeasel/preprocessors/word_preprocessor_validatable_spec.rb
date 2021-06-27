@@ -11,7 +11,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorValidatable, type: :
     include WordPreprocessorValidatable
   end
 
-  class MockWordProcessor < LittleWeasel::Preprocessors::WordPreprocessor
+  class MockWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
     def preprocess(word)
       [true, "#{word}-preprocessed"]
     end
@@ -19,38 +19,42 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorValidatable, type: :
 
   let(:order) { 0 }
   let(:preprocessor_on) { true }
-  let(:word_processor) { MockWordProcessor.new order: order, preprocessor_on: preprocessor_on }
+  let(:word_preprocessor) do
+    word_preprocessor = MockWordPreprocessor.new order: order
+    word_preprocessor.preprocessor_on = preprocessor_on
+    word_preprocessor
+  end
 
   shared_examples 'an instance method is missing' do
     before do
-      allow(word_processor).to receive(:respond_to?).with(method).and_return(false)
+      allow(word_preprocessor).to receive(:respond_to?).with(method).and_return(false)
     end
 
     it 'raises an error' do
-      expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_processor }.to raise_error expected_error_message
+      expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_preprocessor }.to raise_error expected_error_message
     end
   end
 
   shared_examples 'a class method is missing' do
     before do
-      allow(word_processor.class).to receive(:respond_to?).with(method).and_return(false)
+      allow(word_preprocessor.class).to receive(:respond_to?).with(method).and_return(false)
     end
 
     it 'raises an error' do
-      expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_processor }.to raise_error expected_error_message
+      expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_preprocessor }.to raise_error expected_error_message
     end
   end
 
   #.validate_word_preprocessor
   describe '.validate_word_preprocessor' do
     before do
-      allow(word_processor.class).to receive(:respond_to?).and_call_original
-      allow(word_processor).to receive(:respond_to?).and_call_original
+      allow(word_preprocessor.class).to receive(:respond_to?).and_call_original
+      allow(word_preprocessor).to receive(:respond_to?).and_call_original
     end
 
     context 'when the object quacks right' do
       it 'passes validation' do
-        expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_processor }.to_not raise_error
+        expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_preprocessor }.to_not raise_error
       end
     end
 

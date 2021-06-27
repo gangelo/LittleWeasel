@@ -21,10 +21,10 @@ module LittleWeasel
       # be applied.
       # preprocessor_on:Boolean, whether or not this preprocessor
       # should be applied to any words.
-      def initialize(order:, preprocessor_on: true)
+      def initialize(order:)
         validate_order order: order
         self.order = order
-        self.preprocessor_on = preprocessor_on
+        self.preprocessor_on!
       end
 
       class << self
@@ -97,10 +97,18 @@ module LittleWeasel
         preprocessor_on
       end
 
+      def preprocessor_on!
+        @preprocessor_on = true
+      end
+
       # Returns true if this preprocessor is "off". Preprocessing should not
       # be applied to a word if this preprocessor is "off".
       def preprocessor_off?
         !preprocessor_on?
+      end
+
+      def preprocessor_off!
+        @preprocessor_on = false
       end
 
       private

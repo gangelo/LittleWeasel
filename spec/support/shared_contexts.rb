@@ -75,10 +75,6 @@ end
 
 RSpec.shared_context 'mock word preprocessors' do #, shared_context: :metadata do
   class UpcaseWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
-    def initialize(order:, preprocessor_on: true)
-      super order: order, preprocessor_on: preprocessor_on
-    end
-
     class << self
       def preprocess(word)
         [true, word.upcase];
@@ -87,10 +83,6 @@ RSpec.shared_context 'mock word preprocessors' do #, shared_context: :metadata d
   end
 
   class DowncaseWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
-    def initialize(order:, preprocessor_on: true)
-      super order: order, preprocessor_on: preprocessor_on
-    end
-
     class << self
       def preprocess(word)
         [true, word.downcase];

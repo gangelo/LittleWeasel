@@ -14,8 +14,9 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorsValidatable, type: 
   subject { MockSubject.new }
 
   class MockWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
-    def initialize(order: 0, preprocessor_on: true)
-      super order: order, preprocessor_on: preprocessor_on
+    def initialize(order: 0)
+      super order: order
+      self.preprocessor_on = preprocessor_on
     end
 
     class << self
