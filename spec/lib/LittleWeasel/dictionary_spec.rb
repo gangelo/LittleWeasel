@@ -26,6 +26,32 @@ RSpec.describe LittleWeasel::Dictionary do
     [preprocessed_word.present?, preprocessed_word&.word_valid]
   end
 
+  def print_word_results(word, word_results, comments = nil)
+    puts "word_results for word: '#{word}'..."
+    puts "comments: #{comments}" unless comments.nil?
+    puts "word_results #=>"
+    puts "  #original_word: #{word_results.original_word}"
+    puts "  #preprocessed_word: #{word_results.preprocessed_word}"
+    puts "  #success?: #{word_results.success?}"
+    puts "  #word_valid?: #{word_results.word_valid?}"
+    puts "  #word_cached?: #{word_results.word_cached?}"
+    puts "  #preprocessed_word?: #{word_results.preprocessed_word?}"
+    puts "  #preprocessed_word_or_original_word: #{word_results.preprocessed_word_or_original_word}"
+    puts "  #filter_match?: #{word_results.filter_match?}"
+    puts "  #filters_matched: #{word_results.filters_matched}"
+    if word_results.preprocessed_words.preprocessed_words.present?
+      puts "  #preprocessed_words:"
+      word_results.preprocessed_words.preprocessed_words.each_with_index do |preprocessed_word, index|
+        puts "    preprocessed_word #{index} #=>"
+        puts "      #preprocessor: :#{preprocessed_word.preprocessor}"
+        puts "      #preprocessor_order: #{preprocessed_word.preprocessor_order}"
+      end
+    else
+      puts "  #preprocessed_words: []"
+    end
+    puts
+  end
+
   #.new
   describe '.new' do
     context 'with a valid dictionary words Array' do
@@ -215,11 +241,16 @@ RSpec.describe LittleWeasel::Dictionary do
           word_filters: word_filters).block_results word_block
       end
 
+      let(:word_filters) { [LittleWeasel::Filters::EnUs::NumericFilter.new] }
       let(:word_block) do
         "I'm older than you bubble-butt; I was born in 1964, before your time!"
       end
 
       it 'returns a WordResults object with the correct data about the words passed' do
+        #  def print_word_results(word, word_results, comments = nil)
+        subject.each do |word_result|
+          print_word_results word_result.original_word, word_result
+        end
         expect(subject.count).to eq 13
         expect(preprocessed_word_include?(subject, "I'm")).to eq [true, true]
         expect(preprocessed_word_include?(subject, 'older')).to eq [true, true]
