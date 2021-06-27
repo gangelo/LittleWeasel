@@ -5,8 +5,7 @@ module LittleWeasel
     # This class provides a container for the results of the
     # InvalidWordsService service.
     class InvalidWordsServiceResults
-      attr_accessor :current_invalid_word_bytesize
-      attr_reader :max_invalid_words_bytesize
+      attr_reader :current_invalid_word_bytesize, :max_invalid_words_bytesize
 
       def initialize(max_invalid_words_bytesize_on:,
         current_invalid_word_bytesize:, max_invalid_words_bytesize:)
@@ -14,6 +13,10 @@ module LittleWeasel
         self.max_invalid_words_bytesize_on = max_invalid_words_bytesize_on
         self.current_invalid_word_bytesize = current_invalid_word_bytesize
         self.max_invalid_words_bytesize = max_invalid_words_bytesize
+      end
+
+      def current_invalid_word_bytesize=(value)
+        @current_invalid_word_bytesize = value
       end
 
       def on?
