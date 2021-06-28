@@ -22,9 +22,9 @@ LittleWeasel provides other features as well:
 ## Usage
 
 At its most basic level, there are two (3) steps to using LittleWeasel:
-1. [ ] Create a **LittleWeasel::Dictionary**.
-2. [ ] Consume the **LittleWeasel::Dictionary#word_results** and/or **LittleWeasel::Dictionary#block_results** APIs to obtain a **LittleWeasel::WordResults** [^1] object for a particular word or word block. 
-3. [ ] Interrogate the **LittleWeasel::WordResults** [^1] object returned from either of the aforementioned APIs.
+- [ ] Create a **LittleWeasel::Dictionary**.
+- [ ] Consume the **LittleWeasel::Dictionary#word_results** and/or **LittleWeasel::Dictionary#block_results** APIs to obtain a **LittleWeasel::WordResults** [^1] object for a particular word or word block. 
+- [ ] Interrogate the **LittleWeasel::WordResults** [^1] object returned from either of the aforementioned APIs.
 
 Some of the more advanced LittleWeasel features include the use of **word preprocessors**, **word filters** and **dictionary metadata modules**.
 
