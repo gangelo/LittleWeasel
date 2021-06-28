@@ -8,6 +8,23 @@
 
 [![License](http://img.shields.io/badge/license-MIT-yellowgreen.svg)](#license)
 
+- [LittleWeasel](#littleweasel)
+  * [Table of Contents](#table-of-contents)
+  * [Usage](#usage)
+  * [Creating Dictionaries](#creating-dictionaries)
+    + [Creating a Dictionary from Memory](#creating-a-dictionary-from-memory)
+    + [Creating a Dictionary from a File on Disk](#creating-a-dictionary-from-a-file-on-disk)
+    + [Basic Word Search Example](#basic-word-search-example)
+      - [Using the Dictionary#word_results API](#using-the-dictionary-word-results-api)
+      - [Using the Dictionary#block_results API](#using-the-dictionary-block-results-api)
+    + [Word Search using Word Filters and Word Preprocessors Example](#word-search-using-word-filters-and-word-preprocessors-example)
+    + [Word filters and word preprocessors working together example...](#word-filters-and-word-preprocessors-working-together-example)
+  * [Word Blocks](#word-blocks)
+  * [Installation](#installation)
+  * [Contributing](#contributing)
+  * [License](#license)
+
+
 # LittleWeasel
 
 **LittleWeasel** is _more_ than just a spell checker for words (and word blocks, i.e. groups of words); LittleWeasel provides information about a particular word(s) through its API. LittleWeasel allows you to apply preprocessing to words through any number of word preprocessors _before_ they are checked against the dictionary(ies) you provide. In addition to this, you may provide any number of word filters that allow you to consider the validity of each word being checked, regardless of whether or not it's literally found in the dictionary. LittleWeasel will tell you exactly what word preprocessors were applied to a given word, even showing you the transformation of the original word as it passes through each preprocessor; it will also inform you of each matching word filters along the way, so you can make a decision about every word being validated. 
@@ -20,11 +37,11 @@ LittleWeasel provides other features as well:
 * Dictionaries can have observable, metadata objects attached to them which are notified when a word or word block is being evaluated; therefore, metadata about the dictionary, words, etc. can be gathered and used. For example, LittleWeasel uses a LittleWeasel::Metadata::InvalidWordsMetadata metadata object that caches and keeps track of the total bytes of invalid words searched against the dictionary. If the total bytes of invalid words exceeds what is set in the configuration, caching of invalid words ceases. You can create your own metadata objects to gather and use your own metadata.
 
 ## Usage
-:octocat:
+
 At its most basic level, there are two (3) steps to using LittleWeasel:
-- [ ] Create a **LittleWeasel::Dictionary**.
-- [ ] Consume the **LittleWeasel::Dictionary#word_results** and/or **LittleWeasel::Dictionary#block_results** APIs to obtain a **LittleWeasel::WordResults** [^1] object for a particular word or word block. 
-- [ ] Interrogate the **LittleWeasel::WordResults** [^1] object returned from either of the aforementioned APIs.
+1. Create a **LittleWeasel::Dictionary**.
+2. Consume the **LittleWeasel::Dictionary#word_results** and/or **LittleWeasel::Dictionary#block_results** APIs to obtain a **LittleWeasel::WordResults** [^1] object for a particular word or word block. 
+3. Interrogate the **LittleWeasel::WordResults** [^1] object returned from either of the aforementioned APIs.
 
 Some of the more advanced LittleWeasel features include the use of **word preprocessors**, **word filters** and **dictionary metadata modules**.
 
