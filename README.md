@@ -11,7 +11,6 @@
 # Table of Contents
 
 - [About LittleWeasel](#about-littleweasel)
-  * [Table of Contents](#table-of-contents)
   * [Usage](#usage)
   * [Creating Dictionaries](#creating-dictionaries)
     + [Creating a Dictionary from Memory](#creating-a-dictionary-from-memory)
