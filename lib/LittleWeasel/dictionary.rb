@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'block_results'
 require_relative 'filters/word_filter_managable'
 require_relative 'metadata/dictionary_metadata'
 require_relative 'modules/configurable'
@@ -73,9 +74,10 @@ module LittleWeasel
       raise ArgumentError, "Argument word_block is not a String: #{word_block.class}" unless word_block.is_a?(String)
       raise ArgumentError, "Argument word_block is empty: #{word_block.class}" unless word_block.present?
 
-      words = word_block.scan(config.word_block_regex)
-      words.map do |word|
-        word_results word
+      BlockResults.new.tap do |block_results|
+        word_block.scan(config.word_block_regex)&.map do |word|
+         block_results << word_results(word)
+        end
       end
     end
 

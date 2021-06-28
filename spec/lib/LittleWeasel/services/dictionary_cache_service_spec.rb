@@ -162,7 +162,50 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
   #add_dictionary_memory_source
   describe '#add_dictionary_memory_source' do
-    it 'does something'
+    subject! { create(:dictionary_cache_service, dictionary_key: dictionary_key).add_dictionary_memory_source }
+
+    context 'when a dictionary memory source for the key already exists' do
+      it 'raises an error' do
+        expect do
+          create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: subject.dictionary_cache).add_dictionary_memory_source
+        end.to raise_error "Dictionary reference for key '#{key}' already exists."
+      end
+    end
+
+    xcontext 'when a dictionary memory source for the key DOES NOT already exist' do
+      describe 'when the dictionary source dictionary memory key already exists' do
+        let!(:original_dictionary_cache) { subject.dictionary_cache }
+        let(:expected_dictionary_cache) do
+          dictionary_keys = [
+            { dictionary_key: dictionary_key, dictionary_reference: dictionary_key.key },
+            # Note: we're pointing to the existing dictionary memory referenced by en-US.
+            { dictionary_key: en_gb_dictionary_key, dictionary_reference: dictionary_key.key }
+          ]
+          dictionary_cache_from(dictionary_keys: dictionary_keys)
+        end
+
+        it 'a dictionary memory source is created whose dictionary memory key points to the existing dictionary memory' do
+          expect do
+            create(:dictionary_cache_service, dictionary_key: en_gb_dictionary_key, dictionary_cache: subject.dictionary_cache).add_dictionary_memory_source
+          end.to change { subject.dictionary_cache }.from(original_dictionary_cache).to(expected_dictionary_cache)
+        end
+      end
+
+      describe 'when the dictionary memory source dictionary memory key DOES NOT already exist' do
+        it 'creates the dictionary reference' do
+          en_gb_file = dictionary_path_for(file_name: en_gb_dictionary_key.key)
+          expect(create(:dictionary_cache_service, dictionary_key: en_gb_dictionary_key, dictionary_cache: subject.dictionary_cache).add_dictionary_memory_source.dictionary_reference?).to eq true
+        end
+      end
+    end
+
+    describe 'maintains dictionary_cache object integrity' do
+      it_behaves_like 'the dictionary_cache object reference has not changed' do
+        subject { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+        let(:actual_dictionary_cache) { subject.add_dictionary_memory_source.dictionary_cache }
+        let(:expected_dictionary_cache) { dictionary_cache }
+      end
+    end
   end
 
   #add_dictionary_file_source

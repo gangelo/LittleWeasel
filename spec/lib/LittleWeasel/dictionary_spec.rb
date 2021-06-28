@@ -19,11 +19,18 @@ RSpec.describe LittleWeasel::Dictionary do
   let(:dictionary_words) { dictionary_words_for(dictionary_file_path: dictionary_file_path) }
   let(:word_filters) {}
 
-  def preprocessed_word_include?(preprocessed_words, word)
-    preprocessed_word = preprocessed_words.find do |preprocessed_word|
-      preprocessed_word.original_word == word
+  # def block_results_include?(block_results, word)
+  #   original_word = block_results.find do |word_results|
+  #     word_results.original_word == word
+  #   end
+  #   [original_word.present?, preprocessed_word&.word_valid]
+  # end
+
+  def block_results_include?(block_results, word)
+    word_results = block_results.word_results.find do |word_results|
+      word_results.original_word == word
     end
-    [preprocessed_word.present?, preprocessed_word&.word_valid]
+    [word_results.present?, word_results&.word_valid]
   end
 
   def print_word_results(word, word_results, comments = nil)
@@ -248,23 +255,23 @@ RSpec.describe LittleWeasel::Dictionary do
 
       it 'returns a WordResults object with the correct data about the words passed' do
         #  def print_word_results(word, word_results, comments = nil)
-        subject.each do |word_result|
+        subject.word_results.each do |word_result|
           print_word_results word_result.original_word, word_result
         end
-        expect(subject.count).to eq 13
-        expect(preprocessed_word_include?(subject, "I'm")).to eq [true, true]
-        expect(preprocessed_word_include?(subject, 'older')).to eq [true, true]
-        expect(preprocessed_word_include?(subject, 'than')).to eq [true, true]
-        expect(preprocessed_word_include?(subject, 'you')).to eq [true, true]
-        expect(preprocessed_word_include?(subject, 'bubble-butt')).to eq [true, false]
-        expect(preprocessed_word_include?(subject, 'I')).to eq [true, true]
-        expect(preprocessed_word_include?(subject, 'was')).to eq [true, true]
-        expect(preprocessed_word_include?(subject, 'born')).to eq [true, true]
-        expect(preprocessed_word_include?(subject, 'in')).to eq [true, true]
-        expect(preprocessed_word_include?(subject, '1964')).to eq [true, false]
-        expect(preprocessed_word_include?(subject, 'before')).to eq [true, true]
-        expect(preprocessed_word_include?(subject, 'your')).to eq [true, true]
-        expect(preprocessed_word_include?(subject, 'time')).to eq [true, true]
+        expect(subject.word_results.count).to eq 13
+        expect(block_results_include?(subject, "I'm")).to eq [true, true]
+        expect(block_results_include?(subject, 'older')).to eq [true, true]
+        expect(block_results_include?(subject, 'than')).to eq [true, true]
+        expect(block_results_include?(subject, 'you')).to eq [true, true]
+        expect(block_results_include?(subject, 'bubble-butt')).to eq [true, false]
+        expect(block_results_include?(subject, 'I')).to eq [true, true]
+        expect(block_results_include?(subject, 'was')).to eq [true, true]
+        expect(block_results_include?(subject, 'born')).to eq [true, true]
+        expect(block_results_include?(subject, 'in')).to eq [true, true]
+        expect(block_results_include?(subject, '1964')).to eq [true, false]
+        expect(block_results_include?(subject, 'before')).to eq [true, true]
+        expect(block_results_include?(subject, 'your')).to eq [true, true]
+        expect(block_results_include?(subject, 'time')).to eq [true, true]
       end
     end
   end

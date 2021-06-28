@@ -15,7 +15,7 @@ RSpec.shared_context 'dictionary cache' do #, shared_context: :metadata do
   #    [, load: true | false]
   #  }
   # ]
-  def dictionary_cache_from(dictionary_keys:)
+  def dictionary_cache_from(dictionary_keys:, memory_source: false)
     raise ArgumentError, 'Argument dictionary_keys is not an Array' unless dictionary_keys.is_a? Array
 
     dictionary_cache = {}

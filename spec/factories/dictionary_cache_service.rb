@@ -18,6 +18,9 @@ FactoryBot.define do
 
       # Set to true if you want the dictionary reference to be loaded from disk.
       load { false }
+
+      # If true, a memory source will be used as opposed to a file source.
+      memory_source { false }
     end
 
     skip_create
@@ -39,6 +42,7 @@ FactoryBot.define do
           evaluator.dictionary_reference
         end
         dictionary_cache_service.add_dictionary_file_source(file: dictionary_path_for(file_name: file_name))
+      #elsif evaluator.memory_source
       end
 
       if evaluator.load
