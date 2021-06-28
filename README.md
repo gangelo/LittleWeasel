@@ -8,8 +8,6 @@
 
 [![License](http://img.shields.io/badge/license-MIT-yellowgreen.svg)](#license)
 
-[[_TOC_]]
-
 # LittleWeasel
 
 **LittleWeasel** is _more_ than just a spell checker for words (and word blocks, i.e. groups of words); LittleWeasel provides information about a particular word(s) through its API. LittleWeasel allows you to apply preprocessing to words through any number of word preprocessors _before_ they are checked against the dictionary(ies) you provide. In addition to this, you may provide any number of word filters that allow you to consider the validity of each word being checked, regardless of whether or not it's literally found in the dictionary. LittleWeasel will tell you exactly what word preprocessors were applied to a given word, even showing you the transformation of the original word as it passes through each preprocessor; it will also inform you of each matching word filters along the way, so you can make a decision about every word being validated. 
@@ -23,11 +21,14 @@ LittleWeasel provides other features as well:
 
 ## Usage
 
-At its most basic level, there are two (2) steps to using LittleWeasel:
-* Create one or more _dictionaries_.
-* Use the **LittleWeasel::Dictionary#word_results** or **LittleWeasel::Dictionary#block_results** APIs to obtain a **LittleWeasel::WordResults** object (WordResults) related to a given word or word block. The _WordResults_ object returned from these APIs provides information related to the given word or words that have passed through their respective processes (i.e. word preprocessing, word filtering and dictionary checks).
+At its most basic level, there are two (3) steps to using LittleWeasel:
+1. [ ] Create a **LittleWeasel::Dictionary**.
+2. [ ] Consume the **LittleWeasel::Dictionary#word_results** and/or **LittleWeasel::Dictionary#block_results** APIs to obtain a **LittleWeasel::WordResults** [^1] object for a particular word or word block. 
+3. [ ] Interrogate the **LittleWeasel::WordResults** [^1] object returned from either of the aforementioned APIs.
 
 Some of the more advanced LittleWeasel features include the use of **word preprocessors**, **word filters** and **dictionary metadata modules**.
+
+[^1]: The _LittleWeasel::WordResults_ object returned from these APIs provides information related to the given word or words that have passed through their respective processes (i.e. word preprocessing, word filtering and dictionary checks).
 
 ## Creating Dictionaries
 
