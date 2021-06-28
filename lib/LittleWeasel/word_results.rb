@@ -5,8 +5,7 @@ require_relative 'modules/word_results_validatable'
 require_relative 'preprocessors/preprocessed_words_validatable'
 
 module LittleWeasel
-  # This class represents the results of attempting to find a word
-  # in a dictionary.
+  # This class represents the results of gathering information about a word.
   class WordResults
     include Modules::WordResultsValidatable
     include Preprocessors::PreprocessedWordsValidatable
