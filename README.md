@@ -8,7 +8,9 @@
 
 [![License](http://img.shields.io/badge/license-MIT-yellowgreen.svg)](#license)
 
-- [LittleWeasel](#littleweasel)
+# Table of Contents
+
+- [About LittleWeasel](#about-littleweasel)
   * [Table of Contents](#table-of-contents)
   * [Usage](#usage)
   * [Creating Dictionaries](#creating-dictionaries)
@@ -25,7 +27,7 @@
   * [License](#license)
 
 
-# LittleWeasel
+# About LittleWeasel
 
 **LittleWeasel** is _more_ than just a spell checker for words (and word blocks, i.e. groups of words); LittleWeasel provides information about a particular word(s) through its API. LittleWeasel allows you to apply preprocessing to words through any number of word preprocessors _before_ they are checked against the dictionary(ies) you provide. In addition to this, you may provide any number of word filters that allow you to consider the validity of each word being checked, regardless of whether or not it's literally found in the dictionary. LittleWeasel will tell you exactly what word preprocessors were applied to a given word, even showing you the transformation of the original word as it passes through each preprocessor; it will also inform you of each matching word filters along the way, so you can make a decision about every word being validated. 
 
