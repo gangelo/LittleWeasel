@@ -72,7 +72,7 @@ dictionary_manager = LittleWeasel::DictionaryManager.new
 en_us_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us)
 
 # Create a dictionary from a file on disk. The below assumes the
-# dictionary file name matches the locale of the dictionary (e.g. en-US.txt).
+# dictionary file name matches the dictionary key (e.g. en-US).
 en_us_dictionary = dictionary_manager.create_dictionary_from_file(
   dictionary_key: en_us_key, file: "dictionaries/#{en_us_key.key}.txt")
 ```
@@ -81,29 +81,29 @@ en_us_dictionary = dictionary_manager.create_dictionary_from_file(
 
 #### Using the Dictionary#word_results API
 
-Continued from [Creating a Dictionary from Memory] (#creating-a-dictionary-from-memory) example
+Continued from [Creating a Dictionary from Memory](#creating-a-dictionary-from-memory) example.
+
 ```ruby
 # Get word results for 'Abel'. true is returned because the 'Abel' is found in the dictionary.
 en_us_names_dictionary.word_results('Abel').word_valid?
 #=> true
 
-# Get word results for 'elijah'. false is returned because while 'Elijah' is found in the dictionary, 'elijah' is NOT - case matters.
+# Get word results for 'elijah'. false is returned because while 'Elijah' is found in the dictionary, 'elijah' is NOT (case sensitive).
 en_us_names_dictionary.word_results('elijah').word_valid?
 #=> false
 ```
 
 #### Using the Dictionary#block_results API
 
+Continued from [Creating a Dictionary from a File on Disk](#creating-a-dictionary-from-a-file-on-disk) example.
+
 ```ruby
-# Using the "en_us_dictionary" dictionary created in the 
-# "Creating a Dictionary from a File on Disk" example above...
-
-word_filters = [LittleWeasel::Filters::EnUs::NumericFilter.new]
-en_us_dictionary.add_preprocessors word_filters: word_filters
-
-# Do a word block search...
-
 word_block = "This is a word-block of 8 words and 2 numbers."
+
+# Add a word filter so we can capture numbers.
+en_us_dictionary.add_preprocessors word_filters: [
+  LittleWeasel::Filters::EnUs::NumericFilter.new
+]
 
 word_results = en_us_dictionary.word_block word_block
 # Returns an Array of LittleWeasel::WordResults objects. 
