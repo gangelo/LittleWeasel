@@ -71,14 +71,8 @@ dictionary_manager = LittleWeasel::DictionaryManager.new
 # Create our unique key for the dictionary.
 en_us_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us)
 
-# Create a dictionary from a file on disk. 
-#
-# Dictionary files do not need to be named according to their locale and optional tag; 
-# but, if they are, you can use DictionaryKey#key then simply append an optional file
-# extension:
-#
-# dictionary_file_name = "dictionaries/#{en_us_key.key}.txt"
-#=> dictionaries/en-US.txt
+# Create a dictionary from a file on disk. The below assumes the
+# dictionary file name matches the locale of the dictionary (e.g. en-US.txt).
 en_us_dictionary = dictionary_manager.create_dictionary_from_file(
   dictionary_key: en_us_key, file: "dictionaries/#{en_us_key.key}.txt")
 ```
@@ -87,20 +81,14 @@ en_us_dictionary = dictionary_manager.create_dictionary_from_file(
 
 #### Using the Dictionary#word_results API
 
+Continued from [Creating a Dictionary from Memory] (#creating-a-dictionary-from-memory) example
 ```ruby
-# Using the "en_us_names_dictionary" dictionary created in the 
-# "Creating a Dictionary from Memory" example above...
-
-# Do some word searches...
-
-word_results = en_us_names_dictionary.word_results 'Abel'
-# Returns true because the 'Abel' is in the dictionary.
-word_results.word_valid?
+# Get word results for 'Abel'. true is returned because the 'Abel' is found in the dictionary.
+en_us_names_dictionary.word_results('Abel').word_valid?
 #=> true
 
-word_results = en_us_names_dictionary.word_results 'elijah'
-# Returns false because the 'Elijah' (not 'elijah') is in the dictionary.
-word_results.word_valid?
+# Get word results for 'elijah'. false is returned because while 'Elijah' is found in the dictionary, 'elijah' is NOT - case matters.
+en_us_names_dictionary.word_results('elijah').word_valid?
 #=> false
 ```
 
