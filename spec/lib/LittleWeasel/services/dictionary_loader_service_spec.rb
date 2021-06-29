@@ -14,7 +14,7 @@ RSpec.describe LittleWeasel::Services::DictionaryLoaderService do
 
   #execute
   describe '#execute' do
-    let!(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_reference: true, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+    let!(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_file_source: true, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
     context 'when the dictionary is not cached' do
       it 'loads the dictionary file and returns the Dictionary' do

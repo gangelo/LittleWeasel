@@ -8,19 +8,35 @@ FactoryBot.define do
     dictionary_cache { {} }
 
     transient do
-      # Values are: false, true or <file name minus extension>
-      # If false, no dictionary reference will be added.
-      # If true, a dictionary reference based on the dictionary_key.key will be
-      #   used (e.g. 'en-US-tag' would equate to: '<path to spec file folder>/en-US.tag.txt').
-      # If <file name minus extension>, <file name minus extension> will be
-      #   used (e.g. <path to spec file folder>/<file name minus extension>.txt)
-      dictionary_reference { false }
+      # The dictionary reference created in the cache will point to a MEMORY source.
+      #
+      # Valid values: nil | true | false | <Array of dictionary words>
+      #
+      # If nil or false - No memory source will be added to the dictionary cache.
+      # If true - A memory source will be added to the dictionary cache.
+      # If <An Array of dictionary words> - A memory source will be added to the dictionry cache.
+      #    This only makes sense if load == true.
+      dictionary_memory_source {}
 
-      # Set to true if you want the dictionary reference to be loaded from disk.
+      # The dictionary reference created in the cache will point to a FILE source.
+      #
+      # Important: dictionary_file_source will only be used if dictionary_memory_source
+      # is false.
+      #
+      # Valid values: nil | true | false | <Path to dictionary file>
+      #
+      # If nil or false - No file source will be added to the dictionary cache.
+      #
+      # If true - A file source will be added to the dictionry cache.
+      #           dictionary_key.key will be used to create the dictionary
+      #           file path.
+      # If <Path to dictionary file> - A memory source will be added to the dictionry cache.
+      dictionary_file_source {}
+
+      # If dictionary_source == nil
+      # If dictionary_source == :file
+      # If dictionary_source == :memory
       load { false }
-
-      # If true, a memory source will be used as opposed to a file source.
-      memory_source { false }
     end
 
     skip_create
@@ -35,24 +51,44 @@ FactoryBot.define do
       # Initialize the dictionary cache if the user already passed an
       # initialized dictionary cache; otherwise, just use what they passed us.
       dictionary_cache_service.class.init(dictionary_cache: dictionary_cache) unless dictionary_cache_service.class.populated?(dictionary_cache: dictionary_cache)
-      if evaluator.dictionary_reference
-        file_name = if evaluator.dictionary_reference == true
-          dictionary_key.key
-        else
-          evaluator.dictionary_reference
+
+      load = evaluator.load
+      dictionary_memory_source = evaluator.dictionary_memory_source
+      dictionary_file_source = evaluator.dictionary_file_source
+
+      if load
+        unless dictionary_memory_source.present? || dictionary_file_source.present?
+          raise 'Transient attributes dictionary_memory_source or dictionary_file_source ' \
+            "must be present if transient attribute load is true: #{dictionary_reference}"
         end
-        dictionary_cache_service.add_dictionary_file_source(file: dictionary_path_for(file_name: file_name))
-      #elsif evaluator.memory_source
       end
 
-      if evaluator.load
-        unless evaluator.dictionary_reference
-          raise 'Transient attribute [dictionary_reference] must be true or contain <file name minus extension> if transient attribute [load] is true'
+      if dictionary_file_source
+        file_name = if dictionary_file_source == true
+          dictionary_key.key
+        else
+          dictionary_file_source
         end
-        dictionary_file_loader_service = create(:dictionary_file_loader_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
-        dictionary_words = dictionary_file_loader_service.execute
+        dictionary_cache_service.add_dictionary_file_source(file: dictionary_path_for(file_name: file_name))
+      elsif dictionary_memory_source
+        dictionary_cache_service.add_dictionary_memory_source
+      end
+
+      if load
+        dictionary_words = if dictionary_file_source
+          dictionary_file_loader_service = create(:dictionary_file_loader_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)
+          dictionary_file_loader_service.execute
+        else
+          unless dictionary_memory_source.is_a? Array
+            raise 'Transient attribute dictionary_memory_source must be an Array of words ' \
+                  "if transient attribute load == true: #{dictionary_memory_source}"
+          end
+          dictionary_memory_source
+        end
         dictionary_cache_service.dictionary_object = create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words)
       end
+
+      dictionary_cache_service
     end
   end
 end

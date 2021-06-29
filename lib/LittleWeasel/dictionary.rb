@@ -76,7 +76,7 @@ module LittleWeasel
 
       BlockResults.new.tap do |block_results|
         word_block.scan(config.word_block_regex)&.map do |word|
-         block_results << word_results(word)
+          block_results << word_results(word)
         end
       end
     end

@@ -11,20 +11,13 @@ RSpec.describe LittleWeasel::Dictionary do
   before(:each) { LittleWeasel.configure { |config| config.reset } }
   before { dictionary_cache_service }
 
-  let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: dictionary_key.key) }
+  let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_file_source: dictionary_key.key) }
   let(:dictionary_key) { dictionary_key_for(language: :en, region: :us, tag: :big) }
   let(:dictionary_cache) { {} }
   let(:dictionary_metadata) { {} }
   let(:dictionary_file_path) { dictionary_path_for(file_name: dictionary_key.key) }
   let(:dictionary_words) { dictionary_words_for(dictionary_file_path: dictionary_file_path) }
   let(:word_filters) {}
-
-  # def block_results_include?(block_results, word)
-  #   original_word = block_results.find do |word_results|
-  #     word_results.original_word == word
-  #   end
-  #   [original_word.present?, preprocessed_word&.word_valid]
-  # end
 
   def block_results_include?(block_results, word)
     word_results = block_results.word_results.find do |word_results|
@@ -134,7 +127,7 @@ RSpec.describe LittleWeasel::Dictionary do
       subject
     end
 
-    let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_reference: dictionary_key.key, load: true) }
+    let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_file_source: dictionary_key.key, load: true) }
 
     context 'when the dictionary object is in the dictionary cache' do
       it 'returns false' do

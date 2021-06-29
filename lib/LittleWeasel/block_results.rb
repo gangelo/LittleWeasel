@@ -7,7 +7,7 @@ module LittleWeasel
   # This class represents the results of gathering information about a word
   # block (group of words).
   class BlockResults
-    attr_reader :word_results
+    attr_accessor :word_results
 
     def initialize
       self.word_results = []
@@ -19,10 +19,6 @@ module LittleWeasel
       end
 
       word_results << word_result
-    end
-
-    def word_results=(value)
-      @word_results = value
     end
 
     # Calls #success? on all WordResults objects. Returns true if all
@@ -65,9 +61,7 @@ module LittleWeasel
     def preprocessed_words_or_original_words
       return [] unless word_results.present?
 
-      word_results.map do |word_result|
-        word_result.preprocessed_word_or_original_word
-      end
+      word_results.map(&:preprocessed_word_or_original_word)
     end
 
     # Returns true if all WordResults object words have been cached (#words_cached?);
