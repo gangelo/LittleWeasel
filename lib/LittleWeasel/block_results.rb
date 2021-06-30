@@ -7,6 +7,7 @@ module LittleWeasel
   # This class represents the results of gathering information about a word
   # block (group of words).
   class BlockResults
+    # :reek:Attribute - Ignored, it doesn't make sense to create a formal setter method.
     attr_accessor :word_results
 
     def initialize

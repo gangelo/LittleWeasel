@@ -11,7 +11,8 @@ RSpec.shared_context 'dictionary cache' do #, shared_context: :metadata do
   # [
   #  {
   #    dictionary_key: <dictionary_key>
-  #    dictionary_file_source: true | false | <file name minus extension>>,
+  #    dictionary_file_source: nil | true | false | <file name minus extension>,
+  #    dictionary_memory_source: nil | true | false |,
   #    [, load: true | false]
   #  }
   # ]
@@ -27,24 +28,8 @@ RSpec.shared_context 'dictionary cache' do #, shared_context: :metadata do
         dictionary_cache: dictionary_cache,
         dictionary_key: hash[:dictionary_key],
         dictionary_file_source: hash[:dictionary_file_source],
+        dictionary_memory_source: hash[:dictionary_memory_source],
         load: hash.fetch(:load, false))
-    end
-
-    dictionary_cache
-  end
-
-  def dictionary_cache_with_memory_source_from(dictionary_keys:)
-    raise ArgumentError, 'Argument dictionary_keys is not an Array' unless dictionary_keys.is_a? Array
-
-    dictionary_cache = {}
-
-    dictionary_keys.each do |hash|
-      raise ArgumentError, "Expected required Hash key :dictionary_key but it was not found" unless hash.key? :dictionary_key
-
-      create(:dictionary_cache_service_with_memory_source,
-        dictionary_cache: dictionary_cache,
-        dictionary_key: hash[:dictionary_key],
-        dictionary_words: hash[:dictionary_words])
     end
 
     dictionary_cache

@@ -15,13 +15,19 @@ RSpec.describe LittleWeasel::Services::DictionaryUnloaderService do
 
   #execute
   describe '#execute' do
-    let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_file_source: dictionary_key.key, load: true) }
-    let!(:unloaded_dictionary_object) { dictionary_cache_service.dictionary_object! }
+    context 'when unloading dictionaries created from a file' do
+      let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_file_source: dictionary_key.key, load: true) }
+      let!(:unloaded_dictionary_object) { dictionary_cache_service.dictionary_object! }
 
-    it 'unloads the dictionary from the dictionary cache and returns the unloaded dictionary object' do
-      expect(dictionary_cache_service.dictionary_loaded?).to be true
-      expect(subject.execute).to be unloaded_dictionary_object
-      expect(dictionary_cache_service.dictionary_loaded?).to be false
+      it 'unloads the dictionary from the dictionary cache and returns the unloaded dictionary object' do
+        expect(dictionary_cache_service.dictionary_loaded?).to be true
+        expect(subject.execute).to be unloaded_dictionary_object
+        expect(dictionary_cache_service.dictionary_loaded?).to be false
+      end
+    end
+
+    context 'when unloading dictionaries created from memory' do
+      it 'does something'
     end
   end
 end

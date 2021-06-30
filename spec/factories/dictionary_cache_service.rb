@@ -15,7 +15,7 @@ FactoryBot.define do
       # If nil or false - No memory source will be added to the dictionary cache.
       # If true - A memory source will be added to the dictionary cache.
       # If <An Array of dictionary words> - A memory source will be added to the dictionry cache.
-      #    This only makes sense if load == true.
+      #                                     This only makes sense if load == true.
       dictionary_memory_source {}
 
       # The dictionary reference created in the cache will point to a FILE source.
@@ -30,12 +30,12 @@ FactoryBot.define do
       # If true - A file source will be added to the dictionry cache.
       #           dictionary_key.key will be used to create the dictionary
       #           file path.
-      # If <Path to dictionary file> - A memory source will be added to the dictionry cache.
+      # If <Path to dictionary file> - A files source will be added to the dictionry cache.
+      #                                The file source will point to <Path to dictionary file>.
       dictionary_file_source {}
 
-      # If dictionary_source == nil
-      # If dictionary_source == :file
-      # If dictionary_source == :memory
+      # If load == true - A dictionary object will be created and added to the dictionary cache
+      #                   depending on the dictionary source (file or memory).
       load { false }
     end
 

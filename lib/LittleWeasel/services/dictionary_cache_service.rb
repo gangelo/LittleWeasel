@@ -156,7 +156,7 @@ module LittleWeasel
       #
       # @return returns a reference to self.
       def add_dictionary_memory_source
-        add_dictionary_source(source: MEMORY_SOURCE)
+        add_dictionary_source(source: memory_source)
       end
 
       # Returns true if a dictionary id can be found in the dictionary
@@ -183,6 +183,7 @@ module LittleWeasel
       def dictionary_file
         dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id, SOURCE)
       end
+      alias dictionary_source dictionary_file
 
       # This method returns true if the dictionary associated with the
       # given dictionary key is loaded/cached. If this is the case,
