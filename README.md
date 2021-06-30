@@ -34,7 +34,7 @@ LittleWeasel provides other features as well:
 
 * LittleWeasel allows you to provide any number of "dictionaryies" which may be in the form of a collecton of words in a file on disk _or_ an Array of words you provide, so that dictionaries may be created _dynamically_.
 * Dictionaries are identified by a unique "dictionary key"; that is, a key based on locale (<language>-<REGION>, e.g. en-US) and/or optional "tag" (en-US-<tag>, e.g. en-US-slang). 
-* Dictionaries are cached; their words and metadata are shared across dictionary instances that share the same dictionary key.
+* Dictionaries created from files on disk are cached; their words and metadata are shared across dictionary instances that share the same dictionary key.
 * Dictionaries can have observable, metadata objects attached to them which are notified when a word or word block is being evaluated; therefore, metadata about the dictionary, words, etc. can be gathered and used. For example, LittleWeasel uses a LittleWeasel::Metadata::InvalidWordsMetadata metadata object that caches and keeps track of the total bytes of invalid words searched against the dictionary. If the total bytes of invalid words exceeds what is set in the configuration, caching of invalid words ceases. You can create your own metadata objects to gather and use your own metadata.
 
 ## Usage
@@ -105,177 +105,178 @@ en_us_dictionary.add_preprocessors word_filters: [
   LittleWeasel::Filters::EnUs::NumericFilter.new
 ]
 
-word_results = en_us_dictionary.word_block word_block
-# Returns an Array of LittleWeasel::WordResults objects. 
-# The below word_results object output is formatted for readability:
-#=> 
-word_results for word: 'This'...
-word_results #=>
-  # The word before any word preprocessors have been applied.
-  #original_word: This
+block_results = en_us_dictionary.word_block word_block
+# Returns a LittleWeasel::BlockResults object. 
+# The below block_results object output is formatted for readability:
+block_results.word_results
+#=>
+    word_results for word: 'This'...
+    word_results #=>
+      # The word before any word preprocessors have been applied.
+      #original_word: This
   
-  # The word after all word preprocessors have been applied against
-  # the word.
-  #preprocessed_word: 
-  
-  # Indicates whether or not the word was found in the literal
-  # dictionary (#word_valid?) OR if the word (after word preprocessing)
-  # was matched against a word filter (#filter_match?).
-  #success?: false
-  
-  # Indicates whether or not word (after word preprocessing) was found 
-  # in the literal dictionary.
-  #word_valid?: false
-  
-  # Indicates whether or not the word is cached, either as a word found
-  # in the literal dictionary OR as an invalid word. The latter will
-  # only take place if LittleWeasel::Configuration#max_invalid_words_bytesize
-  # is greater than 0.
-  #word_cached?: false
-  
-  # Indicates whether or not #preprocessed_word is present due to
-  # word having passed through one or more word preprocessors. This
-  # will only return true if word preprocessors are available to the
-  # dictionary, turned on
-  # (LittleWeasel::Preprocessors::WordPreprocessor#preprocessor_on?)
-  # AND the word meets the criteria for word preprocessing for one or
-  # more word preprocessors (LittleWeasel::Preprocessors::WordPreprocessor#preprocess?).
-  #preprocessed_word?: false
-  
-  # Returns #preprocessed_word if word preprocessing has been applied
-  # or original_word if word preprocessing has NOT been applied.
-  #preprocessed_word_or_original_word: This
-  
-  # Indicates whether or not word has been matched by at least 1 
-  # word filter.
-  #filter_match?: false
-  
-  # Indicates the word filters that were matched against
-  # word (LittleWeasel::Filters::WordFilter#filter_match?). If
-  # word did not match any word filters, an empty Array is returned.
-  #filters_matched: []
+      # The word after all word preprocessors have been applied against
+      # the word.
+      #preprocessed_word: 
+      
+      # Indicates whether or not the word was found in the literal
+      # dictionary (#word_valid?) OR if the word (after word preprocessing)
+      # was matched against a word filter (#filter_match?).
+      #success?: false
+      
+      # Indicates whether or not word (after word preprocessing) was found 
+      # in the literal dictionary.
+      #word_valid?: false
+      
+      # Indicates whether or not the word is cached, either as a word found
+      # in the literal dictionary OR as an invalid word. The latter will
+      # only take place if LittleWeasel::Configuration#max_invalid_words_bytesize
+      # is greater than 0.
+      #word_cached?: false
+      
+      # Indicates whether or not #preprocessed_word is present due to
+      # word having passed through one or more word preprocessors. This
+      # will only return true if word preprocessors are available to the
+      # dictionary, turned on
+      # (LittleWeasel::Preprocessors::WordPreprocessor#preprocessor_on?)
+      # AND the word meets the criteria for word preprocessing for one or
+      # more word preprocessors (LittleWeasel::Preprocessors::WordPreprocessor#preprocess?).
+      #preprocessed_word?: false
+      
+      # Returns #preprocessed_word if word preprocessing has been applied
+      # or original_word if word preprocessing has NOT been applied.
+      #preprocessed_word_or_original_word: This
+      
+      # Indicates whether or not word has been matched by at least 1 
+      # word filter.
+      #filter_match?: false
+      
+      # Indicates the word filters that were matched against
+      # word (LittleWeasel::Filters::WordFilter#filter_match?). If
+      # word did not match any word filters, an empty Array is returned.
+      #filters_matched: []
+    
+      # Indicates the word preprocessors that were applied against
+      # word. If no word preprocessors were applied to word, an empty
+      # Array is returned.
+      #preprocessed_words: []
 
-  # Indicates the word preprocessors that were applied against
-  # word. If no word preprocessors were applied to word, an empty
-  # Array is returned.
-  #preprocessed_words: []
+    word_results for word: 'is'...
+    word_results #=>
+      #original_word: is
+      #preprocessed_word: 
+      #success?: true
+      #word_valid?: true
+      #word_cached?: true
+      #preprocessed_word?: false
+      #preprocessed_word_or_original_word: is
+      #filter_match?: false
+      #filters_matched: []
+      #preprocessed_words: nil
 
-word_results for word: 'is'...
-word_results #=>
-  #original_word: is
-  #preprocessed_word: 
-  #success?: true
-  #word_valid?: true
-  #word_cached?: true
-  #preprocessed_word?: false
-  #preprocessed_word_or_original_word: is
-  #filter_match?: false
-  #filters_matched: []
-  #preprocessed_words: nil
+    word_results for word: 'a'...
+    word_results #=>
+      #original_word: a
+      #preprocessed_word: 
+      #success?: true
+      #word_valid?: true
+      #word_cached?: true
+      #preprocessed_word?: false
+      #preprocessed_word_or_original_word: a
+      #filter_match?: false
+      #filters_matched: []
+      #preprocessed_words: nil
+    
+    word_results for word: 'word-block'...
+    word_results #=>
+      #original_word: word-block
+      #preprocessed_word: 
+      #success?: false
+      #word_valid?: false
+      #word_cached?: false
+      #preprocessed_word?: false
+      #preprocessed_word_or_original_word: word-block
+      #filter_match?: false
+      #filters_matched: []
+      #preprocessed_words: nil
+    
+    word_results for word: 'of'...
+    word_results #=>
+      #original_word: of
+      #preprocessed_word: 
+      #success?: false
+      #word_valid?: false
+      #word_cached?: false
+      #preprocessed_word?: false
+      #preprocessed_word_or_original_word: of
+      #filter_match?: false
+      #filters_matched: []
+      #preprocessed_words: nil
 
-word_results for word: 'a'...
-word_results #=>
-  #original_word: a
-  #preprocessed_word: 
-  #success?: true
-  #word_valid?: true
-  #word_cached?: true
-  #preprocessed_word?: false
-  #preprocessed_word_or_original_word: a
-  #filter_match?: false
-  #filters_matched: []
-  #preprocessed_words: nil
+    word_results for word: '8'...
+    word_results #=>
+      #original_word: 8
+      #preprocessed_word: 
+      #success?: true
+      #word_valid?: false
+      #word_cached?: false
+      #preprocessed_word?: false
+      #preprocessed_word_or_original_word: 8
+      #filter_match?: true
+      #filters_matched: [:numeric_filter]
+      #preprocessed_words: nil
+    
+    word_results for word: 'words'...
+    word_results #=>
+      #original_word: words
+      #preprocessed_word: 
+      #success?: true
+      #word_valid?: true
+      #word_cached?: true
+      #preprocessed_word?: false
+      #preprocessed_word_or_original_word: words
+      #filter_match?: false
+      #filters_matched: []
+      #preprocessed_words: nil
+    
+    word_results for word: 'and'...
+    word_results #=>
+      #original_word: and
+      #preprocessed_word: 
+      #success?: true
+      #word_valid?: true
+      #word_cached?: true
+      #preprocessed_word?: false
+      #preprocessed_word_or_original_word: and
+      #filter_match?: false
+      #filters_matched: []
+      #preprocessed_words: nil
 
-word_results for word: 'word-block'...
-word_results #=>
-  #original_word: word-block
-  #preprocessed_word: 
-  #success?: false
-  #word_valid?: false
-  #word_cached?: false
-  #preprocessed_word?: false
-  #preprocessed_word_or_original_word: word-block
-  #filter_match?: false
-  #filters_matched: []
-  #preprocessed_words: nil
-
-word_results for word: 'of'...
-word_results #=>
-  #original_word: of
-  #preprocessed_word: 
-  #success?: false
-  #word_valid?: false
-  #word_cached?: false
-  #preprocessed_word?: false
-  #preprocessed_word_or_original_word: of
-  #filter_match?: false
-  #filters_matched: []
-  #preprocessed_words: nil
-
-word_results for word: '8'...
-word_results #=>
-  #original_word: 8
-  #preprocessed_word: 
-  #success?: true
-  #word_valid?: false
-  #word_cached?: false
-  #preprocessed_word?: false
-  #preprocessed_word_or_original_word: 8
-  #filter_match?: true
-  #filters_matched: [:numeric_filter]
-  #preprocessed_words: nil
-
-word_results for word: 'words'...
-word_results #=>
-  #original_word: words
-  #preprocessed_word: 
-  #success?: true
-  #word_valid?: true
-  #word_cached?: true
-  #preprocessed_word?: false
-  #preprocessed_word_or_original_word: words
-  #filter_match?: false
-  #filters_matched: []
-  #preprocessed_words: nil
-
-word_results for word: 'and'...
-word_results #=>
-  #original_word: and
-  #preprocessed_word: 
-  #success?: true
-  #word_valid?: true
-  #word_cached?: true
-  #preprocessed_word?: false
-  #preprocessed_word_or_original_word: and
-  #filter_match?: false
-  #filters_matched: []
-  #preprocessed_words: nil
-
-word_results for word: '2'...
-word_results #=>
-  #original_word: 2
-  #preprocessed_word: 
-  #success?: true
-  #word_valid?: true
-  #word_cached?: true
-  #preprocessed_word?: false
-  #preprocessed_word_or_original_word: 2
-  #filter_match?: true
-  #filters_matched: [:numeric_filter]
-  #preprocessed_words: nil
-
-word_results for word: 'numbers'...
-word_results #=>
-  #original_word: numbers
-  #preprocessed_word: 
-  #success?: false
-  #word_valid?: false
-  #word_cached?: false
-  #preprocessed_word?: false
-  #preprocessed_word_or_original_word: numbers
-  #filter_match?: false
-  #filters_matched: []
-  #preprocessed_words: nil
+    word_results for word: '2'...
+    word_results #=>
+      #original_word: 2
+      #preprocessed_word: 
+      #success?: true
+      #word_valid?: true
+      #word_cached?: true
+      #preprocessed_word?: false
+      #preprocessed_word_or_original_word: 2
+      #filter_match?: true
+      #filters_matched: [:numeric_filter]
+      #preprocessed_words: nil
+    
+    word_results for word: 'numbers'...
+    word_results #=>
+      #original_word: numbers
+      #preprocessed_word: 
+      #success?: false
+      #word_valid?: false
+      #word_cached?: false
+      #preprocessed_word?: false
+      #preprocessed_word_or_original_word: numbers
+      #filter_match?: false
+      #filters_matched: []
+      #preprocessed_words: nil
 ```
 
 ### Word Search using Word Filters and Word Preprocessors Example
