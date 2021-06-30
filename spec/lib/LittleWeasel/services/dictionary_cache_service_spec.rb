@@ -163,7 +163,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
   #add_dictionary_memory_source
   describe '#add_dictionary_memory_source' do
     subject! do
-      create(:dictionary_cache_service, dictionary_key: dictionary_key)
+      create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_key: dictionary_key)
         .add_dictionary_memory_source
     end
 
@@ -208,44 +208,55 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
   #add_dictionary_file_source
   describe '#add_dictionary_file_source' do
-    subject! do
-      create(:dictionary_cache_service, dictionary_key: dictionary_key)
-        .add_dictionary_file_source(file: file)
-    end
-
     context 'when a dictionary reference for the key already exists' do
+      before do
+        create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_key: dictionary_key)
+          .add_dictionary_file_source(file: file)
+      end
+
       it 'raises an error' do
         expect do
-          create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: subject.dictionary_cache)
+          create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_key: dictionary_key, dictionary_cache: subject.dictionary_cache)
             .add_dictionary_file_source(file: file)
         end.to raise_error "Dictionary reference for key '#{key}' already exists."
       end
     end
 
     context 'when a dictionary reference for the key DOES NOT already exist' do
-      describe 'when the dictionary file source already exists' do
-        let!(:original_dictionary_cache) { subject.dictionary_cache }
-        let(:expected_dictionary_cache) do
-          dictionary_keys = [
-            { dictionary_key: dictionary_key, dictionary_file_source: dictionary_key.key },
-            # Note: Even though our dictionary key is en-GB, we're pointing to the existing
-            # dictionary file referenced by en-US (i.e dictionary_file_source file).
-            { dictionary_key: en_gb_dictionary_key, dictionary_file_source: dictionary_key.key }
-          ]
-          dictionary_cache_from(dictionary_keys: dictionary_keys)
-        end
+      subject! do
+        create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_key: dictionary_key)
+          .add_dictionary_file_source(file: file)
+      end
 
-        it 'a dictionary file source is created whose dictionary file key points to the existing dictionary file' do
-          expect do
-            create(:dictionary_cache_service, dictionary_key: en_gb_dictionary_key, dictionary_cache: subject.dictionary_cache).add_dictionary_file_source(file: file)
-          end.to change { subject.dictionary_cache }.from(original_dictionary_cache).to(expected_dictionary_cache)
+      let(:en_gb_file) do
+        "#{ dictionary_path_for(file_name: en_gb_dictionary_key.key) }"
+      end
+
+      it 'creates a new dictionary reference' do
+        dictionary_cache_service = create(:dictionary_cache_service, dictionary_key: en_gb_dictionary_key, dictionary_cache: subject.dictionary_cache)
+        dictionary_cache_service.add_dictionary_file_source file: en_gb_file
+        expect(dictionary_cache_service.dictionary_reference?).to eq true
+      end
+
+      context 'when the file source already exists' do
+        it 'reuses the existing file source' do
+          dictionary_cache_service = create(:dictionary_cache_service, dictionary_key: en_gb_dictionary_key, dictionary_cache: subject.dictionary_cache)
+          # Note: We're using the same file as en-US dictionary key, so
+          # the file source is NOT unique and will be reused.
+          dictionary_cache_service.add_dictionary_file_source file: file
+          expect(LittleWeasel::Modules::DictionarySourceable.file_source? dictionary_cache_service.dictionary_source).to be_truthy
+          expect(dictionary_cache_service.dictionary_source == subject.dictionary_source).to eq true
         end
       end
 
-      describe 'when the dictionary file source DOES NOT already exist' do
-        it 'creates a new dictionary reference' do
-          en_gb_file = dictionary_path_for(file_name: en_gb_dictionary_key.key)
-          expect(create(:dictionary_cache_service, dictionary_key: en_gb_dictionary_key, dictionary_cache: subject.dictionary_cache).add_dictionary_file_source(file: en_gb_file).dictionary_reference?).to eq true
+      context 'when the file source DOES NOT already exists' do
+        it 'creates a unique file source' do
+          dictionary_cache_service = create(:dictionary_cache_service, dictionary_key: en_gb_dictionary_key, dictionary_cache: subject.dictionary_cache)
+          # Note: We're using file that is DIFFERENT from the file being used by the
+          # en-US dictionary key, the file source created will be unique.
+          dictionary_cache_service.add_dictionary_file_source file: en_gb_file
+          expect(LittleWeasel::Modules::DictionarySourceable.file_source? dictionary_cache_service.dictionary_source).to be_truthy
+          expect(dictionary_cache_service.dictionary_source == subject.dictionary_source).to eq false
         end
       end
     end
@@ -275,7 +286,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       let(:dictionary_words) { dictionary_words_for(dictionary_file_path: file) }
 
       it 'returns the dictionary file' do
-        expect(subject.dictionary_file).to eq LittleWeasel::Modules::DictionarySourceable::MEMORY_SOURCE
+        expect(LittleWeasel::Modules::DictionarySourceable.memory_source? subject.dictionary_file).to be_truthy
       end
     end
   end

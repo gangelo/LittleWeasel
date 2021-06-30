@@ -2,12 +2,15 @@
 
 module LittleWeasel
   module Modules
-    # This module provides methods to indicate dictionary sources
-    # created from memory.
+    # This module provides methods to manage dictionary sources.
     module DictionarySourceable
       MEMORY_SOURCE = '*'
 
       module_function
+
+      def file_source?(source)
+        !memory_source? source
+      end
 
       def memory_source?(source)
         source =~ /^#{Regexp.quote(MEMORY_SOURCE)}[0-9a-fA-F]{8}$/
