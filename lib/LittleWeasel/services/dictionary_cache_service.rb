@@ -153,8 +153,8 @@ module LittleWeasel
         add_dictionary_source(source: memory_source)
       end
 
-      # Returns true if a dictionary id can be found in the dictionary
-      # references for the given key.
+      # Returns the dictionary id if there is a dictionary id in the dictionary
+      # cache associated with the given key.
       def dictionary_id
         dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key, DICTIONARY_ID)
       end

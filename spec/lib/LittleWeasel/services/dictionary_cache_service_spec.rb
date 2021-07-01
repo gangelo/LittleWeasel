@@ -14,7 +14,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
   let(:dictionary_key) { en_us_dictionary_key }
   let(:key) { dictionary_key.key }
-  let(:file) { "#{ dictionary_path_for(file_name: key) }" }
+  let(:file) { dictionary_path_for(file_name: key) }
   let(:file_minus_ext) { key }
   let(:dictionary_cache) { {} }
   let!(:initialized_dictionary_cache) { LittleWeasel::Modules::DictionaryCacheKeys.initialize_dictionary_cache(dictionary_cache: {}) }
@@ -117,15 +117,13 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
     end
 
     context 'when the dictionary reference DOES NOT exist' do
-      subject! { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+      subject { create(:dictionary_cache_service, dictionary_key: es_es_dictionary_key, dictionary_cache: dictionary_cache) }
 
-      let(:dictionary_key) { es_es_dictionary_key }
-      let(:dictionary_cache) do
-        dictionary_keys = [
-          { dictionary_key: en_us_dictionary_key },
-          { dictionary_key: en_gb_dictionary_key },
-        ]
-        dictionary_cache_from dictionary_keys: dictionary_keys
+      before do
+        create(:dictionary_cache_service, dictionary_key: en_us_dictionary_key, dictionary_cache: dictionary_cache)
+          .add_dictionary_memory_source
+        create(:dictionary_cache_service, dictionary_key: en_gb_dictionary_key, dictionary_cache: dictionary_cache)
+          .add_dictionary_file_source file: dictionary_path_for(file_name: en_gb_dictionary_key.key)
       end
 
       it 'returns false' do
@@ -268,6 +266,25 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
       it 'returns the dictionary file' do
         expect(LittleWeasel::Modules::DictionarySourceable.memory_source? subject.dictionary_file).to be_truthy
+      end
+    end
+  end
+
+  #dictionary_id
+  describe '#dictionary_id' do
+    context 'when a dictionary id exists for the given dictionary key' do
+      before do
+        subject.add_dictionary_memory_source
+      end
+
+      it 'returns the key' do
+        expect(subject.dictionary_id).to_not be_nil
+      end
+    end
+
+    context 'when a dictionary id DOES NOT exist for the given dictionary key' do
+      it 'returns nil' do
+        expect(subject.dictionary_id).to be_nil
       end
     end
   end
