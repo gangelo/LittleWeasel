@@ -15,6 +15,6 @@ RSpec.describe 'Workflow tests' do
 
   let(:dictionary_key) { en_us_dictionary_key }
   let(:key) { dictionary_key.key }
-  let(:file) { "#{ dictionary_path_for(file_name: key) }" }
+  let(:file) { dictionary_path_for(file_name: key) }
   let(:dictionary_words) { dictionary_words_for(dictionary_file_path: file) }
 end

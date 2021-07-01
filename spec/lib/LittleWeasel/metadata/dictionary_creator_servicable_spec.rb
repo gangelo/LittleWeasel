@@ -26,7 +26,7 @@ RSpec.describe LittleWeasel::Modules::DictionaryCreatorServicable, type: :module
   let(:en_us_dictionary_key) { dictionary_key_for(language: :en, region: :us) }
   let(:dictionary_key) { en_us_dictionary_key }
   let(:key) { dictionary_key.key }
-  let(:file) { "#{ dictionary_path_for(file_name: key) }" }
+  let(:file) { dictionary_path_for(file_name: key) }
   let(:dictionary_cache) { {} }
   let(:dictionary_metadata) { {} }
   let(:word_filters) {}
