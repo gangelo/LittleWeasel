@@ -5,8 +5,8 @@ require 'spec_helper'
 RSpec.describe LittleWeasel::DictionaryManager do
   subject { create(:dictionary_manager) }
 
-  let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: subject.dictionary_cache)}
-  let(:dictionary_metadata_service) { create(:dictionary_metadata_service, dictionary_key: dictionary_key, dictionary_cache: subject.dictionary_cache, dictionary_metadata: dictionary_metadata)}
+  let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)}
+  let(:dictionary_metadata_service) { create(:dictionary_metadata_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata)}
   let(:dictionary_key) { create(:dictionary_key, language: language, region: region, tag: tag) }
   let(:dictionary_cache) { subject.dictionary_cache }
   let(:dictionary_metadata) { subject.dictionary_metadata }
@@ -77,20 +77,40 @@ RSpec.describe LittleWeasel::DictionaryManager do
 
   #kill
   describe '#kill_dictionary' do
-    before do
-      subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file)
+    context 'dictionaries created from files' do
+      before do
+        subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file)
+      end
+
+      it 'removes the dictionary, file source reference and metadata from the dictionary cache' do
+        metadata_key # Capture this before we unload the dictionary
+        subject.kill_dictionary(dictionary_key: dictionary_key)
+        expect(dictionary_cache_service.dictionary_loaded?).to eq false
+        expect(dictionary_cache_service.dictionary_reference?).to eq false
+        expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to eq false
+      end
+
+      it 'returns the dictionary manager instance' do
+        expect(subject.kill_dictionary(dictionary_key: dictionary_key)).to eq subject
+      end
     end
 
-    it 'removes the dictionary, file reference and metadata from the dictionary cache' do
-      metadata_key # Capture this before we unload the dictionary
-      subject.kill_dictionary(dictionary_key: dictionary_key)
-      expect(dictionary_cache_service.dictionary_loaded?).to eq false
-      expect(dictionary_cache_service.dictionary_reference?).to eq false
-      expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to eq false
-    end
+    context 'dictionaries created from memory' do
+      before do
+        subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: %w(Abel Cain Deborah Elijah))
+      end
 
-    it 'returns the dictionary manager instance' do
-      expect(subject.kill_dictionary(dictionary_key: dictionary_key)).to eq subject
+      it 'removes the dictionary, memory source reference and metadata from the dictionary cache' do
+        metadata_key # Capture this before we unload the dictionary
+        subject.kill_dictionary(dictionary_key: dictionary_key)
+        expect(dictionary_cache_service.dictionary_loaded?).to eq false
+        expect(dictionary_cache_service.dictionary_reference?).to eq false
+        expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to eq false
+      end
+
+      it 'returns the dictionary manager instance' do
+        expect(subject.kill_dictionary(dictionary_key: dictionary_key)).to eq subject
+      end
     end
   end
 end
