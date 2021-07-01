@@ -170,16 +170,17 @@ module LittleWeasel
         raise ArgumentError, "A dictionary id could not be found for key '#{key}'."
       end
 
-      def dictionary_file!
-        raise ArgumentError, "A dictionary reference could not be found for key '#{key}'." unless dictionary_reference?
+      def dictionary_source!
+        raise ArgumentError, "A dictionary source could not be found for key '#{key}'." unless dictionary_reference?
 
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][SOURCE]
       end
+      alias dictionary_file! dictionary_source!
 
-      def dictionary_file
+      def dictionary_source
         dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id, SOURCE)
       end
-      alias dictionary_source dictionary_file
+      alias dictionary_file dictionary_source
 
       # This method returns true if the dictionary associated with the
       # given dictionary key is loaded/cached. If this is the case,
