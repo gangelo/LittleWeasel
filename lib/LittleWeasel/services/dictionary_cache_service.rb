@@ -111,16 +111,18 @@ module LittleWeasel
         self
       end
 
-      # Returns true if the dictionary reference exists for the given key. This
-      # method is only concerned with the dictionary reference only and has
-      # nothing to do with whether or not the associated dictionary is actually
-      # loaded or not; for this, use #loaded?
+      # Returns true if the dictionary reference exists for the given key; false
+      # otherwise. This method is only concerned with the dictionary reference
+      # and has nothing to do with whether or not the associated dictionary
+      # is actually loaded into the dictionary cache.
       def dictionary_reference?
         dictionary_reference&.present? || false
       end
 
       # Returns true if the dictionary exists for the given dictionary id
-      # associated with the given key.
+      # associated with the given key. This method is only concerned with the dictionary id
+      # and has nothing to do with whether or not the associated dictionary
+      # is actually loaded into the dictionary cache.
       def dictionary?
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES].key? dictionary_id
       end
@@ -154,14 +156,14 @@ module LittleWeasel
       end
 
       # Returns the dictionary id if there is a dictionary id in the dictionary
-      # cache associated with the given key.
+      # cache associated with the given key; nil otherwise.
       def dictionary_id
         dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key, DICTIONARY_ID)
       end
 
-      # Returns true if a dictionary id can be found in the dictionary
-      # references for the given key. This method raises an error if the
-      # file key cannot be found.
+      # Returns the dictionary id if there is a dictionary id in the dictionary
+      # cache associated with the given key. This method raises an error if the
+      # dictionary id cannot be found.
       def dictionary_id!
         return dictionary_id if dictionary_id?
 
