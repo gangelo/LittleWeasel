@@ -200,9 +200,7 @@ module LittleWeasel
       end
 
       def dictionary_object
-        return unless dictionary_reference?
-
-        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id!, DICTIONARY_OBJECT)
+        dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES, dictionary_id, DICTIONARY_OBJECT)
       end
 
       def dictionary_object=(object)
@@ -261,6 +259,10 @@ module LittleWeasel
         dictionaries&.each_pair do |dictionary_id, dictionary_hash|
           return dictionary_id if source == dictionary_hash[SOURCE]
         end
+        new_dictionary_id
+      end
+
+      def new_dictionary_id
         SecureRandom.uuid[0..7]
       end
 
