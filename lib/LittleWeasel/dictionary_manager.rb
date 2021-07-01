@@ -65,19 +65,6 @@ module LittleWeasel
         word_preprocessors: word_preprocessors
     end
 
-    def dictionary_cache_service(dictionary_key:)
-      Services::DictionaryCacheService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
-    end
-
-    def dictionary_loader_service(dictionary_key:)
-      Services::DictionaryLoaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
-        dictionary_metadata: dictionary_metadata
-    end
-
-    def dictionary_unloader_service(dictionary_key:)
-      Services::DictionaryUnloaderService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache
-    end
-
     def dictionary_killer_service(dictionary_key:)
       Services::DictionaryKillerService.new dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
         dictionary_metadata: dictionary_metadata
