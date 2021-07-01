@@ -78,24 +78,23 @@ module LittleWeasel
       end
 
       class << self
-        # This method resets dictionary_cache to its initialized state - all
-        # data is lost.
+        # This method resets dictionary_cache to its initialized state.
+        # This class method is different from the #init instance method
+        # in that ALL dictionary references and ALL dictionaries are
+        # initialized.
         def init(dictionary_cache:)
           Modules::DictionaryCacheKeys.initialize_dictionary_cache dictionary_cache: dictionary_cache
         end
 
         # Returns true if the dictionary cache is initialized; that
-        # is, if it's in the same state the dictionary cache would
-        # be in after #init is called.
+        # is, if the given dictionary_cache is in the same state the
+        # dictionary cache would be in after .init were called.
         def init?(dictionary_cache:)
           initialized_dictionary_cache = init(dictionary_cache: {})
           dictionary_cache.eql?(initialized_dictionary_cache)
         end
 
-        # Returns the number of dictionaries. This count
-        # has nothing to do with whether or not the dictionaries
-        # are loaded, only the number of dictionary referenced
-        # in the cache.
+        # Returns the number of dictionaries currently in the cache.
         def count(dictionary_cache:)
           dictionary_cache.dig(self::DICTIONARY_CACHE, self::DICTIONARIES)&.keys&.count || 0
         end
@@ -107,7 +106,9 @@ module LittleWeasel
         end
       end
 
-      # This method resets the dictionary cache for the given key.
+      # This method resets the dictionary cache for the given key. This method
+      # is different from the .init class method in that ONLY the dictionary
+      # reference and dictionary specific to the given key is initialized.
       def init
         # TODO: Do not delete the dictionary if it is being pointed to by
         # another dictionary reference.
