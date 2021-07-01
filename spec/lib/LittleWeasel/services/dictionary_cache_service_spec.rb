@@ -84,25 +84,6 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
         end
       end
     end
-
-    #.populated?
-    describe '.populated?' do
-      context 'when there are no dictionary references' do
-        subject { create(:dictionary_cache_service) }
-
-        it 'returns false' do
-          expect(described_class.populated?(dictionary_cache: subject.dictionary_cache)).to eq false
-        end
-      end
-
-      context 'when there are are dictionary references' do
-        subject { create(:dictionary_cache_service, dictionary_file_source: true) }
-
-        it 'returns true' do
-          expect(described_class.populated?(dictionary_cache: subject.dictionary_cache)).to eq true
-        end
-      end
-    end
   end
 
   #init

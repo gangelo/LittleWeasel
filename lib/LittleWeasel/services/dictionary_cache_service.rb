@@ -98,12 +98,6 @@ module LittleWeasel
         def count(dictionary_cache:)
           dictionary_cache.dig(self::DICTIONARY_CACHE, self::DICTIONARIES)&.keys&.count || 0
         end
-
-        # Returns true if the dictionary cache has, at a minimum, dictionary
-        # references added to it.
-        def populated?(dictionary_cache:)
-          count(dictionary_cache: dictionary_cache).positive?
-        end
       end
 
       # This method resets the dictionary cache for the given key. This method

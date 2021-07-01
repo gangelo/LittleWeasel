@@ -50,7 +50,8 @@ FactoryBot.define do
 
       # Initialize the dictionary cache if the user already passed an
       # initialized dictionary cache; otherwise, just use what they passed us.
-      dictionary_cache_service.class.init(dictionary_cache: dictionary_cache) unless dictionary_cache_service.class.populated?(dictionary_cache: dictionary_cache)
+      dictionary_cache_service.class.init(dictionary_cache: dictionary_cache) \
+        unless dictionary_cache_service.class.count(dictionary_cache: dictionary_cache).positive?
 
       load = evaluator.load
       dictionary_memory_source = evaluator.dictionary_memory_source
