@@ -31,37 +31,36 @@ module LittleWeasel
       # {
       #   'dictionary_cache' =>
       #   {
-      #     'next_dictionary_id' => 0,
       #     'dictionary_references' =>
       #     {
       #       'en' =>
       #       {
-      #         'dictionary_id' => 0
+      #         'dictionary_id' => 19ec7845
       #       },
       #       'en-US' =>
       #       {
-      #         'dictionary_id' => 1
+      #         'dictionary_id' => 0987a3f2
       #       },
       #       'en-US-temp' =>
       #       {
-      #         'dictionary_id' => 2
+      #         'dictionary_id' => 9273eac6
       #       }
       #     },
       #     'dictionaries' =>
       #     {
-      #       0 =>
+      #       19ec7845 =>
       #         {
       #           'source' => '/en.txt',
       #           'dictionary_object' => {}
       #         },
-      #       1 =>
+      #       0987a3f2 =>
       #         {
       #           'source' => '/en-US.txt',
       #           'dictionary_object' => {}
       #         },
-      #       2 =>
+      #       9273eac6 =>
       #         {
-      #           'source' => 'memory',
+      #           'source' => '*736ed423',
       #           'dictionary_object' => {}
       #         }
       #     }
@@ -262,11 +261,7 @@ module LittleWeasel
         dictionaries&.each_pair do |dictionary_id, dictionary_hash|
           return dictionary_id if source == dictionary_hash[SOURCE]
         end
-        next_dictionary_id
-      end
-
-      def next_dictionary_id
-        (dictionary_cache[DICTIONARY_CACHE][NEXT_DICTIONARY_ID] += 1) - 1
+        SecureRandom.uuid[0..7]
       end
 
       def dictionary_id?

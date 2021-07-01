@@ -6,7 +6,6 @@ module LittleWeasel
     # and manipulate a dictionary cache Hash object.
     module DictionaryCacheKeys
       DICTIONARY_CACHE = 'dictionary_cache'
-      NEXT_DICTIONARY_ID = 'next_dictionary_id'
       DICTIONARY_REFERENCES = 'dictionary_references'
       DICTIONARY_ID = 'dictionary_id'
       DICTIONARIES = 'dictionaries'
@@ -23,7 +22,6 @@ module LittleWeasel
 
       def initialized_dictionary_cache(include_root: true)
         dictionary_cache = {
-          NEXT_DICTIONARY_ID => 0,
           DICTIONARY_REFERENCES => {},
           DICTIONARIES => {}
         }
