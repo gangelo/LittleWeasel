@@ -5,12 +5,10 @@ require 'observer'
 
 RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
   subject do
-    dictionary_manager.init
-    dictionary_manager.add_dictionary_file_source(dictionary_key: dictionary_key, file: file)
-    dictionary.dictionary_metadata_object.observers[:invalid_words_metadata]
+    dictionary.dictionary_metadata_object[:invalid_words_metadata]
   end
 
-  let(:dictionary) { dictionary_manager.load_dictionary(dictionary_key: dictionary_key) }
+  let(:dictionary) { dictionary_manager.create_dictionary_from_file(dictionary_key: dictionary_key, file: file) }
   let(:dictionary_manager) { create(:dictionary_manager) }
 
   let(:dictionary_key) { create(:dictionary_key, language: language, region: region, tag: tag) }

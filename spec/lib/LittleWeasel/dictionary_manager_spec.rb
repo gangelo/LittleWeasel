@@ -31,50 +31,22 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
-  #add_dictionary_file_source
-  describe '#add_dictionary_file_source' do
-    it 'adds the dictionary reference' do
-      expect { subject.add_dictionary_file_source(dictionary_key: dictionary_key, file: file) }.to_not raise_error
-    end
-  end
-
-  #add_dictionary_memory_source
-  describe '#add_dictionary_memory_source' do
-    it 'adds the dictionary reference' do
-      expect { subject.add_dictionary_memory_source(dictionary_key: dictionary_key) }.to_not raise_error
-    end
-  end
-
-  #load_dictionary
-  describe '#load_dictionary' do
-    before do
-      subject.add_dictionary_file_source(dictionary_key: dictionary_key, file: file)
-    end
-
-    let(:tag) { :tagged }
-
-    it 'loads the dictionary and returns a dictionary object' do
-      expect(subject.load_dictionary(dictionary_key: dictionary_key)).to be_kind_of LittleWeasel::Dictionary
-    end
-  end
-
   #create_dictionary_from_file
   describe '#create_dictionary_from_file' do
-    context 'when the dictionary reference does not exist and the dictionary is not loaded/cached' do
-      it 'adds a dictionary reference, loads/caches the dictionary and returns a dictionary object' do
+    context 'when the dictionary DOES NOT exist' do
+      it 'creates a dictionary and returns a dictionary object' do
         expect(subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file)).to be_kind_of LittleWeasel::Dictionary
-        expect(dictionary_cache_service.dictionary_reference?).to eq true
-        expect(dictionary_cache_service.dictionary_object?).to eq true
       end
     end
 
-    context 'when the dictionary reference exists' do
+    context 'when the dictionary file already exists' do
       before do
-        subject.add_dictionary_file_source(dictionary_key: dictionary_key, file: file)
+        subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file)
       end
 
       it 'raises an error' do
-        expect { subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file) }.to raise_error "Dictionary reference for key '#{dictionary_key.key}' already exists."
+        expect { subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file) }
+          .to raise_error("Dictionary reference for key '#{dictionary_key.key}' already exists.")
       end
     end
   end
@@ -93,40 +65,20 @@ RSpec.describe LittleWeasel::DictionaryManager do
 
     context 'when the dictionary reference exists' do
       before do
-        subject.add_dictionary_memory_source(dictionary_key: dictionary_key)
+        subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: dictionary_words)
       end
 
       it 'raises an error' do
-        expect { subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: dictionary_words) }.to raise_error "Dictionary reference for key '#{dictionary_key.key}' already exists."
+        expect { subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: dictionary_words) }
+          .to raise_error "Dictionary reference for key '#{dictionary_key.key}' already exists."
       end
-    end
-  end
-
-  #unload_dictionary
-  describe '#unload_dictionary' do
-    before do
-      subject.add_dictionary_file_source(dictionary_key: dictionary_key, file: file)
-      subject.load_dictionary(dictionary_key: dictionary_key)
-    end
-
-    it 'unloads the dictionary but keeps the file reference and metadata in the dictionary cache' do
-      metadata_key # Capture this before we unload the dictionary
-      subject.unload_dictionary(dictionary_key: dictionary_key)
-      expect(dictionary_cache_service.dictionary_loaded?).to eq false
-      expect(dictionary_cache_service.dictionary_reference?).to eq true
-      expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to eq true
-   end
-
-    it 'returns the dictionary manager object' do
-      expect(subject.unload_dictionary(dictionary_key: dictionary_key)).to eq subject
     end
   end
 
   #kill
   describe '#kill_dictionary' do
     before do
-      subject.add_dictionary_file_source(dictionary_key: dictionary_key, file: file)
-      subject.load_dictionary(dictionary_key: dictionary_key)
+      subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file)
     end
 
     it 'removes the dictionary, file reference and metadata from the dictionary cache' do

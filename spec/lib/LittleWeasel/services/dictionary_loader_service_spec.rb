@@ -46,9 +46,5 @@ RSpec.describe LittleWeasel::Services::DictionaryLoaderService do
         end
       end
     end
-
-    context 'when loading dictionaries created from memory' do
-      it 'does something'
-    end
   end
 end
