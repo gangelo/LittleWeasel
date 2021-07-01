@@ -228,22 +228,6 @@ module LittleWeasel
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][DICTIONARY_OBJECT] = object
       end
 
-      def unload_dictionary
-        unless dictionary_reference?
-          raise ArgumentError,
-            "The dictionary reference associated with key '#{key}' could not be found."
-        end
-
-        unless dictionary_loaded?
-          raise ArgumentError,
-            "The dictionary associated with key '#{key}' is not loaded/cached."
-        end
-
-        dictionary_object = self.dictionary_object
-        dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!][DICTIONARY_OBJECT] = nil
-        dictionary_object
-      end
-
       private
 
       attr_writer :dictionary_cache
