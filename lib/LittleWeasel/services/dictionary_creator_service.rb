@@ -8,6 +8,7 @@ require_relative '../modules/dictionary_cache_servicable'
 require_relative '../modules/dictionary_creator_servicable'
 require_relative '../modules/dictionary_keyable'
 require_relative '../modules/dictionary_metadata_servicable'
+require_relative '../modules/dictionary_sourceable'
 require_relative '../preprocessors/word_preprocessor_managable'
 require_relative 'dictionary_file_loader_service'
 
@@ -21,6 +22,7 @@ module LittleWeasel
       include Modules::DictionaryCacheServicable
       include Modules::DictionaryKeyable
       include Modules::DictionaryMetadataServicable
+      include Modules::DictionarySourceable
       include Preprocessors::WordPreprocessorManagable
 
       def initialize(dictionary_key:, dictionary_cache:, dictionary_metadata:,
@@ -42,13 +44,13 @@ module LittleWeasel
       end
 
       def from_file_source(file:)
-        dictionary_cache_service.add_dictionary_file_source(file: file)
+        add_dictionary_file_source file: file
         dictionary_words = dictionary_file_loader_service.execute
         create_dictionary dictionary_words: dictionary_words
       end
 
       def from_memory_source(dictionary_words:)
-        dictionary_cache_service.add_dictionary_memory_source
+        add_dictionary_memory_source
         create_dictionary dictionary_words: dictionary_words
       end
 
@@ -64,6 +66,28 @@ module LittleWeasel
           word_preprocessors: word_preprocessors).tap do |dictionary|
           dictionary_cache_service.dictionary_object = dictionary
         end
+      end
+
+      # Adds a dictionary file source. A "file source" is a file path that
+      # indicates that the dictionary words associated with this dictionary are
+      # located on disk. This file path is used to locate and load the
+      # dictionary words into the dictionary cache for use.
+      #
+      # @param file [String] a file path pointing to the dictionary file to load and use.
+      #
+      # @return returns a reference to self.
+      def add_dictionary_file_source(file:)
+        dictionary_cache_service.add_dictionary_source(source: file)
+      end
+
+      # Adds a dictionary memory source. A "memory source" indicates that the
+      # dictionary words associated with this dictionary were created
+      # dynamically and will be located in memory, as opposed to loaded from
+      # a file on disk.
+      #
+      # @return returns a reference to self.
+      def add_dictionary_memory_source
+        dictionary_cache_service.add_dictionary_source(source: memory_source)
       end
     end
   end

@@ -29,7 +29,7 @@ module LittleWeasel
       end
 
       def execute
-        if dictionary_cache_service.dictionary_loaded?
+        if dictionary_cache_service.dictionary_exists?
           load_from_cache
         else
           dictionary_cache_service.dictionary_object = load_from_disk

@@ -4,6 +4,7 @@ require_relative '../modules/dictionary_cache_keys'
 require_relative '../modules/dictionary_cache_validatable'
 require_relative '../modules/dictionary_keyable'
 require_relative '../modules/dictionary_sourceable'
+require_relative '../modules/dictionary_validatable'
 
 module LittleWeasel
   module Services
@@ -20,6 +21,7 @@ module LittleWeasel
       include Modules::DictionaryCacheValidatable
       include Modules::DictionaryCacheKeys
       include Modules::DictionarySourceable
+      include Modules::DictionaryValidatable
 
       attr_reader :dictionary_cache
 
@@ -119,40 +121,32 @@ module LittleWeasel
         dictionary_reference&.present? || false
       end
 
-      # Returns true if the dictionary exists for the given dictionary id
-      # associated with the given key. This method is only concerned with the dictionary id
-      # and has nothing to do with whether or not the associated dictionary
-      # is actually loaded into the dictionary cache.
+      # Returns true if a dictionaries Hash key exists for the given dictionary_id
+      # in the dictionary cache. This method is only concerned with the existance of
+      # the key and has nothing to do with whether or not file/memory sources are
+      # present or the presence of a dictionary object.
       def dictionary?
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES].key? dictionary_id
       end
 
-      # Returns true if a dictionary reference can be added. false is
-      # returned if a dictionary reference already exists.
-      def add_dictionary_reference?
-        !dictionary_reference?
-      end
+      # Adds a dictionary source. A "dictionary source" specifies the source from which
+      # the dictionary ultimately obtains its words.
+      #
+      # @param source [String] the dictionary source. This can be a file path
+      # or a memory source indicator to signify that the dictionary was created
+      # dynamically from memory.
+      def add_dictionary_source(source:)
+        validate_dictionary_source_does_not_exist dictionary_cache_service: self
 
-      # Adds a dictionary file source. A "file source" is a file path that
-      # indicates that the dictionary words associated with this dictionary are
-      # located on disk. This file path is used to locate and load the
-      # dictionary words into the dictionary cache for use.
-      #
-      # @param file [String] a file path pointing to the dictionary file to load and use.
-      #
-      # @return returns a reference to self.
-      def add_dictionary_file_source(file:)
-        add_dictionary_source(source: file)
-      end
-
-      # Adds a dictionary memory source. A "memory source" indicates that the
-      # dictionary words associated with this dictionary were created
-      # dynamically and will be located in memory, as opposed to loaded from
-      # a file on disk.
-      #
-      # @return returns a reference to self.
-      def add_dictionary_memory_source
-        add_dictionary_source(source: memory_source)
+        dictionary_id = dictionary_id_for_dictionary_source(source: source)
+        self.dictionary_reference = dictionary_id
+        # Only set the dictionary source if it doesn't already exist because settings
+        # the dictionary source wipes out the #dictionary_object; dictionary objects
+        # can have more than one dictionary reference pointing to them, and we don't
+        # want to blow away the #dictionary_object, metadata, or any other data
+        # associated with it if it already exists.
+        self.dictionary_source = source unless dictionary?
+        self
       end
 
       # Returns the dictionary id if there is a dictionary id in the dictionary
@@ -188,15 +182,15 @@ module LittleWeasel
       def dictionary_object?
         dictionary_object.present?
       end
-      alias dictionary_loaded? dictionary_object?
+      alias dictionary_exists? dictionary_object?
 
       # Returns the dictionary object from the dictionary cache for the given
       # key. This method raises an error if the dictionary is not in the cache;
-      # that is, if the dictionary was not previously loaded.
+      # that is, if the dictionary was not previously loaded from disk or memory.
       def dictionary_object!
         unless dictionary_object?
           raise ArgumentError,
-            "The dictionary associated with argument key '#{key}' is not in the cache; load it from disk first."
+            "The dictionary object associated with argument key '#{key}' is not in the cache."
         end
 
         dictionary_object
@@ -215,7 +209,7 @@ module LittleWeasel
         end
         return if object.equal? dictionary_object
 
-        if dictionary_loaded?
+        if dictionary_exists?
           raise ArgumentError,
             "The dictionary is already loaded/cached for key '#{key}'; use #unload or #kill first."
         end
@@ -227,57 +221,41 @@ module LittleWeasel
 
       attr_writer :dictionary_cache
 
-      # Adds a dictionary source (file or memory).
-      #
-      # @param source [String] the dictionary source. This can be a file path
-      # or the key word 'memory' to indicate the dictionary was created
-      # dynamically from memory.
-      def add_dictionary_source(source:)
-        raise ArgumentError, "Dictionary reference for key '#{key}' already exists." unless add_dictionary_reference?
-
-        dictionary_id = dictionary_id_for(source: source)
-        dictionary_reference_reset dictionary_id: dictionary_id
-        # Only reset the dictionary if it doesn't already exist; dictionaries
-        # can have more than one reference and we don't want to blow away the
-        # dictionary object, metadata, or any other data associated with it if
-        # it already exists.
-        dictionary_reset(source: source) unless dictionary?
-        self
-      end
-
       def dictionary_reference
         dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARY_REFERENCES, key)
       end
 
-      def dictionary_reference_reset(dictionary_id:)
+      def dictionary_reference=(dictionary_id)
         dictionary_cache[DICTIONARY_CACHE][DICTIONARY_REFERENCES][key] = {
           DICTIONARY_ID => dictionary_id
         }
       end
 
       # Returns the dictionary_id for the source if it exists in dictionaries;
-      # otherwise, returns the next dictionary id that should be used.
-      def dictionary_id_for(source:)
+      # otherwise, returns the new dictionary id that should be used.
+      def dictionary_id_for_dictionary_source(source:)
+        dictionary_source?(source: source) || SecureRandom.uuid[0..7]
+      end
+
+      # Returns the dictionary_id associated with source if source exists;
+      # nil otherwise.
+      def dictionary_source?(source:)
         dictionaries = dictionary_cache.dig(DICTIONARY_CACHE, DICTIONARIES)
         dictionaries&.each_pair do |dictionary_id, dictionary_hash|
           return dictionary_id if source == dictionary_hash[SOURCE]
         end
-        new_dictionary_id
+        nil
       end
 
-      def new_dictionary_id
-        SecureRandom.uuid[0..7]
-      end
-
-      def dictionary_id?
-        dictionary_id.present?
-      end
-
-      def dictionary_reset(source:)
+      def dictionary_source=(source)
         dictionary_cache[DICTIONARY_CACHE][DICTIONARIES][dictionary_id!] = {
           SOURCE => source,
           DICTIONARY_OBJECT => {}
         }
+      end
+
+      def dictionary_id?
+        dictionary_id.present?
       end
     end
   end

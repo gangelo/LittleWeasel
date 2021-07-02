@@ -23,7 +23,7 @@ RSpec.describe LittleWeasel::Services::DictionaryFileLoaderService do
       end
 
       it 'raises an error' do
-        expect { subject.execute }.to raise_error "The Dictionary associated with argument key '#{key}' has been loaded and cached; load it from the cache instead."
+        expect { subject.execute }.to raise_error "The dictionary associated with key '#{key}' already exists."
       end
     end
 

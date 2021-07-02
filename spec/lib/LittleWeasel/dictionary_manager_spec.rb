@@ -39,14 +39,14 @@ RSpec.describe LittleWeasel::DictionaryManager do
       end
     end
 
-    context 'when the dictionary file already exists' do
+    context 'when the dictionary already exists' do
       before do
         subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file)
       end
 
       it 'raises an error' do
         expect { subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file) }
-          .to raise_error("Dictionary reference for key '#{dictionary_key.key}' already exists.")
+          .to raise_error("The dictionary source associated with key '#{dictionary_key.key}' already exists.")
       end
     end
   end
@@ -70,7 +70,7 @@ RSpec.describe LittleWeasel::DictionaryManager do
 
       it 'raises an error' do
         expect { subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: dictionary_words) }
-          .to raise_error "Dictionary reference for key '#{dictionary_key.key}' already exists."
+          .to raise_error "The dictionary source associated with key '#{dictionary_key.key}' already exists."
       end
     end
   end
@@ -85,7 +85,7 @@ RSpec.describe LittleWeasel::DictionaryManager do
       it 'removes the dictionary, file source reference and metadata from the dictionary cache' do
         metadata_key # Capture this before we unload the dictionary
         subject.kill_dictionary(dictionary_key: dictionary_key)
-        expect(dictionary_cache_service.dictionary_loaded?).to eq false
+        expect(dictionary_cache_service.dictionary_exists?).to eq false
         expect(dictionary_cache_service.dictionary_reference?).to eq false
         expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to eq false
       end
@@ -103,7 +103,7 @@ RSpec.describe LittleWeasel::DictionaryManager do
       it 'removes the dictionary, memory source reference and metadata from the dictionary cache' do
         metadata_key # Capture this before we unload the dictionary
         subject.kill_dictionary(dictionary_key: dictionary_key)
-        expect(dictionary_cache_service.dictionary_loaded?).to eq false
+        expect(dictionary_cache_service.dictionary_exists?).to eq false
         expect(dictionary_cache_service.dictionary_reference?).to eq false
         expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to eq false
       end

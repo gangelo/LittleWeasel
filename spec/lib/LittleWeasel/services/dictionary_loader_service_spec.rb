@@ -19,7 +19,7 @@ RSpec.describe LittleWeasel::Services::DictionaryLoaderService do
 
       context 'when the dictionary is not cached' do
         it 'loads the dictionary file and returns the Dictionary' do
-          expect(dictionary_cache_service.dictionary_loaded?).to be false
+          expect(dictionary_cache_service.dictionary_exists?).to be false
           # Remove this line; there is a bug in SimpleCov that will not
           # recognize #load_from_cache as having test coverage if we
           # stub this out :(
@@ -37,7 +37,7 @@ RSpec.describe LittleWeasel::Services::DictionaryLoaderService do
         end
 
         it 'loads the dictionary from the dictionary cache and returns the Dictionary' do
-          expect(dictionary_cache_service.dictionary_loaded?).to be true
+          expect(dictionary_cache_service.dictionary_exists?).to be true
           # Remove this line; there is a bug in SimpleCov that will not
           # recognize #load_from_cache as having test coverage if we
           # stub this out :(

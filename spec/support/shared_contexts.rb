@@ -1,4 +1,4 @@
-RSpec.shared_context 'dictionary cache' do #, shared_context: :metadata do
+RSpec.shared_context 'dictionary cache' do
   def dictionary_cache_for(dictionary_key:, dictionary_file_source: true, load: false)
     dictionary_cache_from(dictionary_keys: [{ dictionary_key: dictionary_key, dictionary_file_source: dictionary_file_source, load: load }])
   end
@@ -36,13 +36,13 @@ RSpec.shared_context 'dictionary cache' do #, shared_context: :metadata do
   end
 end
 
-RSpec.shared_context 'dictionary keys' do #, shared_context: :metadata do
+RSpec.shared_context 'dictionary keys' do
   def dictionary_key_for(language:, region: nil, tag: nil)
    create(:dictionary_key, language: language, region: region, tag: tag)
   end
 end
 
-RSpec.shared_context 'mock word filters' do #, shared_context: :metadata do
+RSpec.shared_context 'mock word filters' do
 
   unless Object.const_defined?('WordFilter01')
     class WordFilter01 < LittleWeasel::Filters::WordFilter
@@ -75,7 +75,7 @@ RSpec.shared_context 'mock word filters' do #, shared_context: :metadata do
   end
 end
 
-RSpec.shared_context 'mock word preprocessors' do #, shared_context: :metadata do
+RSpec.shared_context 'mock word preprocessors' do
   class UpcaseWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
     class << self
       def preprocess(word)
@@ -93,9 +93,16 @@ RSpec.shared_context 'mock word preprocessors' do #, shared_context: :metadata d
   end
 end
 
+RSpec.shared_context 'dictionary sourceable' do
+  def memory_source
+    LittleWeasel::Modules::DictionarySourceable.memory_source
+  end
+end
+
 RSpec.configure do |config|
   config.include_context 'dictionary cache', include_shared: true
   config.include_context 'dictionary keys', include_shared: true
+  config.include_context 'dictionary sourceable', include_shared: true
   config.include_context 'mock word filters', include_shared: true
   config.include_context 'mock word preprocessors', include_shared: true
 end

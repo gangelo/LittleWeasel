@@ -35,7 +35,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
       subject { invalid_words_metadata }
 
       before do
-        dictionary_cache_service.add_dictionary_file_source(file: file)
+        dictionary_cache_service.add_dictionary_source(source: file)
       end
 
       context 'with invalid dictionary metadata object' do

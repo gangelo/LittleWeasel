@@ -25,10 +25,9 @@ module LittleWeasel
       end
 
       def execute
-        if dictionary_cache_service.dictionary_loaded?
+        if dictionary_cache_service.dictionary_exists?
           raise ArgumentError,
-            "The Dictionary associated with argument key '#{key}' " \
-              'has been loaded and cached; load it from the cache instead.'
+            "The dictionary associated with key '#{key}' already exists."
         end
 
         load dictionary_cache_service.dictionary_file!
