@@ -32,19 +32,19 @@
 
 LittleWeasel provides other features as well:
 
-* LittleWeasel allows you to provide any number of "dictionaryies" which may be in the form of a collecton of words in a file on disk _or_ an Array of words you provide, so that dictionaries may be created _dynamically_.
+* LittleWeasel allows you to provide any number of "dictionaries" which may be in the form of a collecton of words in a file on disk _or_ an Array of words you provide, so that dictionaries may be created _dynamically_.
 * Dictionaries are identified by a unique "dictionary key"; that is, a key based on locale (<language>-<REGION>, e.g. en-US) and/or optional "tag" (en-US-<tag>, e.g. en-US-slang). 
 * Dictionaries created from files on disk are cached; their words and metadata are shared across dictionary instances that share the same dictionary key.
 * Dictionaries can have observable, metadata objects attached to them which are notified when a word or word block is being evaluated; therefore, metadata about the dictionary, words, etc. can be gathered and used. For example, LittleWeasel uses a LittleWeasel::Metadata::InvalidWordsMetadata metadata object that caches and keeps track of the total bytes of invalid words searched against the dictionary. If the total bytes of invalid words exceeds what is set in the configuration, caching of invalid words ceases. You can create your own metadata objects to gather and use your own metadata.
 
 ## Usage
 
-At its most basic level, there are two (3) steps to using LittleWeasel:
-1. Create a **LittleWeasel::Dictionary**.
+At its most basic level, there are three (3) steps to using LittleWeasel:
+1. Create a **LittleWeasel::Dictionary** object.
 2. Consume the **LittleWeasel::Dictionary#word_results** and/or **LittleWeasel::Dictionary#block_results** APIs to obtain a **LittleWeasel::WordResults** [^1] object for a particular word or word block. 
 3. Interrogate the **LittleWeasel::WordResults** [^1] object returned from either of the aforementioned APIs.
 
-Some of the more advanced LittleWeasel features include the use of **word preprocessors**, **word filters** and **dictionary metadata modules**.
+Some of the more advanced LittleWeasel features include the use of **word preprocessors**, **word filters** and **dictionary metadata modules**; for these, read on.
 
 [^1]: The _LittleWeasel::WordResults_ object returned from these APIs provides information related to the given word or words that have passed through their respective processes (i.e. word preprocessing, word filtering and dictionary checks).
 
@@ -74,7 +74,7 @@ en_us_key = LittleWeasel::DictionaryKey.new(language: :en, region: :us)
 # Create a dictionary from a file on disk. The below assumes the
 # dictionary file name matches the dictionary key (e.g. en-US).
 en_us_dictionary = dictionary_manager.create_dictionary_from_file(
-  dictionary_key: en_us_key, file: "dictionaries/#{en_us_key.key}.txt")
+  dictionary_key: en_us_key, file: "dictionaries/#{en_us_key}.txt")
 ```
 
 ### Basic Word Search Example
@@ -100,12 +100,12 @@ Continued from [Creating a Dictionary from a File on Disk](#creating-a-dictionar
 ```ruby
 word_block = "This is a word-block of 8 words and 2 numbers."
 
-# Add a word filter so we can capture numbers.
+# Add a word filter so that numbers are considered valid.
 en_us_dictionary.add_preprocessors word_filters: [
   LittleWeasel::Filters::EnUs::NumericFilter.new
 ]
 
-block_results = en_us_dictionary.word_block word_block
+block_results = en_us_dictionary.block_results word_block
 # Returns a LittleWeasel::BlockResults object. 
 # The below block_results object output is formatted for readability:
 block_results.word_results
@@ -281,13 +281,12 @@ block_results.word_results
 
 ### Word Search using Word Filters and Word Preprocessors Example
 
+Continued from [Creating a Dictionary from Memory](#creating-a-dictionary-from-memory) example.
+
 Note: The below use of _word filters_ and _word preprocessors_ apply equally to both
 **Dictionary#word_results** and **Dictionary#block_results** APIs.
 
 ```ruby
-# Using the "en_us_names_dictionary" dictionary created in the 
-# "Creating a Dictionary from Memory" example above...
-
 # Set up any word preprocessors and/or word filters we want to use...
 
 # Word preprocessors perform preprocessing on words prior to being passed through any word filters
