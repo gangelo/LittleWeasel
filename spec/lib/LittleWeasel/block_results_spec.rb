@@ -3,9 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::BlockResults do
+  subject { described_class.new original_word_block: original_word_block }
+
   def ceate_word_results(word:, word_valid: false, word_cached: false, filters_matched: [], preprocessed_words: nil)
     create(:word_results, original_word: word, word_valid: word_valid, word_cached: word_cached, filters_matched: filters_matched, preprocessed_words: preprocessed_words)
   end
+
+  let(:original_word_block) { 'Original word block' }
 
   #.new
   describe '.new' do
@@ -15,6 +19,10 @@ RSpec.describe LittleWeasel::BlockResults do
 
     it 'initializes #word_results to an empty Array' do
       expect(subject.word_results).to eq []
+    end
+
+    it 'initializes #original_word_block to the original_word_block argument passed' do
+      expect(subject.original_word_block).to eq original_word_block
     end
   end
 
@@ -124,7 +132,6 @@ RSpec.describe LittleWeasel::BlockResults do
   #preprocessed_words?
   describe '#preprocessed_words?' do
     before do
-      subject.word_results = []
       subject << ceate_word_results(word: word, preprocessed_words: preprocessed_words)
     end
 

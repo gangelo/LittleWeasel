@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'securerandom'
+
 module LittleWeasel
   module Modules
     # This module provides methods to manage dictionary sources.

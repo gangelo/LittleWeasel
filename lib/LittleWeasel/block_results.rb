@@ -8,9 +8,10 @@ module LittleWeasel
   # block (group of words).
   class BlockResults
     # :reek:Attribute - Ignored, it doesn't make sense to create a formal setter method.
-    attr_accessor :word_results
+    attr_reader :original_word_block, :word_results
 
-    def initialize
+    def initialize(original_word_block:)
+      self.original_word_block = original_word_block
       self.word_results = []
     end
 
@@ -72,5 +73,9 @@ module LittleWeasel
 
       word_results.all?(&:word_cached?)
     end
+
+    private
+
+    attr_writer :original_word_block, :word_results
   end
 end

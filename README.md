@@ -101,7 +101,7 @@ Continued from [Creating a Dictionary from a File on Disk](#creating-a-dictionar
 word_block = "This is a word-block of 8 words and 2 numbers."
 
 # Add a word filter so that numbers are considered valid.
-en_us_dictionary.add_preprocessors word_filters: [
+en_us_dictionary.add_filters word_filters: [
   LittleWeasel::Filters::EnUs::NumericFilter.new
 ]
 
@@ -372,6 +372,18 @@ word_results.preprocessed_word
 ```
 
 ## Word Blocks
+
+## Rake Tasks
+
+Below are some rake tasks that can be used as examples:
+
+Rake Task | Description
+---------- | -------------
+word_results:basic | Creates a **LittleWeasel::Dictionary** from a file source (file on disk) and calls **LittleWeasel::Dictionary#word_results** API.
+word_results:from_memory | Creates a **LittleWeasel::Dictionary** from a memory source (Array of words) and calls **LittleWeasel::Dictionary#word_results** API.
+word_results:advanced | Creates a **LittleWeasel::Dictionary** from a memory source (Array of words) and calls **LittleWeasel::Dictionary#word_results** API. Demonstrates the use of **word preprocessors** and **word filters**.
+word_results:word_filters | Creates a **LittleWeasel::Dictionary** from a memory source (Array of words) and calls **LittleWeasel::Dictionary#word_results** API. Demonstrates some of the **word filters** that come prepackaged with LittleWeasel (**LittleWeasel::Filters::EnUs::NumericFilter**, **LittleWeasel::Filters::EnUs::CurrencyFilter** and **LittleWeasel::Filters::EnUs::SingleCharacterWordFilter**).
+block_results:basic | Creates a **LittleWeasel::Dictionary** from a file source (file on disk) and calls **LittleWeasel::Dictionary#block_results** API. Demonstrates how to use the **#block_results** API.
 
 ## Installation
 
