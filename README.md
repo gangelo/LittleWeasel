@@ -8,8 +8,9 @@
 
 [![License](http://img.shields.io/badge/license-MIT-yellowgreen.svg)](#license)
 
-# Table of Contents
+# LittleWeasel
 
+## Table of Contents
 - [About LittleWeasel](#about-littleweasel)
   * [Usage](#usage)
   * [Creating Dictionaries](#creating-dictionaries)
@@ -20,11 +21,10 @@
       - [Using the Dictionary#block_results API](#using-the-dictionary-block-results-api)
     + [Word Search using Word Filters and Word Preprocessors Example](#word-search-using-word-filters-and-word-preprocessors-example)
     + [Word filters and word preprocessors working together example...](#word-filters-and-word-preprocessors-working-together-example)
-  * [Word Blocks](#word-blocks)
+  * [Rake Tasks](#rake-tasks)
   * [Installation](#installation)
   * [Contributing](#contributing)
   * [License](#license)
-
 
 # About LittleWeasel
 
