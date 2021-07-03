@@ -1,0 +1,140 @@
+# frozen_string_literal: true
+
+require 'spec_helper'
+
+RSpec.describe LittleWeasel::Modules::Locale, type: :module do
+  Locale = described_class
+
+  subject do
+    Class.new do
+      include Locale
+
+      attr_reader :language, :region
+
+      def initialize(language, region)
+        self.language = language
+        self.region = region
+      end
+
+      private
+
+      attr_writer :language, :region
+    end.new(language, region)
+  end
+
+  let(:language) {}
+  let(:region) {}
+
+  #.locale
+  describe '.locale' do
+    it 'adds the class method when included' do
+      expect(subject.class).to respond_to(:locale)
+    end
+
+    context 'with valid arguments' do
+      let(:language) { :en }
+      let(:region) { :us }
+
+      it 'returns the locale as a string' do
+        expect(subject.class.locale language: language, region: region).to eq 'en-US'
+      end
+    end
+
+    context 'with INVALID arguments' do
+      context 'with an invalid language' do
+        let(:language) {}
+        let(:region) { :us }
+
+        it 'raises an error' do
+          expect { subject.class.locale language: language, region: region }.to raise_error 'Argument language does not respond to :downcase'
+        end
+      end
+
+      context 'when region is nil' do
+        let(:language) { :en }
+        let(:region) {}
+
+        it 'returns the expected locale as a string' do
+          expect(subject.class.locale language: language, region: region).to eq language.downcase.to_s
+        end
+      end
+
+      context 'when region is invalid' do
+        let(:language) { :en }
+        let(:region) { 1 }
+
+        it 'raises an error' do
+          expect { subject.class.locale language: language, region: region }.to raise_error 'Argument region does not respond to :upcase'
+        end
+      end
+    end
+  end
+
+  #locale
+  describe '#locale' do
+    context 'with valid arguments' do
+      context 'with valid language' do
+        let(:language) { :en }
+
+        it 'returns the expected locale (language only)' do
+          expect(subject.locale).to eq 'en'
+        end
+      end
+
+      context 'with valid language and region' do
+        let(:language) { :en }
+        let(:region) { :us }
+
+        it 'returns the expected locale (language and region)' do
+          expect(subject.locale).to eq 'en-US'
+        end
+
+        describe 'normalizes language and region to the proper case' do
+          let(:language) { :EN }
+          let(:region) { :us }
+
+          it 'returns the expected locale with language lowercase and region uppercase' do
+            expect(subject.locale).to eq 'en-US'
+          end
+        end
+      end
+
+      context 'with valid language and nil region' do
+        let(:language) { :en }
+        let(:region) {}
+
+        it 'returns the expected locale (language only)' do
+          expect(subject.locale).to eq 'en'
+        end
+      end
+
+      context 'with valid language and blank region' do
+        let(:language) { :en }
+        let(:region) { '' }
+
+        it 'returns the expected locale (language only)' do
+          expect(subject.locale).to eq 'en'
+        end
+      end
+    end
+
+    context 'with invalid arguments' do
+      context 'with invalid language' do
+        let(:language) { 1 }
+
+        it 'raises an error' do
+          expect { subject.locale }.to raise_error 'Argument language does not respond to :downcase'
+        end
+      end
+
+      context 'with invalid region' do
+        let(:language) { :en }
+        let(:region) { 1 }
+
+        it 'raises an error' do
+          expect { subject.locale }.to raise_error 'Argument region does not respond to :upcase'
+        end
+      end
+    end
+  end
+end

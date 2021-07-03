@@ -1,0 +1,29 @@
+# frozen_string_literal: true
+
+require_relative '../dictionary_key'
+require_relative '../services/dictionary_metadata_service'
+require_relative 'dictionary_cache_validatable'
+require_relative 'dictionary_metadata_validatable'
+
+module LittleWeasel
+  module Modules
+    # This module defines methods and attributes to consume the dictionary
+    # metadata service.
+    module DictionaryMetadataServicable
+      include DictionaryKeyable
+      include DictionaryCacheValidatable
+      include DictionaryMetadataValidatable
+
+      attr_reader :dictionary_cache, :dictionary_key, :dictionary_metadata
+
+      def dictionary_metadata_service
+        Services::DictionaryMetadataService.new(dictionary_key: dictionary_key, dictionary_cache: dictionary_cache,
+          dictionary_metadata: dictionary_metadata)
+      end
+
+      private
+
+      attr_writer :dictionary_cache, :dictionary_key, :dictionary_metadata
+    end
+  end
+end
