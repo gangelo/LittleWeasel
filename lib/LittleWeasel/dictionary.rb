@@ -53,7 +53,7 @@ module LittleWeasel
     end
 
     def word_results(word)
-      #TODO: Make max word size configurable.
+      # TODO: Make max word size configurable.
       raise ArgumentError, "Argument word is not a String: #{word.class}" unless word.is_a?(String)
 
       preprocessed_words = preprocess(word: word)
@@ -72,7 +72,7 @@ module LittleWeasel
     end
 
     def block_results(word_block)
-      #TODO: Make max word_block size configurable.
+      # TODO: Make max word_block size configurable.
       raise ArgumentError, "Argument word_block is not a String: #{word_block.class}" unless word_block.is_a?(String)
       raise ArgumentError, "Argument word_block is empty: #{word_block.class}" unless word_block.present?
 

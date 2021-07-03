@@ -6,6 +6,9 @@ RSpec.describe LittleWeasel::Dictionary do
   include_context 'dictionary keys'
   include_context 'mock word filters'
 
+  DictionaryResultsHelpers = Support::GeneralHelpers::DictionaryResultsHelpers
+
+
   subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words, word_filters: word_filters) }
 
   before(:each) { LittleWeasel.configure { |config| config.reset } }
@@ -24,32 +27,6 @@ RSpec.describe LittleWeasel::Dictionary do
       word_results.original_word == word
     end
     [word_results.present?, word_results&.word_valid]
-  end
-
-  def print_word_results(word, word_results, comments = nil)
-    puts "word_results for word: '#{word}'..."
-    puts "comments: #{comments}" unless comments.nil?
-    puts "word_results #=>"
-    puts "  #original_word: #{word_results.original_word}"
-    puts "  #preprocessed_word: #{word_results.preprocessed_word}"
-    puts "  #success?: #{word_results.success?}"
-    puts "  #word_valid?: #{word_results.word_valid?}"
-    puts "  #word_cached?: #{word_results.word_cached?}"
-    puts "  #preprocessed_word?: #{word_results.preprocessed_word?}"
-    puts "  #preprocessed_word_or_original_word: #{word_results.preprocessed_word_or_original_word}"
-    puts "  #filter_match?: #{word_results.filter_match?}"
-    puts "  #filters_matched: #{word_results.filters_matched}"
-    if word_results.preprocessed_words.preprocessed_words.present?
-      puts "  #preprocessed_words:"
-      word_results.preprocessed_words.preprocessed_words.each_with_index do |preprocessed_word, index|
-        puts "    preprocessed_word #{index} #=>"
-        puts "      #preprocessor: :#{preprocessed_word.preprocessor}"
-        puts "      #preprocessor_order: #{preprocessed_word.preprocessor_order}"
-      end
-    else
-      puts "  #preprocessed_words: []"
-    end
-    puts
   end
 
   #.new
@@ -247,10 +224,8 @@ RSpec.describe LittleWeasel::Dictionary do
       end
 
       it 'returns a WordResults object with the correct data about the words passed' do
-        #  def print_word_results(word, word_results, comments = nil)
-        subject.word_results.each do |word_result|
-          print_word_results word_result.original_word, word_result
-        end
+        DictionaryResultsHelpers.print_block_results word_block, subject
+
         expect(subject.word_results.count).to eq 13
         expect(block_results_include?(subject, "I'm")).to eq [true, true]
         expect(block_results_include?(subject, 'older')).to eq [true, true]

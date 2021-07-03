@@ -8,53 +8,9 @@ require 'pry'
 
 require_relative 'lib/LittleWeasel'
 require_relative 'spec/support/file_helpers'
+require_relative 'spec/support/general_helpers'
 
-def print_word_results(word, word_results, comments = nil)
-  puts "# Comments: #{comments}" unless comments.nil?
-  puts "# Results of calling #word_results for '#{word}'..."
-  print_results(word: word, results: word_results, indent: 1)
-end
-
-def print_block_results(word_block, block_results, comments = nil)
-  puts "# Comments: #{comments}" unless comments.nil?
-  puts '# Results of calling #word_block with:'
-  puts "#   '#{word_block}'..."
-  puts
-  puts 'block_results #=>'
-  puts "  #preprocessed_words_or_original_words #=> #{block_results.preprocessed_words_or_original_words}"
-
-  puts 'word_results #=>'
-  block_results.word_results.each do |word_results|
-    print_results(word: word_results.original_word, results: word_results, indent: 1)
-  end
-end
-
-def print_results(word:, results:, indent: 0)
-  indent = '   ' * indent
-  puts "#{indent}word_results #=>"
-  puts "#{indent * 2}original_word #=> '#{results.original_word}'"
-  puts "#{indent * 2}preprocessed_word #=> #{string_or_nil results.preprocessed_word}"
-  puts "#{indent * 2}success? #=> #{results.success?}"
-  puts "#{indent * 2}word_valid? #=> #{results.word_valid?}"
-  puts "#{indent * 2}word_cached? #=> #{results.word_cached?}"
-  puts "#{indent * 2}preprocessed_word? #=> #{results.preprocessed_word?}"
-  puts "#{indent * 2}preprocessed_word_or_original_word #=> #{string_or_nil results.preprocessed_word_or_original_word}"
-  puts "#{indent * 2}filter_match? #=> #{results.filter_match?}"
-  puts "#{indent * 2}filters_matched: #=> #{results.filters_matched}"
-  puts "#{indent * 2}preprocessed_words #=>"
-  results.preprocessed_words&.preprocessed_words.each_with_index do |preprocessed_word, index|
-    puts "#{indent * 3}preprocessed_words[#{index}] #=>"
-    puts "#{indent * 4}preprocessed_word #=>"
-    puts "#{indent * 5}preprocessor: :#{preprocessed_word.preprocessor}"
-    puts "#{indent * 5}preprocessor_order: #{preprocessed_word.preprocessor_order}"
-  end
-  puts
-end
-
-def string_or_nil(value)
-  return 'nil' if value.nil?
-  "'#{value}'"
-end
+DictionaryResultsHelpers = Support::GeneralHelpers::DictionaryResultsHelpers
 
 def file_from(dictionary_key)
   Support::FileHelpers.dictionary_path_for(file_name: dictionary_key.key)
@@ -98,12 +54,12 @@ namespace 'word_results' do
     # Get results for a word we know exists.
     word = 'apple'
     word_results = en_us_names_dictionary.word_results word
-    print_word_results word, word_results, "found (#{word} is in the dictionary)"
+    DictionaryResultsHelpers.print_word_results word, word_results, "found (#{word} is in the dictionary)"
 
     # Get results for a word we know DOES NOT exist.
     word = 'dapple'
     word_results = en_us_names_dictionary.word_results word
-    print_word_results word, word_results, "not found (#{word} is not in the dictionary)"
+    DictionaryResultsHelpers.print_word_results word, word_results, "not found (#{word} is not in the dictionary)"
   rescue StandardError => e
     task 'word_results:basic' do
       puts "LittleWeasel task word_results:basic not loaded: #{e.message}"
@@ -132,12 +88,12 @@ namespace 'word_results' do
     # Get results for a name we know exists.
     word = 'Abel'
     word_results = en_us_names_dictionary.word_results word
-    print_word_results word, word_results, "found (#{word} is in the dictionary)"
+    DictionaryResultsHelpers.print_word_results word, word_results, "found (#{word} is in the dictionary)"
 
     # Get results for a name we know DOES NOT exist.
     word = 'Henry'
     word_results = en_us_names_dictionary.word_results word
-    print_word_results word, word_results, "not found (#{word} is not in the dictionary)"
+    DictionaryResultsHelpers.print_word_results word, word_results, "not found (#{word} is not in the dictionary)"
   rescue StandardError => e
     task 'word_results:from_memory' do
       puts "LittleWeasel task word_results:from_memory not loaded: #{e.message}"
@@ -186,7 +142,7 @@ namespace 'word_results' do
     # Get results for a name we know DOES NOT exist.
     word = 'Henry'
     word_results = en_us_names_dictionary.word_results word
-    print_word_results word, word_results, "not found, #success? == false, word_valid? == false (#{word} is not in the dictionary)"
+    DictionaryResultsHelpers.print_word_results word, word_results, "not found, #success? == false, word_valid? == false (#{word} is not in the dictionary)"
 
     puts '# Turning word filters on...'
     puts
@@ -196,12 +152,12 @@ namespace 'word_results' do
     # Get results for Henry again - it should be found due to the filter.
     word = 'Henry'
     word_results = en_us_names_dictionary.word_results word
-    print_word_results word, word_results, '#success? == true due to the HenryFilter'
+    DictionaryResultsHelpers.print_word_results word, word_results, '#success? == true due to the HenryFilter'
 
     # Get results for a name we know DOES NOT exist.
     word = 'henry'
     word_results = en_us_names_dictionary.word_results word
-    print_word_results word, word_results, "not found, #success? == false (#{word} is not in the dictionary and henry is lower case, no filter match)"
+    DictionaryResultsHelpers.print_word_results word, word_results, "not found, #success? == false (#{word} is not in the dictionary and henry is lower case, no filter match)"
 
     puts '# Turning preprocessors on so that henry is converted to Henry '
     puts "# and consequently, the filter will match..."
@@ -211,7 +167,7 @@ namespace 'word_results' do
 
     word = 'henry'
     word_results = en_us_names_dictionary.word_results word
-    print_word_results word, word_results, "#success? == true, #filter_match? == true (#{word} is not in the dictionary but the word preprocessor and word filter work together to get a filter match and consider the name valid)"
+    DictionaryResultsHelpers.print_word_results word, word_results, "#success? == true, #filter_match? == true (#{word} is not in the dictionary but the word preprocessor and word filter work together to get a filter match and consider the name valid)"
   rescue StandardError => e
     task 'word_results:advanced' do
       puts "LittleWeasel task word_results:advanced not loaded: #{e.message}"
@@ -247,7 +203,7 @@ namespace 'word_results' do
     dictionary_words.each do |word|
       word.strip!
       word_results = dictionary.word_results word
-      print_word_results word, word_results
+      DictionaryResultsHelpers.print_word_results word, word_results
     end
   rescue StandardError => e
     task 'word_results:word_filters' do
@@ -287,7 +243,7 @@ namespace 'block_results' do
     block_results = en_us_dictionary.block_results word_block
 
     # Returns a LittleWeasel::BlockResults object.
-    print_block_results word_block, block_results
+    DictionaryResultsHelpers.print_block_results word_block, block_results
   rescue StandardError => e
     task 'block_results:basic' do
       puts "LittleWeasel task block_results:basic not loaded: #{e.message}"
