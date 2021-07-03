@@ -26,7 +26,7 @@ module Support
       def print_block_results(word_block, block_results, comments = nil)
         puts "# Comments: #{comments}" unless comments.nil?
         puts '# Results of calling #word_block with:'
-        puts "#   '#{word_block}'..."
+        puts "#   \"#{word_block}\"..."
         puts
         puts 'block_results #=>'
         puts "  #preprocessed_words_or_original_words #=> #{block_results.preprocessed_words_or_original_words}"
@@ -40,7 +40,7 @@ module Support
       def print_results(word:, results:, indent: 0)
         indent = '   ' * indent
         puts "#{indent}word_results #=>"
-        puts "#{indent * 2}original_word #=> '#{results.original_word}'"
+        puts "#{indent * 2}original_word #=> \"#{results.original_word}\""
         puts "#{indent * 2}preprocessed_word #=> #{string_or_nil results.preprocessed_word}"
         puts "#{indent * 2}success? #=> #{results.success?}"
         puts "#{indent * 2}word_valid? #=> #{results.word_valid?}"
@@ -61,7 +61,7 @@ module Support
 
       def string_or_nil(value)
         return 'nil' if value.nil?
-        "'#{value}'"
+        "\"#{value}\""
       end
     end
   end
