@@ -9,6 +9,7 @@ module LittleWeasel
     module PreprocessedWordsValidatable
       module_function
 
+      # :reek:ManualDispatch, ignored - this is raising an error, not conditional code execution
       def validate_prepreprocessed_words(preprocessed_words:)
         raise ArgumentError, validation_error_message(object: preprocessed_words, respond_to: :original_word) unless preprocessed_words.respond_to? :original_word
         raise ArgumentError, validation_error_message(object: preprocessed_words, respond_to: :preprocessed_words) unless preprocessed_words.respond_to? :preprocessed_words

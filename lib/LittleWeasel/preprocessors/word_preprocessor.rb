@@ -11,6 +11,7 @@ module LittleWeasel
     # word preprocessors. A "word preprocessor" is an object that manipulates a
     # word before it is passed to any word filters and before it is compared
     # against the dictionary for validity.
+    # :reek:MissingSafeMethod, ignored - safe methods for preprocessor_on!/off! make no sense in this case
     class WordPreprocessor
       include Modules::ClassNameToSymbol
       include Modules::Orderable

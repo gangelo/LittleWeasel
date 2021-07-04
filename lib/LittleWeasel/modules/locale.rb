@@ -19,13 +19,15 @@ module LittleWeasel
         def locale(language:, region: nil)
           raise ArgumentError, 'Argument language does not respond to :downcase' unless language.respond_to? :downcase
 
-          if region.present? && !region.respond_to?(:upcase)
+          region_present = region.present?
+
+          if region_present && !region.respond_to?(:upcase)
             raise ArgumentError,
               'Argument region does not respond to :upcase'
           end
 
           language = normalize_language language
-          return language.to_s unless region.present?
+          return language.to_s unless region_present
 
           region = normalize_region region
           "#{language}-#{region}"
