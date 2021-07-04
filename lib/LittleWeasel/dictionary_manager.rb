@@ -17,12 +17,18 @@ module LittleWeasel
       init
     end
 
-    def dictionary_for(dictionary_key:)
+    # Returns true if a Dictionary object exists in the dictionary cache
+    # for the given dictionary_key.
+    def dictionary_exist?(dictionary_key:)
       validate_dictionary_key dictionary_key: dictionary_key
 
-      unless dictionary_cache_service(dictionary_key: dictionary_key).dictionary_exists?
-        # TODO: Raise an error or let the service handle it?
-      end
+      dictionary_cache_service(dictionary_key: dictionary_key).dictionary_exists?
+    end
+
+    # Returns the Dictionary object associated with the dictionary_key. If the
+    # Dictionary object does not exist in the dictionary cache, an error is raised.
+    def dictionary_for(dictionary_key:)
+      validate_dictionary_key dictionary_key: dictionary_key
 
       dictionary_cache_service(dictionary_key: dictionary_key).dictionary_object!
     end

@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::DictionaryManager do
+  include_context 'dictionary keys'
+
   subject { create(:dictionary_manager) }
 
   let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)}
@@ -28,6 +30,54 @@ RSpec.describe LittleWeasel::DictionaryManager do
   describe '.new' do
     it 'does not raise an error' do
       expect { subject }.not_to raise_error
+    end
+  end
+
+  #dictionary_exist?
+  describe '#dictionary_exist?' do
+    let!(:expected_dictionary_object) do
+      subject.create_dictionary_from_memory(dictionary_key: dictionary_key,
+          dictionary_words:  %w(My dictionary words) )
+    end
+
+    context 'when the dictionary exists' do
+      it 'returns true' do
+        expect(subject.dictionary_exist? dictionary_key: dictionary_key)
+          .to eq true
+      end
+    end
+
+    context 'when the dictionary DOES NOT exist' do
+      let(:en_gb_dictionary_key) { dictionary_key_for(language: :en, region: :gb) }
+
+      it 'returns false' do
+        expect(subject.dictionary_exist? dictionary_key: en_gb_dictionary_key)
+          .to eq false
+      end
+    end
+  end
+
+  #dictionary_for
+  describe '#dictionary_for' do
+    let!(:expected_dictionary_object) do
+      subject.create_dictionary_from_memory(dictionary_key: dictionary_key,
+          dictionary_words:  %w(My dictionary words) )
+    end
+
+    context 'when the dictionary exists' do
+      it 'returns the dictionary object' do
+        expect(subject.dictionary_for dictionary_key: dictionary_key)
+          .to be expected_dictionary_object
+      end
+    end
+
+    context 'when the dictionary DOES NOT exist' do
+      let(:en_gb_dictionary_key) { dictionary_key_for(language: :en, region: :gb) }
+
+      it 'raises an error' do
+        expect { subject.dictionary_for dictionary_key: en_gb_dictionary_key }
+          .to raise_error("The dictionary object associated with argument key '#{en_gb_dictionary_key.key}' is not in the cache.")
+      end
     end
   end
 
