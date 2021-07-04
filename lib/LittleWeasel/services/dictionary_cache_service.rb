@@ -182,7 +182,13 @@ module LittleWeasel
       def dictionary_object?
         dictionary_object.present?
       end
-      alias dictionary_exists? dictionary_object?
+      alias dictionary_exist? dictionary_object?
+
+      # <b>DEPRECATED:</b> Use <tt>dictionary_exist?</tt> instead.
+      def dictionary_exists?
+        warn "[DEPRECATION] 'dictionary_exists?' is deprecated. Please use 'dictionary_exist?' instead."
+        dictionary_object?
+      end
 
       # Returns the dictionary object from the dictionary cache for the given
       # key. This method raises an error if the dictionary is not in the cache;
@@ -209,7 +215,7 @@ module LittleWeasel
         end
         return if object.equal? dictionary_object
 
-        if dictionary_exists?
+        if dictionary_exist?
           raise ArgumentError,
             "The dictionary is already loaded/cached for key '#{key}'; use #unload or #kill first."
         end

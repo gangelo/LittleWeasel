@@ -25,7 +25,7 @@ module LittleWeasel
       end
 
       def execute
-        if dictionary_cache_service.dictionary_exists?
+        if dictionary_cache_service.dictionary_exist?
           raise ArgumentError,
             "The dictionary associated with key '#{key}' already exists."
         end
