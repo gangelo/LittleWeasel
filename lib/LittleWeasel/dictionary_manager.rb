@@ -22,7 +22,7 @@ module LittleWeasel
     def dictionary_exist?(dictionary_key:)
       validate_dictionary_key dictionary_key: dictionary_key
 
-      dictionary_cache_service(dictionary_key: dictionary_key).dictionary_exists?
+      dictionary_cache_service(dictionary_key: dictionary_key).dictionary_exist?
     end
 
     # Returns the Dictionary object associated with the dictionary_key. If the

@@ -135,7 +135,7 @@ RSpec.describe LittleWeasel::DictionaryManager do
       it 'removes the dictionary, file source reference and metadata from the dictionary cache' do
         metadata_key # Capture this before we unload the dictionary
         subject.kill_dictionary(dictionary_key: dictionary_key)
-        expect(dictionary_cache_service.dictionary_exists?).to eq false
+        expect(dictionary_cache_service.dictionary_exist?).to eq false
         expect(dictionary_cache_service.dictionary_reference?).to eq false
         expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to eq false
       end
@@ -153,7 +153,7 @@ RSpec.describe LittleWeasel::DictionaryManager do
       it 'removes the dictionary, memory source reference and metadata from the dictionary cache' do
         metadata_key # Capture this before we unload the dictionary
         subject.kill_dictionary(dictionary_key: dictionary_key)
-        expect(dictionary_cache_service.dictionary_exists?).to eq false
+        expect(dictionary_cache_service.dictionary_exist?).to eq false
         expect(dictionary_cache_service.dictionary_reference?).to eq false
         expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to eq false
       end

@@ -309,13 +309,13 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
     end
   end
 
-  #dictionary_exists?
-  describe '#dictionary_exists?' do
+  #dictionary_exist?
+  describe '#dictionary_exist?' do
     context 'when the dictionary reference does not exist' do
       subject { create(:dictionary_cache_service, dictionary_cache: dictionary_cache) }
 
       it 'returns false' do
-        expect(subject.dictionary_exists?).to eq false
+        expect(subject.dictionary_exist?).to eq false
       end
     end
 
@@ -323,7 +323,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       subject { create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_file_source: true, load: true) }
 
       it 'returns true' do
-        expect(subject.dictionary_exists?).to eq true
+        expect(subject.dictionary_exist?).to eq true
       end
     end
 
@@ -331,7 +331,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
       subject { create(:dictionary_cache_service, dictionary_cache: dictionary_cache, dictionary_file_source: true) }
 
       it 'returns false' do
-        expect(subject.dictionary_exists?).to eq false
+        expect(subject.dictionary_exist?).to eq false
       end
     end
   end
@@ -374,7 +374,7 @@ RSpec.describe LittleWeasel::Services::DictionaryCacheService do
 
       it 'returns the dictionary cache for the dictionary' do
         expect(subject.dictionary_reference?).to eq true
-        expect(subject.dictionary_exists?).to eq true
+        expect(subject.dictionary_exist?).to eq true
         expect(subject.dictionary_object!).to be_kind_of LittleWeasel::Dictionary
       end
     end
