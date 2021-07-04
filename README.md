@@ -4,7 +4,7 @@
 [![](http://ruby-gem-downloads-badge.herokuapp.com/LittleWeasel?type=total)](http://www.rubydoc.info/gems/LittleWeasel/)
 [![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](http://www.rubydoc.info/gems/LittleWeasel/)
 
-[![Report Issues](https://img.shields.io/badge/report-issues-red.svg)](https://github.com/gangelo/simple_command_dispatcher/issues)
+[![Report Issues](https://img.shields.io/badge/report-issues-red.svg)](https://github.com/gangelo/LittleWeasel/issues)
 
 [![License](http://img.shields.io/badge/license-MIT-yellowgreen.svg)](#license)
 
