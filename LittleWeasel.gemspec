@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.version       = LittleWeasel::VERSION
   spec.authors       = ['Gene M. Angelo, Jr.']
   spec.email         = ['public.gma@gmail.com']
-  spec.description   = 'Simple spellchecker for single, or multiple word blocks.'
-  spec.summary       = 'Simply checks a word or group of words for validity against an english dictionary file.'
+  spec.description   = 'Spellchecker+ with preprocessing and filtering for single and multiple word blocks.'
+  spec.summary       = 'Checks a word or group of words for validity against a dictionary/ies provided. Word filtering and word preprocessing is available.'
   spec.homepage      = 'http://www.geneangelo.com'
   spec.license       = 'MIT'
 
@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 2.2', '>= 2.2.17'
   spec.add_development_dependency 'factory_bot', '~> 6.2'
   spec.add_development_dependency 'pry-byebug', '~> 3.9'
-  spec.add_development_dependency 'rake', '~> 0'
+  spec.add_development_dependency 'rake', '>= 12.3.3'
   spec.add_development_dependency 'redcarpet', '~> 3.5', '>= 3.5.1'
   spec.add_development_dependency 'reek', '~> 6.0', '>= 6.0.4'
   spec.add_development_dependency 'rspec', '~> 3.10'
