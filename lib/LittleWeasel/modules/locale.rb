@@ -9,33 +9,28 @@ module LittleWeasel
     # their string counter parts.
     module Locale
       def self.included(base)
-        base.extend(ClassMethods)
         base.include(Language)
         base.include(Region)
       end
 
-      # class method inclusions for convenience.
-      module ClassMethods
-        def locale(language:, region: nil)
-          raise ArgumentError, 'Argument language does not respond to :downcase' unless language.respond_to? :downcase
+      def locale
+        validate_language_and_region
 
-          region_present = region.present?
+        language = normalize_language
+        return language.to_s unless region.present?
 
-          if region_present && !region.respond_to?(:upcase)
-            raise ArgumentError,
-              'Argument region does not respond to :upcase'
-          end
-
-          language = normalize_language language
-          return language.to_s unless region_present
-
-          region = normalize_region region
-          "#{language}-#{region}"
-        end
+        region = normalize_region
+        "#{language}-#{region}"
       end
 
-      def locale
-        self.class.locale language: language, region: region
+      # :reek:ManualDispatch, ignored - This is raising an error, not "simulating polymorphism"
+      def validate_language_and_region
+        raise ArgumentError, 'Argument language does not respond to :downcase' unless language.respond_to? :downcase
+
+        if region.present? && !region.respond_to?(:upcase)
+          raise ArgumentError,
+            'Argument region does not respond to :upcase'
+        end
       end
     end
   end
