@@ -153,6 +153,34 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
         expect(subject.word_preprocessors).to eq expected_results
       end
     end
+
+    context 'when passing a nil argument' do
+      before do
+        subject.clear_preprocessors
+      end
+
+      context 'when a block is provided' do
+        it 'does NOT raise an error' do
+          expect do
+            subject.add_preprocessors { |_word_preprocessors| }
+          end.to_not raise_error
+        end
+
+        it 'uses the word preprocessors added via the block' do
+          expect do
+            subject.add_preprocessors do |word_preprocessors|
+              word_preprocessors.concat word_preprocessors_01_thru_03
+            end
+          end.to change { subject.word_preprocessors.count }.from(0).to(3)
+        end
+      end
+
+      context 'when a block is NOT provided' do
+        it 'raises an error' do
+          expect { subject.add_preprocessors }.to raise_error('A block is required if argument word_preprocessors is nil')
+        end
+      end
+    end
   end
 
   #replace_preprocessors

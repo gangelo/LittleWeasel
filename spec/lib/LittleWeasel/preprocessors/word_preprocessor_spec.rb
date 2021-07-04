@@ -84,6 +84,20 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
     end
   end
 
+  #preprocessor_on!
+  describe '#preprocessor_on!' do
+    before do
+      expect(subject.preprocessor_off?).to eq true
+    end
+
+    let(:preprocessor_on) { false }
+
+    it 'turns the preprocessor on' do
+      subject.preprocessor_on!
+      expect(subject.preprocessor_on).to eq true
+    end
+  end
+
   #preprocessor_on?
   describe '#preprocessor_on?' do
     context 'when #preprocessor_on is true' do
@@ -170,6 +184,35 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
 
         it_behaves_like 'the preprocessor DOES NOT match and #preprocessor_on? is false'
       end
+    end
+  end
+
+  #preprocessor_off?
+  describe '#preprocessor_off?' do
+    context 'when #preprocessor_on is false' do
+      let(:preprocessor_on) { false }
+
+      it 'returns true' do
+        expect(subject.preprocessor_off?).to eq true
+      end
+    end
+
+    context 'when #preprocessor_on is true' do
+      it 'returns false' do
+        expect(subject.preprocessor_off?).to eq false
+      end
+    end
+  end
+
+  #preprocessor_off!
+  describe '#preprocessor_off!' do
+    before do
+      expect(subject.preprocessor_on?).to eq true
+    end
+
+    it 'turns the preprocessor off' do
+      subject.preprocessor_off!
+      expect(subject.preprocessor_on).to eq false
     end
   end
 end
