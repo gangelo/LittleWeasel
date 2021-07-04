@@ -7,6 +7,7 @@ module LittleWeasel
     # are used to preprocess a word before it is passed to any
     # Filters::WordFilters, and before it is compared against the
     # dictionary for validity.
+    # :reek:Attribute, ignored - Fixing this would result in nothing but trivial setter methods
     class PreprocessedWord
       attr_accessor :original_word, :preprocessed, :preprocessed_word, :preprocessor, :preprocessor_order
 

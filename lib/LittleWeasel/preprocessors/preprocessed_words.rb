@@ -5,8 +5,7 @@ module LittleWeasel
     # This class provides a container for Preprocessors::PreprocessedWord
     # objects.
     class PreprocessedWords
-      attr_reader :original_word
-      attr_accessor :preprocessed_words
+      attr_reader :original_word, :preprocessed_words
 
       # original_word:String the unsullied word before any preprocessing has
       # been applied to it.
@@ -36,6 +35,11 @@ module LittleWeasel
 
           preprocessed_words.max_by(&:preprocessor_order).preprocessed_word
         end
+      end
+
+      def preprocessed_words=(value)
+        value ||= []
+        @preprocessed_words = value
       end
 
       def preprocessed_word

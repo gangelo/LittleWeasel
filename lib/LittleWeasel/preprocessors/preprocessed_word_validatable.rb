@@ -4,6 +4,7 @@ module LittleWeasel
   module Preprocessors
     # This module provides functionality that validates preprocessed word types.
     # rubocop: disable Layout/LineLength
+    # :reek:ManualDispatch, ignored - these methods are raising errors, not performing conditional code execution
     module PreprocessedWordValidatable
       module_function
 

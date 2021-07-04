@@ -53,11 +53,10 @@ module LittleWeasel
       #     self
       #   end
       #
-      # rubocop: disable Lint/UnusedMethodArgument
+      # :reek:UnusedParameters, ignored - This method is meant to be called with the given argument and raises an error if not overridden
       def init(params: nil)
         raise Errors::MustOverrideError
       end
-      # rubocop: enable Lint/UnusedMethodArgument
 
       # This method should refresh the local metadata from the dictionary cache,
       # if metadata exists in the dictionary cache for the given metatata_key.
@@ -74,11 +73,10 @@ module LittleWeasel
       #     init unless metadata.present?
       #     self
       #   end
-      # rubocop: disable Lint/UnusedMethodArgument
+      # :reek:UnusedParameters, ignored - This method is meant to be called with the given argument and raises an error if not overridden
       def refresh(params: nil)
         raise Errors::MustOverrideError
       end
-      # rubocop: enable Lint/UnusedMethodArgument
 
       private
 
@@ -126,11 +124,10 @@ module LittleWeasel
       #     dictionary_cache_service.dictionary_metadata_set(
       #       metadata_key: metadata_key, value: value)
       #   end
-      # rubocop: disable Lint/UnusedMethodArgument
+      # :reek:UnusedParameters, ignored - This method is meant to be called with the given argument and raises an error if not overridden
       def update_dictionary_metadata(value:)
         raise Errors::MustOverrideError
       end
-      # rubocop: enable Lint/UnusedMethodArgument
     end
   end
 end
