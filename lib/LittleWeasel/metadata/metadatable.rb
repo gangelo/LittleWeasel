@@ -7,6 +7,8 @@ module LittleWeasel
   module Metadata
     # This module defines methods to support objects that manage other objects
     # that manage metadata related to a dictionary/ies.
+    # rubocop: disable Lint/UnusedMethodArgument, ignored - Methods in this
+    #          module need to keep their argument names because of specs.
     module Metadatable
       def self.included(base)
         base.extend ClassMethods
@@ -52,8 +54,6 @@ module LittleWeasel
       #     self.metadata = Services::InvalidWordsService.new(dictionary_words).execute
       #     self
       #   end
-      #
-      # :reek:UnusedParameters, ignored - This method is meant to be called with the given argument and raises an error if not overridden
       def init(params: nil)
         raise Errors::MustOverrideError
       end
@@ -73,7 +73,6 @@ module LittleWeasel
       #     init unless metadata.present?
       #     self
       #   end
-      # :reek:UnusedParameters, ignored - This method is meant to be called with the given argument and raises an error if not overridden
       def refresh(params: nil)
         raise Errors::MustOverrideError
       end
@@ -124,10 +123,12 @@ module LittleWeasel
       #     dictionary_cache_service.dictionary_metadata_set(
       #       metadata_key: metadata_key, value: value)
       #   end
-      # :reek:UnusedParameters, ignored - This method is meant to be called with the given argument and raises an error if not overridden
+      # :reek:UnusedParameters, ignored - This method is meant to be called with the given argument and raises an
+      #   error if not overridden
       def update_dictionary_metadata(value:)
         raise Errors::MustOverrideError
       end
     end
+    # rubocop: enable Lint/UnusedMethodArgument
   end
 end
