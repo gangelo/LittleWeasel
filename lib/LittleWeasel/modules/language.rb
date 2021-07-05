@@ -1,22 +1,23 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/object/blank'
+
 module LittleWeasel
   module Modules
     # Provides methods for normalizing language for a locale.
     module Language
-      def self.included(base)
-        base.extend(ClassMethods)
+      def language?
+        language.present?
       end
 
-      # class method inclusions for convenience.
-      module ClassMethods
-        def normalize_language(language)
-          language&.downcase
-        end
+      def normalize_language!
+        self.language = normalize_language language
       end
 
-      def normalize_language
-        self.class.normalize_language language
+      module_function
+
+      def normalize_language(language)
+        language&.downcase
       end
     end
   end

@@ -1,22 +1,23 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/object/blank'
+
 module LittleWeasel
   module Modules
     # Provides methods for normalizing a region for a locale.
     module Region
-      def self.included(base)
-        base.extend(ClassMethods)
+      def region?
+        region.present?
       end
 
-      # class method inclusions for convenience.
-      module ClassMethods
-        def normalize_region(region)
-          region&.upcase
-        end
+      def normalize_region!
+        self.region = normalize_region region
       end
 
-      def normalize_region
-        self.class.normalize_region region
+      module_function
+
+      def normalize_region(region)
+        region&.upcase
       end
     end
   end

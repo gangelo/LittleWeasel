@@ -19,10 +19,10 @@ module LittleWeasel
 
     def initialize(language:, region: nil, tag: nil)
       validate_language language: language
-      self.language = self.class.normalize_language language
+      self.language = normalize_language language
 
       validate_region region: region
-      self.region = self.class.normalize_region region
+      self.region = normalize_region region
 
       validate_tag tag: tag
       self.tag = tag
