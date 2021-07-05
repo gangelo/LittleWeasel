@@ -74,20 +74,20 @@ RSpec.describe LittleWeasel::Modules::Locale, type: :module do
     end
 
     context 'with invalid arguments' do
-      context 'with invalid language' do
+      context 'when argument language does not respond to #downcase' do
         let(:language) { 1 }
 
         it 'raises an error' do
-          expect { subject.locale }.to raise_error 'Argument language does not respond to :downcase'
+          expect { subject.locale }.to raise_error(NoMethodError, /undefined method `downcase'/)
         end
       end
 
-      context 'with invalid region' do
+      context 'when argument region does not respond to #upcase' do
         let(:language) { :en }
         let(:region) { 1 }
 
         it 'raises an error' do
-          expect { subject.locale }.to raise_error 'Argument region does not respond to :upcase'
+          expect { subject.locale }.to raise_error(NoMethodError, /undefined method `upcase'/)
         end
       end
     end
