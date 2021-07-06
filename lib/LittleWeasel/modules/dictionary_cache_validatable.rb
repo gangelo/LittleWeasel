@@ -7,13 +7,11 @@ module LittleWeasel
     # related to one or more dictionaries. Dictionary cache objects are
     # normally specific to a DictionaryManager object.
     module DictionaryCacheValidatable
-      def self.validate(dictionary_cache:)
-        raise ArgumentError, "Argument dictionary_cache is not a valid Hash object: #{dictionary_cache.class}" \
-          unless dictionary_cache.is_a? Hash
-      end
+      module_function
 
       def validate_dictionary_cache(dictionary_cache:)
-        DictionaryCacheValidatable.validate dictionary_cache: dictionary_cache
+        raise ArgumentError, "Argument dictionary_cache is not a valid Hash object: #{dictionary_cache.class}" \
+          unless dictionary_cache.is_a? Hash
       end
     end
   end
