@@ -43,7 +43,6 @@ RSpec.shared_context 'dictionary keys' do
 end
 
 RSpec.shared_context 'mock word filters' do
-
   unless Object.const_defined?('WordFilter01')
     class WordFilter01 < LittleWeasel::Filters::WordFilter
       class << self
