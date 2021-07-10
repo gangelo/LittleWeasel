@@ -70,9 +70,9 @@ FactoryBot.define do
         else
           dictionary_file_source
         end
-        dictionary_cache_service.add_dictionary_source(source: dictionary_path_for(file_name: file_name))
+        dictionary_cache_service.add_dictionary_source(dictionary_source: dictionary_path_for(file_name: file_name))
       elsif dictionary_memory_source
-        dictionary_cache_service.add_dictionary_source(source: LittleWeasel::Modules::DictionarSourceable.memory_source)
+        dictionary_cache_service.add_dictionary_source(dictionary_source: LittleWeasel::Modules::DictionarSourceable.memory_source)
       end
 
       if load
