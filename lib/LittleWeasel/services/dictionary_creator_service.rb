@@ -77,7 +77,7 @@ module LittleWeasel
       #
       # @return returns a reference to self.
       def add_dictionary_file_source(file:)
-        dictionary_cache_service.add_dictionary_source(source: file)
+        dictionary_cache_service.add_dictionary_source(dictionary_source: file)
       end
 
       # Adds a dictionary memory source. A "memory source" indicates that the
@@ -87,7 +87,7 @@ module LittleWeasel
       #
       # @return returns a reference to self.
       def add_dictionary_memory_source
-        dictionary_cache_service.add_dictionary_source(source: memory_source)
+        dictionary_cache_service.add_dictionary_source(dictionary_source: memory_source)
       end
     end
   end
