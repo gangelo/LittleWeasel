@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 2.2', '>= 2.2.17'
   spec.add_development_dependency 'factory_bot', '~> 6.2'
   spec.add_development_dependency 'pry-byebug', '~> 3.9'
-  spec.add_development_dependency 'rake', '>= 12.3.3'
+  spec.add_development_dependency 'rake',  '~> 12.3', '>= 12.3.3'
   spec.add_development_dependency 'redcarpet', '~> 3.5', '>= 3.5.1'
   spec.add_development_dependency 'reek', '~> 6.0', '>= 6.0.4'
   spec.add_development_dependency 'rspec', '~> 3.10'
