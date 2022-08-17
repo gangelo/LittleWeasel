@@ -1,3 +1,6 @@
+### 5.0.1
+* bug fix
+  * Fix error loading support files in LittleWeasel.rb.
 ### 5.0.0
 * changes
   * Add spec coverage where lacking.
