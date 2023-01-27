@@ -1,3 +1,6 @@
+### 5.0.2
+* changes
+  * Update gems.
 ### 5.0.1
 * bug fix
   * Fix error loading support files in LittleWeasel.rb.
