@@ -1,3 +1,7 @@
+### 5.0.4
+* changes
+  * Fix README.md erroneous references to WordResults#successful? (should be #success?)
+  * Gem update.
 ### 5.0.3
 * changes
   * Update gems to patch CVE.

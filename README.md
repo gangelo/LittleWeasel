@@ -28,12 +28,12 @@
 
 # About LittleWeasel
 
-**LittleWeasel** is _more_ than just a spell checker for words (and word blocks, i.e. groups of words); LittleWeasel provides information about a particular word(s) through its API. LittleWeasel allows you to apply preprocessing to words through any number of word preprocessors _before_ they are checked against the dictionary(ies) you provide. In addition to this, you may provide any number of word filters that allow you to consider the validity of each word being checked, regardless of whether or not it's literally found in the dictionary. LittleWeasel will tell you exactly what word preprocessors were applied to a given word, even showing you the transformation of the original word as it passes through each preprocessor; it will also inform you of each matching word filters along the way, so you can make a decision about every word being validated. 
+**LittleWeasel** is _more_ than just a spell checker for words (and word blocks, i.e. groups of words); LittleWeasel provides information about a particular word(s) through its API. LittleWeasel allows you to apply preprocessing to words through any number of word preprocessors _before_ they are checked against the dictionary(ies) you provide. In addition to this, you may provide any number of word filters that allow you to consider the validity of each word being checked, regardless of whether or not it's literally found in the dictionary. LittleWeasel will tell you exactly what word preprocessors were applied to a given word, even showing you the transformation of the original word as it passes through each preprocessor; it will also inform you of each matching word filters along the way, so you can make a decision about every word being validated.
 
 LittleWeasel provides other features as well:
 
 * LittleWeasel allows you to provide any number of "dictionaries" which may be in the form of a collecton of words in a file on disk _or_ an Array of words you provide, so that dictionaries may be created _dynamically_.
-* Dictionaries are identified by a unique "dictionary key"; that is, a key based on locale (<language>-<REGION>, e.g. en-US) and/or optional "tag" (en-US-<tag>, e.g. en-US-slang). 
+* Dictionaries are identified by a unique "dictionary key"; that is, a key based on locale (<language>-<REGION>, e.g. en-US) and/or optional "tag" (en-US-<tag>, e.g. en-US-slang).
 * Dictionaries created from files on disk are cached; their words and metadata are shared across dictionary instances that share the same dictionary key.
 * Dictionaries can have observable, metadata objects attached to them which are notified when a word or word block is being evaluated; therefore, metadata about the dictionary, words, etc. can be gathered and used. For example, LittleWeasel uses a LittleWeasel::Metadata::InvalidWordsMetadata metadata object that caches and keeps track of the total bytes of invalid words searched against the dictionary. If the total bytes of invalid words exceeds what is set in the configuration, caching of invalid words ceases. You can create your own metadata objects to gather and use your own metadata.
 
@@ -41,7 +41,7 @@ LittleWeasel provides other features as well:
 
 At its most basic level, there are three (3) steps to using LittleWeasel:
 1. Create a **LittleWeasel::Dictionary** object.
-2. Consume the **LittleWeasel::Dictionary#word_results** and/or **LittleWeasel::Dictionary#block_results** APIs to obtain a **LittleWeasel::WordResults** [^1] object for a particular word or word block. 
+2. Consume the **LittleWeasel::Dictionary#word_results** and/or **LittleWeasel::Dictionary#block_results** APIs to obtain a **LittleWeasel::WordResults** [^1] object for a particular word or word block.
 3. Interrogate the **LittleWeasel::WordResults** [^1] object returned from either of the aforementioned APIs.
 
 Some of the more advanced LittleWeasel features include the use of **word preprocessors**, **word filters** and **dictionary metadata modules**; for these, read on.
@@ -111,32 +111,32 @@ block_results = en_us_dictionary.block_results word_block
 # Results of calling #word_block with:
 #   "This is a word-block of 8 words and 2 numbers."...
 block_results #=>
-    preprocessed_words_or_original_words #=> 
+    preprocessed_words_or_original_words #=>
         ["This", "is", "a", "word-block", "of", "8", "words", "and", "2", "numbers"]
-    
+
     word_results[0] #=>
       # The word before any word preprocessors have been applied.
       original_word #=> "This"
-  
+
       # The word after all word preprocessors have been applied against
       # the word.
       preprocessed_word #=> nil
-      
+
       # Indicates whether or not the word was found in the literal
       # dictionary (#word_valid?) OR if the word (after word preprocessing)
       # was matched against a word filter (#filter_match?).
       success?  #=> false
-      
-      # Indicates whether or not word (after word preprocessing) was found 
+
+      # Indicates whether or not word (after word preprocessing) was found
       # in the literal dictionary.
       word_valid? #=> false
-      
+
       # Indicates whether or not the word is cached, either as a word found
       # in the literal dictionary OR as an invalid word. The latter will
       # only take place if LittleWeasel::Configuration#max_invalid_words_bytesize
       # is greater than 0.
       word_cached? #=> false
-      
+
       # Indicates whether or not #preprocessed_word is present due to
       # word having passed through one or more word preprocessors. This
       # will only return true if word preprocessors are available to the
@@ -145,25 +145,25 @@ block_results #=>
       # AND the word meets the criteria for word preprocessing for one or
       # more word preprocessors (LittleWeasel::Preprocessors::WordPreprocessor#preprocess?).
       preprocessed_word? #=> false
-      
+
       # Returns #preprocessed_word if word preprocessing has been applied
       # or original_word if word preprocessing has NOT been applied.
       preprocessed_word_or_original_word #=> "This"
-      
-      # Indicates whether or not word has been matched by at least 1 
+
+      # Indicates whether or not word has been matched by at least 1
       # word filter.
       filter_match? #=> false
-      
+
       # Indicates the word filters that were matched against
       # word (LittleWeasel::Filters::WordFilter#filter_match?). If
       # word did not match any word filters, an empty Array is returned.
       filters_matched #=> []
-    
+
       # Indicates the word preprocessors that were applied against
       # word. If no word preprocessors were applied to word, an empty
       # Array is returned.
       preprocessed_words #=> []
-     
+
     word_results[1] #=>
         original_word #=> "is"
         preprocessed_word #=> nil
@@ -297,13 +297,13 @@ en_us_names_dictionary.add_filters word_filters: [LittleWeasel::Filters::EnUs::S
 word_results = en_us_names_dictionary.word_results 'elijah'
 
 # Returns true if the word is found in the literal dictionary (#word_valid?) or
-# if the word matched any word filters (#filter_match?). true is returned because 
+# if the word matched any word filters (#filter_match?). true is returned because
 # 'elijah' ('Elijah' after preprocessing) was found in the literal dictionary,
 # despite not having matched any word filters.
-word_results.successful?
+word_results.success?
 #=> true
 
-# Returns true because 'elijah' ('Elijah' after preprocessing) was found in the 
+# Returns true because 'elijah' ('Elijah' after preprocessing) was found in the
 # literal dictionary.
 word_results.word_valid?
 #=> true
@@ -333,17 +333,17 @@ word_results.preprocessed_word
 # Search for a word that does not exist in the literal dictionary, but matches a filter...
 
 # Because of the LittleWeasel::Filters::EnUs::SingleCharacterWordFilter word filter,
-# "i" ("I" after word preprocessing) will be considered valid, even though it's not 
+# "i" ("I" after word preprocessing) will be considered valid, even though it's not
 # literally found in the dictionary.
 word_results = en_us_names_dictionary.word_results 'i'
 
 # true is returned because  'i' ('I' after preprocessing) was matched against the
 # LittleWeasel::Filters::EnUs::SingleCharacterWordFilter word filter, despite not
 # having been found in the literal dictionary.
-word_results.successful?
+word_results.success?
 #=> true
 
-# Returns false because 'i' ('I' after preprocessing) was not found in the 
+# Returns false because 'i' ('I' after preprocessing) was not found in the
 # literal dictionary.
 word_results.word_valid?
 #=> false
