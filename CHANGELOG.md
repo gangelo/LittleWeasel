@@ -1,3 +1,7 @@
+### 5.0.5
+* Changes
+  * Ruby gem updates.
+
 ### 5.0.4
 * changes
   * Fix README.md erroneous references to WordResults#successful? (should be #success?)
