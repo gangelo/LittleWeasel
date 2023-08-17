@@ -10,7 +10,7 @@ module LittleWeasel
       def validate_metadata_observable(metadata_observable)
         unless valid_metadata_observable? metadata_observable
           raise 'Argument metadata_observable is not a ' \
-            "Metadata::MetadataObserverable object: #{metadata_observable.class}"
+                "Metadata::MetadataObserverable object: #{metadata_observable.class}"
         end
       end
 
