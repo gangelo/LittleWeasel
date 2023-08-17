@@ -7,7 +7,7 @@ module LittleWeasel
       def initialize(msg: nil)
         unless msg.present?
           msg = 'The dictionary file size is larger than ' \
-            "max_dictionary_file_megabytes: #{LittleWeasel.configuration.max_dictionary_file_megabytes}"
+                "max_dictionary_file_megabytes: #{LittleWeasel.configuration.max_dictionary_file_megabytes}"
         end
         super msg
       end

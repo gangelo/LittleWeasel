@@ -48,7 +48,7 @@ module LittleWeasel
 
     class << self
       def to_hash(dictionary_words:)
-        dictionary_words.each_with_object(Hash.new(false)) { |word, hash| hash[word] = true; }
+        dictionary_words.each_with_object(Hash.new(false)) { |word, hash| hash[word] = true }
       end
     end
 
