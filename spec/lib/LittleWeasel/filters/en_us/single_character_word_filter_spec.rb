@@ -5,25 +5,25 @@ require 'spec_helper'
 RSpec.describe LittleWeasel::Filters::EnUs::SingleCharacterWordFilter do
   subject { described_class.new }
 
-  #filter_match?
+  # filter_match?
   describe '#filter_match?' do
+    let(:word) { 'x' }
+
     context 'when word single character word' do
       it 'returns true' do
-        %w(a A I).each do |number|
-          expect(subject.filter_match? number).to eq true
+        %w[a A I].each do |number|
+          expect(subject.filter_match?(number)).to be true
         end
       end
     end
 
     context 'when word is NOT a single character word' do
       it 'returns false' do
-        expect(subject.filter_match? 'X').to eq false
-        expect(subject.filter_match? :a).to eq false
-        expect(subject.filter_match? Object.new).to eq false
+        expect(subject.filter_match?('X')).to be false
+        expect(subject.filter_match?(:a)).to be false
+        expect(subject.filter_match?(Object.new)).to be false
       end
     end
-
-    let(:word) { 'x' }
 
     context 'when #filter_match? returns true' do
       before { allow(subject.class).to receive(:filter_match?).and_return(true) }

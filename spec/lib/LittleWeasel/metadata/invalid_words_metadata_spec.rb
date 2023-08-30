@@ -29,7 +29,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
 
   let(:configuration) { LittleWeasel.configuration }
 
-  #new
+  # new
   describe '#new' do
     context 'with invalid arguments' do
       subject { invalid_words_metadata }
@@ -39,7 +39,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
       end
 
       context 'with invalid dictionary metadata object' do
-        let(:dictionary_words) { { 'a' => true, 'b' => true } }
+        let(:dictionary_words) { { a: true, b: true } }
         let(:dictionary_metadata_object) { :wrong_type }
 
         it 'raises an error' do
@@ -48,7 +48,7 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
       end
 
       context 'with invalid dictionary metadata' do
-        let(:dictionary_words) { { 'a' => true, 'b' => true } }
+        let(:dictionary_words) { { a: true, b: true } }
         let(:dictionary_metadata) { :wrong_type }
 
         it 'raises an error' do
@@ -75,16 +75,16 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
       let(:word_results2) { create(:word_results, original_word: 'badword2') }
 
       it 'instantiates without error' do
-        expect { subject }.to_not raise_error
+        expect { subject }.not_to raise_error
       end
 
       it 'initializes the necessary object attributes' do
-        expect(subject.on?).to eq true
-        expect(subject.off?).to eq false
+        expect(subject.on?).to be true
+        expect(subject.off?).to be false
         expect(subject.value).to eq configuration.max_invalid_words_bytesize
-        expect(subject.value_exceeded?).to eq false
+        expect(subject.value_exceeded?).to be false
         expect(subject.current_invalid_word_bytesize).to eq 16
-        expect(subject.cache_invalid_words?).to eq true
+        expect(subject.cache_invalid_words?).to be true
       end
     end
 
@@ -109,30 +109,30 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
     end
   end
 
-  #refresh
+  # refresh
   describe '#refresh' do
     it 'the metadata is refreshed' do
       expect(subject.current_invalid_word_bytesize).to eq 0
       expect do
         dictionary.word_results('badword')
         subject.refresh
-      end.to change { subject.current_invalid_word_bytesize }
-      .from(0).to(7)
+      end.to change(subject, :current_invalid_word_bytesize)
+        .from(0).to(7)
     end
   end
 
-  #init
+  # init
   describe '#init' do
     it 'the metadata is initialized' do
       expect do
         subject.dictionary_metadata_object.dictionary_words['not-found'] = false
         subject.init
-      end.to change { subject.current_invalid_word_bytesize }
-      .from(0).to(9)
+      end.to change(subject, :current_invalid_word_bytesize)
+        .from(0).to(9)
     end
   end
 
-  #Update
+  # Update
   describe '#update' do
     context 'with an action NOT on the whitelist' do
       let(:action) { :bad_action! }
@@ -147,8 +147,8 @@ RSpec.describe LittleWeasel::Metadata::InvalidWordsMetadata do
       it 'carries out the requested action' do
         expect do
           dictionary.word_results 'not-found'
-        end.to change { subject.current_invalid_word_bytesize }
-        .from(0).to(9)
+        end.to change(subject, :current_invalid_word_bytesize)
+          .from(0).to(9)
       end
     end
   end

@@ -3,16 +3,17 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Dictionary do
+  subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words, word_filters: word_filters) }
+
   include_context 'dictionary keys'
   include_context 'mock word filters'
 
   DictionaryResultsHelpers = Support::GeneralHelpers::DictionaryResultsHelpers
 
-
-  subject { create(:dictionary, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_words: dictionary_words, word_filters: word_filters) }
-
-  before(:each) { LittleWeasel.configure { |config| config.reset } }
-  before { dictionary_cache_service }
+  before do
+    LittleWeasel.configure(&:reset)
+    dictionary_cache_service
+  end
 
   let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_file_source: dictionary_key.key) }
   let(:dictionary_key) { dictionary_key_for(language: :en, region: :us, tag: :big) }
@@ -29,11 +30,11 @@ RSpec.describe LittleWeasel::Dictionary do
     [word_results.present?, word_results&.word_valid]
   end
 
-  #.new
+  # .new
   describe '.new' do
     context 'with a valid dictionary words Array' do
       it 'instantiates without error' do
-        expect { subject }.to_not raise_error
+        expect { subject }.not_to raise_error
       end
     end
 
@@ -82,23 +83,23 @@ RSpec.describe LittleWeasel::Dictionary do
     end
   end
 
-  #.to_hash
+  # .to_hash
   describe '.to_hash' do
     let(:expected_hash) do
       {
-        'this' => true,
-        'is' => true,
-        'a' => true,
-        'test' => true
+        'this' => true, # rubocop:disable Style/StringHashKeys
+        'is' => true, # rubocop:disable Style/StringHashKeys
+        'a' => true, # rubocop:disable Style/StringHashKeys
+        'test' => true # rubocop:disable Style/StringHashKeys
       }
     end
 
     it 'returns a Hash of dictionary words' do
-      expect(described_class.to_hash(dictionary_words: %w(this is a test))).to eq expected_hash
+      expect(described_class.to_hash(dictionary_words: %w[this is a test])).to eq expected_hash
     end
   end
 
-  #detached?
+  # detached?
   describe '#detached?' do
     before do
       subject
@@ -109,8 +110,8 @@ RSpec.describe LittleWeasel::Dictionary do
     context 'when the dictionary object is in the dictionary cache' do
       it 'returns false' do
         dictionary_cache_service
-        expect(dictionary_cache_service.dictionary_object?).to eq true
-        expect(subject.detached?).to eq false
+        expect(dictionary_cache_service.dictionary_object?).to be true
+        expect(subject.detached?).to be false
       end
     end
 
@@ -122,20 +123,20 @@ RSpec.describe LittleWeasel::Dictionary do
       end
 
       it 'returns true' do
-        expect(dictionary_cache_service.dictionary_object?).to eq false
-        expect(subject.detached?).to eq true
+        expect(dictionary_cache_service.dictionary_object?).to be false
+        expect(subject.detached?).to be true
       end
     end
   end
 
-  #key
+  # key
   describe '#key' do
     it 'returns the expected key' do
       expect(subject.key).to eq dictionary_key.key
     end
   end
 
-  #count
+  # count
   describe '#count' do
     before do
       subject.word_results('badword')
@@ -146,7 +147,7 @@ RSpec.describe LittleWeasel::Dictionary do
     end
   end
 
-  #count_all_words
+  # count_all_words
   describe '#count_all_words' do
     before do
       subject.word_results('badword')
@@ -157,7 +158,7 @@ RSpec.describe LittleWeasel::Dictionary do
     end
   end
 
-  #count_invalid_words
+  # count_invalid_words
   describe '#count_invalid_words' do
     before do
       subject.word_results('badword')
@@ -168,7 +169,7 @@ RSpec.describe LittleWeasel::Dictionary do
     end
   end
 
-  #word_results
+  # word_results
   describe '#word_results' do
     context 'when argument word is INVALID' do
       context 'when not a String' do
@@ -183,19 +184,19 @@ RSpec.describe LittleWeasel::Dictionary do
     context 'when searching for words in the dictionary' do
       context 'when the word is found' do
         it 'returns true' do
-          expect(subject.word_results('dog').success?).to eq true
+          expect(subject.word_results('dog').success?).to be true
         end
       end
 
       context 'when the word is not found' do
         it 'returns false' do
-          expect(subject.word_results('badword').success?).to eq false
+          expect(subject.word_results('badword').success?).to be false
         end
       end
     end
   end
 
-  #block_results
+  # block_results
   describe '#block_results' do
     context 'when nil is passed' do
       it 'raises an error' do
@@ -250,7 +251,7 @@ RSpec.describe LittleWeasel::Dictionary do
       context 'when a word is not found' do
         context 'when the max_invalid_words_bytesize threashold has not been exceeded' do
           it 'adds the word to the cache' do
-            expect { subject.word_results('badword') }.to change { subject.count_all_words }.by(1)
+            expect { subject.word_results('badword') }.to change(subject, :count_all_words).by(1)
           end
         end
 
@@ -265,7 +266,7 @@ RSpec.describe LittleWeasel::Dictionary do
               subject.word_results('IWillBeCached02')
               subject.word_results('IWontBeCached01')
               subject.word_results('IWontBeCached02')
-            end.to change { subject.count_all_words }.by(2)
+            end.to change(subject, :count_all_words).by(2)
           end
         end
       end
@@ -282,7 +283,7 @@ RSpec.describe LittleWeasel::Dictionary do
           subject.word_results('IWillBeCached02')
           subject.word_results('IWontBeCached01')
           subject.word_results('IWontBeCached02')
-        end.to change { subject.count_all_words }.by(0)
+        end.not_to(change(subject, :count_all_words))
       end
     end
   end

@@ -23,24 +23,24 @@ RSpec.describe LittleWeasel::Modules::Region, type: :module do
 
   let(:region) {}
 
-  #region?
+  # region?
   describe '#region?' do
     context 'when region is present?' do
       let(:region) { :es }
 
       it 'returns true' do
-        expect(subject.region?).to eq true
+        expect(subject.region?).to be true
       end
     end
 
     context 'when region is NOT present?' do
       it 'returns false' do
-        expect(subject.region?).to eq false
+        expect(subject.region?).to be false
       end
     end
   end
 
-  #normalize_region!
+  # normalize_region!
   describe '#normalize_region!' do
     context 'when region is present?' do
       context 'when region responds to #upcase' do
@@ -75,7 +75,7 @@ RSpec.describe LittleWeasel::Modules::Region, type: :module do
     end
   end
 
-  #.normalize_region
+  # .normalize_region
   describe '#.normalize_region' do
     context 'with a non-nil region' do
       context 'when passing a Symbol' do

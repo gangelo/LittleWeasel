@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
+  subject { create(:dictionary_metadata_service, dictionary_key: dictionary_key, dictionary_metadata: dictionary_metadata, dictionary_cache: dictionary_cache) }
+
   include_context 'dictionary cache'
   include_context 'dictionary keys'
-
-  subject { create(:dictionary_metadata_service, dictionary_key: dictionary_key, dictionary_metadata: dictionary_metadata, dictionary_cache: dictionary_cache) }
 
   let(:en_us_dictionary_key) { dictionary_key_for(language: :en, region: :us) }
   let(:en_gb_dictionary_key) { dictionary_key_for(language: :en, region: :gb) }
@@ -37,7 +37,7 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
   end
 
   describe 'class methods' do
-    #.init
+    # .init
     describe '.init' do
       context 'with a valid dictionary metadata argument' do
         it 'initializes the dictionary metadata' do
@@ -57,20 +57,20 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
       end
     end
 
-    #.init?
+    # .init?
     describe '.init?' do
       context 'with a valid dictionary metadata argument' do
         context 'when the dictionary metadata is in an initialized state' do
           let(:dictionary_metadata) { {} }
 
           it 'returns true' do
-            expect(described_class.init?(dictionary_metadata: dictionary_metadata)).to eq true
+            expect(described_class.init?(dictionary_metadata: dictionary_metadata)).to be true
           end
         end
 
         context 'when the dictionary metadata is NOT in an initialized state' do
           it 'returns false' do
-            expect(described_class.init?(dictionary_metadata: dictionary_metadata)).to eq false
+            expect(described_class.init?(dictionary_metadata: dictionary_metadata)).to be false
           end
         end
       end
@@ -83,11 +83,11 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
     end
   end
 
-  #.new
+  # .new
   describe '.new' do
     context 'when the arguments are valid' do
       it 'instantiates without errors' do
-        expect { subject }.to_not raise_error
+        expect { subject }.not_to raise_error
       end
     end
 
@@ -96,11 +96,11 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
     it_behaves_like 'the dictionary_metadata is invalid'
   end
 
-  #init
+  # init
   describe '#init' do
     let(:expected_dictionary_metadata) do
       {
-        0 => { :metadata_key=>nil },
+        0 => { metadata_key: nil },
         1 => { metadata_key1: :metadata_object1 }
       }
     end
@@ -135,7 +135,7 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
     end
   end
 
-  #dictionary_metadata?
+  # dictionary_metadata?
   describe '#dictionary_metadata?' do
     before do
       allow(subject).to receive(:dictionary_id).and_return(0)
@@ -143,7 +143,7 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
 
     context 'when there is dictionary metadata associated with the dictionary for the metadata_key' do
       it 'returns true' do
-        expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to eq true
+        expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to be true
       end
     end
 
@@ -156,19 +156,19 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
         end
 
         it 'returns false' do
-          expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to eq false
+          expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to be false
         end
       end
 
       context 'when there is no dictionary metadata for the metadata_key' do
         let(:dictionary_metadata) do
           {
-            0 => { :wrong_metadata_key => :metadata_object }
+            0 => { wrong_metadata_key: :metadata_object }
           }
         end
 
         it 'returns false' do
-          expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to eq false
+          expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to be false
         end
       end
 
@@ -180,13 +180,13 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
         end
 
         it 'returns false' do
-          expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to eq false
+          expect(subject.dictionary_metadata?(metadata_key: metadata_key)).to be false
         end
       end
     end
   end
 
-  #get_dictionary_metadata
+  # get_dictionary_metadata
   describe '#get_dictionary_metadata' do
     before do
       allow(subject).to receive(:dictionary_id!).and_return(0)
@@ -217,19 +217,19 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
         end
 
         it 'returns false' do
-          expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to eq nil
+          expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to be_nil
         end
       end
 
       context 'when there is no dictionary metadata for the metadata_key' do
         let(:dictionary_metadata) do
           {
-            0 => { :wrong_metadata_key => :metadata_object0 }
+            0 => { wrong_metadata_key: :metadata_object0 }
           }
         end
 
         it 'returns false' do
-          expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to eq nil
+          expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to be_nil
         end
       end
 
@@ -241,13 +241,13 @@ RSpec.describe LittleWeasel::Services::DictionaryMetadataService do
         end
 
         it 'returns false' do
-          expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to eq nil
+          expect(subject.get_dictionary_metadata(metadata_key: metadata_key)).to be_nil
         end
       end
     end
   end
 
-  #set_dictionary_metadata
+  # set_dictionary_metadata
   describe '#set_dictionary_metadata' do
     before do
       allow(subject).to receive(:dictionary_id!).and_return(0)

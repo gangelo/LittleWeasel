@@ -8,20 +8,20 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWords, type: :module do
   let(:original_word) { 'word' }
   let(:preprocessed_words) {}
 
-  #.new
+  # .new
   describe '.new' do
     it 'instantiates an object' do
-      expect { subject }.to_not raise_error
+      expect { subject }.not_to raise_error
     end
 
     context 'arguments' do
-      context '#original_word' do
+      describe '#original_word' do
         it 'sets the original_word attribute' do
           expect(subject.original_word).to eq original_word
         end
       end
 
-      context '#preprocessed_words' do
+      describe '#preprocessed_words' do
         let(:preprocessed_words) { [:preprocessed_words] }
 
         it 'sets the original_word attribute' do
@@ -31,7 +31,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWords, type: :module do
     end
   end
 
-  #preprocessed_word
+  # preprocessed_word
   describe '#preprocessed_word' do
     subject do
       create(:preprocessed_words,
@@ -45,7 +45,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWords, type: :module do
     end
   end
 
-   #preprocessed?
+  # preprocessed?
   describe '#preprocessed?' do
     context 'when the word has been preprocessed' do
       subject do
@@ -56,7 +56,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWords, type: :module do
       end
 
       it 'returns the preprocessed word' do
-        expect(subject.preprocessed?).to eq true
+        expect(subject.preprocessed?).to be true
       end
     end
 
@@ -68,10 +68,8 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWords, type: :module do
       end
 
       it 'returns the preprocessed word' do
-        expect(subject.preprocessed?).to eq false
+        expect(subject.preprocessed?).to be false
       end
     end
   end
 end
-
-

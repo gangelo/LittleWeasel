@@ -3,12 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::DictionaryManager do
-  include_context 'dictionary keys'
-
   subject { create(:dictionary_manager) }
 
-  let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache)}
-  let(:dictionary_metadata_service) { create(:dictionary_metadata_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata)}
+  include_context 'dictionary keys'
+
+  let(:dictionary_cache_service) { create(:dictionary_cache_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
+  let(:dictionary_metadata_service) { create(:dictionary_metadata_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata) }
   let(:dictionary_key) { create(:dictionary_key, language: language, region: region, tag: tag) }
   let(:dictionary_cache) { subject.dictionary_cache }
   let(:dictionary_metadata) { subject.dictionary_metadata }
@@ -22,28 +22,28 @@ RSpec.describe LittleWeasel::DictionaryManager do
     dictionary_cache_service.dictionary_object.dictionary_metadata_object.observers.keys.first
   end
 
-  before(:each) do
+  before do
     subject.init
   end
 
-  #.new
+  # .new
   describe '.new' do
     it 'does not raise an error' do
       expect { subject }.not_to raise_error
     end
   end
 
-  #dictionary_exist?
+  # dictionary_exist?
   describe '#dictionary_exist?' do
     let!(:expected_dictionary_object) do
       subject.create_dictionary_from_memory(dictionary_key: dictionary_key,
-          dictionary_words:  %w(My dictionary words) )
+        dictionary_words:  %w[My dictionary words])
     end
 
     context 'when the dictionary exists' do
       it 'returns true' do
-        expect(subject.dictionary_exist? dictionary_key: dictionary_key)
-          .to eq true
+        expect(subject.dictionary_exist?(dictionary_key: dictionary_key))
+          .to be true
       end
     end
 
@@ -51,22 +51,22 @@ RSpec.describe LittleWeasel::DictionaryManager do
       let(:en_gb_dictionary_key) { dictionary_key_for(language: :en, region: :gb) }
 
       it 'returns false' do
-        expect(subject.dictionary_exist? dictionary_key: en_gb_dictionary_key)
-          .to eq false
+        expect(subject.dictionary_exist?(dictionary_key: en_gb_dictionary_key))
+          .to be false
       end
     end
   end
 
-  #dictionary_for
+  # dictionary_for
   describe '#dictionary_for' do
     let!(:expected_dictionary_object) do
       subject.create_dictionary_from_memory(dictionary_key: dictionary_key,
-          dictionary_words:  %w(My dictionary words) )
+        dictionary_words:  %w[My dictionary words])
     end
 
     context 'when the dictionary exists' do
       it 'returns the dictionary object' do
-        expect(subject.dictionary_for dictionary_key: dictionary_key)
+        expect(subject.dictionary_for(dictionary_key: dictionary_key))
           .to be expected_dictionary_object
       end
     end
@@ -81,11 +81,11 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
-  #create_dictionary_from_file
+  # create_dictionary_from_file
   describe '#create_dictionary_from_file' do
     context 'when the dictionary DOES NOT exist' do
       it 'creates a dictionary and returns a dictionary object' do
-        expect(subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file)).to be_kind_of LittleWeasel::Dictionary
+        expect(subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: file)).to be_a LittleWeasel::Dictionary
       end
     end
 
@@ -101,15 +101,15 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
-  #create_dictionary_from_memory
+  # create_dictionary_from_memory
   describe '#create_dictionary_from_memory' do
     let(:dictionary_words) { dictionary_words_for(dictionary_file_path: file) }
 
     context 'when the dictionary reference does not exist and the dictionary is not cached' do
       it 'adds a dictionary reference caches the dictionary and returns a dictionary object' do
-        expect(subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: dictionary_words)).to be_kind_of LittleWeasel::Dictionary
-        expect(dictionary_cache_service.dictionary_reference?).to eq true
-        expect(dictionary_cache_service.dictionary_object?).to eq true
+        expect(subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: dictionary_words)).to be_a LittleWeasel::Dictionary
+        expect(dictionary_cache_service.dictionary_reference?).to be true
+        expect(dictionary_cache_service.dictionary_object?).to be true
       end
     end
 
@@ -125,7 +125,7 @@ RSpec.describe LittleWeasel::DictionaryManager do
     end
   end
 
-  #kill
+  # kill
   describe '#kill_dictionary' do
     context 'dictionaries created from files' do
       before do
@@ -135,9 +135,9 @@ RSpec.describe LittleWeasel::DictionaryManager do
       it 'removes the dictionary, file source reference and metadata from the dictionary cache' do
         metadata_key # Capture this before we unload the dictionary
         subject.kill_dictionary(dictionary_key: dictionary_key)
-        expect(dictionary_cache_service.dictionary_exist?).to eq false
-        expect(dictionary_cache_service.dictionary_reference?).to eq false
-        expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to eq false
+        expect(dictionary_cache_service.dictionary_exist?).to be false
+        expect(dictionary_cache_service.dictionary_reference?).to be false
+        expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to be false
       end
 
       it 'returns the dictionary manager instance' do
@@ -147,15 +147,15 @@ RSpec.describe LittleWeasel::DictionaryManager do
 
     context 'dictionaries created from memory' do
       before do
-        subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: %w(Abel Cain Deborah Elijah))
+        subject.create_dictionary_from_memory(dictionary_key: dictionary_key, dictionary_words: %w[Abel Cain Deborah Elijah])
       end
 
       it 'removes the dictionary, memory source reference and metadata from the dictionary cache' do
         metadata_key # Capture this before we unload the dictionary
         subject.kill_dictionary(dictionary_key: dictionary_key)
-        expect(dictionary_cache_service.dictionary_exist?).to eq false
-        expect(dictionary_cache_service.dictionary_reference?).to eq false
-        expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to eq false
+        expect(dictionary_cache_service.dictionary_exist?).to be false
+        expect(dictionary_cache_service.dictionary_reference?).to be false
+        expect(dictionary_metadata_service.dictionary_metadata?(metadata_key: metadata_key)).to be false
       end
 
       it 'returns the dictionary manager instance' do

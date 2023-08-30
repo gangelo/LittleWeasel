@@ -37,7 +37,7 @@ RSpec.describe LittleWeasel::Modules::DictionaryFileLoader, type: :module do
   let(:dictionary_file_key) { file }
   let(:dictionary_cache) { {} }
 
-  #load
+  # load
   describe '#load' do
     context 'with an invalid dictionary file' do
       context 'when it cannot be found' do
@@ -52,7 +52,7 @@ RSpec.describe LittleWeasel::Modules::DictionaryFileLoader, type: :module do
         let(:dictionary_path) { dictionary_path_for file_name: 'empty-dictionary' }
 
         it 'raises an error' do
-          expect { subject.load dictionary_path  }.to raise_error LittleWeasel::Errors::DictionaryFileEmptyError
+          expect { subject.load dictionary_path }.to raise_error LittleWeasel::Errors::DictionaryFileEmptyError
         end
       end
 
@@ -64,7 +64,7 @@ RSpec.describe LittleWeasel::Modules::DictionaryFileLoader, type: :module do
         let(:dictionary_path) { language_dictionary_path language: :en }
 
         it 'raises an error' do
-          expect { subject.load dictionary_path  }.to raise_error LittleWeasel::Errors::DictionaryFileTooLargeError
+          expect { subject.load dictionary_path }.to raise_error LittleWeasel::Errors::DictionaryFileTooLargeError
         end
       end
     end
@@ -78,39 +78,39 @@ RSpec.describe LittleWeasel::Modules::DictionaryFileLoader, type: :module do
         before { subject }
 
         it 'does not raise an error' do
-          expect { subject }.to_not raise_error
+          expect { subject }.not_to raise_error
         end
       end
 
       context 'when the dictionary is NOT already loaded/cached' do
         let(:expected_dictionary_key_key) { LittleWeasel::DictionaryKey.new(language: language, region: region, tag: tag).key }
         let(:expected_results) do
-          ['apple',
-           'better',
-           'cat',
-           'dog',
-           'everyone',
-           'fat',
-           'game',
-           'help',
-           'italic',
-           'jasmine',
-           'kelp',
-           'love',
-           'man',
-           'nope',
-           'octopus',
-           'popeye',
-           'queue',
-           'ruby',
-           'stop',
-           'top',
-           'ultimate',
-           'very',
-           'was',
-           'xylophone',
-           'yes',
-           'zebra']
+          %w[apple
+             better
+             cat
+             dog
+             everyone
+             fat
+             game
+             help
+             italic
+             jasmine
+             kelp
+             love
+             man
+             nope
+             octopus
+             popeye
+             queue
+             ruby
+             stop
+             top
+             ultimate
+             very
+             was
+             xylophone
+             yes
+             zebra]
         end
 
         it 'returns an Array of dictionary words loaded from the file' do

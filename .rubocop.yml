@@ -13,6 +13,8 @@ AllCops:
     - '*.gemspec'
     - 'spec/**/*'
     - 'vendor/**/*'
+    - 'scratch*.rb'
+    - 'snippets*.rb'
 
 # Align the elements of a hash literal if they span more than one line.
 Layout/HashAlignment:
@@ -115,7 +117,7 @@ Layout/LineLength:
 # Avoid methods longer than 15 lines of code.
 Metrics/MethodLength:
   Max: 20
-  IgnoredMethods:
+  AllowedMethods:
     - swagger_path
     - operation
 
@@ -124,9 +126,12 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Max: 10
 
-Naming/FileName:
-  Exclude:
-    - 'lib/LittleWeasel.rb'
+NestedGroups:
+  Max: 4
+
+# Naming/FileName:
+#  Exclude:
+#    - 'lib/file.rb'
 
 # Allow `downcase == ` instead of forcing `casecmp`
 Performance/Casecmp:

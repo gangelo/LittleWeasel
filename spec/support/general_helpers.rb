@@ -50,7 +50,7 @@ module Support
         puts "#{indent * 2}filter_match? #=> #{results.filter_match?}"
         puts "#{indent * 2}filters_matched: #=> #{results.filters_matched}"
         puts "#{indent * 2}preprocessed_words #=>"
-        results.preprocessed_words&.preprocessed_words.each_with_index do |preprocessed_word, index|
+        results.preprocessed_words&.preprocessed_words&.each_with_index do |preprocessed_word, index|
           puts "#{indent * 3}preprocessed_words[#{index}] #=>"
           puts "#{indent * 4}preprocessed_word #=>"
           puts "#{indent * 5}preprocessor: :#{preprocessed_word.preprocessor}"
@@ -61,6 +61,7 @@ module Support
 
       def string_or_nil(value)
         return 'nil' if value.nil?
+
         "\"#{value}\""
       end
     end

@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 FactoryBot.define do
-  factory :preprocessed_word, class: LittleWeasel::Preprocessors::PreprocessedWord do
+  factory :preprocessed_word, class: 'LittleWeasel::Preprocessors::PreprocessedWord' do
     original_word {}
     preprocessed {}
     preprocessed_word {}

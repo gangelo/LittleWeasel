@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 FactoryBot.define do
-  factory :dictionary_key, class: LittleWeasel::DictionaryKey do
+  factory :dictionary_key, class: 'LittleWeasel::DictionaryKey' do
     language { :en }
     region { :us }
     tag {}

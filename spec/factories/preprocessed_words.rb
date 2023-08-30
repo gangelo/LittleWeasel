@@ -3,7 +3,7 @@
 require 'pry'
 
 FactoryBot.define do
-  factory :preprocessed_words, class: LittleWeasel::Preprocessors::PreprocessedWords do
+  factory :preprocessed_words, class: 'LittleWeasel::Preprocessors::PreprocessedWords' do
     original_word { 'word' }
     preprocessed_words {}
 

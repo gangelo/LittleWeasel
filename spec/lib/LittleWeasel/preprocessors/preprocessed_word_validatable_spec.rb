@@ -27,21 +27,22 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
   end
   let(:original_word) { 'word' }
   let(:preprocessed) { true }
-  let(:preprocessed_word) { 'preprocessed-word0'}
+  let(:preprocessed_word) { 'preprocessed-word0' }
   let(:preprocessor) { :preprocesor0 }
   let(:preprocessor_order) { 0 }
 
-  #.validate_prepreprocessed_word
+  # .validate_prepreprocessed_word
   describe '.validate_prepreprocessed_word' do
     context 'when the object is valid' do
       it 'does not raise an error' do
-        expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.to_not raise_error
+        expect { PreprocessedWordValidatable.validate_prepreprocessed_word(preprocessed_word: preprocessed_word_object) }.not_to raise_error
       end
     end
 
     context 'when the object is INVALID' do
       context 'when #original_word is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :original_word }
 
         it 'raises an eror' do
@@ -51,6 +52,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
 
       context 'when #original_word= is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :original_word= }
 
         it 'raises an eror' do
@@ -60,6 +62,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
 
       context 'when #preprocessed_word is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :preprocessed_word }
 
         it 'raises an eror' do
@@ -69,6 +72,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
 
       context 'when #preprocessed_word= is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :preprocessed_word= }
 
         it 'raises an eror' do
@@ -78,6 +82,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
 
       context 'when #preprocessed is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :preprocessed }
 
         it 'raises an eror' do
@@ -87,6 +92,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
 
       context 'when #preprocessed= is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :preprocessed= }
 
         it 'raises an eror' do
@@ -96,6 +102,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
 
       context 'when #preprocessed? is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :preprocessed? }
 
         it 'raises an eror' do
@@ -105,6 +112,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
 
       context 'when #preprocessor is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :preprocessor }
 
         it 'raises an eror' do
@@ -114,6 +122,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
 
       context 'when #preprocessor= is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :preprocessor= }
 
         it 'raises an eror' do
@@ -123,6 +132,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
 
       context 'when #preprocessor_order is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :preprocessor_order }
 
         it 'raises an eror' do
@@ -132,6 +142,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWordValidatable, type: :
 
       context 'when #preprocessor_order= is missing' do
         before { allow(preprocessed_word_object).to receive(:respond_to?).with(method).and_return(false) }
+
         let(:method) { :preprocessor_order= }
 
         it 'raises an eror' do

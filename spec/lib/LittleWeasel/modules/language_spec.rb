@@ -23,24 +23,24 @@ RSpec.describe LittleWeasel::Modules::Language, type: :module do
 
   let(:language) {}
 
-  #language?
+  # language?
   describe '#language?' do
     context 'when language is present?' do
       let(:language) { :es }
 
       it 'returns true' do
-        expect(subject.language?).to eq true
+        expect(subject.language?).to be true
       end
     end
 
     context 'when language is NOT present?' do
       it 'returns false' do
-        expect(subject.language?).to eq false
+        expect(subject.language?).to be false
       end
     end
   end
 
-  #normalize_language!
+  # normalize_language!
   describe '#normalize_language!' do
     context 'when language is present?' do
       context 'when language responds to #upcase!' do
@@ -75,7 +75,7 @@ RSpec.describe LittleWeasel::Modules::Language, type: :module do
     end
   end
 
-  #.normalize_language
+  # .normalize_language
   describe '#.normalize_language' do
     context 'with a non-nil language' do
       context 'when passing a Symbol' do

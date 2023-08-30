@@ -3,10 +3,6 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
-  include_context 'mock word filters'
-
-  WordFilterManagable = described_class
-
   subject do
     Class.new do
       include WordFilterManagable
@@ -18,10 +14,14 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     end.new(word_filters)
   end
 
+  include_context 'mock word filters'
+
+  WordFilterManagable = described_class
+
   let(:word_filters) { [numeric_filter] }
   let(:numeric_filter) { LittleWeasel::Filters::EnUs::NumericFilter.new }
 
-  #clear_filters
+  # clear_filters
   describe '#clear_filters' do
     it 'sets #word_filters to an empty Array ([])' do
       expect { subject.clear_filters }.to \
@@ -29,7 +29,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     end
   end
 
-  #add_filters
+  # add_filters
   describe '#add_filters' do
     context 'when argument word_filters is nil' do
       context 'when no block is passed' do
@@ -57,7 +57,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
 
     context 'when argument word_filters is a blank Array ([])' do
       it 'nothing is changed' do
-        expect { subject.add_filters(word_filters: []) }.to_not change { subject.word_filters.count }.from(subject.word_filters.count)
+        expect { subject.add_filters(word_filters: []) }.not_to change { subject.word_filters.count }.from(subject.word_filters.count)
       end
     end
 
@@ -93,7 +93,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     end
   end
 
-  #replace_filters
+  # replace_filters
   describe '#replace_filters' do
     it 'replaces any existing word filters' do
       expect(subject.word_filters.count).to eq 1
@@ -104,7 +104,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
     end
   end
 
-  #filters_on=
+  # filters_on=
   describe '#filters_on=' do
     context 'when a boolean is not passed' do
       it 'raises an error' do
@@ -114,10 +114,10 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
 
     context 'when true is assigned' do
       it 'turns all the filters on' do
-        expect(subject.word_filters.count).to_not be_zero
-        expect(subject.word_filters.all? { |word_filter| word_filter.filter_on? })
+        expect(subject.word_filters.count).not_to be_zero
+        expect(subject.word_filters.all?(&:filter_on?))
         subject.filters_on = true
-        expect(subject.word_filters.all? { |word_filter| word_filter.filter_off? })
+        expect(subject.word_filters.all?(&:filter_off?))
       end
     end
 
@@ -127,15 +127,15 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
       end
 
       it 'turns all the filters off' do
-        expect(subject.word_filters.count).to_not be_zero
-        expect(subject.word_filters.all? { |word_filter| word_filter.filter_off? })
+        expect(subject.word_filters.count).not_to be_zero
+        expect(subject.word_filters.all?(&:filter_off?))
         subject.filters_on = false
-        expect(subject.word_filters.all? { |word_filter| word_filter.filter_on? })
+        expect(subject.word_filters.all?(&:filter_on?))
       end
     end
   end
 
-  #filter_match?
+  # filter_match?
   describe '#filter_match?' do
     context 'when argument word is not a String' do
       let(:word) { :not_a_string }
@@ -149,7 +149,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
       let(:word) { '' }
 
       it 'returns false' do
-        expect(subject.filter_match? word).to eq false
+        expect(subject.filter_match?(word)).to be false
       end
     end
 
@@ -161,7 +161,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
       let(:word) { '123456789' }
 
       it 'returns true' do
-        expect(subject.filter_match? word).to eq true
+        expect(subject.filter_match?(word)).to be true
       end
     end
 
@@ -173,7 +173,7 @@ RSpec.describe LittleWeasel::Filters::WordFilterManagable, type: :module do
       let(:word) { '123456789' }
 
       it 'returns false' do
-        expect(subject.filter_match? word).to eq false
+        expect(subject.filter_match?(word)).to be false
       end
     end
   end

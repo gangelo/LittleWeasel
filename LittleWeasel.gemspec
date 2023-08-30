@@ -28,13 +28,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake',  '~> 12.3', '>= 12.3.3'
   spec.add_development_dependency 'redcarpet', '~> 3.5', '>= 3.5.1'
   spec.add_development_dependency 'reek', '~> 6.0', '>= 6.0.4'
-  spec.add_development_dependency 'rspec', '~> 3.10'
+  spec.add_development_dependency 'rspec', '~> 3.12'
   # This verson of rubocop is returning errors.
   # spec.add_development_dependency 'rubocop', '~> 1.14'
-  spec.add_development_dependency 'rubocop', '~> 1.9.1'
-  spec.add_development_dependency 'rubocop-performance', '~> 1.11', '>= 1.11.3'
-  spec.add_development_dependency 'rubocop-rspec', '~> 2.3'
-  spec.add_development_dependency 'simplecov', '~> 0.21.2'
+  spec.add_development_dependency 'rubocop', '~> 1.56', '>= 1.56.2'
+  spec.add_development_dependency 'rubocop-performance', '~> 1.19'
+  spec.add_development_dependency 'rubocop-rspec', '~> 2.23', '>= 2.23.2'
+  spec.add_development_dependency 'simplecov', '~> 0.22.0'
   # Needed for yard
   spec.add_development_dependency 'webrick', '~> 1.7'
   spec.add_development_dependency 'yard', '~> 0.9.26'

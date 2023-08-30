@@ -25,7 +25,7 @@ RSpec.describe LittleWeasel::Modules::Locale, type: :module do
   let(:language) {}
   let(:region) {}
 
-  #locale
+  # locale
   describe '#locale' do
     context 'with valid arguments' do
       context 'with valid language' do

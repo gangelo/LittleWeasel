@@ -3,7 +3,7 @@
 require 'pry'
 
 FactoryBot.define do
-  factory :dictionary_metadata_service, class: LittleWeasel::Services::DictionaryMetadataService do
+  factory :dictionary_metadata_service, class: 'LittleWeasel::Services::DictionaryMetadataService' do
     dictionary_key { create(:dictionary_key) }
     dictionary_cache { {} }
     dictionary_metadata { {} }

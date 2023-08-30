@@ -14,17 +14,17 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
   let(:invalid_words_metadata_key) { invalid_words_metadata_class.metadata_key }
   let(:invalid_words_metadata_class) { LittleWeasel::Metadata::InvalidWordsMetadata }
 
-  #.new
+  # .new
   describe '#.new' do
     context 'with valid arguments' do
       it 'instantiates the object' do
-        expect { subject }.to_not raise_error
+        expect { subject }.not_to raise_error
       end
     end
 
     context 'with invalid arguments' do
       context 'when dictionary_words is nil' do
-        # Note: do not use the factory for this spec becasue
+        # NOTE: do not use the factory for this spec becasue
         # it creates a dictionary if a nil dictionay is passed
         # so the test will never pass if using the factory.
         subject { described_class.new(dictionary_words: dictionary_words, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache, dictionary_metadata: dictionary_metadata) }
@@ -37,7 +37,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
       end
 
       context 'when dictionary_words is not a Hash' do
-        let(:dictionary_words) { %w(I am a bad dictionary) }
+        let(:dictionary_words) { %w[I am a bad dictionary] }
 
         it 'raises an error' do
           expect { subject }.to raise_error(/Argument dictionary_words is not a Hash/)
@@ -46,7 +46,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
     end
   end
 
-  #[]
+  # []
   describe '#[]' do
     context 'when passing a valid metadata_key' do
       context 'when it is a key that points to a valid metadata observer' do
@@ -55,7 +55,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
         end
 
         it 'returns the metadata observer object' do
-          expect(subject[invalid_words_metadata_key]).to be_kind_of invalid_words_metadata_class
+          expect(subject[invalid_words_metadata_key]).to be_a invalid_words_metadata_class
         end
       end
 
@@ -73,7 +73,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
     end
   end
 
-  #init
+  # init
   describe '#init' do
     context 'when there are observers attached' do
       before do
@@ -94,7 +94,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
       it 'observers are NOT notified to init' do
         # Sanity check.
         expect(subject.count_observers).to eq 0
-        expect(subject.observers[invalid_words_metadata_key]).to_not receive(:init)
+        expect(subject.observers[invalid_words_metadata_key]).not_to receive(:init)
         subject.init
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
     end
   end
 
-  #refresh
+  # refresh
   describe '#refresh' do
     context 'when there are observers attached' do
       before do
@@ -124,7 +124,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
       it 'observers are NOT notified to refresh' do
         # Sanity check.
         expect(subject.count_observers).to eq 0
-        expect(subject.observers[invalid_words_metadata_key]).to_not receive(:refresh)
+        expect(subject.observers[invalid_words_metadata_key]).not_to receive(:refresh)
         subject.refresh
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
     end
   end
 
-  #delete_observer
+  # delete_observer
   describe '#delete_observer' do
     context 'when a valid observer object is passed' do
       before do
@@ -157,12 +157,12 @@ RSpec.describe LittleWeasel::Metadata::DictionaryMetadata do
 
       it 'raises an error' do
         expect { subject.delete_observer(bad_observer) }.to raise_error 'Argument metadata_observable is not a ' \
-            "Metadata::MetadataObserverable object: #{bad_observer.class}"
+                                                                        "Metadata::MetadataObserverable object: #{bad_observer.class}"
       end
     end
   end
 
-  #add_observers
+  # add_observers
   describe '#add_observers' do
     it 'returns the same object that was called' do
       expect(subject.add_observers).to be subject

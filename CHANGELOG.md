@@ -1,3 +1,7 @@
+### 5.0.6
+* Changes
+  * Ruby gem updates.
+
 ### 5.0.5
 * Changes
   * Ruby gem updates.

@@ -3,7 +3,7 @@
 require 'pry'
 
 FactoryBot.define do
-  factory :dictionary_cache_service, class: LittleWeasel::Services::DictionaryCacheService do
+  factory :dictionary_cache_service, class: 'LittleWeasel::Services::DictionaryCacheService' do
     dictionary_key { create(:dictionary_key) }
     dictionary_cache { {} }
 
@@ -57,11 +57,9 @@ FactoryBot.define do
       dictionary_memory_source = evaluator.dictionary_memory_source
       dictionary_file_source = evaluator.dictionary_file_source
 
-      if load
-        unless dictionary_memory_source.present? || dictionary_file_source.present?
-          raise 'Transient attributes dictionary_memory_source or dictionary_file_source ' \
-            "must be present if transient attribute load is true: #{dictionary_reference}"
-        end
+      if load && !(dictionary_memory_source.present? || dictionary_file_source.present?)
+        raise 'Transient attributes dictionary_memory_source or dictionary_file_source ' \
+              "must be present if transient attribute load is true: #{dictionary_reference}"
       end
 
       if dictionary_file_source

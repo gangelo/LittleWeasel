@@ -5,29 +5,29 @@ require 'spec_helper'
 RSpec.describe LittleWeasel::Filters::WordFilter do
   subject { described_class.new }
 
-  #.new
+  # .new
   describe '.new' do
     it 'instantiates the object' do
-      expect { subject }.to_not raise_error
+      expect { subject }.not_to raise_error
     end
 
     it 'sets #filter_on to true by default' do
-      expect(subject.filter_on).to eq true
+      expect(subject.filter_on).to be true
     end
   end
 
-  #filter_off!
+  # filter_off!
   describe '#filter_off!' do
     before do
       subject.filter_off!
     end
 
     it 'sets the filter off' do
-      expect(subject.filter_off?).to eq true
+      expect(subject.filter_off?).to be true
     end
   end
 
-  #filter_on
+  # filter_on
   describe '#filter_on' do
     context 'when set to true' do
       before do
@@ -35,7 +35,7 @@ RSpec.describe LittleWeasel::Filters::WordFilter do
       end
 
       it 'returns true' do
-        expect(subject.filter_on).to eq true
+        expect(subject.filter_on).to be true
       end
     end
 
@@ -45,35 +45,35 @@ RSpec.describe LittleWeasel::Filters::WordFilter do
       end
 
       it 'returns false' do
-        expect(subject.filter_on).to eq false
+        expect(subject.filter_on).to be false
       end
     end
   end
 
-  #filter_on=
+  # filter_on=
   describe '#filter_on=' do
     context 'when argument value is valid' do
       context 'when true' do
         before do
           subject.filter_on = false
-          expect(subject.filter_off?).to eq true
+          expect(subject.filter_off?).to be true
         end
 
         it 'sets #filter_on to true' do
           subject.filter_on = true
-          expect(subject.filter_on).to eq true
+          expect(subject.filter_on).to be true
         end
       end
 
       context 'when false' do
         before do
           subject.filter_on = true
-          expect(subject.filter_on?).to eq true
+          expect(subject.filter_on?).to be true
         end
 
         it 'sets #filter_on to false' do
           subject.filter_on = false
-          expect(subject.filter_on).to eq false
+          expect(subject.filter_on).to be false
         end
       end
     end
@@ -89,24 +89,24 @@ RSpec.describe LittleWeasel::Filters::WordFilter do
     end
   end
 
-  #filter_on?
+  # filter_on?
   describe '#filter_on?' do
     context 'when #filter_on is true' do
       it 'returns true' do
         subject.filter_on = true
-        expect(subject.filter_on?).to eq true
+        expect(subject.filter_on?).to be true
       end
     end
 
     context 'when #filter_on is false' do
       it 'returns false' do
         subject.filter_on = false
-        expect(subject.filter_on?).to eq false
+        expect(subject.filter_on?).to be false
       end
     end
   end
 
-  #filter_match?
+  # filter_match?
   describe '#filter_match?' do
     let(:word) { 'word' }
 

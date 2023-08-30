@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 FactoryBot.define do
-  factory :word_results, class: LittleWeasel::WordResults do
+  factory :word_results, class: 'LittleWeasel::WordResults' do
     original_word {}
     filters_matched { [] }
     preprocessed_words {}

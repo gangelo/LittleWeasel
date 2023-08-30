@@ -3,7 +3,7 @@
 require 'factory_bot'
 require_relative 'file_helpers'
 
-FactoryBot::SyntaxRunner.send(:include, Support::FileHelpers)
+FactoryBot::SyntaxRunner.include Support::FileHelpers
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
@@ -12,4 +12,3 @@ RSpec.configure do |config|
     FactoryBot.find_definitions
   end
 end
-

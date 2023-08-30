@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'the dictionary_key is invalid' do
   context 'when the dictionary_key is nil' do
     let(:dictionary_key) {}
@@ -56,25 +58,25 @@ end
 
 RSpec.shared_examples 'the filter matches and #filter_on? is true' do
   it 'returns true' do
-    expect(subject.filter_match? word).to eq true
+    expect(subject.filter_match?(word)).to be true
   end
 end
 
 RSpec.shared_examples 'the filter DOES NOT match and #filter_on? is true' do
   it 'returns false' do
-    expect(subject.filter_match? word).to eq false
+    expect(subject.filter_match?(word)).to be false
   end
 end
 
 RSpec.shared_examples 'the filter matches and #filter_on? is false' do
   it 'returns false' do
-    expect(subject.filter_match? word).to eq false
+    expect(subject.filter_match?(word)).to be false
   end
 end
 
 RSpec.shared_examples 'the filter DOES NOT match and #filter_on? is false' do
   it 'returns false' do
-    expect(subject.filter_match? word).to eq false
+    expect(subject.filter_match?(word)).to be false
   end
 end
 
@@ -82,24 +84,24 @@ end
 
 RSpec.shared_examples 'the preprocessor matches and #preprocessor_on? is true' do
   it 'returns true' do
-    expect(subject.preprocess? word).to eq true
+    expect(subject.preprocess?(word)).to be true
   end
 end
 
 RSpec.shared_examples 'the preprocessor DOES NOT match and #preprocessor_on? is true' do
   it 'returns false' do
-    expect(subject.preprocess? word).to eq false
+    expect(subject.preprocess?(word)).to be false
   end
 end
 
 RSpec.shared_examples 'the preprocessor matches and #preprocessor_on? is false' do
   it 'returns false' do
-    expect(subject.preprocess? word).to eq false
+    expect(subject.preprocess?(word)).to be false
   end
 end
 
 RSpec.shared_examples 'the preprocessor DOES NOT match and #preprocessor_on? is false' do
   it 'returns false' do
-    expect(subject.preprocess? word).to eq false
+    expect(subject.preprocess?(word)).to be false
   end
 end

@@ -3,12 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe 'Dictionary integration', type: :integration do
+  subject { create(:dictionary_manager) }
+
   include_context 'dictionary keys'
   include_context 'mock word preprocessors'
 
-  subject { create(:dictionary_manager) }
-
-  before(:each) { LittleWeasel.configure { |config| config.reset } }
+  before { LittleWeasel.configure(&:reset) }
 
   let(:dictionary) do
     subject.create_dictionary_from_file(dictionary_key: dictionary_key, file: dictionary_file_path,
@@ -22,7 +22,7 @@ RSpec.describe 'Dictionary integration', type: :integration do
   let(:word_filters) {}
   let(:word_preprocessors) {}
 
-  #word_results
+  # word_results
   describe '#word_results' do
     describe 'when using word filters' do
       let(:word_filters) { [LittleWeasel::Filters::EnUs::NumericFilter.new] }
@@ -32,11 +32,11 @@ RSpec.describe 'Dictionary integration', type: :integration do
         let(:word_results) { dictionary.word_results(number) }
 
         it '#success? returns true' do
-          expect(word_results.success?).to eq true
+          expect(word_results.success?).to be true
         end
 
         it '#filter_match? returns true' do
-          expect(word_results.filter_match?).to eq true
+          expect(word_results.filter_match?).to be true
         end
 
         it '#filters_matched returns the filter(s) that were matched' do
@@ -44,7 +44,7 @@ RSpec.describe 'Dictionary integration', type: :integration do
         end
 
         it '#word_valid? returns false' do
-          expect(word_results.word_valid?).to eq false
+          expect(word_results.word_valid?).to be false
         end
 
         it '#original_word returns the original word' do
@@ -60,12 +60,12 @@ RSpec.describe 'Dictionary integration', type: :integration do
         end
 
         it '#word_cached? returns false if the word is not in the dictionary' do
-          expect(word_results.word_cached?).to eq false
+          expect(word_results.word_cached?).to be false
         end
 
         it '#word_cached? returns true 2nd-nth time the word was searched if invalid words are being cached by any metadata processing' do
           dictionary.word_results(number)
-          expect(word_results.word_cached?).to eq true
+          expect(word_results.word_cached?).to be true
         end
       end
 
@@ -77,11 +77,11 @@ RSpec.describe 'Dictionary integration', type: :integration do
         let(:word_results) { dictionary.word_results(number) }
 
         it '#success? returns false' do
-          expect(word_results.success?).to eq false
+          expect(word_results.success?).to be false
         end
 
         it '#filter_match? returns false' do
-          expect(word_results.filter_match?).to eq false
+          expect(word_results.filter_match?).to be false
         end
 
         it '#filters_matched returns an empty Array' do
@@ -89,7 +89,7 @@ RSpec.describe 'Dictionary integration', type: :integration do
         end
 
         it '#word_valid? returns false' do
-          expect(word_results.word_valid?).to eq false
+          expect(word_results.word_valid?).to be false
         end
 
         it '#original_word returns the original word' do
@@ -105,12 +105,12 @@ RSpec.describe 'Dictionary integration', type: :integration do
         end
 
         it '#word_cached? returns false if the word is not in the dictionary' do
-          expect(word_results.word_cached?).to eq false
+          expect(word_results.word_cached?).to be false
         end
 
         it '#word_cached? returns true 2nd-nth time the word was searched if invalid words are being cached by any metadata processing' do
           dictionary.word_results(number)
-          expect(word_results.word_cached?).to eq true
+          expect(word_results.word_cached?).to be true
         end
       end
     end
@@ -122,11 +122,11 @@ RSpec.describe 'Dictionary integration', type: :integration do
 
       context 'with preprocessors turned on' do
         it '#success? returns true' do
-          expect(word_results.success?).to eq true
+          expect(word_results.success?).to be true
         end
 
         it '#filter_match? returns false' do
-          expect(word_results.filter_match?).to eq false
+          expect(word_results.filter_match?).to be false
         end
 
         it '#filters_matched returns the filter(s) that were matched' do
@@ -134,7 +134,7 @@ RSpec.describe 'Dictionary integration', type: :integration do
         end
 
         it '#word_valid? returns true' do
-          expect(word_results.word_valid?).to eq true
+          expect(word_results.word_valid?).to be true
         end
 
         it '#original_word returns the original word' do
@@ -150,7 +150,7 @@ RSpec.describe 'Dictionary integration', type: :integration do
         end
 
         it '#word_cached? returns true if the word is in the dictionary' do
-          expect(word_results.word_cached?).to eq true
+          expect(word_results.word_cached?).to be true
         end
       end
 
@@ -160,11 +160,11 @@ RSpec.describe 'Dictionary integration', type: :integration do
         end
 
         it '#success? returns false' do
-          expect(word_results.success?).to eq false
+          expect(word_results.success?).to be false
         end
 
         it '#filter_match? returns false' do
-          expect(word_results.filter_match?).to eq false
+          expect(word_results.filter_match?).to be false
         end
 
         it '#filters_matched returns the filter(s) that were matched' do
@@ -172,7 +172,7 @@ RSpec.describe 'Dictionary integration', type: :integration do
         end
 
         it '#word_valid? returns false' do
-          expect(word_results.word_valid?).to eq false
+          expect(word_results.word_valid?).to be false
         end
 
         it '#original_word returns the original word' do
@@ -188,12 +188,12 @@ RSpec.describe 'Dictionary integration', type: :integration do
         end
 
         it '#word_cached? returns false if the word is not in the dictionary' do
-          expect(word_results.word_cached?).to eq false
+          expect(word_results.word_cached?).to be false
         end
 
         it '#word_cached? returns true 2nd-nth time the word was searched if invalid words are being cached by any metadata processing' do
           dictionary.word_results(word)
-          expect(word_results.word_cached?).to eq true
+          expect(word_results.word_cached?).to be true
         end
       end
     end

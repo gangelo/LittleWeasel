@@ -19,7 +19,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWord do
   let(:preprocessed) { true }
   let(:preprocessor_order) { :preprocessor_order }
 
-  #.new
+  # .new
   describe '.new' do
     context 'initializes the attributes' do
       describe '#original_word' do
@@ -89,7 +89,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWord do
     describe '#preprocessed?' do
       context 'when preprocessed is true' do
         it 'returns true' do
-          expect(subject.preprocessed?).to eq true
+          expect(subject.preprocessed?).to be true
         end
       end
 
@@ -97,7 +97,7 @@ RSpec.describe LittleWeasel::Preprocessors::PreprocessedWord do
         let(:preprocessed) { false }
 
         it 'returns false' do
-          expect(subject.preprocessed?).to eq false
+          expect(subject.preprocessed?).to be false
         end
       end
     end

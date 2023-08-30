@@ -23,12 +23,12 @@ module Support
       Locale.new(language: language, region: region).locale
     end
 
-    def region_dictionary_path language:, region:
+    def region_dictionary_path(language:, region:)
       file_name = locale_for language: language, region: region
       dictionary_path_for file_name: file_name
     end
 
-    def language_dictionary_path language:
+    def language_dictionary_path(language:)
       file_name = locale_for language: language
       dictionary_path_for file_name: file_name
     end

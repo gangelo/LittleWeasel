@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe 'Workflow tests' do
+  subject { LittleWeasel::DictionaryManager.new }
+
   include_context 'dictionary cache'
   include_context 'dictionary keys'
-
-  subject { LittleWeasel::DictionaryManager.new }
 
   # This loads the BIG en-US-big dictionary
   let(:en_us_dictionary_key) { dictionary_key_for(language: :en, region: :us, tag: :big) }

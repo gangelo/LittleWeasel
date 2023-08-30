@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_context 'dictionary cache' do
   def dictionary_cache_for(dictionary_key:, dictionary_file_source: true, load: false)
     dictionary_cache_from(dictionary_keys: [{ dictionary_key: dictionary_key, dictionary_file_source: dictionary_file_source, load: load }])
@@ -22,7 +24,9 @@ RSpec.shared_context 'dictionary cache' do
     dictionary_cache = {}
 
     dictionary_keys.each do |hash|
-      raise ArgumentError, "Expected required Hash key :dictionary_key but it was not found" unless hash.key? :dictionary_key
+      unless hash.key? :dictionary_key
+        raise ArgumentError, 'Expected required Hash key :dictionary_key but it was not found'
+      end
 
       create(:dictionary_cache_service,
         dictionary_cache: dictionary_cache,
@@ -38,32 +42,32 @@ end
 
 RSpec.shared_context 'dictionary keys' do
   def dictionary_key_for(language:, region: nil, tag: nil)
-   create(:dictionary_key, language: language, region: region, tag: tag)
+    create(:dictionary_key, language: language, region: region, tag: tag)
   end
 end
 
 RSpec.shared_context 'mock word filters' do
-  unless Object.const_defined?('WordFilter01')
+  unless Object.const_defined?(:WordFilter01)
     class WordFilter01 < LittleWeasel::Filters::WordFilter
       class << self
-        def filter_match?(word)
+        def filter_match?(_word)
           true
         end
       end
     end
   end
 
-  unless Object.const_defined?('WordFilter02')
+  unless Object.const_defined?(:WordFilter02)
     class WordFilter02 < LittleWeasel::Filters::WordFilter
       class << self
-        def filter_match?(word)
+        def filter_match?(_word)
           true
         end
       end
     end
   end
 
-  unless Object.const_defined?('DollarSignFilter')
+  unless Object.const_defined?(:DollarSignFilter)
     class DollarSignFilter < LittleWeasel::Filters::WordFilter
       class << self
         def filter_match?(word)
@@ -78,7 +82,7 @@ RSpec.shared_context 'mock word preprocessors' do
   class UpcaseWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
     class << self
       def preprocess(word)
-        [true, word.upcase];
+        [true, word.upcase]
       end
     end
   end
@@ -86,7 +90,7 @@ RSpec.shared_context 'mock word preprocessors' do
   class DowncaseWordPreprocessor < LittleWeasel::Preprocessors::WordPreprocessor
     class << self
       def preprocess(word)
-        [true, word.downcase];
+        [true, word.downcase]
       end
     end
   end

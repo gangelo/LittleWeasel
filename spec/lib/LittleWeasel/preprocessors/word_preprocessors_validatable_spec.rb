@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorsValidatable, type: :module do
-  subject { MockSubject.new }
-
   WordPreprocessorsValidatable = described_class
 
   class MockSubject
@@ -20,21 +18,21 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorsValidatable, type: 
     end
 
     class << self
-      def preprocess(word) [true, "#{word}-0"]; end
+      def preprocess(word) = [true, "#{word}-0"]
     end
   end
 
-  #.validate_word_preprocessors
+  # .validate_word_preprocessors
   describe '.validate_word_preprocessors' do
     context 'when passing a blank Array' do
       it 'passes validaton' do
-        expect { WordPreprocessorsValidatable.validate_word_preprocessors(word_preprocessors: []) }.to_not raise_error
+        expect { WordPreprocessorsValidatable.validate_word_preprocessors(word_preprocessors: []) }.not_to raise_error
       end
     end
 
     context 'when passing a an Array with valid word preprocessors' do
       it 'passes validation' do
-        expect { WordPreprocessorsValidatable.validate_word_preprocessors(word_preprocessors: [MockWordPreprocessor.new]) }.to_not raise_error
+        expect { WordPreprocessorsValidatable.validate_word_preprocessors(word_preprocessors: [MockWordPreprocessor.new]) }.not_to raise_error
       end
     end
 

@@ -9,15 +9,15 @@ RSpec.describe LittleWeasel::DictionaryKey, type: :class do
   let(:region) {}
   let(:tag) {}
 
-  #.new
+  # .new
   describe '.new' do
     context 'when passing valid arguments' do
       let(:language) { :EN }
       let(:region) { :us }
-      let(:tag) { :TAGGED}
+      let(:tag) { :TAGGED }
 
       it 'instantiates the object' do
-        expect { subject }.to_not raise_error
+        expect { subject }.not_to raise_error
       end
 
       it 'normalizes language and converts it to lowercase' do
@@ -51,18 +51,18 @@ RSpec.describe LittleWeasel::DictionaryKey, type: :class do
     end
   end
 
-  #.key
+  # .key
   describe '.key' do
     let(:language) { :xx }
     let(:region) { :yy }
     let(:tag) { :zz }
 
     it 'returns the locale' do
-      expect(described_class.key language: language, region: region, tag: tag).to eq 'xx-YY-zz'
+      expect(described_class.key(language: language, region: region, tag: tag)).to eq 'xx-YY-zz'
     end
   end
 
-  #key
+  # key
   describe '#key' do
     context 'with no tag' do
       context 'with language' do
@@ -77,7 +77,7 @@ RSpec.describe LittleWeasel::DictionaryKey, type: :class do
         let(:language) { :EN }
         let(:region) { :us }
 
-        it 'returns the key in the form of a locale String that includes language and region  (e.g. "en-US")' do
+        it 'returns the key in the form of a locale String that includes language and region (e.g. "en-US")' do
           expect(subject.key).to eq 'en-US'
         end
       end
@@ -98,14 +98,14 @@ RSpec.describe LittleWeasel::DictionaryKey, type: :class do
         let(:language) { :EN }
         let(:region) { :us }
 
-        it 'returns the key in the form of a locale String that includes language, region and the appended tag  (e.g. "en-US-tag")' do
+        it 'returns the key in the form of a locale String that includes language, region and the appended tag (e.g. "en-US-tag")' do
           expect(subject.key).to eq 'en-US-tagged'
         end
       end
     end
   end
 
-  #to_s
+  # to_s
   describe '#to_s' do
     let(:language) { :en }
     let(:region) { :us }

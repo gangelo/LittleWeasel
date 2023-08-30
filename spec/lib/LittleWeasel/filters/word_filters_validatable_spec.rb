@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Filters::WordFiltersValidatable, type: :module do
+  subject { Subject.new }
+
   include_context 'mock word filters'
 
   WordFiltersValidatable = described_class
@@ -10,8 +12,6 @@ RSpec.describe LittleWeasel::Filters::WordFiltersValidatable, type: :module do
   class Subject
     include WordFiltersValidatable
   end
-
-  subject { Subject.new }
 
   let(:word_filters) do
     [
@@ -21,10 +21,10 @@ RSpec.describe LittleWeasel::Filters::WordFiltersValidatable, type: :module do
   end
   let(:expected_error_message) { "Argument word_filter does not quack right: #{numeric_filter.class}" }
 
-  #validate_word_filters
+  # validate_word_filters
   describe '#validate_word_filters' do
     context 'when argument word_filters is not an Array' do
-      let(:word_filters) { :not_an_array}
+      let(:word_filters) { :not_an_array }
 
       it 'raises an error' do
         expect { subject.validate_word_filters(word_filters: word_filters) }.to raise_error "Argument word_filters is not an Array: #{word_filters.class}"
@@ -33,7 +33,7 @@ RSpec.describe LittleWeasel::Filters::WordFiltersValidatable, type: :module do
 
     context 'when argument word_filters contains valid word filters' do
       it 'does not raise an error' do
-        expect { subject.validate_word_filters(word_filters: word_filters) }.to_not raise_error
+        expect { subject.validate_word_filters(word_filters: word_filters) }.not_to raise_error
       end
     end
 
@@ -41,7 +41,7 @@ RSpec.describe LittleWeasel::Filters::WordFiltersValidatable, type: :module do
       let(:word_filters) { [Object.new] }
 
       it 'does not raise an error' do
-        expect { subject.validate_word_filters(word_filters: word_filters) }.to raise_error  "Argument word_filter does not quack right: #{word_filters[0].class}"
+        expect { subject.validate_word_filters(word_filters: word_filters) }.to raise_error "Argument word_filter does not quack right: #{word_filters[0].class}"
       end
     end
   end

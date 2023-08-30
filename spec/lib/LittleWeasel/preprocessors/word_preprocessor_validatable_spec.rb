@@ -45,7 +45,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorValidatable, type: :
     end
   end
 
-  #.validate_word_preprocessor
+  # .validate_word_preprocessor
   describe '.validate_word_preprocessor' do
     before do
       allow(word_preprocessor.class).to receive(:respond_to?).and_call_original
@@ -54,7 +54,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorValidatable, type: :
 
     context 'when the object quacks right' do
       it 'passes validation' do
-        expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_preprocessor }.to_not raise_error
+        expect { WordPreprocessorValidatable.validate_word_preprocessor word_preprocessor: word_preprocessor }.not_to raise_error
       end
     end
 
@@ -64,11 +64,13 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorValidatable, type: :
       context 'when a class method is missing' do
         context 'when the class does not respond to .preprocess' do
           let(:method) { :preprocess }
+
           it_behaves_like 'a class method is missing'
         end
 
         context 'when the class does not respond to .preprocess?' do
           let(:method) { :preprocess? }
+
           it_behaves_like 'a class method is missing'
         end
       end
@@ -76,31 +78,37 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorValidatable, type: :
       context 'when an instance method is missing' do
         context 'when the object does not respond to #preprocess' do
           let(:method) { :preprocess }
+
           it_behaves_like 'an instance method is missing'
         end
 
         context 'when the object does not respond to #preprocess?' do
           let(:method) { :preprocess? }
+
           it_behaves_like 'an instance method is missing'
         end
 
         context 'when the object does not respond to #preprocessor_off?' do
           let(:method) { :preprocessor_off? }
+
           it_behaves_like 'an instance method is missing'
         end
 
         context 'when the object does not respond to #preprocessor_on' do
           let(:method) { :preprocessor_on }
+
           it_behaves_like 'an instance method is missing'
         end
 
         context 'when the object does not respond to #preprocessor_on=' do
           let(:method) { :preprocessor_on= }
+
           it_behaves_like 'an instance method is missing'
         end
 
         context 'when the object does not respond to #preprocessor_on?' do
           let(:method) { :preprocessor_on? }
+
           it_behaves_like 'an instance method is missing'
         end
       end

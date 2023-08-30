@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 FactoryBot.define do
-  factory :dictionary_metadata, class: LittleWeasel::Metadata::DictionaryMetadata do
+  factory :dictionary_metadata, class: 'LittleWeasel::Metadata::DictionaryMetadata' do
     dictionary_words {}
     dictionary_key { create(:dictionary_key) }
     dictionary_cache { {} }

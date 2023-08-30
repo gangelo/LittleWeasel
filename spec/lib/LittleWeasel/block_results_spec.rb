@@ -11,10 +11,10 @@ RSpec.describe LittleWeasel::BlockResults do
 
   let(:original_word_block) { 'Original word block' }
 
-  #.new
+  # .new
   describe '.new' do
     it 'instantiates an object' do
-      expect { subject }.to_not raise_error
+      expect { subject }.not_to raise_error
     end
 
     it 'initializes #word_results to an empty Array' do
@@ -26,7 +26,7 @@ RSpec.describe LittleWeasel::BlockResults do
     end
   end
 
-  #<<
+  # <<
   describe '<<' do
     context 'with an invalid argument' do
       it 'raises an error' do
@@ -42,7 +42,7 @@ RSpec.describe LittleWeasel::BlockResults do
     end
   end
 
-  #success?
+  # success?
   describe '#success?' do
     before do
       subject << ceate_word_results(word: 'word01', word_valid: true)
@@ -81,7 +81,7 @@ RSpec.describe LittleWeasel::BlockResults do
     end
   end
 
-  #words_valid?
+  # words_valid?
   describe '#words_valid?' do
     before do
       subject << ceate_word_results(word: 'word01', word_valid: true)
@@ -105,7 +105,7 @@ RSpec.describe LittleWeasel::BlockResults do
     end
   end
 
-  #filters_match?
+  # filters_match?
   describe '#filters_match?' do
     before do
       subject << ceate_word_results(word: 'word01', filters_matched: [:matched_filter])
@@ -129,7 +129,7 @@ RSpec.describe LittleWeasel::BlockResults do
     end
   end
 
-  #preprocessed_words?
+  # preprocessed_words?
   describe '#preprocessed_words?' do
     before do
       subject << ceate_word_results(word: word, preprocessed_words: preprocessed_words)
@@ -145,7 +145,7 @@ RSpec.describe LittleWeasel::BlockResults do
     end
   end
 
-  #preprocessed_words_or_original_words
+  # preprocessed_words_or_original_words
   describe '#preprocessed_words_or_original_words' do
     context 'with all preprocessed words' do
       before do
@@ -153,16 +153,16 @@ RSpec.describe LittleWeasel::BlockResults do
         subject << ceate_word_results(word: words[1], preprocessed_words: preprocessed_words[1])
       end
 
-      let(:words) { %w(word1 word2) }
+      let(:words) { %w[word1 word2] }
       let(:preprocessed_words) do
         [
-        create(:preprocessed_words, original_word: words[0], with_word_processors: 1),
-        create(:preprocessed_words, original_word: words[1], with_word_processors: 2)
+          create(:preprocessed_words, original_word: words[0], with_word_processors: 1),
+          create(:preprocessed_words, original_word: words[1], with_word_processors: 2)
         ]
       end
 
       it 'returns all the preprocessed words' do
-        expect(subject.preprocessed_words_or_original_words).to eq %w(word1-0 word2-0-1)
+        expect(subject.preprocessed_words_or_original_words).to eq %w[word1-0 word2-0-1]
       end
     end
 
@@ -172,10 +172,10 @@ RSpec.describe LittleWeasel::BlockResults do
         subject << ceate_word_results(word: words[1])
       end
 
-      let(:words) { %w(word1 word2) }
+      let(:words) { %w[word1 word2] }
 
       it 'returns all the original words' do
-        expect(subject.preprocessed_words_or_original_words).to eq %w(word1 word2)
+        expect(subject.preprocessed_words_or_original_words).to eq %w[word1 word2]
       end
     end
 
@@ -187,21 +187,21 @@ RSpec.describe LittleWeasel::BlockResults do
         subject << ceate_word_results(word: words[3], word_valid: true, preprocessed_words: preprocessed_words[1])
       end
 
-      let(:words) { %w(word0 word1 word2 word3) }
+      let(:words) { %w[word0 word1 word2 word3] }
       let(:preprocessed_words) do
         [
-        create(:preprocessed_words, original_word: words[1], with_word_processors: 1),
-        create(:preprocessed_words, original_word: words[3], with_word_processors: 2)
+          create(:preprocessed_words, original_word: words[1], with_word_processors: 1),
+          create(:preprocessed_words, original_word: words[3], with_word_processors: 2)
         ]
       end
 
       it 'returns all the original and preprocessed words' do
-        expect(subject.preprocessed_words_or_original_words).to eq %w(word0 word1-0 word2 word3-0-1)
+        expect(subject.preprocessed_words_or_original_words).to eq %w[word0 word1-0 word2 word3-0-1]
       end
     end
   end
 
-  #words_cached?
+  # words_cached?
   describe '#words_cached?' do
     before do
       subject << ceate_word_results(word: words[0])
@@ -210,7 +210,7 @@ RSpec.describe LittleWeasel::BlockResults do
       subject << ceate_word_results(word: words[3])
     end
 
-    let(:words) { %w(word1 word2 word3 word4) }
+    let(:words) { %w[word1 word2 word3 word4] }
 
     context 'when all the words are cached' do
       before do
@@ -218,7 +218,7 @@ RSpec.describe LittleWeasel::BlockResults do
       end
 
       it 'returns true' do
-        expect(subject.words_cached?).to eq true
+        expect(subject.words_cached?).to be true
       end
     end
 
@@ -231,7 +231,7 @@ RSpec.describe LittleWeasel::BlockResults do
       end
 
       it 'returns false' do
-        expect(subject.words_cached?).to eq false
+        expect(subject.words_cached?).to be false
       end
     end
 
@@ -241,7 +241,7 @@ RSpec.describe LittleWeasel::BlockResults do
       end
 
       it 'returns false' do
-        expect(subject.words_cached?).to eq false
+        expect(subject.words_cached?).to be false
       end
     end
   end

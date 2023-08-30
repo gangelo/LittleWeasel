@@ -3,11 +3,11 @@
 require 'spec_helper'
 
 RSpec.describe LittleWeasel::Services::DictionaryFileLoaderService do
-  include_context 'dictionary cache'
-
   subject! { create(:dictionary_file_loader_service, dictionary_key: dictionary_key, dictionary_cache: dictionary_cache) }
 
-  before(:each) do
+  include_context 'dictionary cache'
+
+  before do
     LittleWeasel::Services::DictionaryCacheService.init dictionary_cache: dictionary_cache
   end
 
@@ -15,7 +15,7 @@ RSpec.describe LittleWeasel::Services::DictionaryFileLoaderService do
   let(:key) { dictionary_key.key }
   let(:dictionary_cache) { {} }
 
-  #execute
+  # execute
   describe '#execute' do
     context 'when the dictionary is already loaded/cached' do
       before do
@@ -34,32 +34,32 @@ RSpec.describe LittleWeasel::Services::DictionaryFileLoaderService do
 
       let(:expected_key) { create(:dictionary_key, language: :en, region: :us).key }
       let(:expected_results) do
-        ['apple',
-         'better',
-         'cat',
-         'dog',
-         'everyone',
-         'fat',
-         'game',
-         'help',
-         'italic',
-         'jasmine',
-         'kelp',
-         'love',
-         'man',
-         'nope',
-         'octopus',
-         'popeye',
-         'queue',
-         'ruby',
-         'stop',
-         'top',
-         'ultimate',
-         'very',
-         'was',
-         'xylophone',
-         'yes',
-         'zebra']
+        %w[apple
+           better
+           cat
+           dog
+           everyone
+           fat
+           game
+           help
+           italic
+           jasmine
+           kelp
+           love
+           man
+           nope
+           octopus
+           popeye
+           queue
+           ruby
+           stop
+           top
+           ultimate
+           very
+           was
+           xylophone
+           yes
+           zebra]
       end
 
       it 'returns an Array of dictionary words loaded from the file' do

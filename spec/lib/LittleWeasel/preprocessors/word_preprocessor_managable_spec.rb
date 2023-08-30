@@ -17,7 +17,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
     end
 
     class << self
-      def preprocess(word) [true, "#{word}-0"]; end
+      def preprocess(word) = [true, "#{word}-0"]
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
     end
 
     class << self
-      def preprocess(word) [true, "#{word}-1"]; end
+      def preprocess(word) = [true, "#{word}-1"]
     end
   end
 
@@ -37,14 +37,19 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
     end
 
     class << self
-      def preprocess(word) [true, "#{word}-2"]; end
+      def preprocess(word) = [true, "#{word}-2"]
     end
   end
 
   let(:word_preprocessors_01_thru_03) do
     [MockWordPreprocessor03.new,
-      MockWordPreprocessor02.new,
-      MockWordPreprocessor01.new]
+     MockWordPreprocessor02.new,
+     MockWordPreprocessor01.new]
+  end
+  let(:word_preprocessors_04_thru_06) do
+    [MockWordPreprocessor06.new,
+     MockWordPreprocessor05.new,
+     MockWordPreprocessor04.new]
   end
 
   class MockWordPreprocessor04 < MockWordPreprocessor01
@@ -53,7 +58,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
     end
 
     class << self
-      def preprocess(word) [true, "#{word}-3"]; end
+      def preprocess(word) = [true, "#{word}-3"]
     end
   end
 
@@ -63,7 +68,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
     end
 
     class << self
-      def preprocess(word) [true, "#{word}-4"]; end
+      def preprocess(word) = [true, "#{word}-4"]
     end
   end
 
@@ -73,27 +78,21 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
     end
 
     class << self
-      def preprocess(word) [true, "#{word}-5"]; end
+      def preprocess(word) = [true, "#{word}-5"]
     end
   end
 
-  let(:word_preprocessors_04_thru_06) do
-    [MockWordPreprocessor06.new,
-      MockWordPreprocessor05.new,
-      MockWordPreprocessor04.new]
-  end
-
-  #preprocessed_word
+  # preprocessed_word
   describe '#preprocessed_word' do
     context 'when word is blank' do
       it 'returns nil' do
-        expect(subject.preprocessed_word word: 'word').to be_nil
+        expect(subject.preprocessed_word(word: 'word')).to be_nil
       end
     end
 
     context 'when word is not a String' do
       it 'returns nil' do
-        expect(subject.preprocessed_word word: :not_a_word).to be_nil
+        expect(subject.preprocessed_word(word: :not_a_word)).to be_nil
       end
     end
 
@@ -103,19 +102,19 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
       end
 
       it 'returns the preprocessed word' do
-        expect(subject.preprocessed_word word: 'word').to eq 'word-0-1-2'
+        expect(subject.preprocessed_word(word: 'word')).to eq 'word-0-1-2'
       end
     end
   end
 
-  #word_preprocessors
+  # word_preprocessors
   describe '#word_preprocessors' do
     it 'returns an empty Array ([]) by default' do
       expect(subject.word_preprocessors).to eq []
     end
   end
 
-  #clear_preprocessors
+  # clear_preprocessors
   describe '#clear_preprocessors' do
     before do
       subject.replace_preprocessors word_preprocessors: word_preprocessors_01_thru_03
@@ -126,12 +125,12 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
     end
   end
 
-  #add_preprocessors
+  # add_preprocessors
   describe '#add_preprocessors' do
     context 'when passing an INVALID argument' do
       context 'when passing an Array of invalid word preprocessors' do
         it 'raises an error' do
-          expect { subject.add_preprocessors(word_preprocessors: %i(bad word preprocessors)) }.to raise_error(/Argument word_preprocessor: does not respond to/)
+          expect { subject.add_preprocessors(word_preprocessors: %i[bad word preprocessors]) }.to raise_error(/Argument word_preprocessor: does not respond to/)
         end
       end
     end
@@ -161,7 +160,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
         it 'does NOT raise an error' do
           expect do
             subject.add_preprocessors { |_word_preprocessors| }
-          end.to_not raise_error
+          end.not_to raise_error
         end
 
         it 'uses the word preprocessors added via the block' do
@@ -181,7 +180,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
     end
   end
 
-  #replace_preprocessors
+  # replace_preprocessors
   describe '#replace_preprocessors' do
     before do
       subject.add_preprocessors word_preprocessors: word_preprocessors_01_thru_03
@@ -193,12 +192,12 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
 
     it 'replaces the word preprocessors in #word_preprocessors and sorts the #word_preprocessors Array by WordPreprocessor#order' do
       expect(subject.word_preprocessors).to match_array word_preprocessors_01_thru_03
-      expect(subject.replace_preprocessors word_preprocessors: word_preprocessors_04_thru_06).to eq expected_results
+      expect(subject.replace_preprocessors(word_preprocessors: word_preprocessors_04_thru_06)).to eq expected_results
       expect(subject.word_preprocessors).to eq expected_results
     end
   end
 
-  #preprocessors_on=
+  # preprocessors_on=
   describe '#preprocessors_on=' do
     context 'when assigning true' do
       before do
@@ -225,7 +224,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
     end
   end
 
-  #preprocess
+  # preprocess
   describe '#preprocess' do
     before do
       subject.add_preprocessors word_preprocessors: word_preprocessors
@@ -236,7 +235,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessorManagable, type: :mo
 
     it 'preprocesses the word' do
       expect(subject.word_preprocessors.count).to eq word_preprocessors.count
-      expect(subject.preprocess(word: word).preprocessed_words.map(&:preprocessed_word)).to eq %w(word-0 word-0-1 word-0-1-2)
+      expect(subject.preprocess(word: word).preprocessed_words.map(&:preprocessed_word)).to eq %w[word-0 word-0-1 word-0-1-2]
     end
   end
 end

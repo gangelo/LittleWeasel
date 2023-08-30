@@ -13,11 +13,11 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
   let(:order) { 0 }
   let(:word) { 'word' }
 
-  #.new
+  # .new
   describe '.new' do
     context 'when arguments are valid' do
       it 'instantiates the object' do
-        expect { subject }.to_not raise_error
+        expect { subject }.not_to raise_error
       end
     end
 
@@ -52,7 +52,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
     end
   end
 
-  #.preprocess
+  # .preprocess
   describe '.preprocess' do
     context 'when not overridden' do
       it 'raises an error' do
@@ -61,7 +61,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
     end
   end
 
-  #preprocessor_on
+  # preprocessor_on
   describe '#preprocessor_on' do
     context 'when set to true' do
       before do
@@ -69,7 +69,7 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
       end
 
       it 'returns true' do
-        expect(subject.preprocessor_on).to eq true
+        expect(subject.preprocessor_on).to be true
       end
     end
 
@@ -79,30 +79,30 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
       end
 
       it 'returns false' do
-        expect(subject.preprocessor_on).to eq false
+        expect(subject.preprocessor_on).to be false
       end
     end
   end
 
-  #preprocessor_on!
+  # preprocessor_on!
   describe '#preprocessor_on!' do
     before do
-      expect(subject.preprocessor_off?).to eq true
+      expect(subject.preprocessor_off?).to be true
     end
 
     let(:preprocessor_on) { false }
 
     it 'turns the preprocessor on' do
       subject.preprocessor_on!
-      expect(subject.preprocessor_on).to eq true
+      expect(subject.preprocessor_on).to be true
     end
   end
 
-  #preprocessor_on?
+  # preprocessor_on?
   describe '#preprocessor_on?' do
     context 'when #preprocessor_on is true' do
       it 'returns true' do
-        expect(subject.preprocessor_on?).to eq true
+        expect(subject.preprocessor_on?).to be true
       end
     end
 
@@ -110,12 +110,12 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
       let(:preprocessor_on) { false }
 
       it 'returns false' do
-        expect(subject.preprocessor_on?).to eq false
+        expect(subject.preprocessor_on?).to be false
       end
     end
   end
 
-  #preprocess
+  # preprocess
   describe '#preprocess' do
     context 'when not overridden' do
       it 'raises an error' do
@@ -125,16 +125,13 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
 
     context 'when overridden' do
       before do
-        allow(described_class).to receive(:preprocess?)
-          .and_return true
-        allow(described_class).to receive(:preprocess)
-          .and_return [true, 'preprocessed-word']
+        allow(described_class).to receive_messages(preprocess?: true, preprocess: [true, 'preprocessed-word'])
       end
 
       context 'when #preprocessor_on? is true' do
         it 'calls .preprocess and returns a ProcessedWord object' do
           expect(described_class).to receive(:preprocess)
-          expect(subject.preprocess word).to be_kind_of LittleWeasel::Preprocessors::PreprocessedWord
+          expect(subject.preprocess(word)).to be_a LittleWeasel::Preprocessors::PreprocessedWord
         end
       end
 
@@ -142,20 +139,19 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
         let(:preprocessor_on) { false }
 
         it 'does NOT call .preprocess and returns a ProcessedWord object' do
-          expect(described_class).to_not receive(:preprocess)
-          expect(subject.preprocess word).to be_kind_of LittleWeasel::Preprocessors::PreprocessedWord
+          expect(described_class).not_to receive(:preprocess)
+          expect(subject.preprocess(word)).to be_a LittleWeasel::Preprocessors::PreprocessedWord
         end
-
       end
     end
   end
 
-  #preprocess?
+  # preprocess?
   describe '#preprocess?' do
     let(:word) { 'word' }
 
     it 'returns true by default' do
-      expect(subject.preprocess? word).to be true
+      expect(subject.preprocess?(word)).to be true
     end
 
     context 'when #preprocess? returns true' do
@@ -187,32 +183,32 @@ RSpec.describe LittleWeasel::Preprocessors::WordPreprocessor do
     end
   end
 
-  #preprocessor_off?
+  # preprocessor_off?
   describe '#preprocessor_off?' do
     context 'when #preprocessor_on is false' do
       let(:preprocessor_on) { false }
 
       it 'returns true' do
-        expect(subject.preprocessor_off?).to eq true
+        expect(subject.preprocessor_off?).to be true
       end
     end
 
     context 'when #preprocessor_on is true' do
       it 'returns false' do
-        expect(subject.preprocessor_off?).to eq false
+        expect(subject.preprocessor_off?).to be false
       end
     end
   end
 
-  #preprocessor_off!
+  # preprocessor_off!
   describe '#preprocessor_off!' do
     before do
-      expect(subject.preprocessor_on?).to eq true
+      expect(subject.preprocessor_on?).to be true
     end
 
     it 'turns the preprocessor off' do
       subject.preprocessor_off!
-      expect(subject.preprocessor_on).to eq false
+      expect(subject.preprocessor_on).to be false
     end
   end
 end

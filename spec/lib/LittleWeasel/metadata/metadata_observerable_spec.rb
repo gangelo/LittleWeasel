@@ -13,7 +13,7 @@ RSpec.describe LittleWeasel::Metadata::MetadataObserverable, type: :module do
 
   describe '#observe?' do
     it 'returns false by default' do
-      expect(subject.observe?).to eq false
+      expect(subject.observe?).to be false
     end
   end
 

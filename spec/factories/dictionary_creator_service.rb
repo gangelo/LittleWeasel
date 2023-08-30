@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 FactoryBot.define do
-  factory :dictionary_creator_service, class: LittleWeasel::Services::DictionaryCreatorService do
+  factory :dictionary_creator_service, class: 'LittleWeasel::Services::DictionaryCreatorService' do
     dictionary_key { create(:dictionary_key) }
     dictionary_cache { {} }
     dictionary_metadata { {} }
