@@ -1,27 +1,25 @@
 PATH
   remote: .
   specs:
-    LittleWeasel (5.0.6)
-      activesupport (~> 6.1, >= 6.1.3.2)
+    LittleWeasel (5.0.7)
+      activesupport (~> 7.0.8)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (6.1.7.6)
+    activesupport (7.0.8)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-      zeitwerk (~> 2.3)
     ast (2.4.2)
-    base64 (0.1.1)
     benchmark-ips (2.12.0)
     byebug (11.1.3)
     coderay (1.1.3)
     concurrent-ruby (1.2.2)
     diff-lcs (1.5.0)
     docile (1.4.0)
-    factory_bot (6.2.1)
+    factory_bot (6.3.0)
       activesupport (>= 5.0.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -29,9 +27,9 @@ GEM
     kwalify (0.7.2)
     language_server-protocol (3.17.0.3)
     method_source (1.0.0)
-    minitest (5.19.0)
+    minitest (5.20.0)
     parallel (1.23.0)
-    parser (3.2.2.3)
+    parser (3.2.2.4)
       ast (~> 2.4.1)
       racc
     pry (0.14.2)
@@ -48,7 +46,7 @@ GEM
       kwalify (~> 0.7.0)
       parser (~> 3.2.0)
       rainbow (>= 2.0, < 4.0)
-    regexp_parser (2.8.1)
+    regexp_parser (2.8.2)
     rexml (3.2.6)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
@@ -63,29 +61,28 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-support (3.12.1)
-    rubocop (1.56.2)
-      base64 (~> 0.1.1)
+    rubocop (1.57.2)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
-      parser (>= 3.2.2.3)
+      parser (>= 3.2.2.4)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
       rubocop-ast (>= 1.28.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.29.0)
+    rubocop-ast (1.30.0)
       parser (>= 3.2.1.0)
-    rubocop-capybara (2.18.0)
+    rubocop-capybara (2.19.0)
       rubocop (~> 1.41)
-    rubocop-factory_bot (2.23.1)
+    rubocop-factory_bot (2.24.0)
       rubocop (~> 1.33)
-    rubocop-performance (1.19.0)
+    rubocop-performance (1.19.1)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
-    rubocop-rspec (2.23.2)
-      rubocop (~> 1.33)
+    rubocop-rspec (2.25.0)
+      rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
@@ -97,10 +94,9 @@ GEM
     simplecov_json_formatter (0.1.4)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (2.4.2)
+    unicode-display_width (2.5.0)
     webrick (1.8.1)
     yard (0.9.34)
-    zeitwerk (2.6.11)
 
 PLATFORMS
   ruby
@@ -108,8 +104,8 @@ PLATFORMS
 DEPENDENCIES
   LittleWeasel!
   benchmark-ips (~> 2.3)
-  bundler (~> 2.2, >= 2.2.17)
-  factory_bot (~> 6.2)
+  bundler (~> 2.4, >= 2.4.21)
+  factory_bot (~> 6.3)
   pry-byebug (~> 3.9)
   rake (~> 12.3, >= 12.3.3)
   redcarpet (~> 3.5, >= 3.5.1)
@@ -123,4 +119,4 @@ DEPENDENCIES
   yard (~> 0.9.26)
 
 BUNDLED WITH
-   2.3.22
+   2.4.21
