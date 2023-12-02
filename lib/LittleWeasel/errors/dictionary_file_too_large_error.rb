@@ -9,7 +9,7 @@ module LittleWeasel
           msg = 'The dictionary file size is larger than ' \
                 "max_dictionary_file_megabytes: #{LittleWeasel.configuration.max_dictionary_file_megabytes}"
         end
-        super msg
+        super(msg)
       end
     end
   end
