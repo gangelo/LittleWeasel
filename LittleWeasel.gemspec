@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['public.gma@gmail.com']
   spec.description   = 'Spellchecker+ with preprocessing and filtering for single and multiple word blocks.'
   spec.summary       = 'Checks a word or group of words for validity against a dictionary/ies provided. Word filtering and word preprocessing is available.'
-  spec.homepage      = 'http://www.geneangelo.com'
+  spec.homepage      = 'https://github.com/gangelo/LittleWeasel'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
