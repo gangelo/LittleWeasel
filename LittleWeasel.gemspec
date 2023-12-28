@@ -21,19 +21,4 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '~> 3.0', '>= 3.0.1'
   spec.add_runtime_dependency 'activesupport', '>= 7.0.8', '< 8.0'
-  spec.add_development_dependency 'benchmark-ips', '>= 2.3', '< 3.0'
-  spec.add_development_dependency 'bundler', '>= 2.4', '< 3.0'
-  spec.add_development_dependency 'factory_bot', '>= 6.3', '< 7.0'
-  spec.add_development_dependency 'pry-byebug', '>= 3.9', '< 4.0'
-  spec.add_development_dependency 'rake',  '>= 12.3', '< 13.0'
-  spec.add_development_dependency 'redcarpet', '>= 3.5', '< 4.0'
-  spec.add_development_dependency 'reek', '>= 6.0', '< 7.0'
-  spec.add_development_dependency 'rspec', '>= 3.12', '< 4.0'
-  spec.add_development_dependency 'rubocop', '>= 1.56', '< 2.0'
-  spec.add_development_dependency 'rubocop-performance', '>= 1.19', '< 2.0'
-  spec.add_development_dependency 'rubocop-rspec', '>= 2.23', '< 3.0'
-  spec.add_development_dependency 'simplecov', '>= 0.22.0', '< 1.0'
-  # Needed for yard
-  spec.add_development_dependency 'webrick', '>= 1.7', '< 2.0'
-  spec.add_development_dependency 'yard', '>= 0.9.26', '< 1.0'
 end
