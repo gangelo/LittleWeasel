@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '~> 3.0', '>= 3.0.1'
+  spec.required_ruby_version = Gem::Requirement.new('>= 3.0.1', '< 4.0')
+
   spec.add_runtime_dependency 'activesupport', '>= 7.0.8', '< 8.0'
 end
