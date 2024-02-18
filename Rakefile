@@ -1,10 +1,11 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 
 require 'active_support/core_ext/object/try.rb'
 require 'active_support/inflector'
 require 'benchmark/ips'
 require 'bundler/gem_tasks'
 require 'pry'
+require 'rubocop/rake_task'
 
 require_relative 'lib/LittleWeasel'
 require_relative 'spec/support/file_helpers'
@@ -30,7 +31,7 @@ end
 # Tasks related to the #word_results API
 
 namespace 'word_results' do
-  # Creates a dictionary from a file on disk
+  desc 'Creates a dictionary from a file on disk - perform basic word search results operations'
   task :basic do
     LittleWeasel.configure do |config|
       # TODO: Configure as needed here.
@@ -67,7 +68,7 @@ namespace 'word_results' do
     end
   end
 
-  # Creates a dictionary of names from memory
+  desc 'Creates a dictionary from memory - perform basic word search results operations'
   task :from_memory do
     LittleWeasel.configure do |config|
       # TODO: Configure as needed here.
@@ -101,7 +102,7 @@ namespace 'word_results' do
     end
   end
 
-  # Shows application of word filters and word preprocessors.
+  desc 'Creates a dictionary from memory - perform advanced word search results operations using word filters and preprocessors'
   task :advanced do
     LittleWeasel.configure do |config|
       # TODO: Configure as needed here.
@@ -175,6 +176,7 @@ namespace 'word_results' do
     end
   end
 
+  desc 'Creates a dictionary from memory - perform advanced word search results operations using word filters and preprocessors'
   task :word_filters do
     LittleWeasel.configure do |config|
       # TODO: Configure as needed here.
@@ -217,6 +219,7 @@ end
 # Tasks related to the #block_results API
 
 namespace 'block_results' do
+  desc 'Perform basic #block_results API operations'
   task :basic do
     LittleWeasel.configure do |config|
       # TODO: Configure as needed here.
@@ -253,32 +256,17 @@ namespace 'block_results' do
 end
 
 namespace :bm do
+  desc 'Performs benchmarking on Hash lookups performance.'
   task :hash do
     STRING_LOCALE = { 'en-US' => 'en-us' }
-    SYMBOL_LOCALE = { 'en-US' => :enUS }
+    SYMBOL_LOCALE = { enUS: 'en-US' }
 
-    puts 'String variable vs. normal String.'
+    puts "Benchmark Hash lookups using different Hash key data types."
     Benchmark.ips do |x|
-      string_variable = 'string_variable'
+      string_variable = 'en-US'
+      x.report('hard-coded string') { STRING_LOCALE['en-US'] }
+      x.report('hard-coded frozen string') { STRING_LOCALE['en-US'.freeze] }
       x.report('string variable') { STRING_LOCALE[string_variable] }
-      x.report('normal') { STRING_LOCALE['en-US'] }
-    end
-
-    puts 'String#freeze vs. normal String.'
-    Benchmark.ips do |x|
-      x.report('freeze') { STRING_LOCALE['en-US'.freeze] }
-      x.report('normal') { STRING_LOCALE['en-US'] }
-    end
-
-    puts 'String vs Symbol'
-    Benchmark.ips do |x|
-      x.report('string') { STRING_LOCALE['en-US'] }
-      x.report('symbol') { SYMBOL_LOCALE[:enUS] }
-    end
-
-    puts 'String#freeze vs. Symbol'
-    Benchmark.ips do |x|
-      x.report('string') { STRING_LOCALE['en-US'.freeze] }
       x.report('symbol') { SYMBOL_LOCALE[:enUS] }
     end
   rescue StandardError => e
@@ -288,6 +276,7 @@ namespace :bm do
     end
   end
 
+  desc 'Performs benchmarking on the DictionaryKey class.'
   task :dictionary_key do
     puts 'DictionaryKey test'
     Benchmark.ips do |x|
@@ -303,4 +292,9 @@ namespace :bm do
   end
 end
 
-task default: :spec
+
+desc 'Run LittleWeasel benchmark tests.'
+task benchmarking: %w[bm:hash bm:dictionary_key]
+
+RuboCop::RakeTask.new
+task default: %i[spec rubocop]

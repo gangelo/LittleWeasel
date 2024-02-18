@@ -21,7 +21,7 @@ module LittleWeasel
 
     attr_reader :dictionary_metadata_object, :dictionary_words
 
-    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:,
+    def initialize(dictionary_key:, dictionary_words:, dictionary_cache:, # rubocop:disable Metrics/ParameterLists
       dictionary_metadata:, word_filters: nil, word_preprocessors: nil)
       validate_dictionary_key dictionary_key: dictionary_key
       self.dictionary_key = dictionary_key
