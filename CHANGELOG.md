@@ -1,3 +1,9 @@
+### 5.0.12 2024-08-03
+
+* Changes
+ * Update gems.
+ * Update rexml gem to patch CVE.
+
 ### 5.0.11 2024-02-18
 
 * Changes
