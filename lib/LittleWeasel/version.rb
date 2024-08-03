@@ -2,5 +2,5 @@
 
 # The version of this gem
 module LittleWeasel
-  VERSION = '5.0.12'
+  VERSION = '5.0.13'
 end
