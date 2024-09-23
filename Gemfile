@@ -12,7 +12,7 @@ group :development, :test do
   gem 'rspec', '>= 3.12', '< 4.0'
   gem 'rubocop', '>= 1.56', '< 2.0'
   gem 'rubocop-performance', '>= 1.19', '< 2.0'
-  gem 'rubocop-rspec', '~> 3.0', '>= 3.0.3'
+  gem 'rubocop-rspec', '~> 3.0'
   gem 'simplecov', '>= 0.22.0', '< 1.0'
 end
 
