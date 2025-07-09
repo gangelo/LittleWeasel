@@ -37,7 +37,6 @@ module LittleWeasel
     # :reek:BooleanParameter - ignored, boolean params do not determine logic path, but only report status.
     def initialize(original_word:, filters_matched: [],
       preprocessed_words: nil, word_cached: false, word_valid: false)
-
       self.original_word = original_word
       self.filters_matched = filters_matched
       self.word_cached = word_cached

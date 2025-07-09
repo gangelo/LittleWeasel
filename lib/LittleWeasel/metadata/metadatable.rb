@@ -7,8 +7,7 @@ module LittleWeasel
   module Metadata
     # This module defines methods to support objects that manage other objects
     # that manage metadata related to a dictionary/ies.
-    # rubocop: disable Lint/UnusedMethodArgument, ignored - Methods in this
-    #          module need to keep their argument names because of specs.
+    # rubocop: disable Lint/UnusedMethodArgument -- Methods in this module need to keep their argument names because of specs.
     module Metadatable
       def self.included(base)
         base.extend ClassMethods

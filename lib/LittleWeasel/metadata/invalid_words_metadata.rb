@@ -80,7 +80,7 @@ module LittleWeasel
 
       # This method is called when a word is being searched in the
       # dictionary.
-      def word_search(params:)
+      def word_search(params:) # rubocop:disable Naming/PredicateMethod
         word_results = params[:word_results]
 
         # TODO: NOW: Should we be returning #word_valid? or #success?

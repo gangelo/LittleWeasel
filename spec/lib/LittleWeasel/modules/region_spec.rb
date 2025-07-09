@@ -59,7 +59,7 @@ RSpec.describe LittleWeasel::Modules::Region, type: :module do
         let(:region) { Object.new }
 
         it 'raises an error' do
-          expect { subject.normalize_region! }.to raise_error(NoMethodError, /undefined method `upcase'/)
+          expect { subject.normalize_region! }.to raise_error(NoMethodError, /undefined method [`|']upcase'/)
         end
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe LittleWeasel::Modules::Region, type: :module do
       let(:region) { 1 }
 
       it 'returns nil' do
-        expect { described_class.normalize_region(region) }.to raise_error(NoMethodError, /undefined method `upcase'/)
+        expect { described_class.normalize_region(region) }.to raise_error(NoMethodError, /undefined method [`|']upcase'/)
       end
     end
   end
