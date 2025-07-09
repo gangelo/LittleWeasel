@@ -1,3 +1,12 @@
+### 6.0.0 2025-07-09
+
+* Breaking changes
+  * Remove support for Ruby versions < 3.2.8.>
+  * Minimum Ruby version is now 3.2.8
+* Other Changes
+ * Update gems.
+ * Add 'observer' gem to dependencies.
+
 ### 5.0.13 2024-08-03
 
 * Changes
@@ -42,20 +51,24 @@
   * Ruby gem updates.
 
 ### 5.0.4
-* changes
+* Changes
   * Fix README.md erroneous references to WordResults#successful? (should be #success?)
   * Gem update.
+
 ### 5.0.3
-* changes
+* Changes
   * Update gems to patch CVE.
+
 ### 5.0.2
-* changes
+* Changes
   * Update gems.
+
 ### 5.0.1
-* bug fix
+* Bug Fix
   * Fix error loading support files in LittleWeasel.rb.
+
 ### 5.0.0
-* changes
+* Changes
   * Add spec coverage where lacking.
   * Remove unused DictionaryLoaderService and associated modules, specs, factories.
   * Refactor Locale, Language and Region modules to simplify.
@@ -63,27 +76,27 @@
     half-baked in 4.0.0.
   * DeprecateDictionaryCacheService#dictionary_exists? (plural); add typical DeprecateDictionaryCacheService#dictionary_exist? method in its palce.
   *  Update rake gem version to eliminate command injection vulerability.
-  * Change description and summary reflecting 4.0.0 changes.
+  * Change description and summary reflecting 4.0.0 Changes.
   * Various reek gem violation fixes/suppressions where reasonable.
   * Fix most rubocop violations.
 
 ### 4.0.0
-* enhancements
+* Enhancements
   * Complete overhaul; see README.md
 
 ### 3.0.4
-* enhancements
+* Enhancements
   * Relax requirements on ruby version to ~> 2.0.
 
 ### 3.0.3
 
-* enhancements
+* Enhancements
   * Add single_word_mode option (default: false); when single_word_mode: true, LittleWeasel::Checker.instance.exists? will return false, if more than one word is being checked for existance.
 
 ### 3.0.2
 
-* enhancements
+* Enhancements
   * None
 
-* bug fix
+* Bug Fix
   * Calling #exists? no longer alters the original input.

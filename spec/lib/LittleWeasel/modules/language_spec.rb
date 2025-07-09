@@ -59,7 +59,7 @@ RSpec.describe LittleWeasel::Modules::Language, type: :module do
         let(:language) { Object.new }
 
         it 'raises an error' do
-          expect { subject.normalize_language! }.to raise_error(NoMethodError, /undefined method `downcase'/)
+          expect { subject.normalize_language! }.to raise_error(NoMethodError, /undefined method [`|']downcase'/)
         end
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe LittleWeasel::Modules::Language, type: :module do
       let(:language) { 1 }
 
       it 'returns nil' do
-        expect { described_class.normalize_language(language) }.to raise_error(NoMethodError, /undefined method `downcase'/)
+        expect { described_class.normalize_language(language) }.to raise_error(NoMethodError, /undefined method [`|']downcase'/)
       end
     end
   end

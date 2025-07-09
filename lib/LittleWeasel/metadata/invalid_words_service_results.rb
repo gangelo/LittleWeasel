@@ -10,7 +10,6 @@ module LittleWeasel
 
       def initialize(max_invalid_words_bytesize_on:,
         current_invalid_word_bytesize:, max_invalid_words_bytesize:)
-
         self.max_invalid_words_bytesize_on = max_invalid_words_bytesize_on
         self.current_invalid_word_bytesize = current_invalid_word_bytesize
         self.max_invalid_words_bytesize = max_invalid_words_bytesize

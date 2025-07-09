@@ -78,7 +78,7 @@ RSpec.describe LittleWeasel::Modules::Locale, type: :module do
         let(:language) { 1 }
 
         it 'raises an error' do
-          expect { subject.locale }.to raise_error(NoMethodError, /undefined method `downcase'/)
+          expect { subject.locale }.to raise_error(NoMethodError, /undefined method [`|']downcase'/)
         end
       end
 
@@ -87,7 +87,7 @@ RSpec.describe LittleWeasel::Modules::Locale, type: :module do
         let(:region) { 1 }
 
         it 'raises an error' do
-          expect { subject.locale }.to raise_error(NoMethodError, /undefined method `upcase'/)
+          expect { subject.locale }.to raise_error(NoMethodError, /undefined method [`|']upcase'/)
         end
       end
     end
