@@ -1,6 +1,6 @@
 [![Ruby](https://github.com/gangelo/LittleWeasel/actions/workflows/ruby.yml/badge.svg)](https://github.com/gangelo/LittleWeasel/actions/workflows/ruby.yml)
-[![GitHub version](http://badge.fury.io/gh/gangelo%2FLittleWeasel.svg?version=5)](https://badge.fury.io/gh/gangelo%2FLittleWeasel)
-[![Gem Version](https://badge.fury.io/rb/LittleWeasel.svg?version=5)](https://badge.fury.io/rb/LittleWeasel)
+[![GitHub version](http://badge.fury.io/gh/gangelo%2FLittleWeasel.svg?version=6)](https://badge.fury.io/gh/gangelo%2FLittleWeasel)
+[![Gem Version](https://badge.fury.io/rb/LittleWeasel.svg?version=6)](https://badge.fury.io/rb/LittleWeasel)
 [![](http://ruby-gem-downloads-badge.herokuapp.com/LittleWeasel?type=total)](http://www.rubydoc.info/gems/LittleWeasel/)
 [![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](http://www.rubydoc.info/gems/LittleWeasel/)
 [![Report Issues](https://img.shields.io/badge/report-issues-red.svg)](https://github.com/gangelo/LittleWeasel/issues)
